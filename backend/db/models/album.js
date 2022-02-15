@@ -8,9 +8,13 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
       Album.belongsTo(models.Artist, { foreignKey: 'artistID' });
       Album.hasMany(models.Track, { foreignKey: 'albumID' });
+      Album.belongsToMany(models.User, {
+        through: 'UserAlbum',
+        otherKey: 'userID',
+        foreignKey: 'albumID',
+      });
     }
   }
   Album.init(
