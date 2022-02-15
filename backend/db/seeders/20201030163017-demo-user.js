@@ -1,32 +1,40 @@
 'use strict';
-const faker = require("faker");
-const bcrypt = require("bcryptjs");
+const bcrypt = require('bcryptjs');
+const { seedPassword } = require('../../config');
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    return queryInterface.bulkInsert('Users', [
-      {
-        email: 'demo@user.io',
-        username: 'Demo-lition',
-        hashedPassword: bcrypt.hashSync('password'),
-      },
-      {
-        email: faker.internet.email(),
-        username: 'FakeUser1',
-        hashedPassword: bcrypt.hashSync(faker.internet.password()),
-      },
-      {
-        email: faker.internet.email(),
-        username: 'FakeUser2',
-        hashedPassword: bcrypt.hashSync(faker.internet.password()),
-      },
-    ], {});
+    return queryInterface.bulkInsert(
+      'Users',
+      [
+        {
+          email: 'demo@crates.io',
+          username: 'demo',
+          hashedPassword: bcrypt.hashSync(seedPassword),
+        },
+        {
+          email: 'elazar@crates.io',
+          username: 'elazar',
+          hashedPassword: bcrypt.hashSync(seedPassword),
+        },
+        {
+          email: 'callum@crates.io',
+          username: 'callum',
+          hashedPassword: bcrypt.hashSync(seedPassword),
+        },
+      ],
+      {}
+    );
   },
 
   down: async (queryInterface, Sequelize) => {
     const Op = Sequelize.Op;
-    return queryInterface.bulkDelete('Users', {
-      username: { [Op.in]: ['Demo-lition', 'FakeUser1', 'FakeUser2'] }
-    }, {});
-  }
+    return queryInterface.bulkDelete(
+      'Users',
+      {
+        username: { [Op.in]: ['demo', 'elazar', 'callum'] },
+      },
+      {}
+    );
+  },
 };
