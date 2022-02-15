@@ -47,6 +47,7 @@ module.exports = (sequelize, DataTypes) => {
     }
 
     static associate(models) {
+      User.hasMany(models.Review, { foreignKey: 'userID' });
       User.belongsToMany(models.Album, {
         through: 'UserAlbum',
         otherKey: 'albumID',

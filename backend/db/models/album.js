@@ -10,6 +10,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       Album.belongsTo(models.Artist, { foreignKey: 'artistID' });
       Album.hasMany(models.Track, { foreignKey: 'albumID' });
+      Album.hasMany(models.Review, { foreignKey: 'albumID' });
       Album.belongsToMany(models.User, {
         through: 'UserAlbum',
         otherKey: 'userID',
