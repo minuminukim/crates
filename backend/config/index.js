@@ -12,4 +12,8 @@ module.exports = {
     expiresIn: process.env.JWT_EXPIRES_IN,
   },
   seedPassword: process.env.SEED_PASSWORD,
+  spotifyConfig: {
+    clientID: process.env.CLIENT_ID,
+    clientSecret: process.env.CLIENT_SECRET,
+  },
 };
