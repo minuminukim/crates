@@ -1,48 +1,38 @@
 const express = require('express');
 const asyncHandler = require('express-async-handler');
 const axios = require('axios');
-const querystring = require('querystring');
+const qs = require('qs');
+const { setAccessTokenCookie } = require('../../utils/spotify-api');
 const { spotifyConfig } = require('../../config');
-
-const {
-  spotifyConfig: { clientID, clientSecret },
-} = require('../../config');
 
 const router = express.Router();
 
 const CLIENT_ID = spotifyConfig.clientID;
 const CLIENT_SECRET = spotifyConfig.clientSecret;
-const AUTH_TOKEN = Buffer.from(
-  `${CLIENT_ID}:${CLIENT_SECRET}`,
-  'utf-8'
-).toString('base64');
-
-const authOptions = {
-  url: 'https://accounts.spotify.com/api/token',
-  headers: {
-    Authorization:
-      'Basic ' + new Buffer(clientID + ':' + clientSecret).toString('base64'),
-  },
-  form: {
-    grant_type: 'client_credentials',
-  },
-  json: true,
-};
+const ENCODED_PAYLOAD = new Buffer(`${CLIENT_ID}:${CLIENT_SECRET}`).toString(
+  'base64'
+);
 
 const getAccessToken = async () => {
   const tokenURL = 'https://accounts.spotify.com/api/token';
-  const data = querystring.stringify({ grant_type: 'client_credentials' });
+  const data = qs.stringify({ grant_type: 'client_credentials' });
   const headers = {
-    Authorization: `Basic ${AUTH_TOKEN}`,
-    'Content-Type': 'application/x-www-form-urlencoded',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+      Authorization: `Basic ${ENCODED_PAYLOAD}`,
+    },
   };
 
   try {
     const response = await axios.post(tokenURL, data, headers);
+    const token = response.data;
     const { access_token } = response.data;
+    console.log('success');
+    console.log('data', response.data);
     console.log(access_token);
-  } catch (e) {
-    console.log(e);
+    return access_token;
+  } catch (error) {
+    console.log(error);
   }
 };
 
