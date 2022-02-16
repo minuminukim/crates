@@ -22,6 +22,11 @@ module.exports = {
         allowNull: false,
         defaultValue: 0.0,
       },
+      ratingsCount: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        defaultValue: 0,
+      },
       artistID: {
         type: Sequelize.INTEGER,
         allowNull: true,

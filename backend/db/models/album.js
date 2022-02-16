@@ -51,6 +51,19 @@ module.exports = (sequelize, DataTypes) => {
           min: 0.0,
           max: 5.0,
         },
+        set(value) {
+          const newAverage = (this.averageRating + value) / this.count;
+          const rounded = Math.round(newAverage * 10) / 10;
+          const fixed = parseFloat(rounded.toFixed(1));
+          this.setDataValue('averageRating', fixed);
+        },
+      },
+      ratingsCount: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        set(value) {
+          this.setDataValue('ratingsCount', value);
+        },
       },
       artistID: {
         type: DataTypes.INTEGER,
