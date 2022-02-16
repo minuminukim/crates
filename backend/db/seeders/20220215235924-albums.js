@@ -6,7 +6,7 @@ module.exports = {
       {
         spotifyID: '20r762YmB5HeofjMCiPMLv',
         title: 'My Beautiful Dark Twisted Fantasy',
-        averageRating: 0.0,
+        averageRating: 3.4,
         artistID: 1,
         artist: 'Kanye West',
         artworkURL:
@@ -17,7 +17,7 @@ module.exports = {
       {
         spotifyID: '5CnpZV3q5BcESefcB3WJmz',
         title: 'Donda',
-        averageRating: 0.0,
+        averageRating: 3.5,
         artistID: 1,
         artist: 'Kanye West',
         artworkURL:
@@ -28,7 +28,7 @@ module.exports = {
       {
         spotifyID: '7gsWAHLeT0w7es6FofOXk1',
         title: 'The Life Of Pablo',
-        averageRating: 0.0,
+        averageRating: 4.3,
         artistID: 1,
         artist: 'Kanye West',
         artworkURL:
@@ -39,7 +39,7 @@ module.exports = {
       {
         spotifyID: '7D2NdGvBHIavgLhmcwhluK',
         title: 'Yeezus',
-        averageRating: 0.0,
+        averageRating: 5.0,
         artistID: 1,
         artist: 'Kanye West',
         artworkURL:
@@ -50,7 +50,7 @@ module.exports = {
       {
         spotifyID: '4Uv86qWpGTxf7fU7lG5X6F',
         title: 'The College Dropout',
-        averageRating: 0.0,
+        averageRating: 4.5,
         artistID: 1,
         artist: 'Kanye West',
         artworkURL:
@@ -61,7 +61,7 @@ module.exports = {
       {
         spotifyID: '2Ek1q2haOnxVqhvVKqMvJe',
         title: 'ye',
-        averageRating: 0.0,
+        averageRating: 4.0,
         artistID: 1,
         artist: 'Kanye West',
         artworkURL:
@@ -72,7 +72,7 @@ module.exports = {
       {
         spotifyID: '0FgZKfoU2Br5sHOfvZKTI9',
         title: 'JESUS IS KING',
-        averageRating: 0.0,
+        averageRating: 3.0,
         artistID: 1,
         artist: 'Kanye West',
         artworkURL:
@@ -83,7 +83,7 @@ module.exports = {
       {
         spotifyID: '3WFTGIO6E3Xh4paEOBY9OU',
         title: '808s & Heartbreak',
-        averageRating: 0.0,
+        averageRating: 4.0,
         artistID: 1,
         artist: 'Kanye West',
         artworkURL:
@@ -94,7 +94,7 @@ module.exports = {
       {
         spotifyID: '5ll74bqtkcXlKE7wwkMq4g',
         title: 'Late Registration',
-        averageRating: 0.0,
+        averageRating: 4.0,
         artistID: 1,
         artist: 'Kanye West',
         artworkURL:
@@ -105,7 +105,7 @@ module.exports = {
       {
         spotifyID: '4SZko61aMnmgvNhfhgTuD3',
         title: 'Graduation',
-        averageRating: 0.0,
+        averageRating: 3.5,
         artistID: 1,
         artist: 'Kanye West',
         artworkURL:
@@ -116,7 +116,7 @@ module.exports = {
       {
         spotifyID: '1WuyO8qwthV94n8A4crVss',
         title: 'Silentintroduction',
-        averageRating: 0.0,
+        averageRating: 4.0,
         artistID: 2,
         artist: 'Moodymann',
         artworkURL:
@@ -130,7 +130,7 @@ module.exports = {
         artworkURL:
           'https://i.scdn.co/image/ab67616d0000b273163a93780dfc3dc608ddd925',
         releaseYear: 2004,
-        averageRating: 0.0,
+        averageRating: 3.8,
         artistID: 2,
         artist: 'Moodymann',
         genres: ['deep house', 'detroit house', 'detroit techno'],
@@ -141,7 +141,7 @@ module.exports = {
         artworkURL:
           'https://i.scdn.co/image/ab67616d0000b273acdc6c8b134d4528937c4565',
         releaseYear: 2000,
-        averageRating: 0.0,
+        averageRating: 4.0,
         artistID: 2,
         artist: 'Moodymann',
         genres: ['deep house', 'detroit house', 'detroit techno'],
@@ -152,7 +152,7 @@ module.exports = {
         artworkURL:
           'https://i.scdn.co/image/ab67616d0000b273d632858017314cb46e7b0845',
         releaseYear: 2014,
-        averageRating: 0.0,
+        averageRating: 4.5,
         artistID: 3,
         artist: 'DJ Rashad',
         genres: ['footwork', 'juke'],
@@ -163,7 +163,7 @@ module.exports = {
         artworkURL:
           'https://i.scdn.co/image/ab67616d0000b27325a4bcf15a3b4ed8a97d2a28',
         releaseYear: 2012,
-        averageRating: 0.0,
+        averageRating: 4.0,
         artistID: 3,
         artist: 'DJ Rashad',
         genres: ['footwork', 'juke'],
@@ -174,7 +174,7 @@ module.exports = {
         artworkURL:
           'https://i.scdn.co/image/ab67616d0000b273337c5517a9a62e0c3f17d59f',
         releaseYear: 1982,
-        averageRating: 0.0,
+        averageRating: 4.5,
         artistID: 4,
         artist: 'Prince',
         genres: ['funk'],
@@ -185,7 +185,7 @@ module.exports = {
         artworkURL:
           'https://i.scdn.co/image/ab67616d0000b273d52bfb90ee8dfeda8378b99b',
         releaseYear: 1984,
-        averageRating: 0.0,
+        averageRating: 4.0,
         artistID: 4,
         artist: 'Prince',
         genres: ['funk'],
@@ -196,7 +196,7 @@ module.exports = {
         artworkURL:
           'https://i.scdn.co/image/ab67616d0000b2733d5eebdf65ca2ccb308df87d',
         releaseYear: 1980,
-        averageRating: 0.0,
+        averageRating: 5.0,
         artistID: 4,
         artist: 'Prince',
         genres: ['funk'],
@@ -207,7 +207,7 @@ module.exports = {
         artworkURL:
           'https://i.scdn.co/image/ab67616d0000b273a03ea69e2c991c97435a7881',
         releaseYear: 1982,
-        averageRating: 0.0,
+        averageRating: 4.0,
         artistID: 5,
         artist: 'Patrice Rushen',
         genres: ['disco', 'funk'],
@@ -218,7 +218,7 @@ module.exports = {
         artworkURL:
           'https://i.scdn.co/image/ab67616d0000b273dd51f0bf670da32e46f18af8',
         releaseYear: 1980,
-        averageRating: 0.0,
+        averageRating: 4.5,
         artistID: 5,
         artist: 'Patrice Rushen',
         genres: ['disco', 'funk'],
@@ -229,7 +229,7 @@ module.exports = {
         artworkURL:
           'https://i.scdn.co/image/ab67616d0000b273584302fee10c0d0a12c40c97',
         releaseYear: 1985,
-        averageRating: 0.0,
+        averageRating: 4.5,
         artistID: 6,
         artist: 'Sade',
         genres: ['soul', 'pop'],
@@ -240,7 +240,7 @@ module.exports = {
         artworkURL:
           'https://i.scdn.co/image/ab67616d0000b273fc5b945694542a289fd416b5',
         releaseYear: 2016,
-        averageRating: 0.0,
+        averageRating: 4.0,
         artistID: 7,
         artist: 'Show Me the Body',
         genres: ['punk'],
@@ -251,7 +251,7 @@ module.exports = {
         artworkURL:
           'https://i.scdn.co/image/ab67616d0000b273dec62246b3568d62f54a74c8',
         releaseYear: 2019,
-        averageRating: 0.0,
+        averageRating: 3.5,
         artistID: 7,
         artist: 'Show Me the Body',
         genres: ['punk'],
@@ -262,7 +262,7 @@ module.exports = {
         artworkURL:
           'https://i.scdn.co/image/ab67616d0000b2732fd250e2666e6bfb0ea19c68',
         releaseYear: 2017,
-        averageRating: 0.0,
+        averageRating: 3.0,
         artistID: 7,
         artist: 'Show Me the Body',
         genres: ['punk'],
@@ -273,7 +273,7 @@ module.exports = {
         artworkURL:
           'https://i.scdn.co/image/ab67616d0000b273e2a08e86f318fbdc2b1a5c24',
         releaseYear: 1997,
-        averageRating: 0.0,
+        averageRating: 4.3,
         artistID: 8,
         artist: 'Stereolab',
         genres: ['pop', 'alternative rock'],
