@@ -36,7 +36,7 @@ module.exports = (sequelize, DataTypes) => {
     {
       spotifyID: {
         type: DataTypes.STRING(255),
-        allowNull: false,
+        allowNull: true,
         validate: { len: [1, 255] },
       },
       title: {
@@ -54,7 +54,7 @@ module.exports = (sequelize, DataTypes) => {
       },
       artistID: {
         type: DataTypes.INTEGER,
-        allowNull: false,
+        allowNull: true,
       },
       artworkURL: {
         type: DataTypes.TEXT,
@@ -64,7 +64,7 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.INTEGER,
         allowNull: false,
       },
-      genres: DataTypes.ARRAY(DataTypes.TEXT),
+      genres: { type: DataTypes.ARRAY(DataTypes.TEXT) },
     },
     {
       sequelize,

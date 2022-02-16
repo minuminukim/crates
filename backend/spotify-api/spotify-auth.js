@@ -50,4 +50,10 @@ const setAccessTokenCookie = async (res, next) => {
   return access_token;
 };
 
-module.exports = { getAccessToken, setAccessTokenCookie };
+const checkAccessToken = (req, res, next) => {
+  const { spotifyToken } = req.cookies;
+  console.log('spotifyToken', spotifyToken.maxAge);
+  next();
+};
+
+module.exports = { getAccessToken, setAccessTokenCookie, checkAccessToken };

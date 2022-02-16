@@ -1,14 +1,10 @@
 const express = require('express');
 const asyncHandler = require('express-async-handler');
-const axios = require('axios');
-const qs = require('qs');
-const { setAccessTokenCookie } = require('../../spotify-api/spotify-auth');
 const {
-  searchArtistByName,
-  searchAlbumsByTitle,
-  getAlbumsByArtistID,
-} = require('../../spotify-api/spotify-search');
-const { route } = require('.');
+  checkAccessToken,
+  setAccessTokenCookie,
+} = require('../../spotify-api/spotify-auth');
+const { searchAlbumsByTitle } = require('../../spotify-api/spotify-search');
 
 const router = express.Router();
 
@@ -43,6 +39,6 @@ router.post(
       res.json({ albums: data });
     }
   })
-)
+);
 
 module.exports = router;

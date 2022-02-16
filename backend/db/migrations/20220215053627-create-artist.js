@@ -11,7 +11,7 @@ module.exports = {
       spotifyID: {
         type: Sequelize.STRING(255),
         unique: true,
-        allowNull: false,
+        allowNull: true,
       },
       name: {
         type: Sequelize.STRING(255),

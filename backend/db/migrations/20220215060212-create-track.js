@@ -10,7 +10,7 @@ module.exports = {
       },
       spotifyID: {
         type: Sequelize.STRING(255),
-        allowNull: false,
+        allowNull: true,
         unique: true,
       },
       albumID: {

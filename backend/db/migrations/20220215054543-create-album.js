@@ -11,7 +11,7 @@ module.exports = {
       spotifyID: {
         type: Sequelize.STRING(255),
         unique: true,
-        allowNull: false,
+        allowNull: true,
       },
       title: {
         type: Sequelize.STRING(255),
@@ -24,10 +24,14 @@ module.exports = {
       },
       artistID: {
         type: Sequelize.INTEGER,
-        allowNull: false,
+        allowNull: true,
         references: {
           model: 'Artists',
         },
+      },
+      artist: {
+        type: Sequelize.STRING(255),
+        allowNull: false,
       },
       artworkURL: {
         type: Sequelize.TEXT,

@@ -2,21 +2,13 @@
 
 module.exports = {
   async up(queryInterface, Sequelize) {
-    /**
-     * Add seed commands here.
-     *
-     * Example:
-     * await queryInterface.bulkInsert('People', [{
-     *   name: 'John Doe',
-     *   isBetaMember: false
-     * }], {});
-     */
     return await queryInterface.bulkInsert('Albums', [
       {
         spotifyID: '20r762YmB5HeofjMCiPMLv',
         title: 'My Beautiful Dark Twisted Fantasy',
         averageRating: 0.0,
         artistID: 1,
+        artist: 'Kanye West',
         artworkURL:
           'https://i.scdn.co/image/ab67616d0000b273d9194aa18fa4c9362b47464f',
         releaseYear: 2010,
@@ -27,6 +19,7 @@ module.exports = {
         title: 'Donda',
         averageRating: 0.0,
         artistID: 1,
+        artist: 'Kanye West',
         artworkURL:
           'https://i.scdn.co/image/ab67616d0000b273cad190f1a73c024e5a40dddd',
         releaseYear: 2021,
@@ -37,6 +30,7 @@ module.exports = {
         title: 'The Life Of Pablo',
         averageRating: 0.0,
         artistID: 1,
+        artist: 'Kanye West',
         artworkURL:
           'https://i.scdn.co/image/ab67616d0000b2732a7db835b912dc5014bd37f4',
         releaseYear: 2016,
@@ -47,6 +41,7 @@ module.exports = {
         title: 'Yeezus',
         averageRating: 0.0,
         artistID: 1,
+        artist: 'Kanye West',
         artworkURL:
           'https://i.scdn.co/image/ab67616d0000b2731dacfbc31cc873d132958af9',
         releaseYear: 2013,
@@ -57,6 +52,7 @@ module.exports = {
         title: 'The College Dropout',
         averageRating: 0.0,
         artistID: 1,
+        artist: 'Kanye West',
         artworkURL:
           'https://i.scdn.co/image/ab67616d0000b27325b055377757b3cdd6f26b78',
         releaseYear: 2004,
@@ -67,6 +63,7 @@ module.exports = {
         title: 'ye',
         averageRating: 0.0,
         artistID: 1,
+        artist: 'Kanye West',
         artworkURL:
           'https://i.scdn.co/image/ab67616d0000b2730cd942c1a864afa4e92d04f2',
         releaseYear: 2018,
@@ -77,6 +74,7 @@ module.exports = {
         title: 'JESUS IS KING',
         averageRating: 0.0,
         artistID: 1,
+        artist: 'Kanye West',
         artworkURL:
           'https://i.scdn.co/image/ab67616d0000b2731bb797bbfe2480650b6c2964',
         releaseYear: 2019,
@@ -87,6 +85,7 @@ module.exports = {
         title: '808s & Heartbreak',
         averageRating: 0.0,
         artistID: 1,
+        artist: 'Kanye West',
         artworkURL:
           'https://i.scdn.co/image/ab67616d0000b273346d77e155d854735410ed18',
         releaseYear: 2018,
@@ -97,6 +96,7 @@ module.exports = {
         title: 'Late Registration',
         averageRating: 0.0,
         artistID: 1,
+        artist: 'Kanye West',
         artworkURL:
           'https://i.scdn.co/image/ab67616d0000b273428d2255141c2119409a31b2',
         releaseYear: 2005,
@@ -107,6 +107,7 @@ module.exports = {
         title: 'Graduation',
         averageRating: 0.0,
         artistID: 1,
+        artist: 'Kanye West',
         artworkURL:
           'https://i.scdn.co/image/ab67616d0000b27326f7f19c7f0381e56156c94a',
         releaseYear: 2007,
@@ -117,6 +118,7 @@ module.exports = {
         title: 'Silentintroduction',
         averageRating: 0.0,
         artistID: 2,
+        artist: 'Moodymann',
         artworkURL:
           'https://i.scdn.co/image/ab67616d0000b27372d1e831b30315d08b1f426b',
         releaseYear: 1997,
@@ -130,6 +132,7 @@ module.exports = {
         releaseYear: 2004,
         averageRating: 0.0,
         artistID: 2,
+        artist: 'Moodymann',
         genres: ['deep house', 'detroit house', 'detroit techno'],
       },
       {
@@ -140,6 +143,7 @@ module.exports = {
         releaseYear: 2000,
         averageRating: 0.0,
         artistID: 2,
+        artist: 'Moodymann',
         genres: ['deep house', 'detroit house', 'detroit techno'],
       },
       {
@@ -150,6 +154,7 @@ module.exports = {
         releaseYear: 2014,
         averageRating: 0.0,
         artistID: 3,
+        artist: 'DJ Rashad',
         genres: ['footwork', 'juke'],
       },
       {
@@ -160,6 +165,7 @@ module.exports = {
         releaseYear: 2012,
         averageRating: 0.0,
         artistID: 3,
+        artist: 'DJ Rashad',
         genres: ['footwork', 'juke'],
       },
       {
@@ -170,6 +176,7 @@ module.exports = {
         releaseYear: 1982,
         averageRating: 0.0,
         artistID: 4,
+        artist: 'Prince',
         genres: ['funk'],
       },
       {
@@ -180,6 +187,7 @@ module.exports = {
         releaseYear: 1984,
         averageRating: 0.0,
         artistID: 4,
+        artist: 'Prince',
         genres: ['funk'],
       },
       {
@@ -190,6 +198,7 @@ module.exports = {
         releaseYear: 1980,
         averageRating: 0.0,
         artistID: 4,
+        artist: 'Prince',
         genres: ['funk'],
       },
       {
@@ -200,6 +209,7 @@ module.exports = {
         releaseYear: 1982,
         averageRating: 0.0,
         artistID: 5,
+        artist: 'Patrice Rushen',
         genres: ['disco', 'funk'],
       },
       {
@@ -210,6 +220,7 @@ module.exports = {
         releaseYear: 1980,
         averageRating: 0.0,
         artistID: 5,
+        artist: 'Patrice Rushen',
         genres: ['disco', 'funk'],
       },
       {
@@ -220,6 +231,7 @@ module.exports = {
         releaseYear: 1985,
         averageRating: 0.0,
         artistID: 6,
+        artist: 'Sade',
         genres: ['soul', 'pop'],
       },
       {
@@ -230,6 +242,7 @@ module.exports = {
         releaseYear: 2016,
         averageRating: 0.0,
         artistID: 7,
+        artist: 'Show Me the Body',
         genres: ['punk'],
       },
       {
@@ -240,6 +253,7 @@ module.exports = {
         releaseYear: 2019,
         averageRating: 0.0,
         artistID: 7,
+        artist: 'Show Me the Body',
         genres: ['punk'],
       },
       {
@@ -250,6 +264,7 @@ module.exports = {
         releaseYear: 2017,
         averageRating: 0.0,
         artistID: 7,
+        artist: 'Show Me the Body',
         genres: ['punk'],
       },
       {
@@ -260,6 +275,7 @@ module.exports = {
         releaseYear: 1997,
         averageRating: 0.0,
         artistID: 8,
+        artist: 'Stereolab',
         genres: ['pop', 'alternative rock'],
       },
     ]);

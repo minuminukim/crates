@@ -10,7 +10,7 @@ module.exports = (sequelize, DataTypes) => {
     {
       spotifyID: {
         type: DataTypes.STRING(255),
-        allowNull: false,
+        allowNull: true,
         validate: {
           len: [1, 255],
         },

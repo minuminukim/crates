@@ -49,6 +49,7 @@ router.post(
 // Log out
 router.delete('/', (_req, res) => {
   res.clearCookie('token');
+  res.clearCookie('spotifyToken');
   return res.json({ message: 'success' });
 });
 

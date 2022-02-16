@@ -1,5 +1,6 @@
 const axios = require('axios');
 const { SearchError } = require('./spotify-errors');
+const { setAccessTokenCookie } = require('./spotify-auth');
 
 const BASE_URL = `https://api.spotify.com/v1/search?`;
 
@@ -44,7 +45,6 @@ const searchAlbumsByTitle = async (accessToken, title) => {
 
     return mapped;
   } catch (error) {
-    console.log('error', JSON.stringify(error));
     return new SearchError(
       `No results found for ${title}.`,
       400,
