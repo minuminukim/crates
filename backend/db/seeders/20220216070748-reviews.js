@@ -9,9 +9,9 @@ module.exports = {
           userID: 1,
           albumID: 1,
           body: '',
-          listenedDate: '',
+          listenedDate: new Date(2022, 1, 14),
           rating: 10,
-          isRelisten: true,
+          isRelisten: false,
         },
       ],
       {}
