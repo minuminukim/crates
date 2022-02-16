@@ -4,7 +4,7 @@ const asyncHandler = require('express-async-handler');
 
 const { handleValidationErrors } = require('../../utils/validation');
 const { setTokenCookie, restoreUser } = require('../../utils/auth');
-const { setAccessTokenCookie } = require('../../utils/spotify-api');
+const { setAccessTokenCookie } = require('../../spotify-api/spotify-auth');
 const { User } = require('../../db/models');
 
 const router = express.Router();
