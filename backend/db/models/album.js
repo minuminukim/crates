@@ -56,6 +56,13 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.INTEGER,
         allowNull: true,
       },
+      artist: {
+        type: DataTypes.STRING(255),
+        allowNull: false,
+        validate: {
+          len: [1, 255],
+        },
+      },
       artworkURL: {
         type: DataTypes.TEXT,
         allowNull: false,

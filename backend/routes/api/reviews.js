@@ -2,6 +2,7 @@ const express = require('express');
 const asyncHandler = require('express-async-handler');
 const { Review, Album } = require('../../db/models');
 const validateReview = require('../../validations/validateReview');
+const { requireAuth } = require('../../utils/auth');
 
 const router = express.Router();
 
@@ -17,9 +18,9 @@ router.get(
 );
 
 router.get(
-  '/:id',
+  '/:id(\\d+)',
   asyncHandler(async (req, res, next) => {
-    const id = +req.params('id');
+    const id = +req.params.id;
     const review = await Review.getSingleReviewByID(id);
 
     if (!review) {
@@ -49,7 +50,7 @@ router.get(
  *    rating: int,
  *    isRelisten: boolean,
  *  },
- *   album: {
+ *   spotifyAlbum: {
  *     spotifyID: str,
  *     title: str,
  *     artist: str,
@@ -61,27 +62,36 @@ router.get(
  */
 router.post(
   '/',
-  requireAuth,
+  // requireAuth,
   validateReview,
   asyncHandler(async (req, res, next) => {
-    const { review, album } = req.body;
+    const { review, spotifyAlbum } = req.body;
+    console.log('req.body@@@@@@@', req.body);
     // TODO.. figure out how the data flows here.. when are records being made in psql...
     // ... should db be pared down without an artists table?
     const [album, created] = await Album.findOrCreate({
-      where: { spotifyID: req.body.spotifyID },
+      where: { spotifyID: spotifyAlbum.spotifyID },
       defaults: {
-        spotifyID: req.body.spotifyID,
-        title: req.body.title,
-        averageRating: req.body.rating,
-        artworkURL: req.body.artworkURL,
-        artist: req.body.artist,
-        releaseYear: req.body.releaseYear,
-        artworkURL: req.body.artworkURL,
+        spotifyID: spotifyAlbum.spotifyID,
+        title: spotifyAlbum.title,
+        averageRating: review.rating / 2,
+        artworkURL: spotifyAlbum.artworkURL,
+        artist: spotifyAlbum.artist,
+        releaseYear: spotifyAlbum.releaseYear,
       },
     });
 
-    const albumID = created ? created.id : album.id;
+    const albumID = album.id;
     const newReview = await Review.create({ ...review, albumID });
+
+    // if (!created) {
+    //   Album.c
+    // }
+    // TODO: update album count & averageRating if no new album was created
+
+    return res.json({
+      review: newReview,
+    });
   })
 );
 
