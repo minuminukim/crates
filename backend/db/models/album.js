@@ -25,6 +25,11 @@ module.exports = (sequelize, DataTypes) => {
         otherKey: 'listID',
         foreignKey: 'albumID',
       });
+      Album.belongsToMany(models.Backlog, {
+        through: 'AlbumBacklog',
+        otherKey: 'backlogID',
+        foreignKey: 'albumID',
+      });
     }
   }
   Album.init(
