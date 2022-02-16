@@ -34,6 +34,10 @@ module.exports = (sequelize, DataTypes) => {
           max: 10,
         },
       },
+      isRelisten: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+      },
     },
     {
       sequelize,

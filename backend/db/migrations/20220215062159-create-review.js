@@ -34,6 +34,11 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: false,
       },
+      isRelisten: {
+        type: Sequelize.BOOLEAN,
+        allowNull: false,
+        defaultValue: false,
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,
