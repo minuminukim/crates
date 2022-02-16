@@ -6,7 +6,20 @@ module.exports = (sequelize, DataTypes) => {
       Review.belongsTo(models.User, { foreignKey: 'userID' });
       Review.belongsTo(models.Album, { foreignKey: 'albumID' });
     }
+
+    static async getSingleReviewByID(id) {
+      return await Review.findByPk(id);
+    }
+
+    static async getReviews() {
+      return await Review.findAll();
+    }
+
+    static async getAlbumReviews(albumID) {
+      return await Review.findAll({ where: albumID });
+    }
   }
+
   Review.init(
     {
       userID: {
