@@ -27,7 +27,7 @@ module.exports = {
         allowNull: false,
       },
       listenedDate: {
-        type: Sequelize.DATE,
+        type: Sequelize.DATEONLY,
         allowNull: false,
       },
       rating: {

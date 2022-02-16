@@ -36,7 +36,7 @@ module.exports = (sequelize, DataTypes) => {
         validate: { len: [1, 4000] },
       },
       listenedDate: {
-        type: DataTypes.DATE,
+        type: DataTypes.DATEONLY,
         allowNull: false,
       },
       rating: {
