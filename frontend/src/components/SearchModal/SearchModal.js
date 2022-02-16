@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import { csrfFetch } from '../../store/csrf';
 import SearchBar from '../SearchBar';
 import SearchList from '../SearchList';
-
 import './SearchModal.css';
 
 const SearchModal = () => {
