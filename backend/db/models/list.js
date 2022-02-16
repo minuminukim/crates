@@ -9,6 +9,11 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       List.belongsTo(models.User, { foreignKey: 'userID' });
+      List.belongsToMany(models.Album, {
+        through: 'AlbumList',
+        otherKey: 'albumID',
+        foreignKey: 'listID',
+      });
     }
   }
   List.init(

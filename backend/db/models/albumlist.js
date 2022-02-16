@@ -1,27 +1,27 @@
 'use strict';
 const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class UserAlbum extends Model {
+  class AlbumList extends Model {
     static associate(models) {
-      UserAlbum.belongsTo(models.User, { foreignKey: 'userID' });
-      UserAlbum.belongsTo(models.Album, { foreignKey: 'albumID' });
+      AlbumList.belongsTo(models.Album, { foreignKey: 'AlbumID' });
+      AlbumList.belongsTo(models.List, { foreignKey: 'listID' });
     }
   }
-  UserAlbum.init(
+  AlbumList.init(
     {
-      userID: {
+      albumID: {
         type: DataTypes.INTEGER,
         allowNull: false,
       },
-      albumID: {
+      listID: {
         type: DataTypes.INTEGER,
         allowNull: false,
       },
     },
     {
       sequelize,
-      modelName: 'UserAlbum',
+      modelName: 'AlbumList',
     }
   );
-  return UserAlbum;
+  return AlbumList;
 };

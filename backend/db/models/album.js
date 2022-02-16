@@ -20,6 +20,11 @@ module.exports = (sequelize, DataTypes) => {
         otherKey: 'userID',
         foreignKey: 'albumID',
       });
+      Album.belongsToMany(models.List, {
+        through: 'AlbumList',
+        otherKey: 'listID',
+        foreignKey: 'albumID',
+      });
     }
   }
   Album.init(
