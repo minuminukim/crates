@@ -1,7 +1,13 @@
+import { useState } from 'react';
+import { Modal } from '../../context/Modal';
+import ReviewForm from '../ReviewForm';
 import SearchItem from '../SearchItem';
 import './SearchList.css';
 
 const SearchList = ({ items }) => {
+  const [chosen, setChosen] = useState(null);
+  const [showModal, setShowModal] = useState(false);
+
   return (
     <ul className="search-list">
       {items.map((item) => (
@@ -10,8 +16,17 @@ const SearchList = ({ items }) => {
           title={item.title}
           artist={item.artist}
           releaseYear={item.releaseYear}
+          onClick={() => {
+            setChosen(item);
+            setShowModal(true);
+          }}
         />
       ))}
+      {showModal && (
+        <Modal onClose={() => setShowModal(false)}>
+          <ReviewForm album={chosen} />
+        </Modal>
+      )}
     </ul>
   );
 };

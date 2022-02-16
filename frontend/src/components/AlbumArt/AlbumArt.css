@@ -1,0 +1,8 @@
+.album-art {
+  border-radius: 3px;
+}
+
+.album-art-medium {
+  height: 250px;
+  width: 250px;
+}

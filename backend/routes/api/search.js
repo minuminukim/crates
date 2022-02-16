@@ -13,21 +13,21 @@ const { route } = require('.');
 const router = express.Router();
 
 // Search for an album by title
-router.get(
-  '/',
-  asyncHandler(async (req, res, next) => {
-    const { spotifyToken } = req.cookies;
-    // const { artistName } = req.body;
-    // await setAccessTokenCookie(res, next)
-    const data = await searchAlbumsByTitle(spotifyToken, 'stereolab');
+// router.get(
+//   '/',
+//   asyncHandler(async (req, res, next) => {
+//     const { spotifyToken } = req.cookies;
+//     // const { artistName } = req.body;
+//     // await setAccessTokenCookie(res, next)
+//     const data = await searchAlbumsByTitle(spotifyToken, 'stereolab');
 
-    if (data && data.errors) {
-      res.json({ data });
-    } else {
-      res.json({ albums: data });
-    }
-  })
-);
+//     if (data && data.errors) {
+//       res.json({ data });
+//     } else {
+//       res.json({ albums: data });
+//     }
+//   })
+// );
 
 router.post(
   '/',

@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { Route, Switch } from 'react-router-dom';
 import SignupFormPage from './components/SignupFormPage';
 // import LoginFormPage from "./components/LoginFormPage";
-import SearchModal from './components/SearchModal';
+// import SearchModal from './components/SearchModal';
 import * as sessionActions from './store/session';
 import Navigation from './components/Navigation';
 import { Modal } from './context/Modal';
@@ -32,9 +32,9 @@ function App() {
           <Route path="/signup">
             <SignupFormPage />
           </Route>
-          <Route path="/search">
+          {/* <Route path="/search">
             <SearchModal />
-          </Route>
+          </Route> */}
         </Switch>
       )}
     </>
