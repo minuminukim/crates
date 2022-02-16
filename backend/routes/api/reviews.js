@@ -1,6 +1,7 @@
 const express = require('express');
 const asyncHandler = require('express-async-handler');
 const { Review, Album } = require('../../db/models');
+const validateReview = require('../../validations/validateReview');
 
 const router = express.Router();
 
@@ -38,21 +39,63 @@ router.get(
   })
 );
 
+/**
+ * REQUEST:
+ * {
+ *  review: {
+ *    userID: int,
+ *    body: str,
+ *    listenedDate: date,
+ *    rating: int,
+ *    isRelisten: boolean,
+ *  },
+ *   album: {
+ *     spotifyID: str,
+ *     title: str,
+ *     artist: str,
+ *     artworkURL: str,
+ *     releaseYear: int,
+ *     genres: [],
+ *  }
+ * }
+ */
 router.post(
   '/',
+  requireAuth,
+  validateReview,
   asyncHandler(async (req, res, next) => {
-    const { spotifyID, title, artistSpotifyID, artworkURL, releaseYear } =
-      req.body;
+    const { review, album } = req.body;
     // TODO.. figure out how the data flows here.. when are records being made in psql...
     // ... should db be pared down without an artists table?
     const [album, created] = await Album.findOrCreate({
-      where: { spotifyID: spotifyID },
+      where: { spotifyID: req.body.spotifyID },
       defaults: {
-        title,
-        artworkURL,
-        releaseYear,
+        spotifyID: req.body.spotifyID,
+        title: req.body.title,
+        averageRating: req.body.rating,
+        artworkURL: req.body.artworkURL,
+        artist: req.body.artist,
+        releaseYear: req.body.releaseYear,
+        artworkURL: req.body.artworkURL,
       },
     });
+
+    const albumID = created ? created.id : album.id;
+    const newReview = await Review.create({ ...review, albumID });
+  })
+);
+
+router.put(
+  '/:id',
+  asyncHandler(async (req, res, next) => {
+    return null;
+  })
+);
+
+router.delete(
+  '/:id',
+  asyncHandler(async (req, res, next) => {
+    return null;
   })
 );
 

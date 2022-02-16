@@ -2,10 +2,12 @@ const express = require('express');
 const { check } = require('express-validator');
 const asyncHandler = require('express-async-handler');
 
-const { handleValidationErrors } = require('../../utils/validation');
+const { User } = require('../../db/models');
 const { setTokenCookie, restoreUser } = require('../../utils/auth');
 const { setAccessTokenCookie } = require('../../spotify-api/spotify-auth');
-const { User } = require('../../db/models');
+const {
+  handleValidationErrors,
+} = require('../../validations/handleValidationErrors');
 
 const router = express.Router();
 
