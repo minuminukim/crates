@@ -31,7 +31,7 @@ router.get(
       reviewError.status = 404;
       reviewError.title = 'Review not found.';
       reviewError.errors = {
-        reviewID: `The requested review could not be found.`,
+        review: `The requested review could not be found.`,
       };
 
       return next(reviewError);
@@ -139,7 +139,7 @@ router.put(
 );
 
 router.delete(
-  '/:id',
+  '/:id(\\d+)',
   // requireAuth,
   asyncHandler(async (req, res, next) => {
     const id = +req.params.id;

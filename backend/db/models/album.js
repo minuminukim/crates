@@ -2,25 +2,12 @@
 const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class Album extends Model {
-    updateAverageRating(value) {
-      const newAverage =
-        (this.averageRating * (this.ratingsCount - 1) + value) /
-        this.ratingsCount;
-      // const newAverage = (this.averageRating + value) / this.ratingsCount;
-      const rounded = Math.round(newAverage * 10) / 10;
-      const fixed = parseFloat(rounded.toFixed(1));
-      this.setDataValue('averageRating', fixed);
-
-      return fixed;
-    }
-
-    updateRatingsCount(value) {
-      this.setDataValue('ratingsCount', value);
-      return this.ratingsCount;
-    }
-
     static async getSingleAlbumByID(id) {
       return await Album.findByPk(id);
+    }
+
+    static async getAlbums() {
+      return await Album.findAll();
     }
 
     static associate(models) {
