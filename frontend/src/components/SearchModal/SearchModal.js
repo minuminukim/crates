@@ -34,7 +34,7 @@ const SearchModal = () => {
           console.log('errors', err);
           setErrors(err);
         });
-    }, 2000);
+    }, 1000);
 
     return () => clearTimeout(delayedFetchTimer);
   }, [query]);
