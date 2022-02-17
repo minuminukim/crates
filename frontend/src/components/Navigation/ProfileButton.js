@@ -1,16 +1,18 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
+import { FaUserCircle } from 'react-icons/fa';
+import { AiOutlineDown } from 'react-icons/ai';
 import * as sessionActions from '../../store/session';
 
 function ProfileButton({ user }) {
   const dispatch = useDispatch();
   const [showMenu, setShowMenu] = useState(false);
-  
+
   const openMenu = () => {
     if (showMenu) return;
     setShowMenu(true);
   };
-  
+
   useEffect(() => {
     if (!showMenu) return;
 
@@ -19,8 +21,8 @@ function ProfileButton({ user }) {
     };
 
     document.addEventListener('click', closeMenu);
-  
-    return () => document.removeEventListener("click", closeMenu);
+
+    return () => document.removeEventListener('click', closeMenu);
   }, [showMenu]);
 
   const logout = (e) => {
@@ -30,9 +32,13 @@ function ProfileButton({ user }) {
 
   return (
     <>
-      <button onClick={openMenu}>
-        <i className="fas fa-user-circle" />
-      </button>
+      <div className="profile-button" onClick={openMenu}>
+        <button className="profile-button">
+          <FaUserCircle className="profile-button-icon" />
+        </button>
+        <span className="nav-label">{user.username}</span>
+        <AiOutlineDown className="caret-down-icon" />
+      </div>
       {showMenu && (
         <ul className="profile-dropdown">
           <li>{user.username}</li>

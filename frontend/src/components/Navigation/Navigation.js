@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import { BiSearchAlt } from 'react-icons/bi';
 import ProfileButton from './ProfileButton';
 import LogButton from './LogButton';
 import { Modal } from '../../context/Modal';
@@ -14,13 +15,15 @@ function Navigation({ isLoaded }) {
 
   const sessionLinks = sessionUser ? (
     <>
-      <ProfileButton user={sessionUser} />
-      <LogButton handleLogClick={() => setShowModal(true)} />
+      <li>
+        <ProfileButton user={sessionUser} />
+      </li>
+      {/* <LogButton handleLogClick={() => setShowModal(true)} />
       {showModal && (
         <Modal onClose={() => setShowModal(false)}>
           <SearchModal />
         </Modal>
-      )}
+      )} */}
     </>
   ) : (
     <>
@@ -30,14 +33,37 @@ function Navigation({ isLoaded }) {
   );
 
   return (
-    <ul>
-      <li>
-        <NavLink exact to="/">
-          Home
+    <nav className="nav">
+      <div className="nav-logo">
+        <NavLink className="nav-logo" exact to="/">
+          CRATES
         </NavLink>
+      </div>
+      <ul className="nav-links">
         {isLoaded && sessionLinks}
-      </li>
-    </ul>
+        <li>
+          <NavLink className="nav-label" exact to="#">
+            ALBUMS
+          </NavLink>
+        </li>
+        <li>
+          <NavLink className="nav-label" exact to="#">
+            LISTS
+          </NavLink>
+        </li>
+        <li>
+          <BiSearchAlt className="nav-label search-icon" />
+        </li>
+        <li>
+          <LogButton handleLogClick={() => setShowModal(true)} />
+          {isLoaded && showModal && (
+            <Modal onClose={() => setShowModal(false)}>
+              <SearchModal />
+            </Modal>
+          )}
+        </li>
+      </ul>
+    </nav>
   );
 }
 

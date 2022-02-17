@@ -9,6 +9,8 @@ const IndexView = () => {
   const dispatch = useDispatch();
   const { items, isLoading } = useSelector((state) => state.reviews);
 
+  // TODO: figure out what's causing 404.. improper set session user.albums ?
+
   useEffect(() => {
     if (!Object.values(items).length) {
       dispatch(getReviews()).then(() => console.log('items', items));
