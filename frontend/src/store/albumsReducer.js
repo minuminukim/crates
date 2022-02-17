@@ -32,6 +32,13 @@ export const fetchAlbumsFromDB = () => (dispatch) => {
     .catch((err) => dispatch(handleAlbumsErrors(err)));
 };
 
+export const getUserAlbums = (userID) => (dispatch) => {
+  csrfFetch(`/api/users/${userID}/albums`)
+    .then((res) => res.json())
+    .then(({ albums }) => dispatch(loadAlbums(albums)))
+    .catch((err) => dispatch(handleAlbumsErrors(err)));
+};
+
 export const fetchSingleAlbumFromDB = (id) => (dispatch) => {
   csrfFetch(`/api/albums/${id}`)
     .then((res) => res.json())

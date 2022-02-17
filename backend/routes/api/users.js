@@ -44,4 +44,9 @@ router.post(
   }),
 );
 
+router.get(
+  '/:id(\\d+)/albums',
+  asyncHandler
+)
+
 module.exports = router;

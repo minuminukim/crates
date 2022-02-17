@@ -121,12 +121,14 @@ router.post(
 
 router.put(
   '/:id(\\d+)',
-  // requireAuth,
+  requireAuth,
   validateReview,
   asyncHandler(async (req, res, next) => {
-    const { review } = req.body;
+    const review = req.body;
     const id = +req.params.id;
     const dbReview = await Review.getSingleReviewByID(id);
+
+    console.log('req.body', req.body);
 
     if (!dbReview) {
       return res

@@ -13,18 +13,15 @@ const ReviewForm = ({ album = null }) => {
   const { user } = useSelector((state) => state.session);
   const { errors } = useSelector((state) => state.reviews);
   const [body, setBody] = useState('');
+  const [rating, setRating] = useState(0);
+  const [isRelisten, setIsRelisten] = useState(false);
   const [listenedDate, setListenedDate] = useState(
     new Date().toISOString().slice(0, 10)
-  );
-  const [rating, setRating] = useState(0);
-  const [isRelisten, setIsRelisten] = useState(
-    user.albums.some((item) => item.spotifyID === album.spotifyID)
-    // false
   );
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     const params = {
       body,
       listenedDate,

@@ -1,9 +1,17 @@
-.btn-demo-user {
-  background-color: #00b020;
-  color: #fff;
+.btn-medium {
   width: 60px;
   height: 30px;
   border: 0;
   padding: 9px 12px;
   border-radius: 3px;
+}
+
+.btn-demo-user,
+.btn-save {
+  background-color: #00b020;
+  color: #fff;
+}
+
+.btn-delete {
+  background-color: red;
 }

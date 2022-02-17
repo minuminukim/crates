@@ -1,19 +1,24 @@
 import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { editReview } from '../../store/reviewsReducer';
+import { useHistory } from 'react-router-dom';
+import { editReview, deleteReview } from '../../store/reviewsReducer';
 import AlbumArt from '../AlbumArt';
 import InputField from '../InputField';
 import InputLabel from '../InputLabel';
+import { SaveButton, DeleteButton } from '../Button/SaveDeleteButtons';
 import './ReviewForm.css';
 
 const EditReviewForm = ({ review }) => {
   const dispatch = useDispatch();
+  const history = useHistory();
+  const { errors } = useSelector((state) => state.reviews);
   const { album, user } = review;
   const [form, setForm] = useState({
     listenedDate: review.listenedDate,
-    isRelisten: true,
+    isRelisten: review.isRelisten,
     body: review.body,
     rating: review.rating,
+    // ...review
   });
   // const { items, isLoading } = useSelector((state) => state.reviews);
   const handleChange = (e) =>
@@ -22,14 +27,24 @@ const EditReviewForm = ({ review }) => {
       [e.target.id]: e.target.value,
     });
 
-    const handleCheckbox = (e) => {
-      setForm({
-        ...form,
-        isRelisten: !form.isRelisten
-      })
-    }
+  const handleCheckbox = (e) => {
+    setForm({
+      ...form,
+      isRelisten: !form.isRelisten,
+    });
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
+    const params = { ...form, userID: user.id, id: review.id };
+    dispatch(editReview(params));
+    history.push(`/reviews/${review.id}`);
+  };
+
+  const handleDelete = (e) => {
+    e.preventDefault();
+    dispatch(deleteReview(review.id));
+    history.push('/home');
   };
   return (
     <div>
@@ -55,7 +70,7 @@ const EditReviewForm = ({ review }) => {
               type="date"
               id="listenedDate"
               value={form.listenedDate}
-              // error={errors?.listenedDate}
+              error={errors?.listenedDate}
               onChange={handleChange}
             />
           </div>
@@ -65,8 +80,8 @@ const EditReviewForm = ({ review }) => {
               value={form.isRelisten}
               checked={form.isRelisten}
               onChange={handleCheckbox}
-              // onChange={() => setIsRelisten(!isRelisten)}
             />
+            {errors?.isRelisten}
             <label>I've listened to this album before</label>
           </div>
           <div className="form-row">
@@ -77,7 +92,7 @@ const EditReviewForm = ({ review }) => {
               onChange={(e) => console.log(e.target.id)}
               onChange={handleChange}
             />
-            {/* {errors?.body} */}
+            {errors?.body}
           </div>
           <div className="form-row">
             <InputLabel label="Rating" />
@@ -85,15 +100,14 @@ const EditReviewForm = ({ review }) => {
               type="number"
               id="rating"
               value={form.rating}
-              // error={errors?.rating}
+              error={errors?.rating}
               onChange={handleChange}
             />
             {/* TODO: star rating component */}
           </div>
           <div className="form-row">
-            <button className="submit-button" type="submit">
-              SAVE
-            </button>
+            <SaveButton />
+            <DeleteButton onClick={handleDelete} />
           </div>
         </section>
       </form>
