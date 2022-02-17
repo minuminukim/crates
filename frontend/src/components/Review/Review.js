@@ -36,7 +36,10 @@ const Review = () => {
           <ReviewBody review={review} />
         </div>
         <div>
-          <ReviewActions onClick={() => setShowModal(true)} />
+          <ReviewActions
+            userID={review.userID}
+            onClick={() => setShowModal(true)}
+          />
         </div>
         {showModal && (
           <Modal onClose={() => setShowModal(false)}>

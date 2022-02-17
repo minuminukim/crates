@@ -23,6 +23,11 @@ button {
 
 a {
   text-decoration: none;
+  color: #99aabb;
+}
+
+a:visited {
+  color: #99aabb;
 }
 
 input:focus,

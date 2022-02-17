@@ -1,14 +1,12 @@
 import Card from '../Card';
 import './CardRow.css';
 
-// should be receiving reviews, not albums
-const CardRow = ({ albums }) => {
+// items are review objects on homepage
+const CardRow = ({ items }) => {
+  console.log('items', items);
   return (
     <div className="card-row">
-      {albums &&
-        albums.map((album) => {
-          <Card album={album} />;
-        })}
+      {items && items.map((item) => <Card key={item.id} item={item} />)}
     </div>
   );
 };

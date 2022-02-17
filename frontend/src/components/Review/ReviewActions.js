@@ -1,6 +1,4 @@
-import { useState } from 'react';
-import { Modal } from '../../context/Modal';
-import EditReviewForm from '../ReviewForm/EditReviewForm';
+import { useSelector } from 'react-redux';
 import './ReviewActions.css';
 
 const ActionsRow = ({ label, onClick }) => {
@@ -11,16 +9,15 @@ const ActionsRow = ({ label, onClick }) => {
   );
 };
 
-const ReviewActions = ({onClick}) => {
-
+const ReviewActions = ({ userID, onClick }) => {
+  const sessionUser = useSelector((state) => state.session.user);
   return (
     <ul className="review-actions">
       <li className="actions-row"></li>
       <li className="actions-row"></li>
-      <ActionsRow
-        label="Edit or delete this review..."
-        onClick={onClick}
-      />
+      {sessionUser.id === userID && (
+        <ActionsRow label="Edit or delete this review..." onClick={onClick} />
+      )}
       <ActionsRow label="Review or log again..." />
       <ActionsRow label="Add this album to lists..." />
       {/* {showModal && (

@@ -16,24 +16,23 @@ const IndexView = () => {
   const sorted = sortByRecent(Object.values(items)).slice(0, 5);
   console.log('sorted', sorted);
 
-  // TODO: figure out what's causing 404.. improper set session user.albums ?
-
   useEffect(() => {
     if (!Object.values(items).length) {
       dispatch(getReviews());
     }
-    console.log('items', items);
+    console.log('isLoading', isLoading);
   }, [items, dispatch]);
+
   return (
     <div className="page-container index">
       <section className="welcome-banner">
         <h2 className="welcome-heading">
-          Welcome back, <span>friend</span>. Here's what your friends have been
+          Welcome back, <span>{user.username}</span>. Here's what your friends have been
           listening to...
         </h2>
         <StarRating />
       </section>
-      <section>{!isLoading && <CardRow albums={sorted} />}</section>
+      <section>{!isLoading && <CardRow items={sorted} />}</section>
     </div>
   );
 };
