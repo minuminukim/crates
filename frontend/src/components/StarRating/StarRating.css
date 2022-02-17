@@ -1,0 +1,10 @@
+.star-rating {
+  height: 26px;
+  width: 130px;
+  font-size: 26px;
+  color: #334455;
+}
+
+.star:hover {
+  color: #40bcf4;
+}
