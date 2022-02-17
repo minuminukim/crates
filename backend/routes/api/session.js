@@ -5,6 +5,7 @@ const asyncHandler = require('express-async-handler');
 const { User } = require('../../db/models');
 const { setTokenCookie, restoreUser } = require('../../utils/auth');
 const { setAccessTokenCookie } = require('../../spotify-api/spotify-auth');
+const { seedPassword } = require('../../config');
 const {
   handleValidationErrors,
 } = require('../../validations/handleValidationErrors');
@@ -38,6 +39,23 @@ router.post(
       err.errors = ['The provided credentials were invalid.'];
       return next(err);
     }
+
+    await setTokenCookie(res, user);
+    await setAccessTokenCookie(res);
+
+    return res.json({
+      user,
+    });
+  })
+);
+
+router.post(
+  '/demo',
+  asyncHandler(async (req, res, next) => {
+    const user = await User.login({
+      credential: 'demo',
+      password: seedPassword,
+    });
 
     await setTokenCookie(res, user);
     await setAccessTokenCookie(res);

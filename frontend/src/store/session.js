@@ -54,6 +54,15 @@ export const logout = () => async (dispatch) => {
   return response;
 };
 
+export const loginDemo = () => async (dispatch) => {
+  const response = await csrfFetch('/api/session/demo', {
+    method: 'POST',
+  });
+  const data = await response.json();
+  dispatch(setUser(data.user));
+  return data;
+};
+
 const initialState = { user: null };
 
 function reducer(state = initialState, action) {
