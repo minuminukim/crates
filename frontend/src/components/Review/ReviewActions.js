@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Modal } from '../../context/Modal';
-import ReviewForm from '../ReviewForm';
+import EditReviewForm from '../ReviewForm/EditReviewForm';
 import './ReviewActions.css';
 
 const ActionsRow = ({ label, onClick }) => {
@@ -11,8 +11,7 @@ const ActionsRow = ({ label, onClick }) => {
   );
 };
 
-const ReviewActions = ({ review }) => {
-  const [showModal, setShowModal] = useState(false);
+const ReviewActions = ({onClick}) => {
 
   return (
     <ul className="review-actions">
@@ -20,15 +19,15 @@ const ReviewActions = ({ review }) => {
       <li className="actions-row"></li>
       <ActionsRow
         label="Edit or delete this review..."
-        onClick={() => setShowModal(true)}
+        onClick={onClick}
       />
       <ActionsRow label="Review or log again..." />
       <ActionsRow label="Add this album to lists..." />
-      {showModal && (
+      {/* {showModal && (
         <Modal onClose={() => setShowModal(false)}>
-          <ReviewForm />
+          <EditReviewForm review={review} />
         </Modal>
-      )}
+      )} */}
     </ul>
   );
 };

@@ -18,12 +18,13 @@ const ReviewForm = ({ album = null }) => {
   );
   const [rating, setRating] = useState(0);
   const [isRelisten, setIsRelisten] = useState(
-    // user.albums.some((item) => item.spotifyID === album.spotifyID)
-    false
+    user.albums.some((item) => item.spotifyID === album.spotifyID)
+    // false
   );
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
     const params = {
       body,
       listenedDate,
@@ -38,8 +39,12 @@ const ReviewForm = ({ album = null }) => {
     };
 
     const review = await dispatch(postReview(params));
+    if (Object.values(errors).length) {
+      return;
+    }
     console.log('errors', errors);
-    return review;
+    return history.push(`/reviews/${review.id}`);
+    // return review;
   };
 
   return (
@@ -72,10 +77,10 @@ const ReviewForm = ({ album = null }) => {
           </div>
           <div className="form-row">
             <input
-              type="radio"
+              type="checkbox"
               value={isRelisten}
               checked={isRelisten}
-              onClick={() => setIsRelisten(!isRelisten)}
+              onChange={() => setIsRelisten(!isRelisten)}
             />
             <label>I've listened to this album before</label>
           </div>
