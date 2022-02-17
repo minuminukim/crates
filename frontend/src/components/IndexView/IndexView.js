@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { getReviews } from '../../store/reviewsReducer';
 import CardRow from '../CardRow';
+import StarRating from '../StarRating';
 import './IndexView.css';
 
 const sortByRecent = (items) => {
@@ -27,9 +28,10 @@ const IndexView = () => {
     <div className="page-container index">
       <section className="welcome-banner">
         <h2 className="welcome-heading">
-          Welcome back, <span>friend</span>. Here's what your friends
-          have been listening to...
+          Welcome back, <span>friend</span>. Here's what your friends have been
+          listening to...
         </h2>
+        <StarRating />
       </section>
       <section>{!isLoading && <CardRow albums={sorted} />}</section>
     </div>

@@ -11,6 +11,8 @@ import { fetchAlbumsFromDB } from './store/albumsReducer';
 import Navigation from './components/Navigation';
 import { Modal } from './context/Modal';
 import StarRating from './components/StarRating';
+import Review from './components/Review';
+
 function App() {
   const dispatch = useDispatch();
   const [isLoaded, setIsLoaded] = useState(false);
@@ -40,6 +42,9 @@ function App() {
           </Route>
           <Route path="/signup">
             <SignupFormPage />
+          </Route>
+          <Route path="/reviews/:reviewID">
+            <Review />
           </Route>
           {/* <Route path="/search">
             <SearchModal />
