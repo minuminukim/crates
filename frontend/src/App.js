@@ -5,7 +5,8 @@ import SignupFormPage from './components/SignupFormPage';
 import IndexView from './components/IndexView';
 // import LoginFormPage from "./components/LoginFormPage";
 // import SearchModal from './components/SearchModal';
-import * as sessionActions from './store/session';
+import { restoreUser } from './store/session';
+import { fetchAlbumsFromDB } from './store/albumsReducer';
 import Navigation from './components/Navigation';
 import { Modal } from './context/Modal';
 import StarRating from './components/StarRating';
@@ -14,7 +15,9 @@ function App() {
   const [isLoaded, setIsLoaded] = useState(false);
   const [showModal, setShowModal] = useState(false);
   useEffect(() => {
-    dispatch(sessionActions.restoreUser()).then(() => setIsLoaded(true));
+    dispatch(restoreUser())
+      .then(() => dispatch(fetchAlbumsFromDB()))
+      .then(() => setIsLoaded(true));
   }, [dispatch]);
 
   return (
@@ -28,7 +31,6 @@ function App() {
       )}
       {isLoaded && (
         <Switch>
-          <StarRating />
           <Route exact path="/">
             <IndexView />
           </Route>

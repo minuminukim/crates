@@ -11,9 +11,10 @@ body {
   width: 100%;
   margin: 0;
   padding: 0;
-  font-family: Georgia, 'Times New Roman', Times, serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+    Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   color: #99aabb;
-  background-color: #1d242a;
+  background-color: #1d242b;
 }
 
 button {

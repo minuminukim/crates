@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { FaUserCircle } from 'react-icons/fa';
 import { AiOutlineDown } from 'react-icons/ai';
+import ProfileDropdown from '../ProfileDropdown';
 import * as sessionActions from '../../store/session';
 
 function ProfileButton({ user }) {
@@ -39,15 +40,7 @@ function ProfileButton({ user }) {
         <span className="nav-label">{user.username}</span>
         <AiOutlineDown className="caret-down-icon" />
       </div>
-      {showMenu && (
-        <ul className="profile-dropdown">
-          <li>{user.username}</li>
-          <li>{user.email}</li>
-          <li>
-            <button onClick={logout}>Log Out</button>
-          </li>
-        </ul>
-      )}
+      {showMenu && <ProfileDropdown user={user} />}
     </>
   );
 }

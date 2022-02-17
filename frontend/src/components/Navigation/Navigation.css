@@ -41,10 +41,6 @@
   font-weight: 600;
 }
 
-.profile-dropdown {
-  position: absolute;
-}
-
 div.profile-button {
   display: flex;
   justify-content: center;
