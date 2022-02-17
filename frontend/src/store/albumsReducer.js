@@ -39,16 +39,28 @@ export const fetchSingleAlbumFromDB = (id) => (dispatch) => {
     .catch((err) => dispatch(handleAlbumsErrors(err)));
 };
 
-export const searchAlbumsFromAPI = (query) => (dispatch) => {
-  const options = {
-    method: 'POST',
-    body: JSON.stringify({ query }),
-  };
+export const searchAlbums = (query) => async (dispatch) => {
+  // const options = {
+  //   method: 'POST',
+  //   body: JSON.stringify({ query }),
+  // };
 
-  csrfFetch(`/api/search`, options)
-    .then((res) => res.json())
-    .then(({ albums }) => dispatch(loadAlbums(albums)))
-    .catch((err) => dispatch(handleAlbumsErrors(err)));
+  // csrfFetch(`/api/search`, options)
+  //   .then((res) => res.json())
+  //   .then(({ albums }) => dispatch(loadAlbums(albums)))
+  //   .catch((err) => dispatch(handleAlbumsErrors(err)));
+
+  try {
+    const response = await csrfFetch(`/api/search`, {
+      method: 'POST',
+      body: JSON.stringify({ query }),
+    });
+    const { albums } = await response.json();
+    dispatch(loadAlbums(albums));
+    return albums;
+  } catch (err) {
+    dispatch(handleAlbumsErrors(err));
+  }
 };
 
 const albumsReducer = (state = initialState, action) => {
@@ -58,7 +70,7 @@ const albumsReducer = (state = initialState, action) => {
         acc[album.spotifyID] = album;
         return acc;
       }, {});
-      
+
       return {
         ...state,
         items: {
