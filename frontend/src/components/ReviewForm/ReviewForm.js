@@ -16,7 +16,8 @@ const ReviewForm = ({ album = null }) => {
   );
   const [rating, setRating] = useState(0);
   const [isRelisten, setIsRelisten] = useState(
-    user.albums.some((item) => item.spotifyID === album.spotifyID)
+    // user.albums.some((item) => item.spotifyID === album.spotifyID)
+    false
   );
 
   const handleSubmit = async (e) => {
