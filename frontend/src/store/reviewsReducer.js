@@ -80,6 +80,7 @@ export const deleteReview = (id) => (dispatch) => {
     .then(() => dispatch(removeReview(id)))
     .catch((error) => dispatch(handleReviewsError(error)));
 };
+
 const reviewsReducer = (state = initialState, action) => {
   switch (action.type) {
     case REVIEWS_LOADED:
