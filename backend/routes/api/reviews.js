@@ -5,7 +5,6 @@ const { Review, Album } = require('../../db/models');
 const validateReview = require('../../validations/validateReview');
 const generateNewAverageRating = require('../../utils/generateNewAverageRating');
 const { requireAuth } = require('../../utils/auth');
-const album = require('../../db/models/album');
 
 const router = express.Router();
 
@@ -68,26 +67,43 @@ router.post(
   // requireAuth,
   validateReview,
   asyncHandler(async (req, res, next) => {
-    const { review, spotifyAlbum } = req.body;
-    console.log('req.body@@@@@@@', req.body);
+    const {
+      userID,
+      body,
+      listenedDate,
+      rating,
+      isRelisten,
+      spotifyID,
+      title,
+      artworkURL,
+      artist,
+      releaseYear,
+    } = req.body;
     // TODO.. figure out how the data flows here.. when are records being made in psql...
     // ... should db be pared down without an artists table?
     // console.log('@@@@@@@@@@@@@@@@@', review.rating / 2);
 
     const [album, created] = await Album.findOrCreate({
-      where: { spotifyID: spotifyAlbum.spotifyID },
+      where: { spotifyID: spotifyID },
       defaults: {
-        spotifyID: spotifyAlbum.spotifyID,
-        title: spotifyAlbum.title,
-        averageRating: review.rating,
+        spotifyID: spotifyID,
+        title: title,
+        averageRating: rating,
         ratingsCount: 1,
-        artworkURL: spotifyAlbum.artworkURL,
-        artist: spotifyAlbum.artist,
-        releaseYear: spotifyAlbum.releaseYear,
+        artworkURL: artworkURL,
+        artist: artist,
+        releaseYear: releaseYear,
       },
     });
 
-    const newReview = await Review.create({ ...review, albumID: album.id });
+    const newReview = await Review.create({
+      albumID: album.id,
+      userID,
+      body,
+      listenedDate,
+      rating,
+      isRelisten,
+    });
 
     if (!created) {
       const average = await generateNewAverageRating(album.id);

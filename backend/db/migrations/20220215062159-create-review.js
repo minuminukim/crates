@@ -24,7 +24,6 @@ module.exports = {
       },
       body: {
         type: Sequelize.STRING(4000),
-        allowNull: false,
       },
       listenedDate: {
         type: Sequelize.DATEONLY,
@@ -36,7 +35,6 @@ module.exports = {
       },
       isRelisten: {
         type: Sequelize.BOOLEAN,
-        allowNull: false,
         defaultValue: false,
       },
       createdAt: {

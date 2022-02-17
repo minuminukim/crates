@@ -1,7 +1,7 @@
 import { csrfFetch } from './csrf';
 
-const ALBUMS_LOADED = '/albums/ALBUMS_LOADED';
-const ALBUM_ADDED = '/albums/ALBUM_ADDED';
+export const ALBUMS_LOADED = '/albums/ALBUMS_LOADED';
+export const ALBUM_ADDED = '/albums/ALBUM_ADDED';
 const REQUEST_REJECTED = '/albums/REQUEST_REJECTED';
 
 const initialState = {

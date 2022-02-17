@@ -51,16 +51,20 @@ export const getSingleReview = (id) => (dispatch) => {
     .catch((error) => dispatch(handleReviewsError(error)));
 };
 
-export const postReview = (review) => (dispatch) => {
-  const options = {
-    method: 'POST',
-    body: JSON.stringify(review),
-  };
-
-  csrfFetch(`/api/reviews/`, options)
-    .then((response) => response.json())
-    .then(({ review }) => dispatch(addReview(review)))
-    .catch((error) => dispatch(handleReviewsError(error)));
+export const postReview = (params) => async (dispatch) => {
+  try {
+    const response = await csrfFetch(`/api/reviews/`, {
+      method: 'POST',
+      body: JSON.stringify(params),
+    });
+    const { review } = await response.json();
+    dispatch(addReview(review));
+    return review;
+  } catch (error) {
+    // console.log('typeof', typeof error);
+    // console.log('error@@@@@@@@@@', error.json());
+    dispatch(handleReviewsError(await error.json()));
+  }
 };
 
 export const editReview = (review) => (dispatch) => {
@@ -95,10 +99,11 @@ const reviewsReducer = (state = initialState, action) => {
       };
 
     case REQUEST_REJECTED:
+      console.log('hello', action.error);
       return {
         ...state,
         isLoading: false,
-        errors: { ...action.error },
+        errors: action.error.errors,
       };
 
     case REVIEW_ADDED:

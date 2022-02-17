@@ -1,12 +1,12 @@
 'use strict';
-const { Model, Validator } = require('sequelize');
+const { Model, Validator, Sequelize } = require('sequelize');
 const bcrypt = require('bcryptjs');
 
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     toSafeObject() {
-      const { id, username, email } = this; // context will be the User instance
-      return { id, username, email };
+      const { id, username, email, albums } = this; // context will be the User instance
+      return { id, username, email, albums };
     }
 
     validatePassword(password) {
@@ -54,6 +54,7 @@ module.exports = (sequelize, DataTypes) => {
         through: 'UserAlbum',
         otherKey: 'albumID',
         foreignKey: 'userID',
+        as: 'albums',
       });
     }
   }
@@ -97,6 +98,7 @@ module.exports = (sequelize, DataTypes) => {
       scopes: {
         currentUser: {
           attributes: { exclude: ['hashedPassword'] },
+          include: [{ model: sequelize.models.Album, as: 'albums' }],
         },
         loginUser: {
           attributes: {},

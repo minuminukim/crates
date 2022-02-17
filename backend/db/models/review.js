@@ -32,8 +32,7 @@ module.exports = (sequelize, DataTypes) => {
       },
       body: {
         type: DataTypes.STRING(4000),
-        allowNull: false,
-        validate: { len: [1, 4000] },
+        validate: { max: 4000 },
       },
       listenedDate: {
         type: DataTypes.DATEONLY,
