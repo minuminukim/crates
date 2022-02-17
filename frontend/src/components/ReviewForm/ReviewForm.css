@@ -1,0 +1,40 @@
+.review-form {
+  display: flex;
+  background-color: #445566;
+  width: 800px;
+  height: 400px;
+  padding: 25px 36px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+    Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+.review-form-left {
+  display: flex;
+  align-items: center;
+}
+
+.review-form-right {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.review-form h1 {
+  font-size: 16px;
+  font-weight: 400;
+}
+
+.review-form h2 {
+  color: #fff;
+  font-family: Georgia, 'Times New Roman', Times, serif;
+}
+
+.review-form .submit-button {
+  background-color: #00b020;
+  color: #fff;
+  width: 60px;
+  height: 30px;
+  border: 0;
+  padding: 9px 12px;
+  border-radius: 3px;
+}

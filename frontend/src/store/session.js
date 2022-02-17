@@ -1,5 +1,4 @@
 import { csrfFetch } from './csrf.js';
-import { ALBUMS_LOADED } from './albumsReducer';
 
 const SET_USER = 'session/setUser';
 const REMOVE_USER = 'session/removeUser';

@@ -1,13 +1,10 @@
 import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { postReview } from '../../store/reviewsReducer';
-import AlbumArt from '../AlbumArt/AlbumArt';
+import AlbumArt from '../AlbumArt';
+import InputField from '../InputField';
+import InputLabel from '../InputLabel';
 import './ReviewForm.css';
-
-const initialState = {
-  body: '',
-  date: new Date().toISOString().slice(0, 10),
-};
 
 const ReviewForm = ({ album = null }) => {
   const dispatch = useDispatch();
@@ -45,27 +42,30 @@ const ReviewForm = ({ album = null }) => {
   return (
     <div>
       <form onSubmit={handleSubmit} className="review-form">
-        <div className="form-section">
+        <section className="review-form-left">
           <AlbumArt
             title={album?.title}
             artworkURL={album?.artworkURL}
             size="medium"
           />
-        </div>
-        <div className="form-section">
+        </section>
+        <section className="review-form-right">
           <div className="review-form-header">
             <h1>I LISTENED...</h1>
-            <h2>{album?.title}</h2>
-            <span>{album?.releaseYear}</span>
+            <div>
+              <h2>{album?.title}</h2>
+              <span>{album?.releaseYear}</span>
+            </div>
           </div>
-          <div>
-            <label>Listened on</label>
-            <input
+          <div className="form-row">
+            <InputLabel label="Specify the date you listened to it" />
+            <InputField
               type="date"
+              id="listenedDate"
               value={listenedDate}
+              error={errors?.listenedDate}
               onChange={(e) => setListenedDate(e.target.value)}
             />
-            {errors?.listenedDate}
           </div>
           <div className="form-row">
             <input
@@ -77,25 +77,31 @@ const ReviewForm = ({ album = null }) => {
             <label>I've listened to this album before</label>
           </div>
           <div className="form-row">
-            <textarea value={body} onChange={(e) => setBody(e.target.value)}>
-              Add a review...
-            </textarea>
+            <textarea
+              id="body"
+              placeholder="Add a review..."
+              value={body}
+              onChange={(e) => setBody(e.target.value)}
+            />
+            {errors?.body}
           </div>
           <div className="form-row">
-            <label>Rating</label>
-            <input
+            <InputLabel label="Rating" />
+            <InputField
               type="number"
-              max="10"
+              id="rating"
               value={rating}
+              error={errors?.rating}
               onChange={(e) => setRating(e.target.value)}
             />
-            {errors?.rating}
             {/* TODO: star rating component */}
           </div>
           <div className="form-row">
-            <button type="submit">SAVE</button>
+            <button className="submit-button" type="submit">
+              SAVE
+            </button>
           </div>
-        </div>
+        </section>
       </form>
     </div>
   );
