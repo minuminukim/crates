@@ -1,7 +1,9 @@
 const express = require('express');
+const Sequelize = require('sequelize');
 const asyncHandler = require('express-async-handler');
 const { Review, Album } = require('../../db/models');
 const validateReview = require('../../validations/validateReview');
+const generateNewAverageRating = require('../../utils/generateNewAverageRating');
 const { requireAuth } = require('../../utils/auth');
 
 const router = express.Router();
@@ -33,7 +35,7 @@ router.get(
 
       return next(reviewError);
     }
-
+    
     return res.json({
       review,
     });
@@ -69,25 +71,30 @@ router.post(
     console.log('req.body@@@@@@@', req.body);
     // TODO.. figure out how the data flows here.. when are records being made in psql...
     // ... should db be pared down without an artists table?
+    // console.log('@@@@@@@@@@@@@@@@@', review.rating / 2);
+
     const [album, created] = await Album.findOrCreate({
       where: { spotifyID: spotifyAlbum.spotifyID },
       defaults: {
         spotifyID: spotifyAlbum.spotifyID,
         title: spotifyAlbum.title,
-        averageRating: review.rating / 2,
+        averageRating: review.rating,
+        ratingsCount: 1,
         artworkURL: spotifyAlbum.artworkURL,
         artist: spotifyAlbum.artist,
         releaseYear: spotifyAlbum.releaseYear,
       },
     });
 
-    const albumID = album.id;
-    const newReview = await Review.create({ ...review, albumID });
+    const newReview = await Review.create({ ...review, albumID: album.id });
 
-    // if (!created) {
-    //   Album.c
-    // }
-    // TODO: update album count & averageRating if no new album was created
+    if (!created) {
+      album.set('ratingsCount', album.ratingsCount + 1);
+      const newAverage = await generateNewAverageRating(album.id);
+      console.log('newAverage', newAverage);
+      album.set('averageRating', newAverage);
+      await album.save();
+    }
 
     return res.json({
       review: newReview,
@@ -96,9 +103,34 @@ router.post(
 );
 
 router.put(
-  '/:id',
+  '/:id(\\d+)',
+  // requireAuth,
+  validateReview,
   asyncHandler(async (req, res, next) => {
-    return null;
+    console.log('req.body', req.body);
+    const { review } = req.body;
+    const id = +req.params.id;
+    const dbReview = await Review.getSingleReviewByID(id);
+
+    if (!dbReview) {
+      return res
+        .status(404)
+        .json({ message: 'The requested review could not be found.' });
+    }
+
+    const pairs = Object.entries(review);
+    pairs.forEach(([key, value]) => dbReview.set(key, value));
+    await dbReview.save();
+    const updated = await Review.getSingleReviewByID(id);
+
+    // update album ratings
+    const album = await Album.getSingleAlbumByID(updated.albumID);
+    album.updateAverageRating(review.rating / 2);
+    await album.save();
+
+    return res.json({
+      review: updated,
+    });
   })
 );
 

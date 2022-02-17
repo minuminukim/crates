@@ -18,7 +18,7 @@ module.exports = {
         allowNull: false,
       },
       averageRating: {
-        type: Sequelize.DECIMAL(2, 1),
+        type: Sequelize.DECIMAL(3, 1),
         allowNull: false,
         defaultValue: 0.0,
       },

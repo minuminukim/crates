@@ -2,8 +2,11 @@
 const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class Album extends Model {
-    updateAverageRating(value, count) {
-      const newAverage = (this.averageRating + value) / count;
+    updateAverageRating(value) {
+      const newAverage =
+        (this.averageRating * (this.ratingsCount - 1) + value) /
+        this.ratingsCount;
+      // const newAverage = (this.averageRating + value) / this.ratingsCount;
       const rounded = Math.round(newAverage * 10) / 10;
       const fixed = parseFloat(rounded.toFixed(1));
       this.setDataValue('averageRating', fixed);
@@ -11,8 +14,20 @@ module.exports = (sequelize, DataTypes) => {
       return fixed;
     }
 
+    updateRatingsCount(value) {
+      this.setDataValue('ratingsCount', value);
+      return this.ratingsCount;
+    }
+
+    static async getSingleAlbumByID(id) {
+      return await Album.findByPk(id);
+    }
+
     static associate(models) {
-      Album.belongsTo(models.Artist, { foreignKey: 'artistID' });
+      Album.belongsTo(models.Artist, {
+        foreignKey: 'artistID',
+        allowNull: true,
+      });
       Album.hasMany(models.Track, { foreignKey: 'albumID' });
       Album.hasMany(models.Review, { foreignKey: 'albumID' });
       Album.belongsToMany(models.User, {
@@ -45,25 +60,16 @@ module.exports = (sequelize, DataTypes) => {
         validate: { len: [1, 255] },
       },
       averageRating: {
-        type: DataTypes.DECIMAL(2, 1),
+        type: DataTypes.DECIMAL(3, 1),
         allowNull: false,
         validate: {
           min: 0.0,
-          max: 5.0,
-        },
-        set(value) {
-          const newAverage = (this.averageRating + value) / this.count;
-          const rounded = Math.round(newAverage * 10) / 10;
-          const fixed = parseFloat(rounded.toFixed(1));
-          this.setDataValue('averageRating', fixed);
+          max: 10.0,
         },
       },
       ratingsCount: {
         type: DataTypes.INTEGER,
         allowNull: false,
-        set(value) {
-          this.setDataValue('ratingsCount', value);
-        },
       },
       artistID: {
         type: DataTypes.INTEGER,
