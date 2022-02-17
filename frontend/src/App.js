@@ -32,7 +32,7 @@ function App() {
       {isLoaded && (
         <Switch>
           <Route exact path="/">
-            <IndexView />
+            {/* <IndexView /> */}
           </Route>
           <Route path="/signup">
             <SignupFormPage />

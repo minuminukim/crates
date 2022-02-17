@@ -27,7 +27,7 @@ const IndexView = () => {
     <div className="page-container index">
       <section className="welcome-banner">
         <h2 className="welcome-heading">
-          Welcome back, <span>{user.username}</span>. Here's what your friends
+          Welcome back, <span>friend</span>. Here's what your friends
           have been listening to...
         </h2>
       </section>
