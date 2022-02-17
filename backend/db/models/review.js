@@ -3,20 +3,29 @@ const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class Review extends Model {
     static associate(models) {
-      Review.belongsTo(models.User, { foreignKey: 'userID' });
-      Review.belongsTo(models.Album, { foreignKey: 'albumID' });
+      Review.belongsTo(models.User, { foreignKey: 'userID', as: 'user' });
+      Review.belongsTo(models.Album, { foreignKey: 'albumID', as: 'album' });
     }
 
     static async getSingleReviewByID(id) {
-      return await Review.findByPk(id);
+      // return await Review.findByPk(id);
+      return await Review.findOne({
+        where: {
+          id: id,
+        },
+        include: 'album',
+      });
     }
 
     static async getReviews() {
-      return await Review.findAll();
+      return await Review.findAll({ include: 'album' });
     }
 
     static async getAlbumReviews(albumID) {
-      return await Review.findAll({ where: albumID });
+      return await Review.findAll({
+        where: { albumID: albumID },
+        include: 'album',
+      });
     }
   }
 
