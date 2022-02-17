@@ -13,12 +13,12 @@ module.exports = (sequelize, DataTypes) => {
         where: {
           id: id,
         },
-        include: 'album',
+        include: ['album', 'user'],
       });
     }
 
     static async getReviews() {
-      return await Review.findAll({ include: 'album' });
+      return await Review.findAll({ include: ['album', 'user'] });
     }
 
     static async getAlbumReviews(albumID) {

@@ -1,0 +1,7 @@
+.review-page {
+  display: flex;
+  padding: 30px;
+}
+.review-page-middle {
+  width: 470px;
+}

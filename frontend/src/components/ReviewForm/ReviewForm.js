@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import { postReview } from '../../store/reviewsReducer';
 import AlbumArt from '../AlbumArt';
 import InputField from '../InputField';
@@ -8,6 +9,7 @@ import './ReviewForm.css';
 
 const ReviewForm = ({ album = null }) => {
   const dispatch = useDispatch();
+  const history = useHistory();
   const { user } = useSelector((state) => state.session);
   const { errors } = useSelector((state) => state.reviews);
   const [body, setBody] = useState('');
