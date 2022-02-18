@@ -1,5 +1,6 @@
 import { useSelector } from 'react-redux';
 import { FaUserCircle } from 'react-icons/fa';
+import { StarRatingReadOnly } from '../StarRating/StarRating';
 import './ReviewBody.css';
 
 const ReviewBody = ({ review }) => {
@@ -17,7 +18,17 @@ const ReviewBody = ({ review }) => {
         <h1 className="review-heading">
           {album?.title}{' '}
           <span className="review-release-year">{album?.releaseYear}</span>
-          <span className="review-rating">{`${review.rating} / 10`}</span>
+          <span className="single-review-filled-stars">
+            {
+              <StarRatingReadOnly
+                rating={review.rating}
+                className="star-filled-green"
+              />
+            }
+          </span>
+          {review.rating % review.rating !== 1 && (
+            <span className="half-green">½</span>
+          )}
         </h1>
         <p className="review-listened-date">{`Listened ${review.listenedDate}`}</p>
       </section>

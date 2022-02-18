@@ -1,8 +1,21 @@
-.review-heading {
+h1.review-heading {
   font-family: TiemposTextWeb-Semibold, Georgia, serif;
   color: #fff;
+  font-size: 24px;
+  display: flex;
+  align-items: center;
 }
 
 .review-release-year {
   font-family: Graphik-Regular-Web, sans-serif;
+  font-size: 19px;
+  font-weight: 300;
+  color: #89a;
+}
+
+.half-green {
+  font-size: 16px;
+  color: #00e054;
+  font-family: Graphik-Regular-Web, sans-serif;
+  font-weight: 400;
 }

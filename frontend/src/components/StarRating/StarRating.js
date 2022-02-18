@@ -2,11 +2,14 @@ import { useState, useEffect } from 'react';
 import { FaStarHalf, FaStar } from 'react-icons/fa';
 import './StarRating.css';
 
-export const StarRatingReadOnly = ({ rating }) => {
+export const StarRatingReadOnly = ({ rating, className = null }) => {
   return (
     <div className="star-rating read-only">
       {[...Array(Math.floor(rating / 2))].map((_, i) => (
-        <FaStar key={`star-filled-read-${i}`} className="star-filled-read" />
+        <FaStar
+          key={`star-filled-read-${i}`}
+          className={`star-filled-read ${className}`}
+        />
       ))}
     </div>
   );
