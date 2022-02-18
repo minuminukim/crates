@@ -6,7 +6,7 @@ const ReviewBody = ({ review }) => {
   const { user } = useSelector((state) => state.session);
   const albums = useSelector((state) => state.albums.items);
   const album = albums[review.albumID];
-  
+
   return (
     <div className="review">
       <section className="review-header">
@@ -14,11 +14,11 @@ const ReviewBody = ({ review }) => {
           <FaUserCircle className="review-avatar" />
           <p>{`Review by ${user?.username}`}</p>
         </div>
-        <h2 className="review-heading">
+        <h1 className="review-heading">
           {album?.title}{' '}
           <span className="review-release-year">{album?.releaseYear}</span>
           <span className="review-rating">{`${review.rating} / 10`}</span>
-        </h2>
+        </h1>
         <p className="review-listened-date">{`Listened ${review.listenedDate}`}</p>
       </section>
       <div>
