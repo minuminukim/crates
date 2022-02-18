@@ -24,19 +24,24 @@ const IndexView = () => {
         if (data && data.errors) {
           console.log('errors', data.errors);
         }
-      })
+      });
   }, [dispatch]);
 
   return (
     <div className="page-container index">
-      <section className="welcome-banner">
-        <h2 className="welcome-heading">
+      <section className="welcome-hero">
+        <h1 className="welcome-heading">
           Welcome back, <span>{user.username}</span>. Here's what your friends
           have been listening to...
-        </h2>
-        <StarRating />
+        </h1>
       </section>
-      <section>{!isLoading && <CardRow items={sorted} />}</section>
+      <section className="recent-posts-section">
+        <h2 className="recent-posts-heading">
+          NEW FROM FRIENDS
+        </h2>
+        {!isLoading && <CardRow items={sorted} />}
+      </section>
+      {/* <StarRating /> */}
     </div>
   );
 };

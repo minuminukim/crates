@@ -1,8 +1,7 @@
 .star-rating {
-  /* display: flex; */
-  border: 1px solid green;
-  height: 26px;
-  width: 130px;
+  display: flex;
+  /* height: 50px;
+  width: 200px; */
   font-size: 26px;
   color: white;
   padding: 0;
@@ -13,14 +12,16 @@
   color: #40bcf4;
 }
 
+.star-filled {
+  color: #40bcf4;
+}
+
 .star .star-flipped {
   margin: 0;
   padding: 0;
 }
 
-.star-flipped {
-  height: 26px;
-  transform: scaleX(-1);
-  position: relative;
-  right: 20px;
+.star-filled-read {
+  font-size: 14px;
+  color: #99aabb;
 }

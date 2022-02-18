@@ -1,14 +1,77 @@
 .card-main {
-  border-top-left-radius: 3px;
-  border-top-right-radius: 3px;
+  border: 0.5px solid #99aabb;
+  border-radius: 5px;
+  transition: outline 0.1s linear;
+  margin-bottom: 4px;
+}
+
+.card-main img.album-art {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
 }
 
 .card-main:hover {
-  border: 3px solid #00e054;
+  /* border: 3px solid #00e054; */
+  outline: 3px solid #00e054;
 }
 
 .card-signature {
+  display: flex;
+  align-items: center;
+  padding: 6px;
   background-color: #445566;
   border-bottom-left-radius: 3px;
   border-bottom-right-radius: 3px;
+}
+
+.card-signature span {
+  color: #bbccdd;
+  margin-left: 5px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.card-review-info {
+  display: flex;
+  align-items: center;
+  padding: 0 3px;
+}
+
+.card-review-rating {
+  display: flex;
+  align-items: center;
+}
+
+.half {
+  margin-left: 2px;
+  margin-right: 3px;
+  font-size: 14px;
+}
+
+.card-review-date {
+  font-size: 14px;
+  color: #567;
+  text-align: right;
+  width: 100%;
+  margin: 0;
+}
+
+.card-review-link {
+  display: flex;
+  align-items: center;
+}
+
+.menu-icon {
+  font-size: 16px;
+  margin-right: 3px;
+}
+
+.menu-icon:hover {
+  color: #fff;
+}
+
+.relisten-icon {
+  font-size: 16px;
+  color: #99aabb;
+  margin-right: 3px;
 }

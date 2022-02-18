@@ -54,7 +54,7 @@ const EditReviewForm = ({ review, onSuccess }) => {
     e.preventDefault();
     return dispatch(deleteReview(review.id))
       .then(() => history.push('/'))
-      .catch((err) => console.log('error', err))
+      .catch((err) => err);
   };
   return (
     <div>

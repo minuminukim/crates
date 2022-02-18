@@ -170,7 +170,7 @@ router.put(
 
 router.delete(
   '/:id(\\d+)',
-  // requireAuth,
+  requireAuth,
   asyncHandler(async (req, res, next) => {
     const id = +req.params.id;
     const review = await Review.getSingleReviewByID(id);
