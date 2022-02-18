@@ -107,7 +107,7 @@ router.post(
     }
 
     // create a new review..
-    const review = await Review.create({
+    const newReview = await Review.create({
       albumID: album.id,
       userID,
       body,
@@ -124,6 +124,9 @@ router.post(
         averageRating: average,
       });
     }
+
+    // doing another fetch here so i can send payload with associated album
+    const review = await Review.getSingleReviewByID(newReview.id);
 
     return res.json({
       review,

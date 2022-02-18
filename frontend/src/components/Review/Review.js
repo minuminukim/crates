@@ -15,7 +15,7 @@ const Review = () => {
   const dispatch = useDispatch();
   const { reviewID } = useParams();
   const review = useSelector((state) => state.reviews.items[reviewID]);
-  const [album, setAlbum] = useState(null);
+  const album = review?.album;
   const [showEditModal, setShowEditModal] = useState(false);
   const [showPostModal, setShowPostModal] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
@@ -24,8 +24,8 @@ const Review = () => {
     // if (review && album) return;
     return dispatch(getSingleReview(+reviewID))
       // .then((data) => console.log('data', data))
-      .then((data) => dispatch(fetchSingleAlbumFromDB(data.albumID)))
-      .then((album) => setAlbum(album))
+      // .then((data) => dispatch(fetchSingleAlbumFromDB(data.albumID)))
+      // .then((album) => setAlbum(album))
       .then(() => console.log('review', review))
       .then(() => setIsLoading(false))
       .catch(async (res) => {
