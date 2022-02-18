@@ -29,6 +29,10 @@ a:visited {
   color: #99aabb;
 }
 
+li {
+  list-style-type: none;
+}
+
 input:focus,
 select:focus,
 textarea:focus {

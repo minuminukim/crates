@@ -1,0 +1,23 @@
+.review-list-item {
+  width: 800px;
+  display: flex;
+  border-bottom: 0.5px solid rgb(68, 85, 102);
+  padding: 18px 0;
+}
+
+.review-list-item-main {
+  padding-left: 18px;
+}
+
+.review-list-item-title {
+  font-family: TiemposTextWeb-Semibold, Georgia, serif;
+  color: #fff;
+  font-size: 24px;
+  display: flex;
+  align-items: center;
+  font-weight: 600;
+}
+
+.review-list-item-title:hover {
+  color: #40bcf4;
+}
