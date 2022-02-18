@@ -4,12 +4,12 @@ const USERS_LOADED = 'users/USERS_LOADED';
 const USER_ADDED = 'users/USER_ADDED';
 
 const loadUsers = (users) => ({
-  action: USERS_LOADED,
+  type: USERS_LOADED,
   users,
 });
 
-const addUser = (user) => ({
-  action: USER_ADDED,
+export const addUser = (user) => ({
+  type: USER_ADDED,
   user,
 });
 

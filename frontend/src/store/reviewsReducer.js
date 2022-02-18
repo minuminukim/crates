@@ -1,5 +1,4 @@
 import { csrfFetch } from './csrf';
-import { ALBUM_ADDED } from './albumsReducer';
 
 const REVIEWS_LOADED = 'reviews/REVIEWS_LOADED';
 const REQUEST_REJECTED = 'reviews/REQUEST_REJECTED';

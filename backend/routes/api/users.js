@@ -1,10 +1,10 @@
-const express = require("express");
-const { check } = require("express-validator");
-const asyncHandler = require("express-async-handler");
+const express = require('express');
+const { check } = require('express-validator');
+const asyncHandler = require('express-async-handler');
 
-const { handleValidationErrors } = require("../../utils/validation");
-const { setTokenCookie, requireAuth } = require("../../utils/auth");
-const { User } = require("../../db/models");
+const { handleValidationErrors } = require('../../utils/validation');
+const { setTokenCookie, requireAuth } = require('../../utils/auth');
+const { User } = require('../../db/models');
 
 const router = express.Router();
 
@@ -17,10 +17,7 @@ const validateSignup = [
     .exists({ checkFalsy: true })
     .isLength({ min: 4 })
     .withMessage('Please provide a username with at least 4 characters.'),
-  check('username')
-    .not()
-    .isEmail()
-    .withMessage('Username cannot be an email.'),
+  check('username').not().isEmail().withMessage('Username cannot be an email.'),
   check('password')
     .exists({ checkFalsy: true })
     .isLength({ min: 6 })
@@ -41,12 +38,30 @@ router.post(
     return res.json({
       user,
     });
-  }),
+  })
 );
 
 router.get(
-  '/:id(\\d+)/albums',
-  asyncHandler
-)
+  '/:id(\\d+)',
+  asyncHandler(async (req, res, next) => {
+    const id = +req.params.id;
+    const user = await User.getSingleUserByID(id);
+
+    if (!user) {
+      const userError = new Error('User not found.');
+      userError.status = 404;
+      userError.title = 'User not found.';
+      userError.errors = {
+        userID: `The requested user could not be found.`,
+      };
+
+      return next(userError);
+    }
+
+    return res.json({
+      user,
+    });
+  })
+);
 
 module.exports = router;

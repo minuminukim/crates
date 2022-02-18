@@ -1,4 +1,5 @@
 import { csrfFetch } from './csrf.js';
+import { addUser } from './usersReducer.js';
 
 const SET_USER = 'session/setUser';
 const REMOVE_USER = 'session/removeUser';
@@ -21,6 +22,7 @@ export const login =
     });
     const data = await response.json();
     dispatch(setUser(data.user));
+    dispatch(addUser(data.user))
     return response;
   };
 
@@ -28,6 +30,7 @@ export const restoreUser = () => async (dispatch) => {
   const response = await csrfFetch('/api/session');
   const data = await response.json();
   dispatch(setUser(data.user));
+  dispatch(addUser(data.user))
   return response;
 };
 
@@ -43,6 +46,7 @@ export const signup = (user) => async (dispatch) => {
   });
   const data = await response.json();
   dispatch(setUser(data.user));
+  dispatch(addUser(data.user))
   return response;
 };
 
@@ -60,6 +64,7 @@ export const loginDemo = () => async (dispatch) => {
   });
   const data = await response.json();
   dispatch(setUser(data.user));
+  dispatch(addUser(data.user))
   return data;
 };
 
