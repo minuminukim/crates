@@ -17,6 +17,7 @@ export const DeleteButton = ({ onClick = null }) => {
   return (
     <Button
       className="btn-delete"
+      type="submit"
       type="button"
       label="DELETE"
       size="medium"

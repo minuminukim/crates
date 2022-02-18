@@ -53,6 +53,7 @@ const EditReviewForm = ({ review, onSuccess }) => {
   const handleDelete = (e) => {
     e.preventDefault();
     return dispatch(deleteReview(review.id))
+      .then(() => onSuccess())
       .then(() => history.push('/'))
       .catch((err) => err);
   };

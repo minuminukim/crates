@@ -47,7 +47,7 @@ const ReviewBody = ({ review }) => {
                 />
               }
             </span>
-            {review.rating % review.rating !== 1 && (
+            {review.rating !== 10 && review.rating % review.rating !== 1 && (
               <span className="half-green">½</span>
             )}
           </h1>
