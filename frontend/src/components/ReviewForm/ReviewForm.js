@@ -5,6 +5,7 @@ import { postReview } from '../../store/reviewsReducer';
 import AlbumArt from '../AlbumArt';
 import InputField from '../InputField';
 import InputLabel from '../InputLabel';
+import ValidationError from '../ValidationError';
 import './ReviewForm.css';
 
 const ReviewForm = ({ album = null }) => {
@@ -12,13 +13,12 @@ const ReviewForm = ({ album = null }) => {
   const history = useHistory();
   const { user } = useSelector((state) => state.session);
   // const { errors } = useSelector((state) => state.reviews);
+  const today = new Date().toISOString().slice(0, 10);
   const [body, setBody] = useState('');
   const [rating, setRating] = useState(0);
   const [isRelisten, setIsRelisten] = useState(false);
   const [errors, setErrors] = useState({});
-  const [listenedDate, setListenedDate] = useState(
-    new Date().toISOString().slice(0, 10)
-  );
+  const [listenedDate, setListenedDate] = useState(today);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -48,7 +48,9 @@ const ReviewForm = ({ album = null }) => {
   };
 
   return (
-    <div>
+    <div style={{ backgroundColor: 'transparent' }}>
+      {Object.values(errors).length > 0 &&
+        Object.values(errors).map((error) => <ValidationError error={error} />)}
       <form onSubmit={handleSubmit} className="review-form">
         <section className="review-form-left">
           <AlbumArt
@@ -72,6 +74,7 @@ const ReviewForm = ({ album = null }) => {
               id="listenedDate"
               value={listenedDate}
               error={errors?.listenedDate}
+              max={today}
               onChange={(e) => setListenedDate(e.target.value)}
             />
           </div>

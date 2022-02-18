@@ -16,46 +16,33 @@ export const StarRatingReadOnly = ({ rating, className = null }) => {
 };
 
 const StarRating = () => {
+  const [rating, setRating] = useState(null);
   const [index, setIndex] = useState(0);
-  const onMouseEnter = (e) => {
-    const i = +e.target.id.split('-').pop();
-    setIndex(i);
-  };
+
+  const grabIndex = (e) => +e.target.id.split('-').pop();
+  const onMouseEnter = (e) => setIndex(grabIndex(e));
+  const onClick = (e) => setRating(grabIndex(e));
+
   const onMouseLeave = () => {
+    if (rating !== null) return;
     setIndex(0);
   };
-  // somehow track mouse movement, fill up to a certain range
-  // depending on position, render half or full?
-  const isEven = (i) => i % 2 === 0;
-  const flippedIfEven = (i) => (i % 2 === 0 ? 'star' : 'star-flipped');
+
   return (
     <div className="star-rating" onMouseLeave={onMouseLeave}>
       {[...Array(10)].map((_, i) => (
-        // <FaStarHalf className={flippedIfEven(i)} />
-        // <FaStarHalf className={isEven(i) ? 'star' : 'star-flipped'} />
         <FaStar
           className={index - 1 >= i ? `star-filled` : `star`}
           key={`star-${i}`}
           id={`star-${i}`}
           onMouseEnter={onMouseEnter}
+          // onClick={onClick}
         />
       ))}
-      {/* <div>
-        <FaStarHalf className="star" />
-      </div>
-      <div>
-        <FaStarHalf className="star-flipped" />
-      </div>
-      <FaStarHalf className="star" />
-      <FaStarHalf className="star-flipped" />
-      <FaStarHalf className="star" />
-      <FaStarHalf className="star-flipped" />
-      <FaStarHalf className="star" />
-      <FaStarHalf className="star-flipped" />
-      <FaStarHalf className="star-flipped" />
-      <FaStarHalf className="star" /> */}
+      <FaStar />
     </div>
   );
 };
+
 
 export default StarRating;

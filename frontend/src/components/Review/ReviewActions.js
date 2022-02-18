@@ -1,4 +1,5 @@
 import { useSelector } from 'react-redux';
+import StarRating from '../StarRating';
 import './ReviewActions.css';
 
 const ActionsRow = ({ label, onClick }) => {
@@ -14,7 +15,9 @@ const ReviewActions = ({ userID, onClick }) => {
   return (
     <ul className="review-actions">
       <li className="actions-row"></li>
-      <li className="actions-row"></li>
+      <li className="actions-row">
+        <StarRating />
+      </li>
       {sessionUser.id === userID && (
         <ActionsRow label="Edit or delete this review..." onClick={onClick} />
       )}

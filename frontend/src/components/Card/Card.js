@@ -4,7 +4,7 @@ import { BiMenuAltLeft } from 'react-icons/bi';
 import { BsArrowRepeat } from 'react-icons/bs';
 import { GrPowerCycle } from 'react-icons/gr';
 import AlbumArt from '../AlbumArt';
-import { StarRatingReadOnly } from '../StarRating/StarRating';
+import StarRatingReadOnly from '../StarRating/StarRatingReadOnly';
 import './Card.css';
 
 const formatDateMonthDay = (dateString) => {
