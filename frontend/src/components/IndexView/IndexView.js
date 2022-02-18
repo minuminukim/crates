@@ -18,6 +18,7 @@ const IndexView = () => {
 
   useEffect(() => {
     return dispatch(getReviews())
+      .then((data) => console.log('do i get here', data))
       .then(() => setIsLoading(false))
       .catch(async (res) => {
         const data = await res.json();

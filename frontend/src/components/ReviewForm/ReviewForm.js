@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { postReview } from '../../store/reviewsReducer';
+import { fetchSingleAlbumFromDB } from '../../store/albumsReducer';
 import AlbumArt from '../AlbumArt';
 import InputField from '../InputField';
 import InputLabel from '../InputLabel';
@@ -9,6 +10,7 @@ import ValidationError from '../ValidationError';
 import './ReviewForm.css';
 
 const ReviewForm = ({ album = null }) => {
+  console.log('album', album);
   const dispatch = useDispatch();
   const history = useHistory();
   const { user } = useSelector((state) => state.session);
@@ -21,6 +23,7 @@ const ReviewForm = ({ album = null }) => {
   const [listenedDate, setListenedDate] = useState(today);
 
   const handleSubmit = (e) => {
+    console.log('album in submit', album);
     e.preventDefault();
     setErrors({});
 
@@ -38,7 +41,7 @@ const ReviewForm = ({ album = null }) => {
     };
 
     return dispatch(postReview(params))
-      .then((data) => history.push(`/reviews/${data.review.id}`))
+      .then((data) => history.push(`/reviews/${data.id}`))
       .catch(async (res) => {
         const data = await res.json();
         if (data && data.errors) {

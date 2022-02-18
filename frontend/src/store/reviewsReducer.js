@@ -56,9 +56,9 @@ export const postReview = (params) => async (dispatch) => {
     method: 'POST',
     body: JSON.stringify(params),
   });
-  const data = await response.json();
-  dispatch(addReview(data));
-  return data;
+  const {review}= await response.json();
+  dispatch(addReview(review));
+  return review;
 };
 
 export const editReview = (review) => async (dispatch) => {
