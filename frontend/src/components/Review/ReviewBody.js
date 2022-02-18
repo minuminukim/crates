@@ -13,7 +13,7 @@ const ReviewBody = ({ review }) => {
       <section className="review-header">
         <div className="review-user">
           <FaUserCircle className="review-avatar" />
-          <p>{`Review by ${user?.username}`}</p>
+          <p>Review by <span>{user?.username}</span></p>
         </div>
         <h1 className="review-heading">
           {album?.title}{' '}

@@ -19,3 +19,9 @@ h1.review-heading {
   font-family: Graphik-Regular-Web, sans-serif;
   font-weight: 400;
 }
+
+.review-body {
+  font-family: TiemposTextWeb-Regular, Georgia, serif;
+  font-size: 16px;
+  line-height: 1.6;
+}
