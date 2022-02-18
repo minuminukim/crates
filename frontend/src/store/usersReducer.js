@@ -2,6 +2,7 @@ import { csrfFetch } from './csrf';
 
 const USERS_LOADED = 'users/USERS_LOADED';
 const USER_ADDED = 'users/USER_ADDED';
+const USER_REMOVED = 'users/USER_REMOVED';
 
 const loadUsers = (users) => ({
   type: USERS_LOADED,

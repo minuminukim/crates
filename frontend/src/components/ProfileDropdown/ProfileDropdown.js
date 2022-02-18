@@ -27,7 +27,7 @@ const ProfileDropdown = ({ user }) => {
       <DropdownItem label="Diary" link="#" />
       <DropdownItem label="Reviews" link="#" />
       <DropdownItem label="Backlog" link="#" />
-      <DropdownItem label="Logout" link="#" onClick={handleLogout} />
+      {/* <DropdownItem label="Logout" link="#" onClick={handleLogout} /> */}
       <li>
         <button onClick={handleLogout}>Log Out</button>
       </li>
