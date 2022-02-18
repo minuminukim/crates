@@ -21,7 +21,7 @@ const ReviewActions = ({ userID, onEditClick, onPostClick, rating }) => {
         <>
           <ActionsRow
             label="Rated"
-            children={<StarRating reviewRating={rating % 2} />}
+            children={<StarRating reviewRating={rating / 2} />}
           />
           <ActionsRow
             label="Edit or delete this review..."

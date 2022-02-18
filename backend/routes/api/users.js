@@ -4,7 +4,7 @@ const asyncHandler = require('express-async-handler');
 
 const { handleValidationErrors } = require('../../utils/validation');
 const { setTokenCookie, requireAuth } = require('../../utils/auth');
-const { User } = require('../../db/models');
+const { User, Review } = require('../../db/models');
 
 const router = express.Router();
 
@@ -60,6 +60,17 @@ router.get(
 
     return res.json({
       user,
+    });
+  })
+);
+
+router.get(
+  `/:id(\\d+)/reviews`,
+  asyncHandler(async (req, res, next) => {
+    const id = +req.params.id;
+    const reviews = await Review.getUserReviews(id);
+    return res.json({
+      reviews,
     });
   })
 );

@@ -1,11 +1,13 @@
 import { useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+import ValidationError from '../ValidationError';
 import { editReview, deleteReview } from '../../store/reviewsReducer';
 import AlbumArt from '../AlbumArt';
 import InputField from '../InputField';
 import InputLabel from '../InputLabel';
 import { SaveButton, DeleteButton } from '../Button/SaveDeleteButtons';
+import StarRating from '../StarRating';
 import './ReviewForm.css';
 
 const EditReviewForm = ({ review, onSuccess }) => {
@@ -59,25 +61,16 @@ const EditReviewForm = ({ review, onSuccess }) => {
       });
   };
 
-  const onEdit = (e) => {
-    // e.preventDefault();
-    e.stopPropagation();
-    setAction('edit');
-  };
+  const onEdit = () => setAction('edit');
+  const onDelete = () => setAction('delete');
 
-  const onDelete = (e) => {
-    // e.preventDefault();
-    // e.stopPropagation();
-    setAction('delete');
-    // return dispatch(deleteReview(review.id))
-    //   .then(() => onSuccess())
-    //   .then(() => history.push('/'))
-    //   .catch((err) => err);
-  };
-  
   return (
     <div>
       <form onSubmit={handleSubmit} className="review-form edit">
+        {Object.values(errors).length > 0 &&
+          Object.values(errors).map((error) => (
+            <ValidationError error={error} />
+          ))}
         <section className="review-form-left">
           <AlbumArt
             title={album?.title}
@@ -132,6 +125,7 @@ const EditReviewForm = ({ review, onSuccess }) => {
               error={errors?.rating}
               onChange={handleChange}
             />
+            <StarRating reviewRating={form.rating} />
             {/* TODO: star rating component */}
           </div>
           <div className="form-row">

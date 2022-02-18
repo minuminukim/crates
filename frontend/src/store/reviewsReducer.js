@@ -51,12 +51,19 @@ export const getSingleReview = (id) => async (dispatch) => {
   return review;
 };
 
+export const getReviewsByUserID = (userID) => async (dispatch) => {
+  const response = await csrfFetch(`/api/users/${userID}/reviews`);
+  const { reviews } = await response.json();
+  dispatch(loadReviews(reviews));
+  return reviews;
+};
+
 export const postReview = (params) => async (dispatch) => {
   const response = await csrfFetch(`/api/reviews/`, {
     method: 'POST',
     body: JSON.stringify(params),
   });
-  const {review}= await response.json();
+  const { review } = await response.json();
   dispatch(addReview(review));
   return review;
 };

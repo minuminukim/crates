@@ -27,6 +27,13 @@ module.exports = (sequelize, DataTypes) => {
         include: 'album',
       });
     }
+
+    static async getUserReviews(userID) {
+      return await Review.findAll({
+        where: { userID: userID },
+        include: ['album', 'user'],
+      });
+    }
   }
 
   Review.init(

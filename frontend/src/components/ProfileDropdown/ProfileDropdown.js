@@ -1,4 +1,4 @@
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import { logout } from '../../store/session';
 import './ProfileDropdown.css';
@@ -13,8 +13,9 @@ const DropdownItem = ({ label, link, onClick = null }) => {
   );
 };
 
-const ProfileDropdown = ({ user }) => {
+const ProfileDropdown = () => {
   const dispatch = useDispatch();
+  const { user } = useSelector((state) => state.session);
   const handleLogout = (e) => {
     e.preventDefault();
     dispatch(logout());
@@ -25,7 +26,7 @@ const ProfileDropdown = ({ user }) => {
       <DropdownItem label="Profile" link="#" />
       <DropdownItem label="Albums" link="#" />
       <DropdownItem label="Diary" link="#" />
-      <DropdownItem label="Reviews" link="#" />
+      <DropdownItem label="Reviews" link={`/users/${user.id}/reviews`} />
       <DropdownItem label="Backlog" link="#" />
       {/* <DropdownItem label="Logout" link="#" onClick={handleLogout} /> */}
       <li>

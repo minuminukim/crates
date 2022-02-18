@@ -9,8 +9,7 @@ import LandingView from './components/LandingView';
 import { restoreUser } from './store/session';
 import { fetchAlbumsFromDB } from './store/albumsReducer';
 import Navigation from './components/Navigation';
-import { Modal } from './context/Modal';
-import StarRating from './components/StarRating';
+import ReviewsList from './components/ReviewsList';
 import Review from './components/Review';
 
 function App() {
@@ -40,6 +39,9 @@ function App() {
           </Route>
           <Route path="/reviews/:reviewID">
             <Review />
+          </Route>
+          <Route exact path="/users/:userID/reviews">
+            <ReviewsList />
           </Route>
           {/* <Route path="/search">
             <SearchModal />
