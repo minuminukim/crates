@@ -1,7 +1,7 @@
 import Button from './Button';
 import './Button.css';
 
-export const SaveButton = ({ onClick = null }) => {
+export const SaveButton = ({ onClick}) => {
   return (
     <Button
       className="btn-save"
@@ -18,7 +18,6 @@ export const DeleteButton = ({ onClick = null }) => {
     <Button
       className="btn-delete"
       type="submit"
-      type="button"
       label="DELETE"
       size="medium"
       onClick={onClick}

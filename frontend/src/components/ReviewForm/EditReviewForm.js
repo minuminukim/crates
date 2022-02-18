@@ -12,6 +12,7 @@ const EditReviewForm = ({ review, onSuccess }) => {
   const dispatch = useDispatch();
   const history = useHistory();
   const [errors, setErrors] = useState({});
+  const [action, setAction] = useState(null);
   // const { errors } = useSelector((state) => state.reviews);
   const { album, user } = review;
   const [form, setForm] = useState({
@@ -38,6 +39,14 @@ const EditReviewForm = ({ review, onSuccess }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     setErrors({});
+
+    if (action && action === 'delete') {
+      return dispatch(deleteReview(review.id))
+        .then(() => onSuccess())
+        .then(() => history.push('/'))
+        .catch((err) => console.log('error on delete submission: ', err));
+    }
+
     const params = { ...form, userID: user.id, id: review.id };
     return dispatch(editReview(params))
       .then(() => onSuccess())
@@ -50,13 +59,22 @@ const EditReviewForm = ({ review, onSuccess }) => {
       });
   };
 
-  const handleDelete = (e) => {
-    e.preventDefault();
-    return dispatch(deleteReview(review.id))
-      .then(() => onSuccess())
-      .then(() => history.push('/'))
-      .catch((err) => err);
+  const onEdit = (e) => {
+    // e.preventDefault();
+    e.stopPropagation();
+    setAction('edit');
   };
+
+  const onDelete = (e) => {
+    // e.preventDefault();
+    // e.stopPropagation();
+    setAction('delete');
+    // return dispatch(deleteReview(review.id))
+    //   .then(() => onSuccess())
+    //   .then(() => history.push('/'))
+    //   .catch((err) => err);
+  };
+  
   return (
     <div>
       <form onSubmit={handleSubmit} className="review-form edit">
@@ -117,8 +135,8 @@ const EditReviewForm = ({ review, onSuccess }) => {
             {/* TODO: star rating component */}
           </div>
           <div className="form-row">
-            <SaveButton />
-            <DeleteButton onClick={handleDelete} />
+            <SaveButton onClick={onEdit} />
+            <DeleteButton onClick={onDelete} />
           </div>
         </section>
       </form>
