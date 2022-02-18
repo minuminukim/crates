@@ -1,0 +1,14 @@
+.card-main {
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+}
+
+.card-main:hover {
+  border: 3px solid #00e054;
+}
+
+.card-signature {
+  background-color: #445566;
+  border-bottom-left-radius: 3px;
+  border-bottom-right-radius: 3px;
+}

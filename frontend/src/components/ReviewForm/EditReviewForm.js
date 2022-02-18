@@ -8,10 +8,11 @@ import InputLabel from '../InputLabel';
 import { SaveButton, DeleteButton } from '../Button/SaveDeleteButtons';
 import './ReviewForm.css';
 
-const EditReviewForm = ({ review }) => {
+const EditReviewForm = ({ review, onSuccess }) => {
   const dispatch = useDispatch();
   const history = useHistory();
-  const { errors } = useSelector((state) => state.reviews);
+  const [errors, setErrors] = useState({});
+  // const { errors } = useSelector((state) => state.reviews);
   const { album, user } = review;
   const [form, setForm] = useState({
     listenedDate: review.listenedDate,
@@ -20,7 +21,7 @@ const EditReviewForm = ({ review }) => {
     rating: review.rating,
     // ...review
   });
-  // const { items, isLoading } = useSelector((state) => state.reviews);
+
   const handleChange = (e) =>
     setForm({
       ...form,
@@ -36,15 +37,24 @@ const EditReviewForm = ({ review }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setErrors({});
     const params = { ...form, userID: user.id, id: review.id };
-    dispatch(editReview(params));
-    history.push(`/reviews/${review.id}`);
+    return dispatch(editReview(params))
+      .then(() => onSuccess())
+      .then(() => history.push(`/reviews/${review.id}`))
+      .catch(async (res) => {
+        const data = await res.json();
+        if (data && data.errors) {
+          setErrors(data.errors);
+        }
+      });
   };
 
   const handleDelete = (e) => {
     e.preventDefault();
-    dispatch(deleteReview(review.id));
-    history.push('/home');
+    return dispatch(deleteReview(review.id))
+      .then(() => history.push('/'))
+      .catch((err) => console.log('error', err))
   };
   return (
     <div>

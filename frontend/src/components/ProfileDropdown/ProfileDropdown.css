@@ -2,6 +2,7 @@
   position: absolute;
   top: 60px;
   background-color: #9ab;
+  color: #2c3440;
   border-radius: 3px;
   display: flex;
   flex-direction: column;
@@ -9,7 +10,6 @@
   justify-content: center;
   padding-left: 0;
 }
-
 
 .dropdown-item {
   text-align: center;
@@ -20,7 +20,11 @@
   margin: 0;
 }
 
-.dropdown-link {
-  color: #222;
+a.dropdown-link {
+  color: #2c3440;
   font-size: 14px;
+}
+
+a.dropdown-link:hover {
+  color: #fff;
 }

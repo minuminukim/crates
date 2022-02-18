@@ -63,6 +63,9 @@ module.exports = (sequelize, DataTypes) => {
     {
       sequelize,
       modelName: 'Review',
+      // defaultScope: {
+      //   include: 'album',
+      // },
     }
   );
   return Review;

@@ -74,7 +74,7 @@ const albumsReducer = (state = initialState, action) => {
   switch (action.type) {
     case ALBUMS_LOADED:
       const albums = action.albums.reduce((acc, album) => {
-        acc[album.spotifyID] = album;
+        acc[album.id] = album;
         return acc;
       }, {});
 
@@ -92,7 +92,7 @@ const albumsReducer = (state = initialState, action) => {
         ...state,
         items: {
           ...state.items,
-          [action.album.spotifyID]: action.album,
+          [action.album.id]: action.album,
         },
         isLoading: false,
       };

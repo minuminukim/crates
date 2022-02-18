@@ -12,38 +12,48 @@ import './Review.css';
 const Review = () => {
   const dispatch = useDispatch();
   const { reviewID } = useParams();
-  const { items, isLoading } = useSelector((state) => state.reviews);
-  const [showModal, setShowModal] = useState(false);
-  const review = Object.values(items)?.find((item) => item.id === +reviewID);
+  const review = useSelector((state) => state.reviews.items[reviewID]);
   const album = review?.album;
+  const [showModal, setShowModal] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    if (review) return;
-    dispatch(getSingleReview(reviewID));
+    // if (review && album) return;
+    return dispatch(getSingleReview(+reviewID))
+      .then(() => setIsLoading(false))
+      .catch(async (res) => {
+        const data = await res.json();
+        if (data && data.errors) {
+          console.log('error', data.errors);
+        }
+      });
   }, [dispatch]);
 
   return (
-    !isLoading && (
+    !isLoading && review && (
       <div className="page-container review-page">
         <div>
           <AlbumArt
-            title={album.title}
-            artworkURL={album.artworkURL}
+            title={album?.title}
+            artworkURL={album?.artworkURL}
             size="medium"
           />
         </div>
         <div className="review-page-middle">
-          <ReviewBody review={review} />
+          <ReviewBody review={review} album={album} />
         </div>
         <div>
           <ReviewActions
-            userID={review.userID}
+            userID={review?.userID}
             onClick={() => setShowModal(true)}
           />
         </div>
         {showModal && (
           <Modal onClose={() => setShowModal(false)}>
-            <EditReviewForm review={review} />
+            <EditReviewForm
+              review={review}
+              onSuccess={() => setShowModal(false)}
+            />
           </Modal>
         )}
       </div>

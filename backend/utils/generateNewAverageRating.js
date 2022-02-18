@@ -3,7 +3,7 @@ const { Review } = require('../db/models');
 
 const generateNewAverageRating = async (albumID) => {
   const reviews = await Review.findAll({
-    where: { albumID },
+    where: { albumID: albumID },
     attributes: [[Sequelize.fn('avg', Sequelize.col('rating')), 'average']],
     raw: true,
   });

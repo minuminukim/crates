@@ -1,18 +1,22 @@
+import { useSelector } from 'react-redux';
 import { FaUserCircle } from 'react-icons/fa';
 import './ReviewBody.css';
 
 const ReviewBody = ({ review }) => {
-  const { album } = review;
+  const { user } = useSelector((state) => state.session);
+  const albums = useSelector((state) => state.albums.items);
+  const album = albums[review.albumID];
+  
   return (
     <div className="review">
       <section className="review-header">
         <div className="review-user">
           <FaUserCircle className="review-avatar" />
-          <p>{`Review by ${review.user?.username}`}</p>
+          <p>{`Review by ${user?.username}`}</p>
         </div>
         <h2 className="review-heading">
-          {album.title}{' '}
-          <span className="review-release-year">{album.releaseYear}</span>
+          {album?.title}{' '}
+          <span className="review-release-year">{album?.releaseYear}</span>
           <span className="review-rating">{`${review.rating} / 10`}</span>
         </h2>
         <p className="review-listened-date">{`Listened ${review.listenedDate}`}</p>

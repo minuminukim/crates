@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Route, Switch } from 'react-router-dom';
 import SignupFormPage from './components/SignupFormPage';
 import IndexView from './components/IndexView';
@@ -15,6 +15,7 @@ import Review from './components/Review';
 
 function App() {
   const dispatch = useDispatch();
+  const sessionUser = useSelector((state) => state.session.user);
   const [isLoaded, setIsLoaded] = useState(false);
   const [showModal, setShowModal] = useState(false);
   useEffect(() => {
@@ -29,7 +30,7 @@ function App() {
       {isLoaded && (
         <Switch>
           <Route exact path="/">
-            <LandingView />
+            {sessionUser ? <IndexView /> : <LandingView />}
           </Route>
           <Route exact path="/home">
             <IndexView />

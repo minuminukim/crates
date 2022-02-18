@@ -1,4 +1,5 @@
 import { csrfFetch } from './csrf';
+import { ALBUM_ADDED } from './albumsReducer';
 
 const REVIEWS_LOADED = 'reviews/REVIEWS_LOADED';
 const REQUEST_REJECTED = 'reviews/REQUEST_REJECTED';
@@ -37,52 +38,45 @@ const removeReview = (id) => ({
   id,
 });
 
-export const getReviews = () => (dispatch) => {
-  csrfFetch(`/api/reviews`)
-    .then((response) => response.json())
-    .then(({ reviews }) => dispatch(loadReviews(reviews)))
-    .catch((error) => dispatch(handleReviewsError(error)));
+export const getReviews = () => async (dispatch) => {
+  const response = await csrfFetch(`/api/reviews`);
+  const { reviews } = await response.json();
+  dispatch(loadReviews(reviews));
+  return reviews;
 };
 
-export const getSingleReview = (id) => (dispatch) => {
-  csrfFetch(`/api/reviews/${id}`)
-    .then((response) => response.json())
-    .then(({ review }) => dispatch(addReview(review)))
-    .catch((error) => dispatch(handleReviewsError(error)));
+export const getSingleReview = (id) => async (dispatch) => {
+  const response = await csrfFetch(`/api/reviews/${id}`);
+  const { review } = await response.json();
+  dispatch(addReview(review));
+  return review;
 };
 
 export const postReview = (params) => async (dispatch) => {
-  try {
-    const response = await csrfFetch(`/api/reviews/`, {
-      method: 'POST',
-      body: JSON.stringify(params),
-    });
-    const { review } = await response.json();
-    dispatch(addReview(review));
-    return review;
-  } catch (error) {
-    // console.log('typeof', typeof error);
-    // console.log('error@@@@@@@@@@', error.json());
-    dispatch(handleReviewsError(await error.json()));
-  }
+  const response = await csrfFetch(`/api/reviews/`, {
+    method: 'POST',
+    body: JSON.stringify(params),
+  });
+  const data = await response.json();
+  dispatch(addReview(data));
+  return data;
 };
 
-export const editReview = (review) => (dispatch) => {
-  const options = {
+export const editReview = (review) => async (dispatch) => {
+  const response = await csrfFetch(`/api/reviews/${review.id}`, {
     method: 'PUT',
     body: JSON.stringify(review),
-  };
+  });
 
-  csrfFetch(`/api/reviews/${review.id}`, options)
-    .then((response) => response.json())
-    .then(({ review }) => dispatch(updateReview(review)))
-    .catch((error) => dispatch(handleReviewsError(error)));
+  const { updated } = await response.json();
+  dispatch(updateReview(updated));
+  return updated;
 };
 
-export const deleteReview = (id) => (dispatch) => {
-  csrfFetch(`/api/reviews/${id}`, { method: 'DELETE' })
-    .then(() => dispatch(removeReview(id)))
-    .catch((error) => dispatch(handleReviewsError(error)));
+export const deleteReview = (id) => async (dispatch) => {
+  const response = await csrfFetch(`/api/reviews/${id}`, { method: 'DELETE' });
+  dispatch(removeReview(id));
+  return response;
 };
 
 const reviewsReducer = (state = initialState, action) => {
@@ -103,7 +97,7 @@ const reviewsReducer = (state = initialState, action) => {
       return {
         ...state,
         isLoading: false,
-        errors: action.error.errors,
+        errors: action.error,
       };
 
     case REVIEW_ADDED:

@@ -1,7 +1,7 @@
 const express = require('express');
 const Sequelize = require('sequelize');
 const asyncHandler = require('express-async-handler');
-const { Review, Album } = require('../../db/models');
+const { Review, Album, UserAlbum } = require('../../db/models');
 const validateReview = require('../../validations/validateReview');
 const generateNewAverageRating = require('../../utils/generateNewAverageRating');
 const { requireAuth } = require('../../utils/auth');
@@ -79,10 +79,8 @@ router.post(
       artist,
       releaseYear,
     } = req.body;
-    // TODO.. figure out how the data flows here.. when are records being made in psql...
-    // ... should db be pared down without an artists table?
-    // console.log('@@@@@@@@@@@@@@@@@', review.rating / 2);
 
+    // create album if record doesn't already exist
     const [album, created] = await Album.findOrCreate({
       where: { spotifyID: spotifyID },
       defaults: {
@@ -96,7 +94,20 @@ router.post(
       },
     });
 
-    const newReview = await Review.create({
+    // then create record in join table
+    const userAlbum = await UserAlbum.findOne({
+      where: {
+        userID: userID,
+        albumID: album.id,
+      },
+    });
+
+    if (!userAlbum) {
+      await UserAlbum.create({ userID, albumID: album.id });
+    }
+
+    // create a new review..
+    const review = await Review.create({
       albumID: album.id,
       userID,
       body,
@@ -105,6 +116,7 @@ router.post(
       isRelisten,
     });
 
+    // update album.averageRating if record already exists in db
     if (!created) {
       const average = await generateNewAverageRating(album.id);
       await album.update({
@@ -114,7 +126,7 @@ router.post(
     }
 
     return res.json({
-      review: newReview,
+      review,
     });
   })
 );
@@ -151,7 +163,7 @@ router.put(
     }
 
     return res.json({
-      review: updated,
+      updated,
     });
   })
 );

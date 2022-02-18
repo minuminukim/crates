@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { getReviews } from '../../store/reviewsReducer';
 import CardRow from '../CardRow';
@@ -10,25 +10,29 @@ const sortByRecent = (items) => {
 };
 
 const IndexView = () => {
+  const [isLoading, setIsLoading] = useState(true);
   const dispatch = useDispatch();
-  const { items, isLoading } = useSelector((state) => state.reviews);
+  const { items } = useSelector((state) => state.reviews);
   const { user } = useSelector((state) => state.session);
   const sorted = sortByRecent(Object.values(items)).slice(0, 5);
-  console.log('sorted', sorted);
 
   useEffect(() => {
-    if (!Object.values(items).length) {
-      dispatch(getReviews());
-    }
-    console.log('isLoading', isLoading);
-  }, [items, dispatch]);
+    return dispatch(getReviews())
+      .then(() => setIsLoading(false))
+      .catch(async (res) => {
+        const data = await res.json();
+        if (data && data.errors) {
+          console.log('errors', data.errors);
+        }
+      })
+  }, [dispatch]);
 
   return (
     <div className="page-container index">
       <section className="welcome-banner">
         <h2 className="welcome-heading">
-          Welcome back, <span>{user.username}</span>. Here's what your friends have been
-          listening to...
+          Welcome back, <span>{user.username}</span>. Here's what your friends
+          have been listening to...
         </h2>
         <StarRating />
       </section>

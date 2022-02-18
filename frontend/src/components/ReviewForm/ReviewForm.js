@@ -11,16 +11,18 @@ const ReviewForm = ({ album = null }) => {
   const dispatch = useDispatch();
   const history = useHistory();
   const { user } = useSelector((state) => state.session);
-  const { errors } = useSelector((state) => state.reviews);
+  // const { errors } = useSelector((state) => state.reviews);
   const [body, setBody] = useState('');
   const [rating, setRating] = useState(0);
   const [isRelisten, setIsRelisten] = useState(false);
+  const [errors, setErrors] = useState({});
   const [listenedDate, setListenedDate] = useState(
     new Date().toISOString().slice(0, 10)
   );
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
+    setErrors({});
 
     const params = {
       body,
@@ -35,13 +37,14 @@ const ReviewForm = ({ album = null }) => {
       releaseYear: album.releaseYear,
     };
 
-    const review = await dispatch(postReview(params));
-    if (Object.values(errors).length) {
-      return;
-    }
-    console.log('errors', errors);
-    return history.push(`/reviews/${review.id}`);
-    // return review;
+    return dispatch(postReview(params))
+      .then((data) => history.push(`/reviews/${data.review.id}`))
+      .catch(async (res) => {
+        const data = await res.json();
+        if (data && data.errors) {
+          setErrors(data.errors);
+        }
+      });
   };
 
   return (

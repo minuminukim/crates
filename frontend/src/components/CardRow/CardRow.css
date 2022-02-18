@@ -1,3 +1,7 @@
 .card-row {
   display: flex;
 }
+
+.card-row .card {
+  margin: 5px;
+}
