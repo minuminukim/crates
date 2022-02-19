@@ -27,13 +27,13 @@ module.exports = {
         allowNull: false,
         defaultValue: 0,
       },
-      artistID: {
-        type: Sequelize.INTEGER,
-        allowNull: true,
-        references: {
-          model: 'Artists',
-        },
-      },
+      // artistID: {
+      //   type: Sequelize.INTEGER,
+      //   allowNull: true,
+      //   references: {
+      //     model: 'Artists',
+      //   },
+      // },
       artist: {
         type: Sequelize.STRING(255),
         allowNull: false,

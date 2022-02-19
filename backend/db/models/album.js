@@ -11,10 +11,10 @@ module.exports = (sequelize, DataTypes) => {
     }
 
     static associate(models) {
-      Album.belongsTo(models.Artist, {
-        foreignKey: 'artistID',
-        allowNull: true,
-      });
+      // Album.belongsTo(models.Artist, {
+      //   foreignKey: 'artistID',
+      //   allowNull: true,
+      // });
       Album.hasMany(models.Track, { foreignKey: 'albumID' });
       Album.hasMany(models.Review, { foreignKey: 'albumID' });
       Album.belongsToMany(models.User, {
@@ -58,10 +58,10 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.INTEGER,
         allowNull: false,
       },
-      artistID: {
-        type: DataTypes.INTEGER,
-        allowNull: true,
-      },
+      // artistID: {
+      //   type: DataTypes.INTEGER,
+      //   allowNull: true,
+      // },
       artist: {
         type: DataTypes.STRING(255),
         allowNull: false,
