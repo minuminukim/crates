@@ -2,17 +2,26 @@
 const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class List extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
+    static async getLists() {
+      return await List.findAll({ include: 'albums' });
+    }
+
+    static async getSingleListByID(id) {
+      return await List.findOne({
+        where: {
+          id: id,
+        },
+        include: 'albums',
+      });
+    }
+
     static associate(models) {
       List.belongsTo(models.User, { foreignKey: 'userID' });
       List.belongsToMany(models.Album, {
         through: 'AlbumList',
         otherKey: 'albumID',
         foreignKey: 'listID',
+        as: 'albums',
       });
     }
   }
