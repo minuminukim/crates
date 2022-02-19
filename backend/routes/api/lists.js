@@ -155,7 +155,7 @@ router.delete(
     const list = await List.findByPk(id);
 
     if (!list) {
-      return listNotFoundError();
+      return next(listNotFoundError());
     }
 
     // destroy the join table records first because of FK constraint
