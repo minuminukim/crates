@@ -10,9 +10,9 @@
   margin: 0;
   border-radius: 3px;
   padding: 0 5px;
-  position: absolute;
+  /* position: absolute;
   top: 0;
-  left: 0;
+  left: 0; */
 }
 
 .validation-error-close {

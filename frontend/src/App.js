@@ -6,6 +6,7 @@ import IndexView from './components/IndexView';
 import LandingView from './components/LandingView';
 // import LoginFormPage from "./components/LoginFormPage";
 // import SearchModal from './components/SearchModal';
+import SignupForm from './components/SignupFormPage/SignupForm';
 import { restoreUser } from './store/session';
 import { fetchAlbumsFromDB } from './store/albumsReducer';
 import Navigation from './components/Navigation';
@@ -35,7 +36,7 @@ function App() {
             <IndexView />
           </Route>
           <Route path="/signup">
-            <SignupFormPage />
+            <SignupForm />
           </Route>
           <Route path="/reviews/:reviewID">
             <Review />

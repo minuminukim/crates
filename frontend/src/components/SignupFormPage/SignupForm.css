@@ -1,0 +1,47 @@
+.sign-up-form {
+  display: flex;
+  flex-direction: column;
+  background-color: #445566;
+  width: 420px;
+  height: 550px;
+  border-radius: 3px;
+  padding: 22px 36px;
+  margin: 0;
+}
+
+.sign-up-form h2 {
+  font-size: 16px;
+  font-weight: 400;
+  margin-bottom: 20px;
+}
+
+.sign-up-form input {
+  width: 100%;
+  padding: 9px;
+}
+
+.sign-up-form .form-row {
+  height: 55px;
+  margin-bottom: 15px;
+}
+
+.sign-up-form input:focus {
+  background-color: #fff;
+}
+
+.form-row-username input,
+.form-row-password input,
+.form-row-confirm input {
+  width: 190px;
+}
+
+.sign-up-form label {
+  font-size: 15px;
+  color: #fff;
+  margin-bottom: 10px;
+}
+
+.sign-up-form button {
+  width: 85px;
+  height: 30px;
+}
