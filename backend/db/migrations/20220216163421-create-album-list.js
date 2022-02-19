@@ -22,6 +22,10 @@ module.exports = {
           model: 'Lists',
         },
       },
+      listIndex: {
+        type: Sequelize.INTEGER,
+        allowNull: true,
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,
