@@ -1,6 +1,6 @@
 h1.review-heading {
   font-family: TiemposTextWeb-Semibold, Georgia, serif;
-  color: #fff;
+  color: #fff !important;
   font-size: 24px;
   display: flex;
   align-items: center;

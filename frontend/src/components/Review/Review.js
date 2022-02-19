@@ -22,18 +22,20 @@ const Review = () => {
 
   useEffect(() => {
     // if (review && album) return;
-    return dispatch(getSingleReview(+reviewID))
-      // .then((data) => console.log('data', data))
-      // .then((data) => dispatch(fetchSingleAlbumFromDB(data.albumID)))
-      // .then((album) => setAlbum(album))
-      .then(() => console.log('review', review))
-      .then(() => setIsLoading(false))
-      .catch(async (res) => {
-        const data = await res.json();
-        if (data && data.errors) {
-          console.log('error', data.errors);
-        }
-      });
+    return (
+      dispatch(getSingleReview(+reviewID))
+        // .then((data) => console.log('data', data))
+        // .then((data) => dispatch(fetchSingleAlbumFromDB(data.albumID)))
+        // .then((album) => setAlbum(album))
+        .then(() => console.log('review', review))
+        .then(() => setIsLoading(false))
+        .catch(async (res) => {
+          const data = await res.json();
+          if (data && data.errors) {
+            console.log('error', data.errors);
+          }
+        })
+    );
   }, [dispatch]);
 
   return (

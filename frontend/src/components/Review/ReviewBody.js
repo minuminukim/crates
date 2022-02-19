@@ -3,9 +3,10 @@ import { useSelector, useDispatch } from 'react-redux';
 import { fetchSingleUser } from '../../store/usersReducer';
 import { FaUserCircle } from 'react-icons/fa';
 import StarRatingReadOnly from '../StarRating/StarRatingReadOnly';
+import { formatDateDayMonthYear } from '../../utils/date-helpers';
 import './ReviewBody.css';
 
-const ReviewBody = ({ review }) => {
+const ReviewBody = ({ review, shape }) => {
   const albums = useSelector((state) => state.albums.items);
   const dispatch = useDispatch();
   const [user, setUser] = useState(null);
@@ -51,7 +52,9 @@ const ReviewBody = ({ review }) => {
               <span className="half-green">½</span>
             )}
           </h1>
-          <p className="review-listened-date">{`Listened ${review.listenedDate}`}</p>
+          <p className="review-listened-date">{`Listened ${formatDateDayMonthYear(
+            review.listenedDate
+          )}`}</p>
         </section>
         <div>
           <p className="review-body">{review.body}</p>

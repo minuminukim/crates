@@ -19,13 +19,15 @@ const ReviewsList = () => {
 
   return (
     reviews.length >= 0 && (
-      <ul>
-        {reviews.map((review) => (
-          <li key={`review-${review.id}`}>
-            <ReviewListItem review={review} />
-          </li>
-        ))}
-      </ul>
+      <div className="page-container reviews-list-container">
+        <ul className="reviews-list">
+          {reviews.map((review) => (
+            <li key={`review-${review.id}`}>
+              <ReviewListItem review={review} />
+            </li>
+          ))}
+        </ul>
+      </div>
     )
   );
 };

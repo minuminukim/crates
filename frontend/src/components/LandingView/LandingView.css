@@ -21,8 +21,9 @@
   align-self: flex-end;
   transform: rotate(-90deg);
   /* position: absolute; */
-  color: #9ab;
-  opacity: 0.5;
+  /* color: #9ab; */
+  color: rgb(68, 85, 102);
+  /* opacity: 0.5; */
 }
 
 a.credit-link:hover {

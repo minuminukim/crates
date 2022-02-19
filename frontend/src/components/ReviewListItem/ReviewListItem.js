@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import StarRatingReadOnly from '../StarRating/StarRatingReadOnly';
 import AlbumArt from '../AlbumArt';
+import { formatDateDayMonthYear } from '../../utils/date-helpers';
 import './ReviewListItem.css';
 
 const ReviewListItem = ({ review }) => {
@@ -19,7 +20,7 @@ const ReviewListItem = ({ review }) => {
           {album.title}{' '}
           <span className="review-list-item-year">{album.releaseYear}</span>
         </Link>
-        <div>
+        <div className="review-list-item-info">
           <StarRatingReadOnly
             rating={review.rating}
             className="star-filled-green"
@@ -29,12 +30,16 @@ const ReviewListItem = ({ review }) => {
             <span className="half-green">½</span>
           )}
           <div>
-            <Link to={`/reviews/${review.id}`}>Watched by</Link>
-            <span>{review.user.username}</span>
-            <span>{review.listenedDate}</span>
+            <Link to={`/reviews/${review.id}`}>Reviewed by </Link>
+            <span className="review-list-item-username">
+              {review.user.username}
+            </span>
+            <span className="review-list-item-date">
+              {formatDateDayMonthYear(review.listenedDate)}
+            </span>
           </div>
         </div>
-        <p>{review.body}</p>
+        <p className="review-list-item-body">{review.body}</p>
       </div>
     </div>
   );
