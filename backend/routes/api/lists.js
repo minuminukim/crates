@@ -54,9 +54,11 @@ router.post(
     const { userID, title, description, isRanked, albums: items } = req.body;
 
     // iterate over albums, findOrCreate each
-    const albums = items.reduce(async (acc, item) => {
+    const albums = await items.reduce(async (promise, item) => {
+      // await the previous callback
+      const acc = await promise;
       const { spotifyID } = item;
-      const [album, created] = await Album.findOrCreate({
+      const [album] = await Album.findOrCreate({
         where: { spotifyID: spotifyID },
         defaults: {
           spotifyID: spotifyID,
@@ -67,22 +69,29 @@ router.post(
           artist: item.artist,
           releaseYear: item.releaseYear,
         },
+        raw: true,
       });
-      return [...acc, album];
-      return [...acc, album];
-    }, []);
 
-    // create list
-    const newList = await List.create({ userID, title, description, isRanked });
+      return [...acc, album];
+    }, Promise.resolve([]));
+
+    const newList = await List.create({
+      userID,
+      title,
+      description,
+      isRanked,
+    });
 
     // iterate over albums and create join table records
-    albums.forEach(async (album, i) => {
-      await AlbumList.create({
-        albumID: album.id,
-        listID: newList.id,
-        listIndex: isRanked ? i : null,
-      });
-    });
+    await Promise.all(
+      albums.map(async (album, i) => {
+        await AlbumList.create({
+          albumID: album.id,
+          listID: newList.id,
+          listIndex: isRanked ? i : null,
+        });
+      })
+    );
 
     // fetch list with associated albums
     const list = await List.getSingleListByID(newList.id);
