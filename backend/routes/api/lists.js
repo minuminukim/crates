@@ -95,7 +95,7 @@ router.put(
   // requireAuth,
   asyncHandler(async (req, res, next) => {
     const id = +req.params.id;
-    const oldList = await List.getSingleListByID(id);
+    const oldList = await List.findByPk(id);
 
     if (!oldList) {
       return next(listNotFoundError());
@@ -143,6 +143,30 @@ router.put(
     return res.json({
       list,
     });
+  })
+);
+
+router.delete(
+  `/:id(\\d+)`,
+  // requireAuth,
+  // TODO: validation,
+  asyncHandler(async (req, res, next) => {
+    const id = +req.params.id;
+    const list = await List.findByPk(id);
+
+    if (!list) {
+      return listNotFoundError();
+    }
+
+    // destroy the join table records first because of FK constraint
+    await AlbumList.destroy({
+      where: {
+        listID: id,
+      },
+    });
+    await list.destroy();
+
+    return res.status(204).json({});
   })
 );
 
