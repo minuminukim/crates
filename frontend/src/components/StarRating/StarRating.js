@@ -3,50 +3,36 @@ import { FaStarHalf, FaStar } from 'react-icons/fa';
 import './StarRating.css';
 
 const StarRating = ({ reviewRating = 0 }) => {
-  const [rating, setRating] = useState(reviewRating);
-  const [hoverIndex, setHoverIndex] = useState(0); // hoverRating
+  const [rating, setRating] = useState(0);
+  const [hoverIndex, setHoverIndex] = useState(0);
 
-  const grabIndex = (e) => +e.target.id.split('-').pop();
-  const onMouseEnter = (e) => setHoverIndex(grabIndex(e));
-  const onMouseLeave = () => setHoverIndex(0);
-  const onClick = (e) => {
-    // setHoverIndex(grabIndex(e));
-    console.log('rating before', rating);
-    console.log('hoverIndex before', hoverIndex);
-    setRating(grabIndex(e) + 1);
-    console.log('rating after click', rating);
-    console.log('hoverIndex after', hoverIndex);
-  };
+  const isFilled = (i) => (i <= (hoverIndex || rating) ? 'star-filled' : '');
 
-  // const onMouseLeave = () => {
-  //   if (rating !== null) return;
-  //   setIndex(0);
-  // };
-  const onDivEnter = () => {
-    // setRating(0);
-    setHoverIndex(0);
-  };
+  // const onClick = () =>
 
-  const onDivLeave = () => {
-    setRating(reviewRating);
-  };
-
-  const isFilled = (i) => i + 1 <= (hoverIndex || rating);
-  const isFlipped = (i) => (i % 2 === 0 ? 'normal' : 'flipped');
-  const position = (i) => (i % 2 === 0 ? 'left' : 'right');
   // width 26px, half-width 13px
   return (
     <div className="star-rating">
-      {[...Array(10)].map((_, i) => (
-        <div className="star-container" key={`star-${i}`}>
-          <FaStar
-            className={`star star-${isFilled(i)} star-${position(i)}`}
-            // key={`star-${i}`}
-            id={`star-${i}`}
-            onMouseEnter={onMouseEnter}
-            onMouseLeave={onMouseLeave}
-            onClick={() => setRating(i + 1)}
-          />
+      {[...Array(5)].map((_, i) => (
+        <div className="star-wrapper" key={`star-index-${i}`}>
+          <div className="star-left">
+            <FaStar
+              className={`star star-left ${isFilled(i * 2 + 1)}`}
+              id={`star-${i * 2 + 1}`} // id === rating
+              onClick={() => setRating(i * 2 + 1)}
+              onMouseEnter={() => setHoverIndex(i * 2 + 1)}
+              onMouseLeave={() => setHoverIndex(rating)}
+            />
+          </div>
+          <div className="star-right">
+            <FaStar
+              className={`star star-right ${isFilled(i * 2 + 2)}`}
+              id={`star-${i * 2 + 2}`}
+              onClick={() => setRating(i * 2 + 2)}
+              onMouseEnter={() => setHoverIndex(i * 2 + 2)}
+              onMouseLeave={() => setHoverIndex(rating)}
+            />
+          </div>
         </div>
       ))}
     </div>

@@ -13,14 +13,18 @@
   height: 26px;
 }
 
-.star-right {
-  position: relative;
-  /* right: 26px; */
-  /* font-size: 52px; */
-  color: black;
+.star-wrapper {
   height: 26px;
-  /* width: 13px; */
+  position: relative;
+}
+
+div.star-left {
   overflow: hidden;
+  position: absolute;
+  width: 13px;
+  /* transform: scaleX(-1); */
+  /* left: 13px; */
+  /* top: 32px; */
 }
 
 .star:hover {
@@ -29,17 +33,6 @@
 
 .star-filled {
   color: #40bcf4;
-}
-
-.star .star-flipped {
-  margin: 0;
-  padding: 0;
-}
-
-.star-flipped {
-  /* transform: rotate(180deg) */
-  transform: scale(-1, 1);
-  transform-origin: center;
 }
 
 .star-filled-read {
