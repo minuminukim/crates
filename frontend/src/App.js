@@ -7,6 +7,7 @@ import LandingView from './components/LandingView';
 import AlbumsView from './components/AlbumsView';
 import ListsView from './components/ListsView';
 import ListForm from './components/ListForm/ListForm';
+import ListPage from './components/ListPage';
 // import LoginFormPage from "./components/LoginFormPage";
 // import SearchModal from './components/SearchModal';
 import SignupForm from './components/SignupFormPage/SignupForm';
@@ -20,7 +21,7 @@ function App() {
   const dispatch = useDispatch();
   const sessionUser = useSelector((state) => state.session.user);
   const [isLoaded, setIsLoaded] = useState(false);
-  const [showModal, setShowModal] = useState(false);
+
   useEffect(() => {
     dispatch(restoreUser())
       .then(() => dispatch(fetchAlbumsFromDB()))
@@ -56,9 +57,9 @@ function App() {
           <Route exact path="/lists/new">
             <ListForm />
           </Route>
-          {/* <Route path="/search">
-            <SearchModal />
-          </Route> */}
+          <Route exact path="/lists/:listID">
+            <ListPage />
+          </Route>
         </Switch>
       )}
     </>

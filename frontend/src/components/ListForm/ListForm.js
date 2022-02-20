@@ -71,15 +71,17 @@ const ListForm = () => {
                 onChange={(e) => setTitle(e.target.value)}
               />
             </div>
-            <div className="form-row">
-              <InputLabel label="Ranked list" />
-              <p>Show position for each album.</p>
+            <div className="form-row checkbox">
               <InputField
                 type="checkbox"
                 id="isRanked"
                 value={isRanked}
                 onChange={() => setIsRanked(!isRanked)}
               />
+              <div>
+                <InputLabel label="Ranked list" />
+                <p>Show position for each album.</p>
+              </div>
             </div>
           </div>
           <div className="list-form-right">
@@ -95,8 +97,8 @@ const ListForm = () => {
           </div>
         </div>
         <div className="list-form-bottom">
-          <div>
-            <Button label="ADD A FILM" />
+          <Button label="ADD A FILM" />
+          <div className="search-field">
             <InputField
               id="search"
               value={query}
@@ -117,10 +119,9 @@ const ListForm = () => {
                 ))}
             </ul>
           </div>
-          <div>
-            <Button label="CANCEL" />
-            <SaveButton />
-          </div>
+
+          <Button label="CANCEL" />
+          <SaveButton />
         </div>
       </form>
       {/* {albums?.length > 0 && albums.map((album) => album.title)} */}

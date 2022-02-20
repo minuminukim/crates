@@ -15,22 +15,87 @@
 
 .list-form-top {
   display: flex;
+  justify-content: space-between;
 }
 
 .list-form-bottom {
   display: flex;
 }
 
+.list-form h1 {
+  font-weight: 200;
+  border-bottom: 0.5px solid rgb(68, 85, 102);
+  padding-bottom: 7px;
+}
+
 .list-form input {
   width: 450px;
+  background-color: #2c3440;
+  color: #9ab;
+  font-family: Graphik-Regular-Web, sans-serif;
 }
 
 .list-form textarea {
   width: 450px;
   height: 175px;
+  background-color: #2c3440;
+  color: #9ab;
+  font-family: Graphik-Regular-Web, sans-serif;
+}
+
+.list-form input[type='checkbox'] {
+  color: #2c3440;
+  width: 20px;
+  height: 20px;
+  background-color: #2c3440;
+}
+
+.list-form div.checkbox {
+  display: flex;
+  flex-direction: row;
+}
+
+input:focus,
+textarea:focus {
+  background-color: #fff;
+  color: #000;
+}
+
+.list-form input::placeholder,
+.list-form textarea::placeholder {
+  color: #567;
+  font-family: Graphik-Regular-Web, sans-serif;
 }
 
 .form-row {
   display: flex;
   flex-direction: column;
+}
+
+.search-field {
+  display: flex;
+  flex-direction: column;
+  width: 285px;
+}
+
+.search-field input {
+  width: 285px;
+}
+
+.search-field input:focus {
+  border: 1px solid #fff;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.search-field ul {
+  padding: 0;
+  margin: 0;
+  border: 1px solid #fff;
+  border-top: 0;
+  position: relative;
+}
+
+.search-field li {
+  width: 285px;
 }

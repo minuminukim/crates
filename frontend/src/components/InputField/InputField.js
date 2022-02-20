@@ -12,7 +12,7 @@ const InputField = ({
   hidden,
 }) => {
   return (
-    <div className="input-field-container">
+    // <div className="input-field-container">
       <input
         type={type}
         name={id}
@@ -25,8 +25,8 @@ const InputField = ({
         max={max}
         hidden={hidden}
       />
-      {error && <p className="validation-error">{error}</p>}
-    </div>
+    //   {error && <p className="validation-error">{error}</p>}
+    // </div>
   );
 };
 
