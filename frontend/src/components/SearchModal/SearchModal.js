@@ -1,42 +1,10 @@
-import { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { searchAlbums } from '../../store/albumsReducer';
+import useSearch from '../../hooks/useSearch';
 import SearchBar from '../SearchBar';
 import SearchList from '../SearchList';
 import './SearchModal.css';
 
 const SearchModal = ({ closeSearch = null }) => {
-  const [query, setQuery] = useState('');
-  const [results, setResults] = useState([]);
-  // const [errors, setErrors] = useState({});
-  const dispatch = useDispatch();
-  const { items, errors, isLoading } = useSelector((state) => state.albums);
-
-  /** TODO:
-   * error handling
-   * useMemo && memoize query results?
-   */
-
-  useEffect(() => {
-    if (!query.length) {
-      setResults([]);
-      return;
-    }
-
-    const delayedFetchTimer = setTimeout(async () => {
-      try {
-
-        const albums = await dispatch(searchAlbums(query));
-        setResults(albums);
-        console.log('albums', results);
-      } catch (error) {
-        console.log('error', error);
-      }
-    }, 1000);
-
-    return () => clearTimeout(delayedFetchTimer);
-  }, [query, dispatch]);
-
+  const { query, setQuery, results, isLoading, error } = useSearch();
   const handleChange = (e) => setQuery(e.target.value);
 
   return (

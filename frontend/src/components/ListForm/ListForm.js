@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import SearchModal from '../SearchModal';
 import InputField from '../InputField';
 import InputLabel from '../InputLabel';
+import useSearch from '../../hooks/useSearch';
 import './ListForm.css';
 
 // <ListInfo>
@@ -14,7 +15,7 @@ const ListForm = () => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [isRanked, setIsRanked] = useState(false);
-
+  const [query, setQuery] = useState('');
   const { user } = useSelector((state) => state.session);
   return (
     <div className="page-container list-form-page">
