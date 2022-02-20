@@ -97,16 +97,16 @@ const initialState = { items: {} };
 const listsReducer = (state = initialState, action) => {
   switch (action.type) {
     case LISTS_LOADED:
-      const items = action.lists.reduce((acc, list) => {
+      const lists = action.lists.reduce((acc, list) => {
         acc[list.id] = list;
         return acc;
       }, {});
-      
+
       return {
         ...state,
         items: {
           ...state.items,
-          ...items,
+          ...lists,
         },
       };
 

@@ -66,6 +66,7 @@ export const searchAlbums = (query) => async (dispatch) => {
     dispatch(loadAlbums(albums));
     return albums;
   } catch (err) {
+    console.log('error in reducer', err);
     dispatch(handleAlbumsErrors(err));
   }
 };

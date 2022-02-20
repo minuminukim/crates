@@ -24,9 +24,14 @@ const SearchModal = ({ closeSearch = null }) => {
     }
 
     const delayedFetchTimer = setTimeout(async () => {
-      const albums = await dispatch(searchAlbums(query));
-      setResults(albums);
-      console.log('albums', results);
+      try {
+
+        const albums = await dispatch(searchAlbums(query));
+        setResults(albums);
+        console.log('albums', results);
+      } catch (error) {
+        console.log('error', error);
+      }
     }, 1000);
 
     return () => clearTimeout(delayedFetchTimer);
@@ -47,7 +52,7 @@ const SearchModal = ({ closeSearch = null }) => {
           <SearchBar value={query} onChange={handleChange} id="search" />
         </div>
       </div>
-      {results.length > 0 && (
+      {results?.length > 0 && (
         <SearchList items={results} closeSearch={closeSearch} />
       )}
     </form>

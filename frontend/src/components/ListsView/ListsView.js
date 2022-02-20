@@ -17,8 +17,9 @@ const ListsView = () => {
       }
     });
   }, [dispatch]);
+  
   return (
-    lists?.length > 0 && (
+    Object.keys(lists)?.length > 0 && (
       <div className="page-container lists-view-container">
         <section className="lists-header">
           <h1 className="page-heading">

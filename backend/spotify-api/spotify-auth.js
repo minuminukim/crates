@@ -8,6 +8,34 @@ const ENCODED_PAYLOAD = Buffer.from(`${CLIENT_ID}:${CLIENT_SECRET}`).toString(
   'base64'
 );
 
+const getToken = async () => {
+  const tokenURL = 'https://accounts.spotify.com/api/token';
+  const data = qs.stringify({ grant_type: 'client_credentials' });
+  const headers = {
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+      Authorization: `Basic ${ENCODED_PAYLOAD}`,
+    },
+  };
+
+  try {
+    const response = await axios.post(tokenURL, data, headers);
+    return response.data.access_token;
+
+  } catch (error) {
+    const authenticationError = new Error(
+      `An error occurred while communicating with Spotify's Web API.`
+    );
+    authenticationError.status = 400;
+    authenticationError.title = 'Authentication Error';
+    authenticationError.errors = {
+      search: `${authenticationError.message}`,
+    };
+
+    return authenticationError;
+  }
+};
+
 const getAccessToken = async (next) => {
   const tokenURL = 'https://accounts.spotify.com/api/token';
   const data = qs.stringify({ grant_type: 'client_credentials' });
@@ -56,4 +84,4 @@ const checkAccessToken = (req, res, next) => {
   next();
 };
 
-module.exports = { getAccessToken, setAccessTokenCookie, checkAccessToken };
+module.exports = { getAccessToken, setAccessTokenCookie, checkAccessToken, getToken };
