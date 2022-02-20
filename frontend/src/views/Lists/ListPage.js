@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import { fetchSingleList } from '../../store/listsReducer';
 import AlbumGrid from '../../components/AlbumGrid';
+import { ActionsRow } from '../../components/ActionsPanel';
 import './ListPage.css';
 
 const ListPage = () => {
@@ -13,7 +14,7 @@ const ListPage = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (list && list.albums) {
+    if (list && list.albums?.length) {
       setIsLoading(false);
       return;
     }
@@ -41,6 +42,17 @@ const ListPage = () => {
             <AlbumGrid albums={list.albums} />
           </main>
         </div>
+        <section className="list-page-side">
+          <div className="actions-panel edit-actions">
+            {list.userID === sessionUser.id && (
+              <ActionsRow
+                label="Edit or delete this list..."
+                className="list-action"
+                link={`/lists/${listID}/edit`}
+              />
+            )}
+          </div>
+        </section>
       </div>
     )
   );

@@ -1,8 +1,13 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { createList } from '../../store/listsReducer';
-import { InputField, InputLabel } from '../../components/InputField';
+import { useParams, useHistory } from 'react-router-dom';
+import {
+  createList,
+  editList,
+  fetchSingleList,
+} from '../../store/listsReducer';
 import useSearch from '../../hooks/useSearch';
+import { InputField, InputLabel } from '../../components/InputField';
 import SearchItem from '../../components/SearchItem';
 import { SaveButton } from '../../components/Button';
 import ValidationError from '../../components/ValidationError';
@@ -16,15 +21,43 @@ const ListForm = () => {
   const [isRanked, setIsRanked] = useState(false);
   const [errors, setErrors] = useState([]);
   const [albums, setAlbums] = useState([]);
+  const [action, setAction] = useState(null);
   const { user } = useSelector((state) => state.session);
   const { query, setQuery, results, isLoading, error } = useSearch();
   const dispatch = useDispatch();
+  const history = useHistory();
+  const { listID } = useParams();
+
+  useEffect(() => {
+    if (!listID) {
+      setAction('post');
+      return;
+    }
+
+    setAction('edit');
+    (async () => {
+      // TODO: protect route, so only list owner can access if edit
+      try {
+        // if edit, we fetch the list and set form state
+        const list = await dispatch(fetchSingleList(listID));
+        setTitle(list.title);
+        setDescription(list.description);
+        setIsRanked(list.isRanked);
+        setAlbums(list.albums);
+      } catch (error) {
+        const data = await error.json();
+        if (data && data.errors) {
+          console.log('error fetching list', data);
+        }
+      }
+    })();
+  }, [dispatch]);
 
   const handleChange = (e) => setQuery(e.target.value);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
+    console.log('listID', listID);
     setErrors([]);
 
     const payload = {
@@ -33,13 +66,15 @@ const ListForm = () => {
       description,
       isRanked,
       albums,
+      id: listID,
     };
 
     if (albums.length === 0) {
       setErrors([...errors, 'A list must contain at least one album.']);
     }
-
-    return dispatch(createList(payload))
+    const thunk = action === 'post' ? createList : editList;
+    return dispatch(thunk(payload))
+      .then((list) => history.push(`/lists/${list.id}`))
       .then((list) => console.log('successful post', list))
       .catch(async (res) => {
         const data = await res.json();
@@ -55,7 +90,7 @@ const ListForm = () => {
       <ul className="validation-errors">
         {errors.length > 0 &&
           errors.map((error, i) => (
-            <ValidationError key={error} error={error} index={i} />
+            <ValidationError key={`error-${i}`} error={error} index={i} />
           ))}
       </ul>
       <form className="list-form" onSubmit={handleSubmit}>
@@ -76,6 +111,7 @@ const ListForm = () => {
                 id="isRanked"
                 value={isRanked}
                 onChange={() => setIsRanked(!isRanked)}
+                checked={isRanked}
               />
               <div>
                 <InputLabel label="Ranked list" />

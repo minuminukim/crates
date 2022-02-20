@@ -105,7 +105,8 @@ router.patch(
 router.put(
   '/:id(\\d+)',
   // TODO: validation errors,
-  // requireAuth,
+  requireAuth,
+  validateList,
   asyncHandler(async (req, res, next) => {
     const id = +req.params.id;
     const oldList = await List.findByPk(id);

@@ -1,9 +1,16 @@
+import { Link } from 'react-router-dom';
 import './ActionsRow.css';
 
-const ActionsRow = ({ label, onClick, children = null, className }) => {
+const ActionsRow = ({
+  label,
+  onClick,
+  className,
+  link = null,
+  children = null,
+}) => {
   return (
     <li className={`actions-row ${className}`} onClick={onClick}>
-      <p>{label}</p>
+      {link ? <Link to={link}>{label}</Link> : <p>{label}</p>}
       {children}
     </li>
   );

@@ -1,7 +1,8 @@
 .list-page {
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  /* flex-direction: column; */
+  justify-content: center;
+  padding: 30px 0;
 }
 
 .list-page .content-wrap {
@@ -18,4 +19,8 @@
 
 .list-page-main .album-grid {
   padding: 0;
+}
+
+.actions-panel {
+  background-color: #445566;
 }

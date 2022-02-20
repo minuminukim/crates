@@ -52,6 +52,9 @@ function App() {
           <Route exact path="/lists/:listID">
             <ListPage />
           </Route>
+          <Route exact path="/lists/:listID/edit">
+            <ListForm />
+          </Route>
         </Switch>
       )}
     </>
