@@ -1,0 +1,36 @@
+.list-form-page {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-right: 0;
+}
+
+.list-form {
+  display: flex;
+  flex-direction: column;
+  width: 950px;
+  border: 1px solid orange;
+}
+
+.list-form-top {
+  display: flex;
+}
+
+.list-form-bottom {
+  display: flex;
+}
+
+.list-form input {
+  width: 450px;
+}
+
+.list-form textarea {
+  width: 450px;
+  height: 175px;
+}
+
+.form-row {
+  display: flex;
+  flex-direction: column;
+}

@@ -9,6 +9,7 @@ import { SaveButton } from '../Button/SaveDeleteButtons';
 import ValidationError from '../ValidationError';
 import Button from '../Button';
 import './ListForm.css';
+import DraggableList from '../DraggableList/DraggableList';
 
 // <ListInfo>
 // <Search>
@@ -26,7 +27,6 @@ const ListForm = () => {
   const dispatch = useDispatch();
 
   const handleChange = (e) => setQuery(e.target.value);
-  const updateAlbums = (item) => setAlbums([...albums, item]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -42,7 +42,7 @@ const ListForm = () => {
     if (albums.length === 0) {
       setErrors([...errors, 'A list must contain at least one album.']);
     }
-    
+
     return dispatch(createList(payload))
       .then((list) => console.log('successful post', list))
       .catch(async (res) => {
@@ -111,7 +111,7 @@ const ListForm = () => {
                     title={item.title}
                     artist={item.artist}
                     releaseYear={item.releaseYear}
-                    onClick={() => updateAlbums(item)}
+                    onClick={() => setAlbums([...albums, item])}
                   />
                 ))}
             </ul>
@@ -122,7 +122,13 @@ const ListForm = () => {
           </div>
         </div>
       </form>
-      {albums?.length > 0 && albums.map((album) => album.title)}
+      {/* {albums?.length > 0 && albums.map((album) => album.title)} */}
+      <DraggableList
+        items={albums}
+        isRanked={isRanked}
+        albums={albums}
+        updateAlbums={(next) => setAlbums(next)}
+      />
       {/* <section className="list-form-search">
         <SearchBar value={query} onChange={handleChange} id="search" />
           {results?.length > 0 && <SearchList items={results} />}

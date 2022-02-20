@@ -26,7 +26,7 @@ const ReviewListItem = ({ review, className = null }) => {
             className="star-filled-green"
             size="small"
           />
-          {review.rating !== 10 && review.rating % review.rating !== 1 && (
+          {review.rating !== 10 && review.rating % 2 !== 0 && (
             <span className="half-green">½</span>
           )}
           <div>

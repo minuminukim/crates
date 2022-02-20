@@ -69,8 +69,8 @@ const searchAlbumsByTitle = async (title) => {
 const wrapSearchInRetry = (searchFunction) => {
   return async (...args) => {
     try {
-      console.log('test');
       const response = await searchFunction(args);
+      console.log('test', response);
       return response;
     } catch (error) {
       if (error.response.status === 401) {
