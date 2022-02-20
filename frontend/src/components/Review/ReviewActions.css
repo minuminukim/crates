@@ -22,7 +22,12 @@
   padding: 10px 0;
 }
 
-.actions-row:hover {
+.actions-row.hover:hover {
   color: #fff;
   cursor: pointer;
+}
+
+.action-row-rated,
+.action-row-rated span {
+  cursor: default !important;
 }
