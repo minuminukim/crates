@@ -38,6 +38,12 @@ const EditReviewForm = ({ review, onSuccess }) => {
     });
   };
 
+  const handleStarRating = (star) =>
+    setForm({
+      ...form,
+      rating: star,
+    });
+
   const handleSubmit = (e) => {
     e.preventDefault();
     setErrors({});
@@ -92,7 +98,7 @@ const EditReviewForm = ({ review, onSuccess }) => {
               type="date"
               id="listenedDate"
               value={form.listenedDate}
-              error={errors?.listenedDate}
+              // error={errors?.listenedDate}
               onChange={handleChange}
             />
           </div>
@@ -103,7 +109,7 @@ const EditReviewForm = ({ review, onSuccess }) => {
               checked={form.isRelisten}
               onChange={handleCheckbox}
             />
-            {errors?.isRelisten}
+            {/* {errors?.isRelisten} */}
             <label>I've listened to this album before</label>
           </div>
           <div className="form-row">
@@ -114,7 +120,7 @@ const EditReviewForm = ({ review, onSuccess }) => {
               onChange={(e) => console.log(e.target.id)}
               onChange={handleChange}
             />
-            {errors?.body}
+            {/* {errors?.body} */}
           </div>
           <div className="form-row">
             <InputLabel label="Rating" />
@@ -122,11 +128,14 @@ const EditReviewForm = ({ review, onSuccess }) => {
               type="number"
               id="rating"
               value={form.rating}
-              error={errors?.rating}
+              // error={errors?.rating}
               onChange={handleChange}
+              hidden={true}
             />
-            <StarRating reviewRating={form.rating} />
-            {/* TODO: star rating component */}
+            <StarRating
+              reviewRating={form.rating}
+              handleForm={handleStarRating}
+            />
           </div>
           <div className="form-row">
             <SaveButton onClick={onEdit} />

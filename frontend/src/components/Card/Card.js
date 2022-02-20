@@ -33,7 +33,7 @@ const Card = ({ item }) => {
       <div className="card-review-info">
         <div className="card-review-rating">
           <span>{<StarRatingReadOnly rating={item.rating} />}</span>
-          {item.rating !== 10 && item.rating % item.rating !== 1 && <span className="half">½</span>}
+          {item.rating !== 10 && item.rating % 2 !== 0 && <span className="half">½</span>}
         </div>
         {item.isRelisten && <BsArrowRepeat className="relisten-icon" />}
         {item.body.length > 0 && (

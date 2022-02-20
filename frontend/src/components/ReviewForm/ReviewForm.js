@@ -78,7 +78,7 @@ const ReviewForm = ({ album = null }) => {
               type="date"
               id="listenedDate"
               value={listenedDate}
-              error={errors?.listenedDate}
+              // error={errors?.listenedDate}
               max={today}
               onChange={(e) => setListenedDate(e.target.value)}
             />
@@ -103,12 +103,14 @@ const ReviewForm = ({ album = null }) => {
           </div>
           <div className="form-row">
             <InputLabel label="Rating" />
+            <span>{`${rating / 2} out of 5`}</span>
             <InputField
               type="number"
               id="rating"
               value={rating}
-              error={errors?.rating}
+              // error={errors?.rating}
               onChange={(e) => setRating(e.target.value)}
+              hidden={true}
             />
             <StarRating handleForm={onStarChange} />
             {/* TODO: star rating component */}

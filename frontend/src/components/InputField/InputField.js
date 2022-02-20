@@ -9,6 +9,7 @@ const InputField = ({
   error,
   min,
   max,
+  hidden,
 }) => {
   return (
     <div className="input-field-container">
@@ -22,6 +23,7 @@ const InputField = ({
         className={`input-field` + (error ? 'error-field' : '')}
         min={min}
         max={max}
+        hidden={hidden}
       />
       {error && <p className="validation-error">{error}</p>}
     </div>
@@ -34,6 +36,7 @@ InputField.defaultProps = {
   error: null,
   min: null,
   max: null,
+  hidden: false,
 };
 
 export default InputField;

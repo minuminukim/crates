@@ -8,11 +8,6 @@
   margin: 0;
 }
 
-.star-container {
-  width: 13px;
-  height: 26px;
-}
-
 .star-wrapper {
   height: 26px;
   position: relative;
@@ -27,8 +22,12 @@ div.star-left {
   /* top: 32px; */
 }
 
-.star:hover {
+/* .star:hover {
   color: #40bcf4;
+} */
+
+.read-only .star:hover {
+  pointer-events: none !important;
 }
 
 .star-filled {
