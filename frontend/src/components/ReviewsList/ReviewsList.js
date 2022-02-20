@@ -33,7 +33,7 @@ const ReviewsList = ({ className = null }) => {
   }, [dispatch]);
 
   return (
-    reviews.length >= 0 && (
+    reviews.length > 0 && (
       <div className="page-container reviews-list-container">
         <ul className={`reviews-list ${className}`}>
           {reviews.map((review) => (

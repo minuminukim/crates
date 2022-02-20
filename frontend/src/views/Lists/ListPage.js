@@ -3,10 +3,12 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { fetchSingleList } from '../../store/listsReducer';
 import AlbumGrid from '../../components/AlbumGrid';
+import './ListPage.css';
 
 const ListPage = () => {
   const { listID } = useParams();
   const list = useSelector((state) => state.lists.items[listID]);
+  const sessionUser = useSelector((state) => state.session.user);
   const [isLoading, setIsLoading] = useState(true);
   const dispatch = useDispatch();
 
@@ -30,13 +32,15 @@ const ListPage = () => {
     !isLoading &&
     list.albums.length > 0 && (
       <div className="list-page">
-        <section className="list-page-header">
-          <h1>{list.title}</h1>
-          <p>{list.description}</p>
-        </section>
-        <main>
-          <AlbumGrid albums={list.albums} />
-        </main>
+        <div className="content-wrap">
+          <section className="list-page-header">
+            <h1>{list.title}</h1>
+            <p>{list.description}</p>
+          </section>
+          <main className="list-page-main">
+            <AlbumGrid albums={list.albums} />
+          </main>
+        </div>
       </div>
     )
   );

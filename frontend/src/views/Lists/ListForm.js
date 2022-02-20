@@ -53,7 +53,7 @@ const ListForm = () => {
   return (
     <div className="page-container list-form-page">
       <ul className="validation-errors">
-        {errors.length >= 0 &&
+        {errors.length > 0 &&
           errors.map((error, i) => (
             <ValidationError key={error} error={error} index={i} />
           ))}

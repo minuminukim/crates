@@ -1,0 +1,21 @@
+.list-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.list-page .content-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 750px;
+}
+
+.list-page-header,
+.list-page-main {
+  width: 100%;
+}
+
+.list-page-main .album-grid {
+  padding: 0;
+}

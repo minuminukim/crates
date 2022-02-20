@@ -33,6 +33,7 @@ router.get(
   asyncHandler(async (req, res, next) => {
     const id = +req.params.id;
     const list = await List.getSingleListByID(id); // with albums
+    console.log('list', JSON.stringify(list));
 
     if (!list) {
       return next(listNotFoundError());

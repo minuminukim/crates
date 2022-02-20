@@ -1,15 +1,7 @@
 import { useSelector } from 'react-redux';
 import StarRating from '../../components/StarRating';
+import { ActionsRow } from '../../components/ActionsPanel';
 import './ReviewActions.css';
-
-const ActionsRow = ({ label, onClick, children = null, className }) => {
-  return (
-    <li className={`actions-row ${className}`} onClick={onClick}>
-      <p>{label}</p>
-      {children}
-    </li>
-  );
-};
 
 const ReviewActions = ({ userID, onEditClick, onPostClick, rating }) => {
   const sessionUser = useSelector((state) => state.session.user);

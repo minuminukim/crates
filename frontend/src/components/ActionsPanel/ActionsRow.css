@@ -1,0 +1,23 @@
+.actions-row {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  /* background-color: #445566; */
+  list-style-type: none;
+  width: 230px;
+  color: #bcd;
+  font-size: 12px;
+  border-bottom: 1px solid #384453;
+  padding: 10px 0;
+}
+
+.actions-row.hover:hover {
+  color: #fff;
+  cursor: pointer;
+}
+
+.action-row-rated,
+.action-row-rated span {
+  cursor: default !important;
+}
