@@ -78,7 +78,7 @@ export const editList = (data) => async (dispatch) => {
 };
 
 export const appendList = (data) => async (dispatch) => {
-  const response = await csrfFetch(`/api/lists/${data.id}`, {
+  const response = await csrfFetch(`/api/lists/${data.listID}`, {
     method: 'PATCH',
     body: JSON.stringify(data),
   });

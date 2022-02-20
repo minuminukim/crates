@@ -3,7 +3,7 @@ const { check } = require('express-validator');
 const asyncHandler = require('express-async-handler');
 const validateSignup = require('../../validations/validateSignup');
 const { setTokenCookie, requireAuth } = require('../../utils/auth');
-const { User, Review, List } = require('../../db/models');
+const { User, Review, List, Album } = require('../../db/models');
 
 const router = express.Router();
 
@@ -61,7 +61,16 @@ router.get(
   `/:id(\\d+)/lists`,
   asyncHandler(async (req, res, next) => {
     const id = +req.params.id;
-    const lists = await List.findAll({ where: { userID: id } });
+    const lists = await List.findAll({
+      where: {
+        userID: id,
+      },
+      include: {
+        model: Album,
+        as: 'albums',
+        attributes: ['id'],
+      },
+    });
     return res.json({
       lists,
     });

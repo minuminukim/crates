@@ -1,0 +1,48 @@
+div.append-list {
+  width: 575px;
+  height: 640px;
+  background-color: #445566 !important;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+ul.user-lists {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow-y: scroll;
+  height: 540px;
+  width: 575px;
+  margin: 0 50px;
+  /* margin-right: 40px; */
+}
+
+li.user-lists-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 90%;
+  width: 575px;
+  height: 40px;
+  border-bottom: 1px solid #384453;
+}
+
+li.user-lists-item:hover {
+  cursor: pointer;
+  color: #fff;
+}
+
+.action-panel-footer {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  height: 60px;
+  margin-top: 10px;
+  background-color: #334455;
+  width: 100%;
+}
+
+.chosen {
+  background-color: #334455;
+}

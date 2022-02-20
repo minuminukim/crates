@@ -1,9 +1,15 @@
 import { useSelector } from 'react-redux';
-import StarRating from '../../components/StarRating';
-import { ActionsRow } from '../../components/ActionsPanel';
+import StarRating from '../StarRating';
+import { ActionsRow } from '.';
 import './ReviewActions.css';
 
-const ReviewActions = ({ userID, onEditClick, onPostClick, rating }) => {
+const ReviewActions = ({
+  userID,
+  onEditClick,
+  onPostClick,
+  onListClick,
+  rating,
+}) => {
   const sessionUser = useSelector((state) => state.session.user);
 
   return (
@@ -28,7 +34,11 @@ const ReviewActions = ({ userID, onEditClick, onPostClick, rating }) => {
         onClick={onPostClick}
         className="hover"
       />
-      <ActionsRow label="Add this album to lists..." className="hover" />
+      <ActionsRow
+        label="Add this album to lists..."
+        className="hover"
+        onClick={onListClick}
+      />
     </ul>
   );
 };

@@ -154,8 +154,8 @@ router.put(
 // from action panels
 router.patch(
   '/:id(\\d+)',
+  requireAuth,
   // TODO: validation errors,
-  // requireAuth,
   asyncHandler(async (req, res, next) => {
     const id = +req.params.id;
     const { spotifyID, title, artworkURL, artist, releaseYear } = req.body;
@@ -176,18 +176,20 @@ router.patch(
     const [albumList, created] = await AlbumList.findOrCreate({
       where: { albumID: album.id, listID: id },
       defaults: {
-        albumID: albumID,
+        albumID: album.id,
         listID: id,
       },
     });
 
     if (!created) {
-      return res.status(400).json({
-        albumID: `An album cannot be added more than once to a list.`,
-      });
+      return res
+        .status(400)
+        .json({
+          errors: [`An album cannot be added more than once to a list.`],
+        });
     }
 
-    const list = await getSingleListByID(id);
+    const list = await List.getSingleListByID(id);
 
     return res.json({
       list,
