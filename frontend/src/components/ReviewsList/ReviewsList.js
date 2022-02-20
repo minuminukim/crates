@@ -12,7 +12,7 @@ const ReviewsList = ({ className = null }) => {
   // const { items } = useSelector((state) => state.reviews);
 
   const filterByUserID = (reviews) =>
-    reviews.filter((review) => review.userID === userID);
+    reviews.filter((review) => review.userID === +userID);
 
   // just slicing 6 for now because current db schema doesn't have any
   // sort of popularity metric

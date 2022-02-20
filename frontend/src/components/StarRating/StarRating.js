@@ -30,18 +30,24 @@ const StarRating = ({ reviewRating = 0 }) => {
   const onDivLeave = () => {
     setRating(reviewRating);
   };
+
+  const isFilled = (i) => i + 1 <= (hoverIndex || rating);
+  const isFlipped = (i) => (i % 2 === 0 ? 'normal' : 'flipped');
+  const position = (i) => (i % 2 === 0 ? 'left' : 'right');
+  // width 26px, half-width 13px
   return (
     <div className="star-rating">
-      {[...Array(5)].map((_, i) => (
-        <FaStar
-          // className={hoverIndex - 1 >= i ? `star-filled` : `star`}
-          className={i + 1 <= (hoverIndex || rating) ? `star-filled` : `star`}
-          key={`star-${i}`}
-          id={`star-${i}`}
-          onMouseEnter={onMouseEnter}
-          onMouseLeave={onMouseLeave}
-          onClick={() => setRating(i + 1)}
-        />
+      {[...Array(10)].map((_, i) => (
+        <div className="star-container" key={`star-${i}`}>
+          <FaStar
+            className={`star star-${isFilled(i)} star-${position(i)}`}
+            // key={`star-${i}`}
+            id={`star-${i}`}
+            onMouseEnter={onMouseEnter}
+            onMouseLeave={onMouseLeave}
+            onClick={() => setRating(i + 1)}
+          />
+        </div>
       ))}
     </div>
   );

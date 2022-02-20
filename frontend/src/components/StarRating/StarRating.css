@@ -8,6 +8,21 @@
   margin: 0;
 }
 
+.star-container {
+  width: 13px;
+  height: 26px;
+}
+
+.star-right {
+  position: relative;
+  /* right: 26px; */
+  /* font-size: 52px; */
+  color: black;
+  height: 26px;
+  /* width: 13px; */
+  overflow: hidden;
+}
+
 .star:hover {
   color: #40bcf4;
 }
@@ -19,6 +34,12 @@
 .star .star-flipped {
   margin: 0;
   padding: 0;
+}
+
+.star-flipped {
+  /* transform: rotate(180deg) */
+  transform: scale(-1, 1);
+  transform-origin: center;
 }
 
 .star-filled-read {
