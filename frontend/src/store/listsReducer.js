@@ -20,9 +20,9 @@ const updateList = (list) => ({
   list,
 });
 
-const removeList = (list) => ({
+const removeList = (listID) => ({
   type: LIST_REMOVED,
-  list,
+  listID,
 });
 
 export const fetchLists = () => async (dispatch) => {
@@ -39,8 +39,61 @@ export const fetchSingleList = (listID) => async (dispatch) => {
   return list;
 };
 
+// let params = {
+//   userID,
+//   title,
+//   description,
+//   isRanked,
+//   albums: {...}
+// }
+export const createList = (params) => async (dispatch) => {
+  const response = await csrfFetch(`/api/lists/`, {
+    method: 'POST',
+    body: JSON.stringify(params),
+  });
+
+  const { list } = await response.json();
+  dispatch(addList(list));
+
+  return list;
+};
+
+export const editList = (data) => async (dispatch) => {
+  const response = await csrfFetch(`/api/lists/${data.id}`, {
+    method: 'PUT',
+    body: JSON.stringify(data),
+  });
+
+  const { list } = await response.json();
+  dispatch(updateList(list));
+
+  return list;
+};
+
+export const appendList = (data) => async (dispatch) => {
+  const response = await csrfFetch(`/api/lists/${data.id}`, {
+    method: 'PATCH',
+    body: JSON.stringify(data),
+  });
+
+  const { list } = await response.json();
+  dispatch(updateList(list));
+  return list;
+};
+
+export const deleteList = (listID) => async (dispatch) => {
+  const response = await csrfFetch(`/api/lists/${listID}`, {
+    method: 'DELETE',
+  });
+
+  dispatch(deleteList(listID));
+  return response;
+};
+
 const initialState = { items: {} };
 
+// TODO: change payload on express end to send album IDs rather than
+// the album objects
 const listsReducer = (state = initialState, action) => {
   switch (action.type) {
     case LISTS_LOADED:
@@ -48,6 +101,7 @@ const listsReducer = (state = initialState, action) => {
         acc[list.id] = list;
         return acc;
       }, {});
+      
       return {
         ...state,
         items: {
@@ -64,6 +118,32 @@ const listsReducer = (state = initialState, action) => {
           [action.list.id]: action.list,
         },
       };
+
+    case LIST_UPDATED:
+      return {
+        ...state,
+        items: {
+          ...state.items,
+          [action.list.id]: {
+            ...state.items[action.list.id],
+            ...action.list,
+            albums: {
+              ...state.items[action.list.id].albums,
+              ...action.list.albums,
+            },
+          },
+        },
+      };
+
+    case LIST_REMOVED:
+      const newState = {
+        ...state,
+        items: {
+          ...state.items,
+        },
+      };
+      delete newState[action.listID];
+      return newState;
 
     default:
       return state;
