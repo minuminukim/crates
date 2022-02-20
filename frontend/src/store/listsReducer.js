@@ -39,6 +39,13 @@ export const fetchSingleList = (listID) => async (dispatch) => {
   return list;
 };
 
+export const fetchUserLists = (userID) => async (dispatch) => {
+  const response = await csrfFetch(`/api/users/${userID}/lists`);
+  const { lists } = await response.json();
+  dispatch(loadLists(lists));
+  return lists;
+};
+
 // let params = {
 //   userID,
 //   title,
