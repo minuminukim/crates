@@ -91,17 +91,7 @@ router.post(
   })
 );
 
-// Appends a single item to a list
-router.patch(
-  '/:id(\\d+)',
-  // TODO: validation errors,
-  // requireAuth,
-  asyncHandler(async (req, res, next) => {
-    // TODO: build this for smaller edits like appending a single item
-  })
-);
-
-// handles
+// handles updates dispatched from the form
 router.put(
   '/:id(\\d+)',
   // TODO: validation errors,
@@ -153,6 +143,51 @@ router.put(
 
     // ...then fetch the updated list with its associated albums
     const list = await List.getSingleListByID(id);
+
+    return res.json({
+      list,
+    });
+  })
+);
+
+// Appends a single item to a list -- receives requests dispatched
+// from action panels
+router.patch(
+  '/:id(\\d+)',
+  // TODO: validation errors,
+  // requireAuth,
+  asyncHandler(async (req, res, next) => {
+    const id = +req.params.id;
+    const { spotifyID, title, artworkURL, artist, releaseYear } = req.body;
+
+    const [album, _created] = await Album.findOrCreate({
+      where: { spotifyID: spotifyID },
+      defaults: {
+        spotifyID: spotifyID,
+        title: title,
+        averageRating: 0.0,
+        ratingsCount: 0,
+        artworkURL: artworkURL,
+        artist: artist,
+        releaseYear: releaseYear,
+      },
+    });
+
+    const [albumList, created] = await AlbumList.findOrCreate({
+      where: { albumID: album.id, listID: id },
+      defaults: {
+        albumID: albumID,
+        listID: id,
+      },
+    });
+
+    if (!created) {
+      return res.status(400).json({
+        albumID: `An album cannot be added more than once to a list.`,
+      });
+    }
+
+    const list = await getSingleListByID(id);
 
     return res.json({
       list,

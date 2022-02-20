@@ -1,3 +1,4 @@
 import ActionsRow from './ActionsRow';
+import AppendList from './AppendList';
 
-export { ActionsRow };
+export { ActionsRow, AppendList };
