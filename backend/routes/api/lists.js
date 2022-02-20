@@ -3,6 +3,7 @@ const asyncHandler = require('express-async-handler');
 const { List, Album, AlbumList } = require('../../db/models');
 const reduceListAlbums = require('../../utils/reduceListAlbums');
 const { requireAuth } = require('../../utils/auth');
+const validateList = require('../../validations/validateList');
 
 const router = express.Router();
 
@@ -53,8 +54,8 @@ router.get(
 
 router.post(
   '/',
-  // TODO: form validation
-  // requireAuth,
+  requireAuth,
+  validateList,
   asyncHandler(async (req, res, next) => {
     const { userID, title, description, isRanked, albums: items } = req.body;
 
@@ -89,6 +90,7 @@ router.post(
   })
 );
 
+// Appends a single item to a list
 router.patch(
   '/:id(\\d+)',
   // TODO: validation errors,

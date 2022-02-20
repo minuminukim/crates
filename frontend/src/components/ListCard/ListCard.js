@@ -3,7 +3,7 @@ import AlbumArt from '../AlbumArt';
 import './ListCard.css';
 
 const ListCard = ({ list }) => {
-  const { albums } = list;
+  const albums = list?.albums;
   return (
     <div className="list-card">
       <Link to="#" className="list-link">

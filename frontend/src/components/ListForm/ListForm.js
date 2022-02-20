@@ -11,11 +11,6 @@ import Button from '../Button';
 import './ListForm.css';
 import DraggableList from '../DraggableList/DraggableList';
 
-// <ListInfo>
-// <Search>
-// <ListStructure>
-// Please enter the list name.
-// A list must contain at least one album.
 const ListForm = () => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -30,6 +25,8 @@ const ListForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    setErrors([]);
 
     const payload = {
       userID: user.id,
@@ -48,7 +45,7 @@ const ListForm = () => {
       .catch(async (res) => {
         const data = await res.json();
         if (data && data.errors) {
-          setErrors([...errors, ...data.errors]);
+          return setErrors([...errors, ...Object.values(data.errors)]);
         }
         console.log('error', data);
       });
@@ -56,8 +53,12 @@ const ListForm = () => {
 
   return (
     <div className="page-container list-form-page">
-      {errors.length >= 0 &&
-        errors.map((error) => <ValidationError key={error} error={error} />)}
+      <ul className="validation-errors">
+        {errors.length >= 0 &&
+          errors.map((error, i) => (
+            <ValidationError key={error} error={error} index={i} />
+          ))}
+      </ul>
       <form className="list-form" onSubmit={handleSubmit}>
         <h1 className="page-heading">New List</h1>
         <div className="list-form-top">
