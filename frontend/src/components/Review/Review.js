@@ -19,23 +19,19 @@ const Review = () => {
   const [showEditModal, setShowEditModal] = useState(false);
   const [showPostModal, setShowPostModal] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [rating, setRating] = useState(0);
 
   useEffect(() => {
     // if (review && album) return;
-    return (
-      dispatch(getSingleReview(+reviewID))
-        // .then((data) => console.log('data', data))
-        // .then((data) => dispatch(fetchSingleAlbumFromDB(data.albumID)))
-        // .then((album) => setAlbum(album))
-        .then(() => console.log('review', review))
-        .then(() => setIsLoading(false))
-        .catch(async (res) => {
-          const data = await res.json();
-          if (data && data.errors) {
-            console.log('error', data.errors);
-          }
-        })
-    );
+    return dispatch(getSingleReview(+reviewID))
+      .then((review) => setRating(review.rating))
+      .then(() => setIsLoading(false))
+      .catch(async (res) => {
+        const data = await res.json();
+        if (data && data.errors) {
+          console.log('error', data.errors);
+        }
+      });
   }, [dispatch]);
 
   return (
@@ -54,7 +50,7 @@ const Review = () => {
         </div>
         <div>
           <ReviewActions
-            rating={review?.rating}
+            rating={rating}
             userID={review?.userID}
             onEditClick={() => setShowEditModal(true)}
             onPostClick={() => setShowPostModal(true)}

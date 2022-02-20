@@ -58,7 +58,9 @@ const EditReviewForm = ({ review, onSuccess }) => {
     const params = { ...form, userID: user.id, id: review.id };
     return dispatch(editReview(params))
       .then(() => onSuccess())
-      .then(() => history.push(`/reviews/${review.id}`))
+      // force re-render on ReviewActions with updated rating
+      .then(() => history.go(0))
+      // .then(() => history.push(`/reviews/${review.id}`))
       .catch(async (res) => {
         const data = await res.json();
         if (data && data.errors) {

@@ -31,11 +31,6 @@ const ReviewActions = ({ userID, onEditClick, onPostClick, rating }) => {
       )}
       <ActionsRow label="Review or log again..." onClick={onPostClick} />
       <ActionsRow label="Add this album to lists..." />
-      {/* {showModal && (
-        <Modal onClose={() => setShowModal(false)}>
-          <EditReviewForm review={review} />
-        </Modal>
-      )} */}
     </ul>
   );
 };
