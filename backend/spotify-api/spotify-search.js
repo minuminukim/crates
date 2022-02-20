@@ -61,13 +61,15 @@ const searchAlbumsByTitle = async (title) => {
 
     return mapped;
   } catch (error) {
-    console.log('@@@@@@@@@@@ error in search', error);
+    // console.log('@@@@@@@@@@@ error in search', error);
+    console.log('hi');
   }
 };
 
 const wrapSearchInRetry = (searchFunction) => {
   return async (...args) => {
     try {
+      console.log('test');
       const response = await searchFunction(args);
       return response;
     } catch (error) {

@@ -1,0 +1,9 @@
+.list-link {
+  display: flex;
+  width: 350px;
+}
+
+.list-link .album-art {
+  position: absolute;
+  /* right: 40px; */
+}
