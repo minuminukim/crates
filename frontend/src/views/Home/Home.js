@@ -1,15 +1,14 @@
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { getReviews } from '../../store/reviewsReducer';
-import CardRow from '../CardRow';
-import StarRating from '../StarRating';
-import './IndexView.css';
+import CardRow from '../../components/CardRow';
+import './Home.css';
 
 const sortByRecent = (items) => {
   return items.sort((a, b) => b.id - a.id);
 };
 
-const IndexView = () => {
+const Home = () => {
   const [isLoading, setIsLoading] = useState(true);
   const dispatch = useDispatch();
   const { items } = useSelector((state) => state.reviews);
@@ -36,9 +35,7 @@ const IndexView = () => {
         </h1>
       </section>
       <section className="recent-posts-section">
-        <h2 className="recent-posts-heading">
-          NEW FROM FRIENDS
-        </h2>
+        <h2 className="recent-posts-heading">NEW FROM FRIENDS</h2>
         {!isLoading && <CardRow items={sorted} />}
       </section>
       {/* <StarRating /> */}
@@ -46,4 +43,4 @@ const IndexView = () => {
   );
 };
 
-export default IndexView;
+export default Home;

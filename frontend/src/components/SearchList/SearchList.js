@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Modal } from '../../context/Modal';
-import ReviewForm from '../ReviewForm';
+import { ReviewForm } from '../../views/Reviews';
 import SearchItem from '../SearchItem';
 import './SearchList.css';
 

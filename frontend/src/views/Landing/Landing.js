@@ -1,10 +1,10 @@
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { loginDemo } from '../../store/session';
-import Button from '../Button/Button';
-import './LandingView.css';
+import Button from '../../components/Button';
+import './Landing.css';
 
-const LandingView = () => {
+const Landing = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const handleDemoUser = () =>
@@ -12,7 +12,7 @@ const LandingView = () => {
   return (
     <div className="page-container landing-page">
       {/* <div className="backdrop-container"> */}
-        <div className="backdrop"></div>
+      <div className="backdrop"></div>
       {/* </div> */}
       <div className="credit-container">
         <span className="credit-link">
@@ -43,4 +43,4 @@ const LandingView = () => {
   );
 };
 
-export default LandingView;
+export default Landing;

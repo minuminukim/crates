@@ -1,8 +1,8 @@
 // import { Link } from 'react-router-dom';
-import ReviewsList from '../ReviewsList';
-import './AlbumsView.css';
+import ReviewsList from '../../components/ReviewsList';
+import './Albums.css';
 
-const AlbumsView = () => {
+const Albums = () => {
   return (
     <div className="page-container albums-view-container">
       <section className="popular-reviews">
@@ -13,4 +13,4 @@ const AlbumsView = () => {
   );
 };
 
-export default AlbumsView;
+export default Albums;

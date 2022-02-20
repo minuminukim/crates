@@ -1,5 +1,5 @@
 import { useSelector } from 'react-redux';
-import StarRating from '../StarRating';
+import StarRating from '../../components/StarRating';
 import './ReviewActions.css';
 
 const ActionsRow = ({ label, onClick, children = null, className }) => {

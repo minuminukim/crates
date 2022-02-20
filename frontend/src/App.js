@@ -1,21 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Route, Switch } from 'react-router-dom';
-import SignupFormPage from './components/SignupFormPage';
-import IndexView from './components/IndexView';
-import LandingView from './components/LandingView';
-import AlbumsView from './components/AlbumsView';
-import ListsView from './components/ListsView';
-import ListForm from './components/ListForm/ListForm';
-import ListPage from './components/ListPage';
-// import LoginFormPage from "./components/LoginFormPage";
-// import SearchModal from './components/SearchModal';
-import SignupForm from './components/SignupFormPage/SignupForm';
+import Home from './views/Home';
+import Landing from './views/Landing';
+import Albums from './views/Albums';
+import { Lists, ListForm, ListPage } from './views/Lists';
+import SignupForm from './components/SignupForm';
 import { restoreUser } from './store/session';
 import { fetchAlbumsFromDB } from './store/albumsReducer';
 import Navigation from './components/Navigation';
 import ReviewsList from './components/ReviewsList';
-import Review from './components/Review';
+import Review from './views/Reviews';
 
 function App() {
   const dispatch = useDispatch();
@@ -34,10 +29,7 @@ function App() {
       {isLoaded && (
         <Switch>
           <Route exact path="/">
-            {sessionUser ? <IndexView /> : <LandingView />}
-          </Route>
-          <Route exact path="/home">
-            <IndexView />
+            {sessionUser ? <Home /> : <Landing />}
           </Route>
           <Route path="/signup">
             <SignupForm />
@@ -49,10 +41,10 @@ function App() {
             <ReviewsList />
           </Route>
           <Route exact path="/albums">
-            <AlbumsView />
+            <Albums />
           </Route>
           <Route exact path="/lists">
-            <ListsView />
+            <Lists />
           </Route>
           <Route exact path="/lists/new">
             <ListForm />

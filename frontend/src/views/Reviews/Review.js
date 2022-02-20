@@ -4,10 +4,10 @@ import { useParams } from 'react-router-dom';
 import { getSingleReview } from '../../store/reviewsReducer';
 import { fetchSingleAlbumFromDB } from '../../store/albumsReducer';
 import { Modal } from '../../context/Modal';
-import EditReviewForm from '../ReviewForm/EditReviewForm';
-import ReviewForm from '../ReviewForm/ReviewForm';
+import EditReviewForm from './EditReviewForm';
+import ReviewForm from './ReviewForm';
 import ReviewBody from './ReviewBody';
-import AlbumArt from '../AlbumArt';
+import AlbumArt from '../../components/AlbumArt';
 import ReviewActions from './ReviewActions';
 import './Review.css';
 

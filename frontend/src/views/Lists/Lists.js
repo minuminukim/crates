@@ -2,10 +2,10 @@ import { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchLists } from '../../store/listsReducer';
-import ListCard from '../ListCard';
-import Button from '../Button';
+import ListCard from '../../components/ListCard';
+import Button from '../../components/Button';
 
-const ListsView = () => {
+const Lists = () => {
   const history = useHistory();
   const dispatch = useDispatch();
   const lists = useSelector((state) => state.lists.items);
@@ -41,4 +41,4 @@ const ListsView = () => {
   );
 };
 
-export default ListsView;
+export default Lists;

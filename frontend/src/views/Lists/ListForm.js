@@ -1,15 +1,14 @@
 import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { createList } from '../../store/listsReducer';
-import InputField from '../InputField';
-import InputLabel from '../InputLabel';
+import { InputField, InputLabel } from '../../components/InputField';
 import useSearch from '../../hooks/useSearch';
-import SearchItem from '../SearchItem';
-import { SaveButton } from '../Button/SaveDeleteButtons';
-import ValidationError from '../ValidationError';
-import Button from '../Button';
+import SearchItem from '../../components/SearchItem';
+import { SaveButton } from '../../components/Button';
+import ValidationError from '../../components/ValidationError';
+import Button from '../../components/Button';
+import DraggableList from '../../components/DraggableList/DraggableList';
 import './ListForm.css';
-import DraggableList from '../DraggableList/DraggableList';
 
 const ListForm = () => {
   const [title, setTitle] = useState('');

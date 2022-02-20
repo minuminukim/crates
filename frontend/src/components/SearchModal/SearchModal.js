@@ -2,7 +2,7 @@ import { useState } from 'react';
 import useSearch from '../../hooks/useSearch';
 import SearchBar from '../SearchBar';
 import SearchList from '../SearchList';
-import ReviewForm from '../ReviewForm';
+import { ReviewForm } from '../../views/Reviews';
 import { Modal } from '../../context/Modal';
 import './SearchModal.css';
 

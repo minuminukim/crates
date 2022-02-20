@@ -3,11 +3,10 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { postReview } from '../../store/reviewsReducer';
 import { fetchSingleAlbumFromDB } from '../../store/albumsReducer';
-import AlbumArt from '../AlbumArt';
-import InputField from '../InputField';
-import InputLabel from '../InputLabel';
-import ValidationError from '../ValidationError';
-import StarRating from '../StarRating';
+import AlbumArt from '../../components/AlbumArt';
+import { InputField, InputLabel } from '../../components/InputField';
+import ValidationError from '../../components/ValidationError';
+import StarRating from '../../components/StarRating';
 import './ReviewForm.css';
 
 const ReviewForm = ({ album = null, onSuccess = null }) => {

@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchSingleUser } from '../../store/usersReducer';
 import { FaUserCircle } from 'react-icons/fa';
-import StarRatingReadOnly from '../StarRating/StarRatingReadOnly';
+import { StarRatingReadOnly } from '../../components/StarRating';
 import { formatDateDayMonthYear } from '../../utils/date-helpers';
 import './ReviewBody.css';
 

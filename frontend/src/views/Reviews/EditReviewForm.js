@@ -1,13 +1,12 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import ValidationError from '../ValidationError';
+import ValidationError from '../../components/ValidationError';
 import { editReview, deleteReview } from '../../store/reviewsReducer';
-import AlbumArt from '../AlbumArt';
-import InputField from '../InputField';
-import InputLabel from '../InputLabel';
-import { SaveButton, DeleteButton } from '../Button/SaveDeleteButtons';
-import StarRating from '../StarRating';
+import AlbumArt from '../../components/AlbumArt';
+import { InputField, InputLabel } from '../../components/InputField';
+import { SaveButton, DeleteButton } from '../../components/Button';
+import StarRating from '../../components/StarRating';
 import './ReviewForm.css';
 
 const EditReviewForm = ({ review, onSuccess }) => {
@@ -49,7 +48,6 @@ const EditReviewForm = ({ review, onSuccess }) => {
     setErrors({});
 
     if (action && action === 'delete') {
-      
       return dispatch(deleteReview(review.id))
         .then(() => history.push('/'))
         .then(() => onSuccess())
