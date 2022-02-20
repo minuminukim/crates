@@ -4,7 +4,12 @@ import ReviewForm from '../ReviewForm';
 import SearchItem from '../SearchItem';
 import './SearchList.css';
 
-const SearchList = ({ items, closeSearch }) => {
+const SearchList = ({
+  items,
+  isModal,
+  closeSearchModal = null,
+  onClick = null,
+}) => {
   const [chosen, setChosen] = useState(null);
   const [showModal, setShowModal] = useState(false);
 
@@ -22,12 +27,12 @@ const SearchList = ({ items, closeSearch }) => {
           }}
         />
       ))}
-      {showModal && (
+      {isModal && showModal && (
         <Modal onClose={() => setShowModal(false)}>
           <ReviewForm
             album={chosen}
             onSuccess={() => {
-              closeSearch();
+              closeSearchModal();
               setShowModal(false);
             }}
           />

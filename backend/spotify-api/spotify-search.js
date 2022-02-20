@@ -72,8 +72,11 @@ const wrapSearchInRetry = (searchFunction) => {
       return response;
     } catch (error) {
       if (error.response.status === 401) {
+        console.log('401 ertror in wrapper', error);
         try {
+          console.log('before', token);
           token = await getToken();
+          console.log('after', token);
           const response = await searchFunction(args);
           return response;
         } catch (anotherError) {
