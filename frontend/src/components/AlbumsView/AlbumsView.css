@@ -1,0 +1,11 @@
+.albums-view-container {
+  max-width: 950px;
+  margin: 0 auto;
+}
+
+.albums-view-container .section-heading {
+  font-size: 14px;
+  font-weight: 400;
+  border-bottom: 0.5px solid rgb(68, 85, 102);
+  padding-bottom: 6px;
+}

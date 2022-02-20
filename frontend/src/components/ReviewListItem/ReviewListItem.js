@@ -4,10 +4,10 @@ import AlbumArt from '../AlbumArt';
 import { formatDateDayMonthYear } from '../../utils/date-helpers';
 import './ReviewListItem.css';
 
-const ReviewListItem = ({ review }) => {
+const ReviewListItem = ({ review, className = null }) => {
   const album = review?.album;
   return (
-    <div className="review-list-item">
+    <div className={`review-list-item ${className}`}>
       <div className="review-list-item-art">
         <AlbumArt
           title={album.title}

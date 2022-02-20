@@ -1,9 +1,14 @@
 .review-list-item {
   width: 800px;
+  max-height: 307px;
   display: flex;
   border-bottom: 0.5px solid rgb(68, 85, 102);
   padding: 18px 0;
   line-height: 1.6;
+}
+
+.review-list-item.popular {
+  width: 650px;
 }
 
 .review-list-item-main {
@@ -24,6 +29,8 @@ a.review-list-item-title {
 }
 
 .review-list-item-year {
+  position: relative;
+  top: 2px;
   color: #89a;
   font-family: Graphik-Regular-Web, sans-serif;
   font-size: 22px;
@@ -60,4 +67,7 @@ a.review-list-item-title {
 .review-list-item-body {
   font-family: TiemposTextWeb-Semibold, Georgia, serif;
   margin-bottom: 0;
+  /* overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis; */
 }

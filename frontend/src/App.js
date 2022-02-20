@@ -4,6 +4,7 @@ import { Route, Switch } from 'react-router-dom';
 import SignupFormPage from './components/SignupFormPage';
 import IndexView from './components/IndexView';
 import LandingView from './components/LandingView';
+import AlbumsView from './components/AlbumsView';
 // import LoginFormPage from "./components/LoginFormPage";
 // import SearchModal from './components/SearchModal';
 import SignupForm from './components/SignupFormPage/SignupForm';
@@ -43,6 +44,9 @@ function App() {
           </Route>
           <Route exact path="/users/:userID/reviews">
             <ReviewsList />
+          </Route>
+          <Route exact path="/albums">
+            <AlbumsView />
           </Route>
           {/* <Route path="/search">
             <SearchModal />

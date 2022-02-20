@@ -42,7 +42,7 @@ function Navigation({ isLoaded }) {
       <ul className="nav-links">
         {isLoaded && sessionLinks}
         <li>
-          <NavLink className="nav-label" exact to="#">
+          <NavLink className="nav-label" exact to="/albums">
             ALBUMS
           </NavLink>
         </li>
