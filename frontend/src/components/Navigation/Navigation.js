@@ -47,7 +47,7 @@ function Navigation({ isLoaded }) {
           </NavLink>
         </li>
         <li>
-          <NavLink className="nav-label" exact to="#">
+          <NavLink className="nav-label" exact to="/lists">
             LISTS
           </NavLink>
         </li>

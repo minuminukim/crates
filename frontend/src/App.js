@@ -5,6 +5,8 @@ import SignupFormPage from './components/SignupFormPage';
 import IndexView from './components/IndexView';
 import LandingView from './components/LandingView';
 import AlbumsView from './components/AlbumsView';
+import ListsView from './components/ListsView';
+import ListForm from './components/ListForm/ListForm';
 // import LoginFormPage from "./components/LoginFormPage";
 // import SearchModal from './components/SearchModal';
 import SignupForm from './components/SignupFormPage/SignupForm';
@@ -47,6 +49,12 @@ function App() {
           </Route>
           <Route exact path="/albums">
             <AlbumsView />
+          </Route>
+          <Route exact path="/lists">
+            <ListsView />
+          </Route>
+          <Route exact path="/lists/new">
+            <ListForm />
           </Route>
           {/* <Route path="/search">
             <SearchModal />

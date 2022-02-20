@@ -89,6 +89,16 @@ router.post(
   })
 );
 
+router.patch(
+  '/:id(\\d+)',
+  // TODO: validation errors,
+  // requireAuth,
+  asyncHandler(async (req, res, next) => {
+    // TODO: build this for smaller edits like appending a single item
+  })
+);
+
+// handles
 router.put(
   '/:id(\\d+)',
   // TODO: validation errors,
