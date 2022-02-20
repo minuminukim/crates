@@ -2,13 +2,11 @@ import { useState, useEffect } from 'react';
 import { FaStarHalf, FaStar } from 'react-icons/fa';
 import './StarRating.css';
 
-const StarRating = ({ reviewRating = 0 }) => {
+const StarRating = ({ reviewRating = 0, handleForm }) => {
   const [rating, setRating] = useState(0);
   const [hoverIndex, setHoverIndex] = useState(0);
 
   const isFilled = (i) => (i <= (hoverIndex || rating) ? 'star-filled' : '');
-
-  // const onClick = () =>
 
   // width 26px, half-width 13px
   return (
@@ -19,18 +17,24 @@ const StarRating = ({ reviewRating = 0 }) => {
             <FaStar
               className={`star star-left ${isFilled(i * 2 + 1)}`}
               id={`star-${i * 2 + 1}`} // id === rating
-              onClick={() => setRating(i * 2 + 1)}
               onMouseEnter={() => setHoverIndex(i * 2 + 1)}
               onMouseLeave={() => setHoverIndex(rating)}
+              onClick={() => {
+                setRating(i * 2 + 1);
+                handleForm(i * 2 + 1);
+              }}
             />
           </div>
           <div className="star-right">
             <FaStar
               className={`star star-right ${isFilled(i * 2 + 2)}`}
-              id={`star-${i * 2 + 2}`}
-              onClick={() => setRating(i * 2 + 2)}
+              id={`star-${i * 2 + 2}`} // id === rating
               onMouseEnter={() => setHoverIndex(i * 2 + 2)}
               onMouseLeave={() => setHoverIndex(rating)}
+              onClick={() => {
+                setRating(i * 2 + 2);
+                handleForm(i * 2 + 2);
+              }}
             />
           </div>
         </div>

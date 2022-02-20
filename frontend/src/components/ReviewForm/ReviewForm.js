@@ -7,6 +7,7 @@ import AlbumArt from '../AlbumArt';
 import InputField from '../InputField';
 import InputLabel from '../InputLabel';
 import ValidationError from '../ValidationError';
+import StarRating from '../StarRating';
 import './ReviewForm.css';
 
 const ReviewForm = ({ album = null }) => {
@@ -14,12 +15,11 @@ const ReviewForm = ({ album = null }) => {
   const dispatch = useDispatch();
   const history = useHistory();
   const { user } = useSelector((state) => state.session);
-  // const { errors } = useSelector((state) => state.reviews);
-  const today = new Date().toISOString().slice(0, 10);
   const [body, setBody] = useState('');
   const [rating, setRating] = useState(0);
   const [isRelisten, setIsRelisten] = useState(false);
   const [errors, setErrors] = useState({});
+  const today = new Date().toISOString().slice(0, 10);
   const [listenedDate, setListenedDate] = useState(today);
 
   const handleSubmit = (e) => {
@@ -49,6 +49,8 @@ const ReviewForm = ({ album = null }) => {
         }
       });
   };
+
+  const onStarChange = (star) => setRating(star);
 
   return (
     <div style={{ backgroundColor: 'transparent' }}>
@@ -108,6 +110,7 @@ const ReviewForm = ({ album = null }) => {
               error={errors?.rating}
               onChange={(e) => setRating(e.target.value)}
             />
+            <StarRating handleForm={onStarChange} />
             {/* TODO: star rating component */}
           </div>
           <div className="form-row">
