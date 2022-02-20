@@ -191,7 +191,9 @@ router.delete(
       averageRating: average,
     });
 
-    return res.status(204).json({});
+    return res.status(200).json({
+      message: 'You have successfully deleted your review.',
+    });
   })
 );
 

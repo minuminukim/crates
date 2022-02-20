@@ -10,7 +10,7 @@ import ValidationError from '../ValidationError';
 import StarRating from '../StarRating';
 import './ReviewForm.css';
 
-const ReviewForm = ({ album = null }) => {
+const ReviewForm = ({ album = null, onSuccess = null }) => {
   console.log('album', album);
   const dispatch = useDispatch();
   const history = useHistory();
@@ -42,6 +42,7 @@ const ReviewForm = ({ album = null }) => {
 
     return dispatch(postReview(params))
       .then((data) => history.push(`/reviews/${data.id}`))
+      .then(() => onSuccess())
       .catch(async (res) => {
         const data = await res.json();
         if (data && data.errors) {

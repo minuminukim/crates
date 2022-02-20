@@ -5,7 +5,7 @@ import SearchBar from '../SearchBar';
 import SearchList from '../SearchList';
 import './SearchModal.css';
 
-const SearchModal = () => {
+const SearchModal = ({ closeSearch = null }) => {
   const [query, setQuery] = useState('');
   const [results, setResults] = useState([]);
   // const [errors, setErrors] = useState({});
@@ -24,19 +24,6 @@ const SearchModal = () => {
     }
 
     const delayedFetchTimer = setTimeout(async () => {
-      // const options = {
-      //   method: 'POST',
-      //   headers: { 'Content-Type': 'application/json' },
-      //   body: JSON.stringify({ query }),
-      // };
-
-      // csrfFetch('/api/search', options)
-      //   .then((response) => response.json())
-      //   .then((data) => setResults(data.albums))
-      //   .catch((err) => {
-      //     console.log('errors', err);
-      //     // setErrors(err);
-      //   });
       const albums = await dispatch(searchAlbums(query));
       setResults(albums);
       console.log('albums', results);
@@ -48,7 +35,7 @@ const SearchModal = () => {
   const handleChange = (e) => setQuery(e.target.value);
 
   return (
-    <form className="search-modal">
+    <form className="search-modal" onSubmit={(e) => e.preventDefault()}>
       <div className="form-section">
         <h1 className="search-modal-heading">ADD TO YOUR ALBUMS...</h1>
       </div>
@@ -60,7 +47,9 @@ const SearchModal = () => {
           <SearchBar value={query} onChange={handleChange} id="search" />
         </div>
       </div>
-      {results.length > 0 && <SearchList items={results} />}
+      {results.length > 0 && (
+        <SearchList items={results} closeSearch={closeSearch} />
+      )}
     </form>
   );
 };

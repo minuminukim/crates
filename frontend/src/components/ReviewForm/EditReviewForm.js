@@ -49,24 +49,27 @@ const EditReviewForm = ({ review, onSuccess }) => {
     setErrors({});
 
     if (action && action === 'delete') {
+      
       return dispatch(deleteReview(review.id))
-        .then(() => onSuccess())
         .then(() => history.push('/'))
+        .then(() => onSuccess())
         .catch((err) => console.log('error on delete submission: ', err));
     }
 
     const params = { ...form, userID: user.id, id: review.id };
-    return dispatch(editReview(params))
-      .then(() => onSuccess())
-      // force re-render on ReviewActions with updated rating
-      .then(() => history.go(0))
-      // .then(() => history.push(`/reviews/${review.id}`))
-      .catch(async (res) => {
-        const data = await res.json();
-        if (data && data.errors) {
-          setErrors(data.errors);
-        }
-      });
+    return (
+      dispatch(editReview(params))
+        .then(() => onSuccess())
+        // force re-render on ReviewActions with updated rating
+        .then(() => history.go(0))
+        // .then(() => history.push(`/reviews/${review.id}`))
+        .catch(async (res) => {
+          const data = await res.json();
+          if (data && data.errors) {
+            setErrors(data.errors);
+          }
+        })
+    );
   };
 
   const onEdit = () => setAction('edit');

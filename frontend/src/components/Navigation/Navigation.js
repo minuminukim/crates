@@ -10,7 +10,7 @@ import SearchModal from '../SearchModal';
 import './Navigation.css';
 
 function Navigation({ isLoaded }) {
-  const [showModal, setShowModal] = useState(false);
+  const [showSearch, setShowSearch] = useState(false);
   const sessionUser = useSelector((state) => state.session.user);
 
   const sessionLinks = sessionUser ? (
@@ -55,10 +55,10 @@ function Navigation({ isLoaded }) {
           <BiSearchAlt className="nav-label search-icon" />
         </li>
         <li>
-          <LogButton handleLogClick={() => setShowModal(true)} />
-          {isLoaded && showModal && (
-            <Modal onClose={() => setShowModal(false)}>
-              <SearchModal />
+          <LogButton handleLogClick={() => setShowSearch(true)} />
+          {isLoaded && showSearch && (
+            <Modal onClose={() => setShowSearch(false)}>
+              <SearchModal closeSearch={() => setShowSearch(false)} />
             </Modal>
           )}
         </li>
