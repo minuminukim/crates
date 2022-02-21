@@ -3,7 +3,19 @@
   width: 350px;
 }
 
-.list-link .album-art {
-  position: absolute;
-  /* right: 40px; */
+.list-card-large {
+  width: 350px;
+  margin-right: 30px;
+}
+
+a.list-card-title {
+  font-family: TiemposTextWeb-Semibold, Georgia, serif;
+  color: #fff;
+  font-size: 22px;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.list-card-title:hover {
+  color: #def;
 }

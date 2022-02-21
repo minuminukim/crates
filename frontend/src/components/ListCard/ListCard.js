@@ -1,23 +1,18 @@
 import { Link } from 'react-router-dom';
-import AlbumArt from '../AlbumArt';
+import { ListSpread } from '.';
 import './ListCard.css';
 
-const ListCard = ({ list }) => {
+const ListCard = ({ list, size = 'medium' }) => {
   const albums = list?.albums;
+
   return (
-    <div className="list-card">
-      <Link to="#" className="list-link">
-        {albums?.length &&
-          albums
-            .slice(0, 5)
-            .map((album) => (
-              <AlbumArt
-                title={album.title}
-                artworkURL={album.artworkURL}
-                size="medium"
-              />
-            ))}
-      </Link>
+    <div className={`list-card list-card-${size}`}>
+      <ListSpread albums={albums} listID={list.id} gap={30} size={size} />
+      <div>
+        <Link to={`/lists/${list.id}`} className="list-card-title">
+          {list.title}
+        </Link>
+      </div>
     </div>
   );
 };

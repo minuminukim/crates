@@ -19,6 +19,7 @@ const Card = ({ item }) => {
     <div className="card">
       <Link to={`/reviews/${item.id}`} className="card-link">
         <div className="card-main">
+          <span className="overlay"></span>
           <AlbumArt
             title={album.title}
             artworkURL={album.artworkURL}

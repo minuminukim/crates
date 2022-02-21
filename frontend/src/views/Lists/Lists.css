@@ -1,0 +1,14 @@
+.lists-view-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 30px;
+}
+
+.lists-view-wrapper {
+  width: 950px;
+}
+
+div.popular-lists {
+  display: flex;
+}

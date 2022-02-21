@@ -1,5 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import { fetchUserLists, appendList } from '../../store/listsReducer';
 import ValidationError from '../ValidationError';
 import './AppendList.css';
@@ -12,6 +13,7 @@ const AppendList = ({ album }) => {
   const [chosen, setChosen] = useState(null);
   const [errors, setErrors] = useState([]);
   const dispatch = useDispatch();
+  const history = useHistory();
 
   useEffect(() => {
     return dispatch(fetchUserLists(user.id))
@@ -35,6 +37,7 @@ const AppendList = ({ album }) => {
 
     return dispatch(appendList(payload))
       .then((list) => console.log('success', list))
+      .then(() => history.go(0))
       .catch(async (res) => {
         const data = await res.json();
         console.log('res', data);

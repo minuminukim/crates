@@ -11,9 +11,20 @@
 }
 
 .card-main:hover {
-  /* border: 3px solid #00e054; */
   outline: 3px solid #00e054;
 }
+/* .overlay {
+  width: 100%;
+  height: 100%;
+  border-radius: 5px;
+  z-index: 5000;
+  transition: border 0.1s linear;
+  position: relative;
+}
+
+.overlay:hover {
+  border: 3px solid #00e054;
+} */
 
 .card-signature {
   display: flex;
