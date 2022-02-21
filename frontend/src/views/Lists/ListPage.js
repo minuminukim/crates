@@ -5,6 +5,9 @@ import { fetchSingleList } from '../../store/listsReducer';
 import AlbumGrid from '../../components/AlbumGrid';
 import { ListActions } from '../../components/ActionsPanel';
 import { deleteList } from '../../store/listsReducer';
+import { useModal } from '../../hooks';
+import { Modal } from '../../context/Modal';
+import WarningMessage from '../../components/WarningMessage';
 import './ListPage.css';
 
 const ListPage = () => {
@@ -12,6 +15,7 @@ const ListPage = () => {
   const list = useSelector((state) => state.lists.items[listID]);
   const sessionUser = useSelector((state) => state.session.user);
   const [isLoading, setIsLoading] = useState(true);
+  const { showModal, toggleModal } = useModal();
   const dispatch = useDispatch();
   const history = useHistory();
 
@@ -51,29 +55,22 @@ const ListPage = () => {
           </main>
         </div>
         <section className="list-page-side">
-          {/* <div className="actions-panel edit-actions">
-            {list.userID === sessionUser?.id && (
-              <>
-                <ActionsRow
-                  label="Edit this list..."
-                  className="list-action"
-                  link={`/lists/${listID}/edit`}
-                />
-                <ActionsRow
-                  label="Delete this list..."
-                  className="list-action delete"
-                  onClick={() => handleDelete()}
-                />
-              </>
-            )}
-          </div> */}
           <ListActions
             userID={list.userID}
             sessionUserID={sessionUser.id}
             listID={listID}
-            handleDelete={handleDelete}
+            handleDelete={toggleModal}
           />
         </section>
+        {showModal && (
+          <Modal onClose={toggleModal}>
+            <WarningMessage
+              item="list"
+              toggle={toggleModal}
+              onDelete={handleDelete}
+            />
+          </Modal>
+        )}
       </div>
     )
   );
