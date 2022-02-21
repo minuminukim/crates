@@ -1,10 +1,12 @@
 .feed-post {
   display: flex;
-  max-height: 155px;
+  align-items: center;
+  height: 155px;
   width: 100%;
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
+  border-bottom: 1px solid #2c3440;
 }
 
 .feed-post h3 {
@@ -15,4 +17,9 @@
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
+}
+
+.feed-post-right {
+  margin-left: 12px;
+  width: 365px;
 }
