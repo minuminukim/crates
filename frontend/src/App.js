@@ -12,6 +12,7 @@ import Navigation from './components/Navigation';
 import ReviewsList from './components/ReviewsList';
 import Review from './views/Reviews';
 import NotFound from './views/NotFound';
+import { User } from './views/User';
 
 function App() {
   const dispatch = useDispatch();
@@ -38,9 +39,12 @@ function App() {
           <Route path="/reviews/:reviewID">
             <Review />
           </Route>
-          <Route exact path="/users/:userID/reviews">
-            <ReviewsList />
+          <Route path="/users/:userID">
+            <User />
           </Route>
+          {/* <Route exact path="/users/:userID/reviews">
+            <ReviewsList />
+          </Route> */}
           <Route exact path="/albums">
             <Albums />
           </Route>

@@ -5,6 +5,7 @@ import { Switch, Route, useRouteMatch, useParams } from 'react-router-dom';
 // import UserNavigation from './UserNavigation';
 import ReviewsList from '../../components/ReviewsList';
 import { UserLists, UserNavigation } from '.';
+import './User.css';
 
 const User = () => {
   const { userID } = useParams();

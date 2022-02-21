@@ -65,11 +65,16 @@ router.get(
       where: {
         userID: id,
       },
-      include: {
-        model: Album,
-        as: 'albums',
-        attributes: ['id'],
-      },
+      include: [
+        {
+          model: Album,
+          as: 'albums',
+        },
+        {
+          model: User,
+          attributes: ['username', 'id'],
+        },
+      ],
     });
     return res.json({
       lists,

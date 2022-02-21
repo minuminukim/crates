@@ -31,8 +31,8 @@ const UserLists = ({ userID }) => {
         </div>
         <div>
           <ActionsRow
-            label="Start a new list"
-            className="hover"
+            label="Start a new list..."
+            className="hover solo"
             link="/lists/new"
           />
         </div>

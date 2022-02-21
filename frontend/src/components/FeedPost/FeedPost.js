@@ -1,9 +1,13 @@
 import { ListSpread } from '../ListCard';
 import { FaUserCircle } from 'react-icons/fa';
-import { Link } from 'react-router-dom';
+import { MdModeEditOutline } from 'react-icons/md';
+import { Link, useParams } from 'react-router-dom';
+
 import './FeedPost.css';
 
 const FeedPost = ({ list }) => {
+  const { userID } = useParams();
+
   return (
     <li className="feed-post">
       <div>
@@ -14,9 +18,18 @@ const FeedPost = ({ list }) => {
           <Link to={`/lists/${list.id}`}>{list.title}</Link>
         </h3>
         <div>
-          <FaUserCircle />
-          <span>{list.User.username}</span>
+          {!userID && (
+            <>
+              <FaUserCircle />
+              <span>{list.User.username}</span>
+            </>
+          )}
           <span>{`${list.albums.length} albums`}</span>
+          {userID && (
+            <Link exact to={`/lists/${list.id}/edit`}>
+              <MdModeEditOutline className="icon" />
+            </Link>
+          )}
         </div>
         <div>
           <p className="description">{list.description}</p>

@@ -19,8 +19,8 @@ const AppendList = ({ album, onClose }) => {
 
   useEffect(() => {
     return dispatch(fetchUserLists(user.id))
-      .then((items) => items.filter((item) => item.userID === user.id))
-      .then((filtered) => setLists(filtered))
+      // .then((items) => items.filter((item) => item.userID === user.id))
+      .then((items) => setLists(items))
       .then(() => setIsLoading(false))
       .catch((err) => console.log('error fetching user lists', err));
   }, [dispatch]);

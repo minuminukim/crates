@@ -21,3 +21,17 @@
 .action-row-rated span {
   cursor: default !important;
 }
+
+.actions-row.solo {
+  background-color: #456;
+  border-radius: 3px;
+  padding: 10px 0;
+}
+
+.actions-row a {
+  color: #bcd;
+}
+
+.actions-row a:hover {
+  color: #fff;
+}
