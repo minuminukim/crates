@@ -1,5 +1,5 @@
 .btn-medium {
-  width: 60px;
+  width: 80px;
   height: 30px;
   border: 0;
   padding: 9px 12px;
@@ -13,5 +13,10 @@
 }
 
 .btn-delete {
-  background-color: #ec1200
+  background-color: #ec1200;
+}
+
+.btn-green {
+  background-color: #00b020;
+  color: #fff;
 }

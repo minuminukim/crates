@@ -1,9 +1,9 @@
 import './Button.css';
 
-const Button = ({ className, type, label, size, onClick }) => {
+const Button = ({ className, type, label, size, color, onClick }) => {
   return (
     <button
-      className={`btn-${size} ${className}`}
+      className={`btn-${size} btn-${color} ${className}`}
       onClick={onClick}
       type={type}
     >
@@ -17,6 +17,7 @@ Button.defaultProps = {
   type: 'button',
   label: null,
   size: 'medium',
+  color: '',
   onClick: null,
 };
 

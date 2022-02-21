@@ -1,54 +1,62 @@
-import React, { useState } from "react";
-import * as sessionActions from "../../store/session";
-import { useDispatch } from "react-redux";
-import "./LoginForm.css";
+import React, { useState } from 'react';
+import { login } from '../../store/session';
+import { useDispatch } from 'react-redux';
+import Button from '../Button';
+import { InputField, InputLabel } from '../InputField';
+import { AiOutlineClose } from 'react-icons/ai';
+import ValidationError from '../ValidationError';
+import './LoginForm.css';
 
-function LoginForm() {
+function LoginForm({ handleModal }) {
   const dispatch = useDispatch();
-  const [credential, setCredential] = useState("");
-  const [password, setPassword] = useState("");
+  const [credential, setCredential] = useState('');
+  const [password, setPassword] = useState('');
   const [errors, setErrors] = useState([]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     setErrors([]);
-    return dispatch(sessionActions.login({ credential, password })).catch(
-      async (res) => {
-        const data = await res.json();
-        if (data && data.errors) setErrors(data.errors);
-      }
-    );
+    return dispatch(login({ credential, password })).catch(async (res) => {
+      const data = await res.json();
+      if (data && data.errors) setErrors(Object.values(data.errors));
+    });
   };
 
   return (
     <>
-      <h1>Log In</h1>
-      <form onSubmit={handleSubmit}>
-        <ul>
-          {errors.map((error, idx) => (
-            <li key={idx}>{error}</li>
-          ))}
-        </ul>
-        <label>
-          Username or Email
-          <input
+      <form className="login-form" onSubmit={handleSubmit}>
+        <AiOutlineClose
+          className="close-icon"
+          onClick={handleModal}
+          style={{ cursor: 'pointer' }}
+        />
+        <div>
+          <InputLabel label="Username or Email" />
+          <InputField
             type="text"
+            id="credential"
             value={credential}
             onChange={(e) => setCredential(e.target.value)}
             required
           />
-        </label>
-        <label>
-          Password
-          <input
+        </div>
+        <div>
+          <InputLabel label="Password" />
+          <InputField
             type="password"
+            id="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
           />
-        </label>
-        <button type="submit">Log In</button>
+        </div>
+        <Button type="submit" label="SIGN IN" size="medium" color="green" />
       </form>
+      <ul className="error-container">
+        {errors.map((error, idx) => (
+          <ValidationError key={`error-${idx}`} error={error} />
+        ))}
+      </ul>
     </>
   );
 }
