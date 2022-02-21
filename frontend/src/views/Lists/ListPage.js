@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useParams, useHistory } from 'react-router-dom';
 import { fetchSingleList } from '../../store/listsReducer';
 import AlbumGrid from '../../components/AlbumGrid';
-import { ActionsRow } from '../../components/ActionsPanel';
+import { ListActions } from '../../components/ActionsPanel';
 import { deleteList } from '../../store/listsReducer';
 import './ListPage.css';
 
@@ -51,7 +51,7 @@ const ListPage = () => {
           </main>
         </div>
         <section className="list-page-side">
-          <div className="actions-panel edit-actions">
+          {/* <div className="actions-panel edit-actions">
             {list.userID === sessionUser?.id && (
               <>
                 <ActionsRow
@@ -66,7 +66,13 @@ const ListPage = () => {
                 />
               </>
             )}
-          </div>
+          </div> */}
+          <ListActions
+            userID={list.userID}
+            sessionUserID={sessionUser.id}
+            listID={listID}
+            handleDelete={handleDelete}
+          />
         </section>
       </div>
     )
