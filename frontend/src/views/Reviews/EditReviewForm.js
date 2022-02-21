@@ -24,6 +24,8 @@ const EditReviewForm = ({ review, onSuccess }) => {
     // ...review
   });
 
+  const today = new Date().toISOString().slice(0, 10);
+
   const handleChange = (e) =>
     setForm({
       ...form,
@@ -78,9 +80,7 @@ const EditReviewForm = ({ review, onSuccess }) => {
     <div>
       <form onSubmit={handleSubmit} className="review-form edit">
         {errors.length > 0 &&
-          errors.map((error) => (
-            <ValidationError error={error} />
-          ))}
+          errors.map((error) => <ValidationError error={error} />)}
         <section className="review-form-left">
           <AlbumArt
             title={album?.title}
@@ -104,6 +104,7 @@ const EditReviewForm = ({ review, onSuccess }) => {
               value={form.listenedDate}
               // error={errors?.listenedDate}
               onChange={handleChange}
+              max={today}
             />
           </div>
           <div className="form-row">
