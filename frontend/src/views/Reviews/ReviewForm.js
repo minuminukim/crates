@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { postReview } from '../../store/reviewsReducer';
-import { fetchSingleAlbumFromDB } from '../../store/albumsReducer';
 import AlbumArt from '../../components/AlbumArt';
 import { InputField, InputLabel } from '../../components/InputField';
 import ValidationError from '../../components/ValidationError';
