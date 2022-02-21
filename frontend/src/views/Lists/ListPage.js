@@ -36,7 +36,7 @@ const ListPage = () => {
   }, [dispatch]);
 
   const handleDelete = () => {
-    return dispatch(deleteList(+listID, history))
+    return dispatch(deleteList(+listID))
       .then(() => history.push('/'))
       .catch((err) => console.log('error deleting list', err));
   };

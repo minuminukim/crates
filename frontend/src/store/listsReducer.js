@@ -88,13 +88,12 @@ export const appendList = (data) => async (dispatch) => {
   return list;
 };
 
-export const deleteList = (listID, history) => async (dispatch) => {
+export const deleteList = (listID) => async (dispatch) => {
   const response = await csrfFetch(`/api/lists/${listID}`, {
     method: 'DELETE',
   });
 
   dispatch(removeList(listID));
-  history.push('/');
   return response;
 };
 

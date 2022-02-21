@@ -45,64 +45,67 @@ const Review = () => {
       .catch((err) => console.log('error deleting review', err));
   };
 
-  return (
-    !isLoading &&
-    review && (
-      <div className="page-container review-page">
-        <div>
-          <AlbumArt
-            title={album?.title}
-            artworkURL={album?.artworkURL}
-            size="medium"
-          />
-        </div>
-        <div className="review-page-middle">
-          <ReviewBody review={review} album={album} />
-        </div>
-        <div>
-          <ReviewActions
-            rating={rating}
-            userID={review?.userID}
-            onEditClick={() => setShowEditModal(true)}
-            onPostClick={() => setShowPostModal(true)}
-            onListClick={() => setShowListModal(true)}
-            onDeleteClick={toggleWarning}
-          />
-        </div>
-        {showEditModal && (
-          <Modal onClose={() => setShowEditModal(false)}>
-            <EditReviewForm
-              review={review}
-              album={album}
-              onSuccess={() => setShowEditModal(false)}
+  // return null when review doesn't exist after dispatching a delete action
+  return !review
+    ? null
+    : !isLoading && (
+        <div className="page-container review-page">
+          <div>
+            <AlbumArt
+              title={album?.title}
+              artworkURL={album?.artworkURL}
+              size="medium"
             />
-          </Modal>
-        )}
-        {showPostModal && (
-          <Modal onClose={() => setShowPostModal(false)}>
-            <ReviewForm
-              album={album}
-              onSuccess={() => setShowPostModal(false)}
+          </div>
+          <div className="review-page-middle">
+            <ReviewBody review={review} album={album} />
+          </div>
+          <div>
+            <ReviewActions
+              rating={rating}
+              userID={review?.userID}
+              onEditClick={() => setShowEditModal(true)}
+              onPostClick={() => setShowPostModal(true)}
+              onListClick={() => setShowListModal(true)}
+              onDeleteClick={toggleWarning}
             />
-          </Modal>
-        )}
-        {showListModal && (
-          <Modal onClose={() => setShowListModal(false)}>
-            <AppendList album={album} onClose={() => setShowListModal(false)} />
-          </Modal>
-        )}
-        {showWarning && (
-          <Modal onClose={toggleWarning}>
-            <WarningMessage
-              item="review"
-              toggle={toggleWarning}
-              onDelete={handleDelete}
-            />
-          </Modal>
-        )}
-      </div>
-    )
-  );
+          </div>
+          {showEditModal && (
+            <Modal onClose={() => setShowEditModal(false)}>
+              <EditReviewForm
+                review={review}
+                album={album}
+                onSuccess={() => setShowEditModal(false)}
+              />
+            </Modal>
+          )}
+          {showPostModal && (
+            <Modal onClose={() => setShowPostModal(false)}>
+              <ReviewForm
+                album={album}
+                onSuccess={() => setShowPostModal(false)}
+              />
+            </Modal>
+          )}
+          {showListModal && (
+            <Modal onClose={() => setShowListModal(false)}>
+              <AppendList
+                album={album}
+                onClose={() => setShowListModal(false)}
+              />
+            </Modal>
+          )}
+          {showWarning && (
+            <Modal onClose={toggleWarning}>
+              <WarningMessage
+                item="review"
+                toggle={toggleWarning}
+                onDelete={handleDelete}
+              />
+            </Modal>
+          )}
+        </div>
+      );
 };
 
 export default Review;

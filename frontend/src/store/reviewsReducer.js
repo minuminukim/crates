@@ -32,9 +32,9 @@ const updateReview = (review) => ({
   review,
 });
 
-const removeReview = (id) => ({
+const removeReview = (reviewID) => ({
   type: REVIEW_REMOVED,
-  id,
+  reviewID,
 });
 
 export const getReviews = () => async (dispatch) => {
@@ -140,7 +140,7 @@ const reviewsReducer = (state = initialState, action) => {
           ...state.items
         },
       };
-      delete newState.items[action.id];
+      delete newState.items[action.reviewID];
       return newState;
 
     default:
