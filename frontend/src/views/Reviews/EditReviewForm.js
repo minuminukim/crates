@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import ValidationError from '../../components/ValidationError';
 import { editReview, deleteReview } from '../../store/reviewsReducer';
@@ -12,9 +12,9 @@ import './ReviewForm.css';
 const EditReviewForm = ({ review, onSuccess }) => {
   const dispatch = useDispatch();
   const history = useHistory();
-  const [errors, setErrors] = useState({});
+  const [errors, setErrors] = useState([]);
   const [action, setAction] = useState(null);
-  // const { errors } = useSelector((state) => state.reviews);
+  const sessionUser = useSelector((state) => state.session.user);
   const { album, user } = review;
   const [form, setForm] = useState({
     listenedDate: review.listenedDate,
@@ -45,7 +45,7 @@ const EditReviewForm = ({ review, onSuccess }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setErrors({});
+    setErrors([]);
 
     if (action && action === 'delete') {
       return dispatch(deleteReview(review.id))
@@ -55,6 +55,7 @@ const EditReviewForm = ({ review, onSuccess }) => {
     }
 
     const params = { ...form, userID: user.id, id: review.id };
+
     return (
       dispatch(editReview(params))
         .then(() => onSuccess())
@@ -64,7 +65,7 @@ const EditReviewForm = ({ review, onSuccess }) => {
         .catch(async (res) => {
           const data = await res.json();
           if (data && data.errors) {
-            setErrors(data.errors);
+            setErrors(Object.values(data.errors));
           }
         })
     );
@@ -76,8 +77,8 @@ const EditReviewForm = ({ review, onSuccess }) => {
   return (
     <div>
       <form onSubmit={handleSubmit} className="review-form edit">
-        {Object.values(errors).length > 0 &&
-          Object.values(errors).map((error) => (
+        {errors.length > 0 &&
+          errors.map((error) => (
             <ValidationError error={error} />
           ))}
         <section className="review-form-left">
@@ -141,7 +142,10 @@ const EditReviewForm = ({ review, onSuccess }) => {
             />
           </div>
           <div className="form-row">
-            <SaveButton onClick={onEdit} />
+            <SaveButton
+              onClick={onEdit}
+              disabled={errors && errors.length > 0}
+            />
             <DeleteButton onClick={onDelete} />
           </div>
         </section>

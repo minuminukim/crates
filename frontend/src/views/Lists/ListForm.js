@@ -11,6 +11,7 @@ import { InputField, InputLabel } from '../../components/InputField';
 import SearchItem from '../../components/SearchItem';
 import { SaveButton } from '../../components/Button';
 import ValidationError from '../../components/ValidationError';
+import { SuccessMessage } from '../../components/ValidationError';
 import Button from '../../components/Button';
 import DraggableList from '../../components/DraggableList/DraggableList';
 import './ListForm.css';
@@ -22,6 +23,7 @@ const ListForm = () => {
   const [errors, setErrors] = useState([]);
   const [albums, setAlbums] = useState([]);
   const [action, setAction] = useState(null);
+  const [message, setMessage] = useState('');
   const { user } = useSelector((state) => state.session);
   const { query, setQuery, results, isLoading, error } = useSearch();
   const dispatch = useDispatch();
@@ -36,10 +38,15 @@ const ListForm = () => {
 
     setAction('edit');
     (async () => {
-      // TODO: protect route, so only list owner can access if edit
       try {
         // if edit, we fetch the list and set form state
         const list = await dispatch(fetchSingleList(listID));
+
+        // check if session user is the owner of this list
+        if (list && list.userID !== user.id) {
+          return history.push('/unauthorized');
+        }
+
         setTitle(list.title);
         setDescription(list.description);
         setIsRanked(list.isRanked);
@@ -48,6 +55,7 @@ const ListForm = () => {
         const data = await error.json();
         if (data && data.errors) {
           console.log('error fetching list', data);
+          return history.push('/not-found');
         }
       }
     })();
@@ -60,33 +68,51 @@ const ListForm = () => {
     console.log('listID', listID);
     setErrors([]);
 
+    if (albums.length === 0) {
+      setErrors([...errors, 'A list must contain at least one album.']);
+      return;
+    }
+
+    // make sure all albums are unique
+    const mapped = albums.map((album) => album.spotifyID);
+    const unique = [...new Set(mapped)];
+    if (unique.length !== mapped.length) {
+      setErrors([...errors, 'Albums in a list must all be unique.']);
+      return;
+    }
+
     const payload = {
       userID: user.id,
       title,
       description,
       isRanked,
       albums,
-      id: listID,
+      id: +listID,
     };
 
-    if (albums.length === 0) {
-      setErrors([...errors, 'A list must contain at least one album.']);
-    }
     const thunk = action === 'post' ? createList : editList;
-    return dispatch(thunk(payload))
-      .then((list) => history.push(`/lists/${list.id}`))
-      .then((list) => console.log('successful post', list))
-      .catch(async (res) => {
-        const data = await res.json();
-        if (data && data.errors) {
-          return setErrors([...errors, ...Object.values(data.errors)]);
-        }
-        console.log('error', data);
-      });
+    return (
+      dispatch(thunk(payload))
+        .then((list) =>
+          setMessage(`Your list ${list.title} has been saved successfully.`)
+        )
+
+        .then(() => setTimeout(() => history.push(`/lists/${listID}`), 3000))
+        // .then((list) => history.push(`/lists/${list.id}`))
+        // .then((list) => console.log('successful post', list))
+        .catch(async (res) => {
+          const data = await res.json();
+          if (data && data.errors) {
+            return setErrors([...errors, ...Object.values(data.errors)]);
+          }
+          console.log('error', data);
+        })
+    );
   };
 
   return (
     <div className="page-container list-form-page">
+      {message.length > 0 && <SuccessMessage message={message} />}
       <ul className="validation-errors">
         {errors.length > 0 &&
           errors.map((error, i) => (
@@ -156,7 +182,7 @@ const ListForm = () => {
           </div>
 
           <Button label="CANCEL" />
-          <SaveButton />
+          <SaveButton disabled={errors && errors.length > 0} />
         </div>
       </form>
       {/* {albums?.length > 0 && albums.map((album) => album.title)} */}

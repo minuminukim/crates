@@ -1,7 +1,7 @@
 import Button from './Button';
 import './Button.css';
 
-export const SaveButton = ({ onClick}) => {
+export const SaveButton = ({ onClick, disabled = false }) => {
   return (
     <Button
       className="btn-save"
@@ -9,6 +9,7 @@ export const SaveButton = ({ onClick}) => {
       label="SAVE"
       size="medium"
       onClick={onClick}
+      disabled={disabled}
     />
   );
 };
