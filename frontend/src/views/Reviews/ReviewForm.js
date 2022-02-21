@@ -9,7 +9,7 @@ import ValidationError from '../../components/ValidationError';
 import StarRating from '../../components/StarRating';
 import './ReviewForm.css';
 
-const ReviewForm = ({ album = null, onSuccess = null }) => {
+const ReviewForm = ({ album = null, onSuccess }) => {
   console.log('album', album);
   const dispatch = useDispatch();
   const history = useHistory();

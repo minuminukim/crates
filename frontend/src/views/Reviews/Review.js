@@ -68,7 +68,10 @@ const Review = () => {
         )}
         {showPostModal && (
           <Modal onClose={() => setShowPostModal(false)}>
-            <ReviewForm album={album} />
+            <ReviewForm
+              album={album}
+              onSuccess={() => setShowPostModal(false)}
+            />
           </Modal>
         )}
         {showListModal && (
