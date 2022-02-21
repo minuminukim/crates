@@ -36,27 +36,27 @@ const ListPage = () => {
   }, [dispatch]);
 
   const handleDelete = () => {
-    return dispatch(deleteList(+listID))
+    return dispatch(deleteList(+listID, history))
       .then(() => history.push('/'))
       .catch((err) => console.log('error deleting list', err));
   };
 
   return (
     !isLoading &&
-    list.albums.length > 0 && (
+    list?.albums.length > 0 && (
       <div className="list-page">
         <div className="content-wrap">
           <section className="list-page-header">
-            <h1>{list.title}</h1>
-            <p>{list.description}</p>
+            <h1>{list?.title}</h1>
+            <p>{list?.description}</p>
           </section>
           <main className="list-page-main">
-            <AlbumGrid albums={list.albums} isRanked={list.isRanked} />
+            <AlbumGrid albums={list?.albums} isRanked={list?.isRanked} />
           </main>
         </div>
         <section className="list-page-side">
           <ListActions
-            userID={list.userID}
+            userID={list?.userID}
             sessionUserID={sessionUser.id}
             listID={listID}
             handleDelete={toggleModal}

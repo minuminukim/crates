@@ -80,11 +80,13 @@ export const editReview = (review) => async (dispatch) => {
 };
 
 export const deleteReview = (id) => async (dispatch) => {
-  const response = await csrfFetch(`/api/reviews/${id}`, { method: 'DELETE' });
-  console.log('response', response);
-  const { message } = await response.json();
+  const response = await csrfFetch(`/api/reviews/${id}`, {
+    method: 'DELETE',
+  });
+  // console.log('response', response);
+  // const { message } = await response.json();
   dispatch(removeReview(id));
-  return message;
+  return response;
 };
 
 const reviewsReducer = (state = initialState, action) => {
@@ -134,7 +136,9 @@ const reviewsReducer = (state = initialState, action) => {
     case REVIEW_REMOVED:
       const newState = {
         ...state,
-        items: { ...state.items },
+        items: {
+          ...state.items
+        },
       };
       delete newState.items[action.id];
       return newState;

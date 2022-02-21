@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
 import { getSingleReview } from '../../store/reviewsReducer';
 import { Modal } from '../../context/Modal';
 import EditReviewForm from './EditReviewForm';
@@ -8,16 +8,21 @@ import ReviewForm from './ReviewForm';
 import ReviewBody from './ReviewBody';
 import AlbumArt from '../../components/AlbumArt';
 import { ReviewActions, AppendList } from '../../components/ActionsPanel';
+import { useModal } from '../../hooks';
+import { deleteReview } from '../../store/reviewsReducer';
+import WarningMessage from '../../components/WarningMessage';
 import './Review.css';
 
 const Review = () => {
   const dispatch = useDispatch();
+  const history = useHistory();
   const { reviewID } = useParams();
   const review = useSelector((state) => state.reviews.items[reviewID]);
   const album = review?.album;
   const [showEditModal, setShowEditModal] = useState(false);
   const [showPostModal, setShowPostModal] = useState(false);
   const [showListModal, setShowListModal] = useState(false);
+  const { showModal: showWarning, toggleModal: toggleWarning } = useModal();
   const [isLoading, setIsLoading] = useState(true);
   const [rating, setRating] = useState(0);
 
@@ -33,6 +38,12 @@ const Review = () => {
         }
       });
   }, [dispatch]);
+
+  const handleDelete = () => {
+    return dispatch(deleteReview(+reviewID))
+      .then(() => history.push('/'))
+      .catch((err) => console.log('error deleting review', err));
+  };
 
   return (
     !isLoading &&
@@ -55,6 +66,7 @@ const Review = () => {
             onEditClick={() => setShowEditModal(true)}
             onPostClick={() => setShowPostModal(true)}
             onListClick={() => setShowListModal(true)}
+            onDeleteClick={toggleWarning}
           />
         </div>
         {showEditModal && (
@@ -77,6 +89,15 @@ const Review = () => {
         {showListModal && (
           <Modal onClose={() => setShowListModal(false)}>
             <AppendList album={album} onClose={() => setShowListModal(false)} />
+          </Modal>
+        )}
+        {showWarning && (
+          <Modal onClose={toggleWarning}>
+            <WarningMessage
+              item="review"
+              toggle={toggleWarning}
+              onDelete={handleDelete}
+            />
           </Modal>
         )}
       </div>

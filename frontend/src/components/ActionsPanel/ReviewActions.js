@@ -8,6 +8,7 @@ const ReviewActions = ({
   onEditClick,
   onPostClick,
   onListClick,
+  onDeleteClick,
   rating,
 }) => {
   const sessionUser = useSelector((state) => state.session.user);
@@ -26,6 +27,11 @@ const ReviewActions = ({
             className="hover"
             label="Edit or delete this review..."
             onClick={onEditClick}
+          />
+          <ActionsRow
+            className="hover"
+            label="Delete this review..."
+            onClick={onDeleteClick}
           />
         </>
       )}

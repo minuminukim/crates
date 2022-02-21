@@ -88,12 +88,13 @@ export const appendList = (data) => async (dispatch) => {
   return list;
 };
 
-export const deleteList = (listID) => async (dispatch) => {
+export const deleteList = (listID, history) => async (dispatch) => {
   const response = await csrfFetch(`/api/lists/${listID}`, {
     method: 'DELETE',
   });
 
   dispatch(removeList(listID));
+  history.push('/');
   return response;
 };
 
@@ -149,7 +150,7 @@ const listsReducer = (state = initialState, action) => {
           ...state.items,
         },
       };
-      delete newState[action.listID];
+      delete newState.items[action.listID];
       return newState;
 
     default:
