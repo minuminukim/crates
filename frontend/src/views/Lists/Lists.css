@@ -12,3 +12,11 @@
 div.popular-lists {
   display: flex;
 }
+
+.recently-shared {
+  width: 630px;
+}
+
+.recently-shared ul {
+  padding: 0;
+}

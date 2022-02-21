@@ -1,0 +1,18 @@
+.feed-post {
+  display: flex;
+  max-height: 155px;
+  width: 100%;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.feed-post h3 {
+  margin: 0;
+}
+
+.feed-post p.description {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}

@@ -1,10 +1,18 @@
-.list-spread-large {
+.list-spread {
   display: flex;
   margin: 0 !important;
   position: relative;
+  border-radius: 5px;
+}
+
+.list-spread-medium {
+  width: 230px;
+  height: 110px;
+}
+
+.list-spread-large {
   width: 320px;
   height: 200px;
-  border-radius: 5px;
 }
 
 .overlay {
@@ -19,19 +27,35 @@
   border: 3px solid #00e054;
 }
 
-.album-art-container-large {
-  height: 200px;
-  width: 200px;
+.album-art-container {
   border-radius: 5px;
   position: absolute;
   box-shadow: 4px 0px 7px -2px #14181c;
 }
 
+.album-art-container-medium {
+  height: 110px;
+  width: 110px;
+}
+
+.album-art-container-large {
+  height: 200px;
+  width: 200px;
+}
+
+.list-spread img {
+  border-radius: 5px;
+  border: 0.5px solid #99aabb;
+}
+
+.list-spread-medium img {
+  height: 110px;
+  width: 110px;
+}
+
 .list-spread-large img {
   height: 200px;
   width: 200px;
-  border-radius: 5px;
-  border: 0.5px solid #99aabb;
 }
 
 #album-0 {

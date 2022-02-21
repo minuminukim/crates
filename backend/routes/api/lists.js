@@ -1,6 +1,6 @@
 const express = require('express');
 const asyncHandler = require('express-async-handler');
-const { List, Album, AlbumList } = require('../../db/models');
+const { List, Album, AlbumList, User } = require('../../db/models');
 const reduceListAlbums = require('../../utils/reduceListAlbums');
 const { requireAuth } = require('../../utils/auth');
 const validateList = require('../../validations/validateList');
@@ -21,7 +21,19 @@ const listNotFoundError = () => {
 router.get(
   '/',
   asyncHandler(async (req, res, next) => {
-    const lists = await List.getLists(); // with albums
+    const lists = await List.findAll({
+      include: [
+        {
+          model: Album,
+          as: 'albums',
+        },
+        {
+          model: User,
+          attributes: ['username'],
+        },
+      ],
+    });
+
     return res.json({
       lists,
     });
@@ -182,11 +194,9 @@ router.patch(
     });
 
     if (!created) {
-      return res
-        .status(400)
-        .json({
-          errors: [`An album cannot be added more than once to a list.`],
-        });
+      return res.status(400).json({
+        errors: [`An album cannot be added more than once to a list.`],
+      });
     }
 
     const list = await List.getSingleListByID(id);
