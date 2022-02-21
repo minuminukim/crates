@@ -24,3 +24,7 @@
 .actions-panel {
   background-color: #445566;
 }
+
+.list-action.delete:hover {
+  cursor: pointer;
+}

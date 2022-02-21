@@ -93,7 +93,7 @@ export const deleteList = (listID) => async (dispatch) => {
     method: 'DELETE',
   });
 
-  dispatch(deleteList(listID));
+  dispatch(removeList(listID));
   return response;
 };
 

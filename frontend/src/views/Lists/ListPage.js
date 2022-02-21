@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
 import { fetchSingleList } from '../../store/listsReducer';
 import AlbumGrid from '../../components/AlbumGrid';
 import { ActionsRow } from '../../components/ActionsPanel';
+import { deleteList } from '../../store/listsReducer';
 import './ListPage.css';
 
 const ListPage = () => {
@@ -12,6 +13,7 @@ const ListPage = () => {
   const sessionUser = useSelector((state) => state.session.user);
   const [isLoading, setIsLoading] = useState(true);
   const dispatch = useDispatch();
+  const history = useHistory();
 
   useEffect(() => {
     if (list && list.albums?.length) {
@@ -29,6 +31,12 @@ const ListPage = () => {
       });
   }, [dispatch]);
 
+  const handleDelete = () => {
+    return dispatch(deleteList(+listID))
+      .then(() => history.push('/'))
+      .catch((err) => console.log('error deleting list', err));
+  };
+
   return (
     !isLoading &&
     list.albums.length > 0 && (
@@ -45,11 +53,18 @@ const ListPage = () => {
         <section className="list-page-side">
           <div className="actions-panel edit-actions">
             {list.userID === sessionUser.id && (
-              <ActionsRow
-                label="Edit or delete this list..."
-                className="list-action"
-                link={`/lists/${listID}/edit`}
-              />
+              <>
+                <ActionsRow
+                  label="Edit this list..."
+                  className="list-action"
+                  link={`/lists/${listID}/edit`}
+                />
+                <ActionsRow
+                  label="Delete this list..."
+                  className="list-action delete"
+                  onClick={() => handleDelete()}
+                />
+              </>
             )}
           </div>
         </section>
