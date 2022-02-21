@@ -1,16 +1,21 @@
 .review-list-item {
   width: 800px;
+  max-height: 307px;
   display: flex;
   border-bottom: 0.5px solid rgb(68, 85, 102);
   padding: 18px 0;
   line-height: 1.6;
 }
 
+.review-list-item.popular {
+  width: 650px;
+}
+
 .review-list-item-main {
   padding-left: 18px;
 }
 
-.review-list-item-title {
+a.review-list-item-title {
   font-family: TiemposTextWeb-Semibold, Georgia, serif;
   color: #fff;
   font-size: 24px;
@@ -21,4 +26,48 @@
 
 .review-list-item-title:hover {
   color: #40bcf4;
+}
+
+.review-list-item-year {
+  position: relative;
+  top: 2px;
+  color: #89a;
+  font-family: Graphik-Regular-Web, sans-serif;
+  font-size: 22px;
+  font-weight: 200;
+  margin-left: 8px;
+}
+
+.review-list-item-info {
+  display: flex;
+  align-items: center;
+}
+
+.review-list-item-info a,
+.review-list-item-date {
+  color: #445566;
+  filter: brightness(1.4);
+  font-size: 15px;
+  position: relative;
+  top: 2px;
+  margin-left: 8px;
+}
+
+.review-list-item-username {
+  font-weight: 600;
+  position: relative;
+  top: 2px;
+}
+
+.review-list-item-info a:hover {
+  color: #9ab;
+  filter: brightness(1);
+}
+
+.review-list-item-body {
+  font-family: TiemposTextWeb-Semibold, Georgia, serif;
+  margin-bottom: 0;
+  /* overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis; */
 }

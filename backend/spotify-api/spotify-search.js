@@ -1,8 +1,8 @@
 const axios = require('axios');
 const { SearchError } = require('./spotify-errors');
-const { setAccessTokenCookie } = require('./spotify-auth');
+const { setAccessTokenCookie, getToken } = require('./spotify-auth');
 
-const BASE_URL = `https://api.spotify.com/v1/search?`;
+let token;
 
 const searchArtistByName = async (accessToken, artistName) => {
   const url = `https://api.spotify.com/v1/search?q=artist:${artistName}&type=artist`;
@@ -13,28 +13,44 @@ const searchArtistByName = async (accessToken, artistName) => {
         Authorization: `Bearer ${accessToken}`,
       },
     });
+    console.log('response, ', response);
     return response.data;
   } catch (error) {
-    return new SearchError(
-      `No results found for ${artistName}.`,
-      400,
-      'Search Error',
-      { search: `${this.message}` }
-    );
+    console.log('error', error);
+    return error;
+    // return new SearchError(
+    //   `No results found for ${artistName}.`,
+    //   400,
+    //   'Search Error',
+    //   { search: `${this.message}` }
+    // );
   }
 };
 
-const searchAlbumsByTitle = async (accessToken, title) => {
+const searchAlbumsByTitle = async (title) => {
+  if (!token) {
+    token = await getToken();
+  }
+
   const url = `https://api.spotify.com/v1/search?q=album:${title}&type=album&limit=6`;
 
   try {
     const response = await axios.get(url, {
       headers: {
-        Authorization: `Bearer ${accessToken}`,
+        Authorization: `Bearer ${token}`,
       },
     });
 
     const { items } = response.data.albums;
+    if (items && items.length === 0) {
+      return new SearchError(
+        `No results found for ${title}.`,
+        400,
+        'Search Error',
+        { search: `No results found for ${title}` }
+      );
+    }
+
     const mapped = items.map((item) => ({
       spotifyID: item.id,
       title: item.name,
@@ -45,40 +61,42 @@ const searchAlbumsByTitle = async (accessToken, title) => {
 
     return mapped;
   } catch (error) {
-    return new SearchError(
-      `No results found for ${title}.`,
-      400,
-      'Search Error',
-      { search: `${this.message}` }
-    );
+    // console.log('@@@@@@@@@@@ error in search', error);
+    console.log('hi');
   }
 };
 
-const getAlbumsByArtistID = async (accessToken, artistID) => {
-  const url = `http://api.spotify.com/v1/artists/${artistID}/albums`;
-
-  try {
-    const response = await axios.get(url, {
-      headers: {
-        // need OAUTH credentials for this to work
-        // Authorization: `Bearer ${accessToken}`,
-      },
-    });
-
-    return response.data;
-  } catch (error) {
-    console.log('error', JSON.stringify(error));
-    return new SearchError(
-      `No results found for ${artistID}.`,
-      400,
-      'Search Error',
-      { search: `${this.message}` }
-    );
-  }
+const wrapSearchInRetry = (searchFunction) => {
+  return async (...args) => {
+    try {
+      const response = await searchFunction(args);
+      console.log('test', response);
+      return response;
+    } catch (error) {
+      if (error.response.status === 401) {
+        console.log('401 ertror in wrapper', error);
+        try {
+          console.log('before', token);
+          token = await getToken();
+          console.log('after', token);
+          const response = await searchFunction(args);
+          return response;
+        } catch (anotherError) {
+          return anotherError;
+        }
+      } else {
+        console.log('error in wrapSearch', error);
+        return error;
+      }
+    }
+  };
 };
+
+const searchAlbumsWithRetry = wrapSearchInRetry(searchAlbumsByTitle);
+
 
 module.exports = {
   searchArtistByName,
   searchAlbumsByTitle,
-  getAlbumsByArtistID,
+  searchAlbumsWithRetry,
 };

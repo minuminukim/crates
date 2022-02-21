@@ -1,0 +1,50 @@
+.draggable-list {
+  padding: 0;
+}
+
+/* .draggable-list:hover {
+  cursor: move;
+} */
+
+.draggable-list-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 948px;
+  height: 72px;
+  border: 1px solid rgb(68, 85, 102);
+  border-radius: 3px;
+  padding: 10px 48px 10px 10px;
+  background-color: #1c2229;
+}
+
+.list-item-info,
+.list-item-controls {
+  display: flex;
+  align-items: center;
+}
+
+.list-item-controls {
+  font-size: 24px;
+}
+
+.list-item-remove:hover {
+  color: #ee7000;
+  cursor: pointer;
+}
+
+.list-item-move:hover {
+  color: #40bcf4;
+  cursor: pointer;
+}
+
+h3.title {
+  font-family: TiemposTextWeb-Semibold, Georgia, serif;
+  color: #fff;
+  font-size: 26px;
+  font-weight: 600;
+}
+
+p.year {
+  font-size: 20px;
+}

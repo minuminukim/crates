@@ -41,7 +41,7 @@ router.post(
     }
 
     await setTokenCookie(res, user);
-    await setAccessTokenCookie(res);
+    // await setAccessTokenCookie(res);
 
     return res.json({
       user,
@@ -49,6 +49,9 @@ router.post(
   })
 );
 
+// get a new token
+
+// log in demo user
 router.post(
   '/demo',
   asyncHandler(async (req, res, next) => {
@@ -58,7 +61,7 @@ router.post(
     });
 
     await setTokenCookie(res, user);
-    await setAccessTokenCookie(res);
+    // await setAccessTokenCookie(res);
 
     return res.json({
       user,
@@ -69,7 +72,7 @@ router.post(
 // Log out
 router.delete('/', (_req, res) => {
   res.clearCookie('token');
-  res.clearCookie('spotifyToken');
+  // res.clearCookie('spotifyToken');
   return res.json({ message: 'success' });
 });
 

@@ -8,17 +8,30 @@
   margin: 0;
 }
 
-.star:hover {
+.star-wrapper {
+  height: 26px;
+  position: relative;
+}
+
+div.star-left {
+  overflow: hidden;
+  position: absolute;
+  width: 13px;
+  /* transform: scaleX(-1); */
+  /* left: 13px; */
+  /* top: 32px; */
+}
+
+/* .star:hover {
   color: #40bcf4;
+} */
+
+.read-only .star:hover {
+  pointer-events: none !important;
 }
 
 .star-filled {
   color: #40bcf4;
-}
-
-.star .star-flipped {
-  margin: 0;
-  padding: 0;
 }
 
 .star-filled-read {

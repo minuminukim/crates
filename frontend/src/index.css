@@ -14,6 +14,7 @@ body {
   font-family: Graphik-Regular-Web, sans-serif;
   color: #99aabb;
   background-color: #1d242b;
+  letter-spacing: 0.5px;
 }
 
 button {
@@ -37,4 +38,11 @@ input:focus,
 select:focus,
 textarea:focus {
   outline: none;
+}
+
+.section-heading {
+  font-size: 14px;
+  font-weight: 400;
+  border-bottom: 0.5px solid rgb(68, 85, 102);
+  padding-bottom: 6px;
 }

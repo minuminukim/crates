@@ -11,3 +11,13 @@
   height: 111px;
   width: 111px;
 }
+
+.album-art-tiny {
+  height: 52px;
+  width: 52px;
+}
+
+.album-art-grid {
+  height: 180px;
+  width: 180px;
+}

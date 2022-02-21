@@ -3,6 +3,7 @@ const asyncHandler = require('express-async-handler');
 const { List, Album, AlbumList } = require('../../db/models');
 const reduceListAlbums = require('../../utils/reduceListAlbums');
 const { requireAuth } = require('../../utils/auth');
+const validateList = require('../../validations/validateList');
 
 const router = express.Router();
 
@@ -32,6 +33,7 @@ router.get(
   asyncHandler(async (req, res, next) => {
     const id = +req.params.id;
     const list = await List.getSingleListByID(id); // with albums
+    console.log('list', JSON.stringify(list));
 
     if (!list) {
       return next(listNotFoundError());
@@ -53,8 +55,8 @@ router.get(
 
 router.post(
   '/',
-  // TODO: form validation
-  // requireAuth,
+  requireAuth,
+  validateList,
   asyncHandler(async (req, res, next) => {
     const { userID, title, description, isRanked, albums: items } = req.body;
 
@@ -89,10 +91,12 @@ router.post(
   })
 );
 
+// handles updates dispatched from the form
 router.put(
   '/:id(\\d+)',
   // TODO: validation errors,
-  // requireAuth,
+  requireAuth,
+  validateList,
   asyncHandler(async (req, res, next) => {
     const id = +req.params.id;
     const oldList = await List.findByPk(id);
@@ -138,6 +142,53 @@ router.put(
     await oldList.save();
 
     // ...then fetch the updated list with its associated albums
+    const list = await List.getSingleListByID(id);
+
+    return res.json({
+      list,
+    });
+  })
+);
+
+// Appends a single item to a list -- receives requests dispatched
+// from action panels
+router.patch(
+  '/:id(\\d+)',
+  requireAuth,
+  // TODO: validation errors,
+  asyncHandler(async (req, res, next) => {
+    const id = +req.params.id;
+    const { spotifyID, title, artworkURL, artist, releaseYear } = req.body;
+
+    const [album, _created] = await Album.findOrCreate({
+      where: { spotifyID: spotifyID },
+      defaults: {
+        spotifyID: spotifyID,
+        title: title,
+        averageRating: 0.0,
+        ratingsCount: 0,
+        artworkURL: artworkURL,
+        artist: artist,
+        releaseYear: releaseYear,
+      },
+    });
+
+    const [albumList, created] = await AlbumList.findOrCreate({
+      where: { albumID: album.id, listID: id },
+      defaults: {
+        albumID: album.id,
+        listID: id,
+      },
+    });
+
+    if (!created) {
+      return res
+        .status(400)
+        .json({
+          errors: [`An album cannot be added more than once to a list.`],
+        });
+    }
+
     const list = await List.getSingleListByID(id);
 
     return res.json({

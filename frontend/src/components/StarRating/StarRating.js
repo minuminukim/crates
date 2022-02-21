@@ -2,46 +2,58 @@ import { useState, useEffect } from 'react';
 import { FaStarHalf, FaStar } from 'react-icons/fa';
 import './StarRating.css';
 
-const StarRating = ({ reviewRating = 0 }) => {
-  const [rating, setRating] = useState(reviewRating);
-  const [hoverIndex, setHoverIndex] = useState(0); // hoverRating
+const StarRating = ({ reviewRating = 0, handleForm, readOnly = false }) => {
+  const [rating, setRating] = useState(0);
+  const [hoverIndex, setHoverIndex] = useState(0);
 
-  const grabIndex = (e) => +e.target.id.split('-').pop();
-  const onMouseEnter = (e) => setHoverIndex(grabIndex(e));
-  const onMouseLeave = () => setHoverIndex(0);
-  const onClick = (e) => {
-    // setHoverIndex(grabIndex(e));
-    console.log('rating before', rating);
-    console.log('hoverIndex before', hoverIndex);
-    setRating(grabIndex(e) + 1);
-    console.log('rating after click', rating);
-    console.log('hoverIndex after', hoverIndex);
-  };
+  // on first render, if a rating was passed in, that means
+  // the user is making a put request
+  useEffect(() => {
+    if (reviewRating) {
+      setRating(reviewRating);
+    }
+  }, []);
 
-  // const onMouseLeave = () => {
-  //   if (rating !== null) return;
-  //   setIndex(0);
-  // };
-  const onDivEnter = () => {
-    // setRating(0);
-    setHoverIndex(0);
-  };
+  const isFilled = (i) => (i <= (hoverIndex || rating) ? 'star-filled' : '');
 
-  const onDivLeave = () => {
-    setRating(reviewRating);
-  };
+  // width 26px, half-width 13px
   return (
-    <div className="star-rating">
+    <div className={`star-rating ${readOnly ? 'read-only' : ''}`}>
       {[...Array(5)].map((_, i) => (
-        <FaStar
-          // className={hoverIndex - 1 >= i ? `star-filled` : `star`}
-          className={i + 1 <= (hoverIndex || rating) ? `star-filled` : `star`}
-          key={`star-${i}`}
-          id={`star-${i}`}
-          onMouseEnter={onMouseEnter}
-          onMouseLeave={onMouseLeave}
-          onClick={() => setRating(i + 1)}
-        />
+        <div className="star-wrapper" key={`star-index-${i}`}>
+          <div className="star-left">
+            <FaStar
+              className={`star star-left ${isFilled(i * 2 + 1)}`}
+              id={`star-${i * 2 + 1}`} // id === rating
+              onMouseEnter={readOnly ? null : () => setHoverIndex(i * 2 + 1)}
+              onMouseLeave={readOnly ? null : () => setHoverIndex(rating)}
+              onClick={
+                readOnly
+                  ? null
+                  : () => {
+                      setRating(i * 2 + 1);
+                      handleForm(i * 2 + 1);
+                    }
+              }
+            />
+          </div>
+          <div className="star-right">
+            <FaStar
+              className={`star star-right ${isFilled(i * 2 + 2)}`}
+              id={`star-${i * 2 + 2}`} // id === rating
+              onMouseEnter={readOnly ? null : () => setHoverIndex(i * 2 + 2)}
+              onMouseLeave={readOnly ? null : () => setHoverIndex(rating)}
+              onClick={
+                readOnly
+                  ? null
+                  : () => {
+                      setRating(i * 2 + 2);
+                      handleForm(i * 2 + 2);
+                    }
+              }
+            />
+          </div>
+        </div>
       ))}
     </div>
   );

@@ -4,12 +4,14 @@ import session from './session';
 import albumsReducer from './albumsReducer';
 import reviewsReducer from './reviewsReducer';
 import usersReducer from './usersReducer';
+import listsReducer from './listsReducer';
 
 const rootReducer = combineReducers({
   session,
   albums: albumsReducer,
   reviews: reviewsReducer,
   users: usersReducer,
+  lists: listsReducer,
 });
 
 let enhancer;

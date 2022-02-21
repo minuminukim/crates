@@ -2,15 +2,17 @@ import { useState, useEffect } from 'react';
 import { AiOutlineClose } from 'react-icons/ai';
 import './ValidationError.css';
 
-const ValidationError = ({ error }) => {
+const ValidationError = ({ error, index = 0 }) => {
   const [visible, setVisible] = useState(true);
+
   useEffect(() => {
-    const timer = setTimeout(() => setVisible(false), 3500);
+    const timer = setTimeout(() => setVisible(false), 5000);
     return () => clearTimeout(timer);
   }, [setVisible]);
+
   return (
     visible && (
-      <div
+      <li
         className="validation-error-component"
         onClick={() => setVisible(false)}
       >
@@ -19,7 +21,7 @@ const ValidationError = ({ error }) => {
           className="validation-error-close"
           onClick={() => setVisible(false)}
         />
-      </div>
+      </li>
     )
   );
 };

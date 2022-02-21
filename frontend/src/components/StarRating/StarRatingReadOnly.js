@@ -1,6 +1,10 @@
 import { FaStar } from 'react-icons/fa';
 
-const StarRatingReadOnly = ({ rating, className = null, size = 'medium' }) => {
+const StarRatingReadOnly = ({
+  rating,
+  className = null,
+  size = 'medium',
+}) => {
   return (
     <div className="star-rating read-only">
       {[...Array(Math.floor(rating / 2))].map((_, i) => (
@@ -12,5 +16,7 @@ const StarRatingReadOnly = ({ rating, className = null, size = 'medium' }) => {
     </div>
   );
 };
+
+
 
 export default StarRatingReadOnly;

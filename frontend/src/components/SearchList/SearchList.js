@@ -1,10 +1,15 @@
 import { useState } from 'react';
 import { Modal } from '../../context/Modal';
-import ReviewForm from '../ReviewForm';
+import { ReviewForm } from '../../views/Reviews';
 import SearchItem from '../SearchItem';
 import './SearchList.css';
 
-const SearchList = ({ items }) => {
+const SearchList = ({
+  items,
+  isModal,
+  closeSearchModal = null,
+  onClick = null,
+}) => {
   const [chosen, setChosen] = useState(null);
   const [showModal, setShowModal] = useState(false);
 
@@ -22,9 +27,15 @@ const SearchList = ({ items }) => {
           }}
         />
       ))}
-      {showModal && (
+      {isModal && showModal && (
         <Modal onClose={() => setShowModal(false)}>
-          <ReviewForm album={chosen} />
+          <ReviewForm
+            album={chosen}
+            onSuccess={() => {
+              closeSearchModal();
+              setShowModal(false);
+            }}
+          />
         </Modal>
       )}
     </ul>

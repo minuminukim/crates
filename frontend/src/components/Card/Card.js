@@ -5,12 +5,13 @@ import { BsArrowRepeat } from 'react-icons/bs';
 import { GrPowerCycle } from 'react-icons/gr';
 import AlbumArt from '../AlbumArt';
 import StarRatingReadOnly from '../StarRating/StarRatingReadOnly';
+import { formatDateMonthDay } from '../../utils/date-helpers';
 import './Card.css';
 
-const formatDateMonthDay = (dateString) => {
-  const date = new Date(dateString);
-  return date.toLocaleDateString('en-US', { month: 'short', day: '2-digit' });
-};
+// const formatDateMonthDay = (dateString) => {
+//   const date = new Date(dateString);
+//   return date.toLocaleDateString('en-US', { month: 'short', day: '2-digit' });
+// };
 const Card = ({ item }) => {
   const { user, album } = item;
   const formattedDate = formatDateMonthDay(item.listenedDate);
@@ -18,6 +19,7 @@ const Card = ({ item }) => {
     <div className="card">
       <Link to={`/reviews/${item.id}`} className="card-link">
         <div className="card-main">
+          <span className="overlay"></span>
           <AlbumArt
             title={album.title}
             artworkURL={album.artworkURL}
@@ -32,7 +34,7 @@ const Card = ({ item }) => {
       <div className="card-review-info">
         <div className="card-review-rating">
           <span>{<StarRatingReadOnly rating={item.rating} />}</span>
-          {item.rating !== 10 && item.rating % item.rating !== 1 && <span className="half">½</span>}
+          {item.rating !== 10 && item.rating % 2 !== 0 && <span className="half">½</span>}
         </div>
         {item.isRelisten && <BsArrowRepeat className="relisten-icon" />}
         {item.body.length > 0 && (

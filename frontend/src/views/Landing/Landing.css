@@ -1,0 +1,59 @@
+.landing-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.backdrop-container {
+  margin-top: -70px;
+  /* background: transparent; */
+}
+
+.backdrop {
+  margin-top: 30px;
+  background-image: linear-gradient(to bottom, transparent, #1d242b),
+    url('../../images/rashadspinntraxman640.jpg');
+  height: 500px;
+  width: 1200px;
+}
+
+.credit-container {
+  align-self: flex-end;
+  transform: rotate(-90deg);
+  /* position: absolute; */
+  /* color: #9ab; */
+  color: rgb(68, 85, 102);
+  /* opacity: 0.5; */
+}
+
+a.credit-link:hover {
+  opacity: #9ab;
+}
+
+.hero {
+  display: flex;
+  justify-content: center;
+  margin-top: -50px;
+  margin-bottom: 40px;
+}
+
+.hero-heading {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  align-items: center;
+  font-family: TiemposTextWeb-Semibold, Georgia, serif;
+  color: #fff;
+  font-size: 36px;
+  line-height: 1.2;
+  /* width: 40%; */
+  margin: 0;
+}
+
+button.btn-demo-user {
+  padding: 10px 24px;
+  width: 290px;
+  font-size: 18px;
+  height: 50px;
+  /* height: 60px; */
+}

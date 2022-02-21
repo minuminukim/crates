@@ -1,0 +1,10 @@
+.review-actions {
+  width: 230px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background-color: #445566;
+  padding-left: 0;
+  border-radius: 3px;
+}
+
