@@ -14,7 +14,7 @@ function SignupForm() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [errors, setErrors] = useState({});
+  const [errors, setErrors] = useState([]);
 
   if (sessionUser) {
     return <Redirect to="/" />;
@@ -22,22 +22,24 @@ function SignupForm() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setErrors([]);
+
     return dispatch(
       signup({ email, username, password, confirmPassword })
     ).catch(async (res) => {
       const data = await res.json();
       if (data && data.errors) {
-        return setErrors(data.errors);
+        return setErrors(Object.values(data.errors));
       }
     });
     // if (password === confirmPassword) {
-    //   setErrors({});
-    //   return dispatch(signup({ email, username, password })).catch(
-    //     async (res) => {
-    //       const data = await res.json();
-    //       if (data && data.errors) setErrors(data.errors);
-    //     }
-    //   );
+    //   setErrors([]);
+    //   return dispatch(
+    //     signup({ email, username, password, confirmPassword })
+    //   ).catch(async (res) => {
+    //     const data = await res.json();
+    //     if (data && data.errors) setErrors(data.errors);
+    //   });
     // }
     // return setErrors([
     //   'Confirm Password field must be the same as the Password field',
@@ -97,9 +99,9 @@ function SignupForm() {
           type="submit"
           label="SIGN UP"
         />
-        {Object.values(errors).length > 0 &&
-          Object.values(errors).map((error) => (
-            <ValidationError error={error} />
+        {errors.length > 0 &&
+          errors.map((error, i) => (
+            <ValidationError key={`error-${i}`} error={error} />
           ))}
       </form>
     </>
