@@ -11,6 +11,7 @@ import { fetchAlbumsFromDB } from './store/albumsReducer';
 import Navigation from './components/Navigation';
 import ReviewsList from './components/ReviewsList';
 import Review from './views/Reviews';
+import NotFound from './views/NotFound';
 
 function App() {
   const dispatch = useDispatch();
@@ -54,6 +55,9 @@ function App() {
           </Route>
           <Route exact path="/lists/:listID/edit">
             <ListForm />
+          </Route>
+          <Route>
+            <NotFound />
           </Route>
         </Switch>
       )}

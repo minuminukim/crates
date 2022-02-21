@@ -28,7 +28,8 @@ const ProfileDropdown = () => {
       <DropdownItem label="Diary" link="#" />
       <DropdownItem label="Reviews" link={`/users/${user.id}/reviews`} />
       <DropdownItem label="Backlog" link="#" />
-      {/* <DropdownItem label="Logout" link="#" onClick={handleLogout} /> */}
+      <DropdownItem label="Lists" link={`/users/${user.id}/lists`} />
+      {/* <DropdownItem label="Logout" link="{`/users/`} onClick={handleLogout} /> */}
       <li>
         <button onClick={handleLogout}>Log Out</button>
       </li>
