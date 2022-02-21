@@ -47,12 +47,12 @@ const ListPage = () => {
             <p>{list.description}</p>
           </section>
           <main className="list-page-main">
-            <AlbumGrid albums={list.albums} />
+            <AlbumGrid albums={list.albums} isRanked={list.isRanked} />
           </main>
         </div>
         <section className="list-page-side">
           <div className="actions-panel edit-actions">
-            {list.userID === sessionUser.id && (
+            {list.userID === sessionUser?.id && (
               <>
                 <ActionsRow
                   label="Edit this list..."

@@ -32,18 +32,6 @@ function SignupForm() {
         return setErrors(Object.values(data.errors));
       }
     });
-    // if (password === confirmPassword) {
-    //   setErrors([]);
-    //   return dispatch(
-    //     signup({ email, username, password, confirmPassword })
-    //   ).catch(async (res) => {
-    //     const data = await res.json();
-    //     if (data && data.errors) setErrors(data.errors);
-    //   });
-    // }
-    // return setErrors([
-    //   'Confirm Password field must be the same as the Password field',
-    // ]);
   };
 
   return (
@@ -58,7 +46,6 @@ function SignupForm() {
             id="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            // error={errors.email}
           />
         </div>
         <div className="form-row form-row-username">
@@ -68,7 +55,6 @@ function SignupForm() {
             id="username"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
-            // error={errors.username}
           />
         </div>
         <div className="form-row form-row-password">
@@ -78,7 +64,6 @@ function SignupForm() {
             id="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            // error={errors.password}
           />
         </div>
         <div className="form-row form-row-confirm">
@@ -88,12 +73,8 @@ function SignupForm() {
             id="confirmPassword"
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
-            // error={errors.confirmPassword}
           />
         </div>
-        {/* <ul>
-          {errors.map((error, idx) => <li key={idx}>{error}</li>)}
-        </ul> */}
         <Button
           className="btn-save btn-register"
           type="submit"

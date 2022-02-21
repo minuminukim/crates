@@ -3,15 +3,17 @@ import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { fetchUserLists, appendList } from '../../store/listsReducer';
 import ValidationError from '../ValidationError';
+import { SuccessMessage } from '../ValidationError';
 import './AppendList.css';
 import Button from '../Button';
 // need userID, user lists(length && title), album title
-const AppendList = ({ album }) => {
+const AppendList = ({ album, onClose }) => {
   const user = useSelector((state) => state.session.user);
   const [lists, setLists] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [chosen, setChosen] = useState(null);
   const [errors, setErrors] = useState([]);
+  const [message, setMessage] = useState('');
   const dispatch = useDispatch();
   const history = useHistory();
 
@@ -36,8 +38,12 @@ const AppendList = ({ album }) => {
     };
 
     return dispatch(appendList(payload))
-      .then((list) => console.log('success', list))
-      .then(() => history.go(0))
+      .then((list) =>
+        setMessage(
+          `You have successfully added ${album.title} to your list ${list.title}`
+        )
+      )
+      .then(() => setTimeout(() => history.go(0), 3000))
       .catch(async (res) => {
         const data = await res.json();
         console.log('res', data);
@@ -51,6 +57,7 @@ const AppendList = ({ album }) => {
     !isLoading &&
     lists?.length > 0 && (
       <div className="action-panel append-list">
+        {message.length > 0 && <SuccessMessage message={message} />}
         {errors.length > 0 &&
           errors.map((error, i) => (
             <ValidationError key={`error-${i}`} error={error} />

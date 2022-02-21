@@ -73,7 +73,7 @@ const Review = () => {
         )}
         {showListModal && (
           <Modal onClose={() => setShowListModal(false)}>
-            <AppendList album={album} />
+            <AppendList album={album} onClose={() => setShowListModal(false)} />
           </Modal>
         )}
       </div>

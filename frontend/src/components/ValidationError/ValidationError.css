@@ -4,6 +4,7 @@ ul.validation-errors {
   left: 0;
 }
 
+.success-message-alert,
 .validation-error-component {
   display: flex;
   align-items: center;
@@ -23,6 +24,11 @@ ul.validation-errors {
   position: relative;
 }
 
+.success-message-alert {
+  background-color: #00c030;
+}
+
+.success-message-close,
 .validation-error-close {
   cursor: pointer;
   color: #fff;
