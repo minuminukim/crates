@@ -2,11 +2,13 @@ import { ListSpread } from '../ListCard';
 import { FaUserCircle } from 'react-icons/fa';
 import { MdModeEditOutline } from 'react-icons/md';
 import { Link, useParams } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 import './FeedPost.css';
 
 const FeedPost = ({ list }) => {
   const { userID } = useParams();
+  const sessionUser = useSelector((state) => state.session.user);
 
   return (
     <li className="feed-post">
@@ -25,7 +27,7 @@ const FeedPost = ({ list }) => {
             </>
           )}
           <span>{`${list.albums.length} albums`}</span>
-          {userID && (
+          {userID && +userID === sessionUser?.id && (
             <Link exact to={`/lists/${list.id}/edit`}>
               <MdModeEditOutline className="icon" />
             </Link>

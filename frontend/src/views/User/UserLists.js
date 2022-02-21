@@ -1,6 +1,6 @@
 import FeedPost from '../../components/FeedPost';
 import { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { fetchUserLists } from '../../store/listsReducer';
 import { useHistory } from 'react-router-dom';
 import { ActionsRow } from '../../components/ActionsPanel';
@@ -9,6 +9,7 @@ const UserLists = ({ userID }) => {
   const [loading, setLoading] = useState(true);
   const [lists, setLists] = useState([]);
   const dispatch = useDispatch();
+  const sessionUser = useSelector((state) => state.session.user);
 
   useEffect(() => {
     return dispatch(fetchUserLists(userID))
@@ -29,13 +30,15 @@ const UserLists = ({ userID }) => {
             ))}
           </ul>
         </div>
-        <div>
-          <ActionsRow
-            label="Start a new list..."
-            className="hover solo"
-            link="/lists/new"
-          />
-        </div>
+        {userID === sessionUser?.id && (
+          <div>
+            <ActionsRow
+              label="Start a new list..."
+              className="hover solo"
+              link="/lists/new"
+            />
+          </div>
+        )}
       </div>
     )
   );
