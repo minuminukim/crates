@@ -15,6 +15,7 @@ import { SuccessMessage } from '../../components/ValidationError';
 import Button from '../../components/Button';
 import DraggableList from '../../components/DraggableList/DraggableList';
 import './ListForm.css';
+import { bindActionCreators } from 'redux';
 
 const ListForm = () => {
   const [title, setTitle] = useState('');
@@ -63,20 +64,22 @@ const ListForm = () => {
 
   const handleChange = (e) => setQuery(e.target.value);
 
+  const areAllUnique = (albums) => {
+    const mapped = albums.map((album) => album.spotifyID);
+    const unique = [...new Set(mapped)];
+    return unique.length === mapped.length;
+  }
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('listID', listID);
     setErrors([]);
 
     if (albums.length === 0) {
-      setErrors([...errors, 'A list must contain at least one album.']);
+      setErrors(['A list must contain at least one album.']);
       return;
     }
 
-    // make sure all albums are unique
-    const mapped = albums.map((album) => album.spotifyID);
-    const unique = [...new Set(mapped)];
-    if (unique.length !== mapped.length) {
+    if (!areAllUnique(albums)) {
       setErrors([...errors, 'Albums in a list must all be unique.']);
       return;
     }
@@ -91,23 +94,23 @@ const ListForm = () => {
     };
 
     const thunk = action === 'post' ? createList : editList;
-    return (
-      dispatch(thunk(payload))
-        .then((list) =>
-          setMessage(`Your list ${list.title} has been saved successfully.`)
-        )
 
-        .then(() => setTimeout(() => history.push(`/lists/${listID}`), 3000))
-        // .then((list) => history.push(`/lists/${list.id}`))
-        // .then((list) => console.log('successful post', list))
-        .catch(async (res) => {
-          const data = await res.json();
-          if (data && data.errors) {
-            return setErrors([...errors, ...Object.values(data.errors)]);
-          }
-          console.log('error', data);
-        })
-    );
+    return dispatch(thunk(payload))
+      .then((list) => {
+        setMessage(`Your list ${list.title} has been saved successfully.`);
+        return list.id;
+      })
+      .then((listID) =>
+        setTimeout(() => history.push(`/lists/${listID}`), 3000)
+      )
+      .catch(async (res) => {
+        const data = await res.json();
+        if (data && data.errors) {
+          setErrors([...Object.values(data.errors)]);
+          return;
+        }
+        console.log('error', data);
+      });
   };
 
   return (
