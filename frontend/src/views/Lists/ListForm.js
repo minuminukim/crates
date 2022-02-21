@@ -68,7 +68,7 @@ const ListForm = () => {
     const mapped = albums.map((album) => album.spotifyID);
     const unique = [...new Set(mapped)];
     return unique.length === mapped.length;
-  }
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -123,7 +123,9 @@ const ListForm = () => {
           ))}
       </ul>
       <form className="list-form" onSubmit={handleSubmit}>
-        <h1 className="page-heading">New List</h1>
+        <h1 className="page-heading">
+          {action === 'post' ? 'New List' : 'Edit List'}
+        </h1>
         <div className="list-form-top">
           <div className="list-form-left">
             <div className="form-row">
@@ -161,7 +163,7 @@ const ListForm = () => {
           </div>
         </div>
         <div className="list-form-bottom">
-          <Button label="ADD A FILM" />
+          <Button label="ADD AN ALBUM" />
           <div className="search-field">
             <InputField
               id="search"
@@ -184,7 +186,7 @@ const ListForm = () => {
             </ul>
           </div>
 
-          <Button label="CANCEL" />
+          <Button label="CANCEL" onClick={() => history.goBack()} />
           <SaveButton disabled={errors && errors.length > 0} />
         </div>
       </form>

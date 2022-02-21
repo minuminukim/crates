@@ -21,6 +21,11 @@ button {
   cursor: pointer;
 }
 
+button:disabled {
+  cursor: not-allowed;
+  background-color: gray;
+}
+
 a {
   text-decoration: none;
   color: #99aabb;
