@@ -5,6 +5,7 @@ import { fetchLists } from '../../store/listsReducer';
 import ListCard from '../../components/ListCard';
 import Button from '../../components/Button';
 import FeedPost from '../../components/FeedPost';
+import { sortByRecent } from '../../utils/sorts';
 import './Lists.css';
 
 const Lists = () => {
@@ -15,16 +16,18 @@ const Lists = () => {
   const [lists, setLists] = useState([]);
 
   useEffect(() => {
-    return dispatch(fetchLists())
-      // .then((items) => console.log('items', items))
-      .then((items) => setLists(items))
-      .then(() => setIsLoading(false))
-      .catch(async (res) => {
-        const data = await res.json();
-        if (data && data.errors) {
-          console.log('Error in ListsView:', data.errors);
-        }
-      });
+    return (
+      dispatch(fetchLists())
+        // .then((items) => console.log('items', items))
+        .then((items) => setLists(items))
+        .then(() => setIsLoading(false))
+        .catch(async (res) => {
+          const data = await res.json();
+          if (data && data.errors) {
+            console.log('Error in ListsView:', data.errors);
+          }
+        })
+    );
   }, [dispatch]);
 
   return (
@@ -54,9 +57,11 @@ const Lists = () => {
             <h2 className="section-heading">RECENTLY SHARED</h2>
             <ul>
               {/* TODO: sort by recent */}
-              {lists.slice(0, 10).map((list, i) => (
-                <FeedPost key={`list-${i}`} list={list} />
-              ))}
+              {sortByRecent(lists)
+                .slice(0, 10)
+                .map((list, i) => (
+                  <FeedPost key={`list-${i}`} list={list} />
+                ))}
             </ul>
           </section>
         </div>

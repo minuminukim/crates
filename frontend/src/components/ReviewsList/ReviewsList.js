@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { getReviewsByUserID, getReviews } from '../../store/reviewsReducer';
+import { sortByRecent } from '../../utils/sorts';
 import ReviewListItem from '../ReviewListItem';
 import './ReviewsList.css';
 
@@ -25,9 +26,11 @@ const ReviewsList = ({ className = null }) => {
       dispatch(getReviews())
         // .then((reviews) => reviews.filter((review) => review.userID === userID))
         .then((reviews) =>
-          userID ? filterByUserID(reviews) : sortPopularReviews(reviews)
+          userID
+            ? sortByRecent(filterByUserID(reviews))
+            : sortPopularReviews(reviews)
         )
-        .then((filtered) => setReviews(filtered))
+        .then((sorted) => setReviews(sorted))
         .catch((err) => console.log('ReviewsList error', err))
     );
   }, [dispatch]);
