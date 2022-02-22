@@ -179,7 +179,6 @@ router.put(
       artist,
       releaseYear,
     });
-    console.log('album', album, 'backlog', backlog)
 
     // create the join table record
     const [albumBacklog, created] = await AlbumBacklog.findOrCreate({
@@ -189,31 +188,18 @@ router.put(
       },
     });
 
-    // if (!created) {
-    //   return res.status(400).json({
-    //     errors: [`An album cannot be added more than once to a backlog.`],
-    //   });
-    // }
-
-    // const updated = await Backlog.findOne({
-    //   where: {
-    //     id: backlog.id,
-    //   },
-    //   include: {
-    //     model: Album,
-    //     as: 'albums',
-    //     attributes: ['id', 'spotifyID'],
-    //   },
-    // });
+    if (!created) {
+      return res.status(400).json({
+        errors: [`An album cannot be added more than once to a backlog.`],
+      });
+    }
 
     const items = await AlbumBacklog.findAll({
       where: { backlogID: backlog.id },
       include: { model: Album },
     });
 
-
     const albums = items.map((item) => item.Album);
-
 
     return res.json({
       backlog: albums,
