@@ -4,6 +4,7 @@
   justify-content: center;
   background-color: #2c3440;
   height: 44px;
+  margin: 30px 0;
 }
 .user-nav ul {
   display: flex;

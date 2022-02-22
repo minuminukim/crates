@@ -1,7 +1,10 @@
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
+import AlbumArt from '../../components/AlbumArt';
+import { Link } from 'react-router-dom';
 import { fetchUserBacklog } from '../../store/albumsReducer';
+import './Backlog.css';
 
 const Backlog = () => {
   const [loading, setLoading] = useState(true);
@@ -21,18 +24,28 @@ const Backlog = () => {
 
   return (
     !loading && (
-      <>
-        <h2 className="section-heading">YOU WANT TO LISTEN TO ALBUMS</h2>
-        <ul>
-          {albums?.length > 0 &&
-            albums.map((album) => (
-              <li>
-                {album.title}
-                {album.artworkURL}
-              </li>
-            ))}
-        </ul>
-      </>
+      <div>
+        <h2 className="section-heading">
+          YOU WANT TO LISTEN TO {albums.length} ALBUMS
+        </h2>
+        <section className="backlog-container">
+          <ul className="backlog-grid">
+            {albums?.length > 0 &&
+              albums.map((album, i) => (
+                <li key={`backlog-item-${i}`} className="album-grid-item">
+                  <Link>
+                    <span className="overlay"></span>
+                    <img
+                      alt={album.title}
+                      src={album.artworkURL}
+                      className="backlog-album"
+                    />
+                  </Link>
+                </li>
+              ))}
+          </ul>
+        </section>
+      </div>
     )
   );
 };

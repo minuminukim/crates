@@ -20,8 +20,6 @@ const ListenActions = ({ album }) => {
   const [message, setMessage] = useState('');
   const [backlogText, setBacklogText] = useState('Backlog');
 
-  // TODO: set up dispatch for removing an item
-  // depending on state, click event will dispatch one or the other
   useEffect(() => {
     dispatch(fetchUserBacklog(sessionUser?.id))
       .then((items) => items.some((item) => item.spotifyID === album.spotifyID))

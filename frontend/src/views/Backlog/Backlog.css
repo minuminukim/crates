@@ -1,0 +1,30 @@
+.backlog-container {
+  display: flex;
+  justify-content: center;
+}
+
+.backlog-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 300px);
+  column-gap: 20px;
+  row-gap: 20px;
+  width: 950px;
+}
+
+.backlog-album {
+  width: 300px;
+  height: 300px;
+  border: 0.5px solid #99aabb;
+  border-radius: 3px;
+}
+
+.album-grid-item {
+  position: relative;
+  border-radius: 3px;
+}
+
+.overlay {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+}

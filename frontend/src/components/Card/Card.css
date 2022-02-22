@@ -1,8 +1,9 @@
 .card-main {
   border: 0.5px solid #99aabb;
   border-radius: 5px;
-  transition: outline 0.1s linear;
+  /* transition: outline 0.1s linear; */
   margin-bottom: 4px;
+  position: relative;
 }
 
 .card-main img.album-art {
@@ -11,7 +12,7 @@
 }
 
 .card-main:hover {
-  outline: 3px solid #00e054;
+  /* outline: 3px solid #00e054; */
 }
 /* .overlay {
   width: 100%;
