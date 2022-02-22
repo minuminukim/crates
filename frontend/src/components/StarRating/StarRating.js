@@ -2,7 +2,12 @@ import { useState, useEffect } from 'react';
 import { FaStarHalf, FaStar } from 'react-icons/fa';
 import './StarRating.css';
 
-const StarRating = ({ reviewRating = 0, handleForm, readOnly = false }) => {
+const StarRating = ({
+  reviewRating = 0,
+  handleForm,
+  readOnly = false,
+  className = null,
+}) => {
   const [rating, setRating] = useState(0);
   const [hoverIndex, setHoverIndex] = useState(0);
 
@@ -23,7 +28,7 @@ const StarRating = ({ reviewRating = 0, handleForm, readOnly = false }) => {
         <div className="star-wrapper" key={`star-index-${i}`}>
           <div className="star-left">
             <FaStar
-              className={`star star-left ${isFilled(i * 2 + 1)}`}
+              className={`star star-left ${isFilled(i * 2 + 1)} ${className}`}
               id={`star-${i * 2 + 1}`} // id === rating
               onMouseEnter={readOnly ? null : () => setHoverIndex(i * 2 + 1)}
               onMouseLeave={readOnly ? null : () => setHoverIndex(rating)}
@@ -39,7 +44,7 @@ const StarRating = ({ reviewRating = 0, handleForm, readOnly = false }) => {
           </div>
           <div className="star-right">
             <FaStar
-              className={`star star-right ${isFilled(i * 2 + 2)}`}
+              className={`star star-right ${isFilled(i * 2 + 2)} ${className}`}
               id={`star-${i * 2 + 2}`} // id === rating
               onMouseEnter={readOnly ? null : () => setHoverIndex(i * 2 + 2)}
               onMouseLeave={readOnly ? null : () => setHoverIndex(rating)}

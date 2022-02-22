@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { postReview } from '../../store/reviewsReducer';
@@ -6,10 +6,11 @@ import AlbumArt from '../../components/AlbumArt';
 import { InputField, InputLabel } from '../../components/InputField';
 import ValidationError from '../../components/ValidationError';
 import StarRating from '../../components/StarRating';
+import { formatDateDayMonthYear } from '../../utils/date-helpers';
+import { AiOutlineClose, AiOutlineCheck } from 'react-icons/ai';
 import './ReviewForm.css';
 
 const ReviewForm = ({ album = null, onSuccess }) => {
-  console.log('album', album);
   const dispatch = useDispatch();
   const history = useHistory();
   const { user } = useSelector((state) => state.session);
@@ -19,6 +20,7 @@ const ReviewForm = ({ album = null, onSuccess }) => {
   const [errors, setErrors] = useState({});
   const today = new Date().toISOString().slice(0, 10);
   const [listenedDate, setListenedDate] = useState(today);
+  const hiddenInput = useRef(null);
 
   const handleSubmit = (e) => {
     console.log('album in submit', album);
@@ -52,7 +54,7 @@ const ReviewForm = ({ album = null, onSuccess }) => {
   const onStarChange = (star) => setRating(star);
 
   return (
-    <div style={{ backgroundColor: 'transparent' }}>
+    <div>
       {Object.values(errors).length > 0 &&
         Object.values(errors).map((error) => <ValidationError error={error} />)}
       <form onSubmit={handleSubmit} className="review-form">
@@ -65,29 +67,50 @@ const ReviewForm = ({ album = null, onSuccess }) => {
         </section>
         <section className="review-form-right">
           <div className="review-form-header">
-            <h1>I LISTENED...</h1>
+            <div className="label-row">
+              <h1>I LISTENED...</h1>
+              <AiOutlineClose className="close-icon large" />
+            </div>
             <div>
-              <h2>{album?.title}</h2>
-              <span>{album?.releaseYear}</span>
+              <h2>
+                {album?.title}
+                <span className="review-form-year">{album?.releaseYear}</span>
+              </h2>
             </div>
           </div>
           <div className="form-row">
             <InputLabel label="Specify the date you listened to it" />
+            {/* <p>{formatDateDayMonthYear(listenedDate)}</p> */}
+            <input
+              type="date"
+              id="listenedDate"
+              value={listenedDate}
+              max={today}
+              onChange={(e) => setListenedDate(e.target.value)}
+              hidden
+            />
             <InputField
               type="date"
               id="listenedDate"
               value={listenedDate}
-              // error={errors?.listenedDate}
               max={today}
               onChange={(e) => setListenedDate(e.target.value)}
             />
           </div>
-          <div className="form-row">
+          <div className="form-row checkbox">
+            <div
+              className="replace-checkbox"
+              onClick={() => hiddenInput.current.click()}
+            >
+              {isRelisten && <AiOutlineCheck />}
+            </div>
             <input
               type="checkbox"
               value={isRelisten}
               checked={isRelisten}
+              ref={hiddenInput}
               onChange={() => setIsRelisten(!isRelisten)}
+              hidden
             />
             <label>I've listened to this album before</label>
           </div>
@@ -100,24 +123,28 @@ const ReviewForm = ({ album = null, onSuccess }) => {
             />
             {errors?.body}
           </div>
-          <div className="form-row">
-            <InputLabel label="Rating" />
-            <span>{`${rating / 2} out of 5`}</span>
-            <InputField
-              type="number"
-              id="rating"
-              value={rating}
-              // error={errors?.rating}
-              onChange={(e) => setRating(e.target.value)}
-              hidden={true}
-            />
-            <StarRating handleForm={onStarChange} />
-            {/* TODO: star rating component */}
-          </div>
-          <div className="form-row">
-            <button className="submit-button" type="submit">
-              SAVE
-            </button>
+          <div className="form-row-last">
+            <div className="form-row rating-row">
+              <div className="label-row">
+                <InputLabel label="Rating" />
+                {rating > 0 && (
+                  <p className="rating-label">{`${rating / 2} out of 5`}</p>
+                )}
+              </div>
+              <InputField
+                type="number"
+                id="rating"
+                value={rating}
+                onChange={(e) => setRating(e.target.value)}
+                hidden={true}
+              />
+              <StarRating handleForm={onStarChange} className="form-star" />
+            </div>
+            <div className="form-row">
+              <button className="submit-button" type="submit">
+                SAVE
+              </button>
+            </div>
           </div>
         </section>
       </form>

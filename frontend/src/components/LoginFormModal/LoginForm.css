@@ -31,14 +31,6 @@
   color: #000;
 }
 
-.close-icon {
-  font-size: 20px;
-}
-
-.close-icon:hover {
-  filter: brightness(1.5);
-}
-
 ul.error-container {
   background-color: transparent;
   margin: 0;
