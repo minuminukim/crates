@@ -15,7 +15,9 @@ const ListenActions = ({ album }) => {
   const [errors, setErrors] = useState([]);
   const [loading, setLoading] = useState(true);
   const [listened, setListened] = useState(null);
+  const [isBacklogItem, setIsBacklogItem] = useState(null);
   const [text, setText] = useState('');
+  const [backlogText, setBacklogText] = useState('Backlog');
 
   // TODO: set up dispatch for removing an item
   // depending on state, click event will dispatch one or the other
@@ -24,11 +26,13 @@ const ListenActions = ({ album }) => {
       .then((items) => items.some((item) => item.spotifyID === album.spotifyID))
       .then((found) => {
         if (found) {
-          setListened(true);
-          setText('Listened');
+          setIsBacklogItem(true);
+          // setListened(true);
+          // setText('Listened');
         } else {
-          setListened(false);
-          setText('Listen');
+          setIsBacklogItem(false);
+          // setListened(false);
+          // setText('Listen');
         }
         setLoading(false);
       })
@@ -57,12 +61,18 @@ const ListenActions = ({ album }) => {
             onMouseLeave={() => (listened ? setText('Listened') : null)}
           >
             <MdHearing className="action-icon" />
-            <p className="action-label">{text}</p>
+            <p className="action-label">Listen</p>
           </div>
         )}
-        <div className="action">
+        <div
+          className={`action ${isBacklogItem ? 'remove' : 'append'}`}
+          onMouseOver={() => (isBacklogItem ? setBacklogText('Remove') : null)}
+          onMouseLeave={() =>
+            isBacklogItem ? setBacklogText('Backlog') : null
+          }
+        >
           <MdMoreTime className="action-icon" onClick={() => onAdd()} />
-          <p className="action-label">Backlog</p>
+          <p className="action-label">{backlogText}</p>
         </div>
       </ActionsRow>
       <ul className="validation-errors">

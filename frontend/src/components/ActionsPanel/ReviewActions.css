@@ -11,3 +11,7 @@
 .listened .action-icon {
   color: #00e054;
 }
+
+.remove .action-icon {
+  color: #40bcf4;
+}
