@@ -5,6 +5,7 @@ import albumsReducer from './albumsReducer';
 import reviewsReducer from './reviewsReducer';
 import usersReducer from './usersReducer';
 import listsReducer from './listsReducer';
+import backlogsReducer from './backlogsReducer';
 
 const rootReducer = combineReducers({
   session,

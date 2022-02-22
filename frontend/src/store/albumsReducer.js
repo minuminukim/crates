@@ -10,9 +10,10 @@ const initialState = {
   isLoading: true,
 };
 
-const loadAlbums = (albums) => ({
+const loadAlbums = (albums, userID) => ({
   type: ALBUMS_LOADED,
   albums,
+  userID,
 });
 
 const addAlbum = (album) => ({
@@ -46,10 +47,11 @@ export const fetchSingleAlbum = (id) => (dispatch) => {
     .catch((err) => dispatch(handleAlbumsErrors(err)));
 };
 
-export const fetchUserBacklog = (userID) => (dispatch) => {
+export const fetchUserBacklog = (userID) => async (dispatch) => {
   const response = await csrfFetch(`/api/users/${userID}/backlog`);
   const { backlog } = await response.json();
-  dispatch(loadAlbums(backlog));
+  dispatch(loadAlbums(backlog, userID));
+  return backlog;
 };
 
 export const searchAlbums = (query) => async (dispatch) => {
@@ -58,9 +60,9 @@ export const searchAlbums = (query) => async (dispatch) => {
     body: JSON.stringify({ query }),
   });
 
-  const { albums } = await response.json();
-  dispatch(loadAlbums(albums));
-  return albums;
+  const { backlog } = await response.json();
+  dispatch(loadAlbums(backlog));
+  return backlog;
 };
 
 const albumsReducer = (state = initialState, action) => {

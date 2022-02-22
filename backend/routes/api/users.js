@@ -134,8 +134,15 @@ router.get(
       },
     });
 
+    const items = await AlbumBacklog.findAll({
+      where: { backlogID: backlog.id },
+      include: { model: Album },
+    });
+
+    const albums = items.map((item) => item.Album);
+
     return res.json({
-      backlog,
+      backlog: albums,
     });
   })
 );
@@ -193,7 +200,7 @@ router.put(
 
     const updated = await Backlog.findOne({
       where: {
-        backlogID: backlog.id,
+        id: backlog.id,
       },
       include: {
         model: Album,
