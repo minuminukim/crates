@@ -46,7 +46,18 @@ router.get(
   '/:id(\\d+)',
   asyncHandler(async (req, res, next) => {
     const id = +req.params.id;
-    const user = await User.getSingleUserByID(id);
+    const user = await User.findOne({
+      where: { id: id },
+      include: [
+        { model: Album, as: 'albums', attributes: ['id'] },
+        {
+          model: Review,
+          as: 'reviews',
+          attributes: ['id', 'rating', 'albumID'],
+        },
+      ],
+      order: [[{ model: Review, as: 'reviews' }, 'id', 'DESC']],
+    });
 
     if (!user) {
       const userError = new Error('User not found.');

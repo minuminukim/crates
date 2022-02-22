@@ -42,7 +42,6 @@ router.post(
 
     await setTokenCookie(res, user);
     // await setAccessTokenCookie(res);
-
     return res.json({
       user,
     });

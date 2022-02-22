@@ -1,8 +1,8 @@
-const Album = require('../db/models');
+const { Album } = require('../db/models');
 
 const useAlbumFindOrCreate = async (data) => {
   const [album, created] = await Album.findOrCreate({
-    where: { spotifyID: spotifyID },
+    where: { spotifyID: data.spotifyID },
     defaults: {
       spotifyID: data.spotifyID,
       title: data.title,

@@ -57,7 +57,7 @@ const ListPage = () => {
         <section className="list-page-side">
           <ListActions
             userID={list?.userID}
-            sessionUserID={sessionUser.id}
+            sessionUserID={sessionUser?.id}
             listID={listID}
             handleDelete={toggleModal}
           />

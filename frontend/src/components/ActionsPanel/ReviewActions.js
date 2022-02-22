@@ -1,4 +1,7 @@
-import { useSelector } from 'react-redux';
+import { useEffect, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { useParams } from 'react-router-dom';
+import { fetchSingleUser } from '../../store/usersReducer';
 import StarRating from '../StarRating';
 import { ActionsRow } from '.';
 import './ReviewActions.css';
@@ -12,17 +15,20 @@ const ReviewActions = ({
   rating,
 }) => {
   const sessionUser = useSelector((state) => state.session.user);
+  const isSessionUser = sessionUser?.id === userID;
+  const { reviewID } = useParams();
 
   return (
     <ul className="review-actions">
       <li className="actions-row"></li>
-      {sessionUser.id === userID && (
+      <ActionsRow
+        className="action-row-rated"
+        label={'Rated'}
+        key={reviewID}
+        children={<StarRating reviewRating={rating} readOnly={true} />}
+      />
+      {isSessionUser && (
         <>
-          <ActionsRow
-            className="action-row-rated"
-            label="Rated"
-            children={<StarRating reviewRating={rating} readOnly={true} />}
-          />
           <ActionsRow
             className="hover"
             label="Edit or delete this review..."
@@ -41,7 +47,7 @@ const ReviewActions = ({
         className="hover"
       />
       <ActionsRow
-        label="Add this album to lists..."
+        label="Add this album to a list..."
         className="hover"
         onClick={onListClick}
       />

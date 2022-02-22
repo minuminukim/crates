@@ -18,14 +18,17 @@ const AppendList = ({ album, onClose }) => {
   const history = useHistory();
 
   useEffect(() => {
-    return dispatch(fetchUserLists(user.id))
-      // .then((items) => items.filter((item) => item.userID === user.id))
-      .then((items) => setLists(items))
-      .then(() => setIsLoading(false))
-      .catch((err) => console.log('error fetching user lists', err));
-  }, [dispatch]);
+    return (
+      dispatch(fetchUserLists(user.id))
+        // .then((items) => items.filter((item) => item.userID === user.id))
+        .then((items) => setLists(items))
+        .then(() => setIsLoading(false))
+        .catch((err) => console.log('error fetching user lists', err))
+    );
+  }, [dispatch, user.id]);
 
   const handleDispatch = () => {
+    console.log('album', album);
     setErrors([]);
     const payload = {
       listID: chosen,

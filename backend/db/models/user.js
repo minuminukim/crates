@@ -50,8 +50,8 @@ module.exports = (sequelize, DataTypes) => {
 
     static associate(models) {
       User.hasMany(models.Review, { foreignKey: 'userID', as: 'reviews' });
-      User.hasMany(models.List, { foreignKey: 'userID' });
-      User.hasOne(models.Backlog, { foreignKey: 'userID' });
+      User.hasMany(models.List, { foreignKey: 'userID', as: 'lists' });
+      User.hasOne(models.Backlog, { foreignKey: 'userID', as: 'backlog' });
       User.belongsToMany(models.Album, {
         through: 'UserAlbum',
         otherKey: 'albumID',

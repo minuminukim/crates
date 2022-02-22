@@ -8,6 +8,7 @@ import ReviewForm from './ReviewForm';
 import ReviewBody from './ReviewBody';
 import AlbumArt from '../../components/AlbumArt';
 import { ReviewActions, AppendList } from '../../components/ActionsPanel';
+import { fetchSingleUser } from '../../store/usersReducer';
 import { useModal } from '../../hooks';
 import { deleteReview } from '../../store/reviewsReducer';
 import WarningMessage from '../../components/WarningMessage';
@@ -18,6 +19,7 @@ const Review = () => {
   const history = useHistory();
   const { reviewID } = useParams();
   const review = useSelector((state) => state.reviews.items[reviewID]);
+  const sessionUser = useSelector((state) => state.session.user);
   const album = review?.album;
   const [showEditModal, setShowEditModal] = useState(false);
   const [showPostModal, setShowPostModal] = useState(false);
@@ -28,16 +30,25 @@ const Review = () => {
 
   useEffect(() => {
     // if (review && album) return;
-    return dispatch(getSingleReview(+reviewID))
-      .then((review) => setRating(review.rating))
-      .then(() => setIsLoading(false))
-      .catch(async (res) => {
+    const fetchData = async () => {
+      try {
+        const review = await dispatch(getSingleReview(+reviewID));
+
+        // fetching the session user here to set rating state for the action panel
+        const { reviews } = await dispatch(fetchSingleUser(sessionUser.id));
+        const found = reviews.find((item) => item.albumID === review.albumID);
+        setRating(found?.rating || 0);
+        setIsLoading(false);
+      } catch (res) {
         const data = await res.json();
         if (data && data.errors) {
           console.log('error', data.errors);
         }
-      });
-  }, [dispatch]);
+      }
+    };
+    fetchData();
+    return () => setRating(0);
+  }, [dispatch, reviewID, sessionUser]);
 
   const handleDelete = () => {
     return dispatch(deleteReview(+reviewID))
@@ -63,6 +74,8 @@ const Review = () => {
           <div>
             <ReviewActions
               rating={rating}
+              albumID={review?.albumID}
+              key={rating}
               userID={review?.userID}
               onEditClick={() => setShowEditModal(true)}
               onPostClick={() => setShowPostModal(true)}

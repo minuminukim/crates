@@ -14,7 +14,6 @@ const EditReviewForm = ({ review, onSuccess }) => {
   const history = useHistory();
   const [errors, setErrors] = useState([]);
   const [action, setAction] = useState(null);
-  const sessionUser = useSelector((state) => state.session.user);
   const { album, user } = review;
   const [form, setForm] = useState({
     listenedDate: review.listenedDate,
