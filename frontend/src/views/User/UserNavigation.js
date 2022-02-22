@@ -1,5 +1,6 @@
 import { NavLink, useRouteMatch } from 'react-router-dom';
 import { FaUserCircle } from 'react-icons/fa';
+import './UserNavigation.css';
 
 const UserNavigation = ({ user }) => {
   const { url } = useRouteMatch();
