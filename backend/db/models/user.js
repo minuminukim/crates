@@ -1,5 +1,6 @@
 'use strict';
 const { Model, Validator, Sequelize } = require('sequelize');
+const { Backlog } = require('.');
 const bcrypt = require('bcryptjs');
 
 module.exports = (sequelize, DataTypes) => {
@@ -7,7 +8,7 @@ module.exports = (sequelize, DataTypes) => {
     toSafeObject() {
       const { id, username, email } = this; // context will be the User instance
       // return { id, username, email, albums, reviews };
-      return { id, username, email }
+      return { id, username, email };
     }
 
     validatePassword(password) {
