@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchSingleUser } from '../../store/usersReducer';
 import { Switch, Route, useRouteMatch, useParams } from 'react-router-dom';
-// import UserNavigation from './UserNavigation';
+import Backlog from '../Backlog';
 import ReviewsList from '../../components/ReviewsList';
 import { UserLists, UserNavigation } from '.';
 import './User.css';
@@ -35,6 +35,9 @@ const User = () => {
             </Route>
             <Route path={`${path}/lists`}>
               <UserLists userID={+userID} />
+            </Route>
+            <Route path={`${path}/backlog`}>
+              <Backlog />
             </Route>
           </Switch>
         )}

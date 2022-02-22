@@ -7,7 +7,7 @@ import Albums from './views/Albums';
 import { Lists, ListForm, ListPage } from './views/Lists';
 import SignupForm from './components/SignupForm';
 import { restoreUser } from './store/session';
-import { fetchAlbumsFromDB } from './store/albumsReducer';
+import { fetchAlbums } from './store/albumsReducer';
 import Navigation from './components/Navigation';
 import ReviewsList from './components/ReviewsList';
 import Review from './views/Reviews';
@@ -21,7 +21,7 @@ function App() {
 
   useEffect(() => {
     dispatch(restoreUser())
-      .then(() => dispatch(fetchAlbumsFromDB()))
+      .then(() => dispatch(fetchAlbums()))
       .then(() => setIsLoaded(true));
   }, [dispatch]);
 

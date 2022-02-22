@@ -25,7 +25,7 @@ const handleAlbumsErrors = (error) => ({
   error,
 });
 
-export const fetchAlbumsFromDB = () => (dispatch) => {
+export const fetchAlbums = () => (dispatch) => {
   csrfFetch(`/api/albums`)
     .then((res) => res.json())
     .then(({ albums }) => dispatch(loadAlbums(albums)))
@@ -39,11 +39,17 @@ export const getUserAlbums = (userID) => (dispatch) => {
     .catch((err) => dispatch(handleAlbumsErrors(err)));
 };
 
-export const fetchSingleAlbumFromDB = (id) => (dispatch) => {
+export const fetchSingleAlbum = (id) => (dispatch) => {
   csrfFetch(`/api/albums/${id}`)
     .then((res) => res.json())
     .then(({ album }) => dispatch(addAlbum(album)))
     .catch((err) => dispatch(handleAlbumsErrors(err)));
+};
+
+export const fetchUserBacklog = (userID) => (dispatch) => {
+  const response = await csrfFetch(`/api/users/${userID}/backlog`);
+  const { backlog } = await response.json();
+  dispatch(loadAlbums(backlog));
 };
 
 export const searchAlbums = (query) => async (dispatch) => {
