@@ -35,7 +35,7 @@ const Review = () => {
         const review = await dispatch(getSingleReview(+reviewID));
 
         // fetching the session user here to set rating state for the action panel
-        const { reviews } = await dispatch(fetchSingleUser(sessionUser.id));
+        const { reviews } = await dispatch(fetchSingleUser(sessionUser?.id));
         const found = reviews.find((item) => item.albumID === review.albumID);
         setRating(found?.rating || 0);
         setIsLoading(false);
@@ -48,7 +48,7 @@ const Review = () => {
     };
     fetchData();
     return () => setRating(0);
-  }, [dispatch, reviewID, sessionUser]);
+  }, [dispatch, sessionUser, reviewID]);
 
   const handleDelete = () => {
     return dispatch(deleteReview(+reviewID))

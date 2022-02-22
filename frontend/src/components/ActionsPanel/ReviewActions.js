@@ -1,7 +1,5 @@
-import { useEffect, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { fetchSingleUser } from '../../store/usersReducer';
 import StarRating from '../StarRating';
 import { ActionsRow } from '.';
 import './ReviewActions.css';
@@ -18,7 +16,7 @@ const ReviewActions = ({
   const isSessionUser = sessionUser?.id === userID;
   const { reviewID } = useParams();
 
-  return (
+  return sessionUser ? (
     <ul className="review-actions">
       <li className="actions-row"></li>
       <ActionsRow
@@ -42,7 +40,7 @@ const ReviewActions = ({
         </>
       )}
       <ActionsRow
-        label="Review or log again..."
+        label="Review or log..."
         onClick={onPostClick}
         className="hover"
       />
@@ -52,6 +50,8 @@ const ReviewActions = ({
         onClick={onListClick}
       />
     </ul>
+  ) : (
+    <ActionsRow className="solo" label="Sign in to log, rate or review" />
   );
 };
 

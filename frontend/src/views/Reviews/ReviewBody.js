@@ -25,7 +25,7 @@ const ReviewBody = ({ review, shape }) => {
           return data.errors;
         }
       });
-  }, [dispatch]);
+  }, [dispatch, review.userID]);
 
   return (
     isLoaded && (
