@@ -11,7 +11,7 @@ const ReviewBody = ({ review, shape }) => {
   const dispatch = useDispatch();
   const [user, setUser] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
-  const album = albums[review.albumID];
+  const album = albums[review.album.spotifyID];
   // const user = users[review.userID];
 
   useEffect(() => {

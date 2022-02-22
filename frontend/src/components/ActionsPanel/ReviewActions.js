@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import StarRating from '../StarRating';
 import { ActionsRow } from '.';
 import './ReviewActions.css';
+import ListenActions from './ListenActions';
 
 const ReviewActions = ({
   userID,
@@ -18,13 +19,21 @@ const ReviewActions = ({
 
   return sessionUser ? (
     <ul className="review-actions">
-      <li className="actions-row"></li>
-      <ActionsRow
+      <ListenActions />
+      {/* <ActionsRow
         className="action-row-rated"
-        label={'Rated'}
+        label={rating ? 'Rated' : 'Rate'}
         key={reviewID}
         children={<StarRating reviewRating={rating} readOnly={true} />}
-      />
+      /> */}
+      <ActionsRow
+        className="action-row-rated hover"
+        label={rating ? 'Rated' : 'Rate'}
+        key={reviewID}
+        onClick={onPostClick}
+      >
+        <StarRating reviewRating={rating} readOnly={true} />
+      </ActionsRow>
       {isSessionUser && (
         <>
           <ActionsRow

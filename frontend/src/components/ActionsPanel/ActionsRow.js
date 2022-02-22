@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import './ActionsRow.css';
 
 const ActionsRow = ({
-  label,
+  label = "",
   onClick,
   className,
   link = null,

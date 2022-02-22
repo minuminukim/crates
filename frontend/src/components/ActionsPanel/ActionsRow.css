@@ -35,3 +35,23 @@
 .actions-row a:hover {
   color: #fff;
 }
+
+.listen-actions {
+  display: flex;
+  flex-direction: row;
+  height: 82px;
+}
+
+.action-icon {
+  font-size: 36px;
+  cursor: pointer;
+}
+
+.action-icon:hover p {
+  color: #fff;
+}
+
+.action-label {
+  font-size: 14px;
+  margin: 0;
+}
