@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { getReviews } from '../../store/reviewsReducer';
 import CardRow from '../../components/CardRow';
+import ReviewListItem from '../../components/ReviewListItem';
 import './Home.css';
 
 const sortByRecent = (items) => {
@@ -14,6 +15,7 @@ const Home = () => {
   const { items } = useSelector((state) => state.reviews);
   const { user } = useSelector((state) => state.session);
   const sorted = sortByRecent(Object.values(items)).slice(0, 5);
+  const popular = Object.values(items).slice(0, 4);
 
   useEffect(() => {
     return dispatch(getReviews())
@@ -38,7 +40,20 @@ const Home = () => {
         <h2 className="recent-posts-heading">NEW FROM FRIENDS</h2>
         {!isLoading && <CardRow items={sorted} />}
       </section>
-      {/* <StarRating /> */}
+      <section className="popular">
+        <h2 className="section-heading">POPULAR REVIEWS WITH FRIENDS</h2>
+        <ul>
+          {popular.map((review) => (
+            <li key={`review-${review.id}`}>
+              <ReviewListItem
+                review={review}
+                shape="block"
+                // className={userID ? 'user' : 'popular'}
+              />
+            </li>
+          ))}
+        </ul>
+      </section>
     </div>
   );
 };

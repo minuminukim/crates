@@ -44,6 +44,7 @@ const ReviewsList = ({ className = null }) => {
               <ReviewListItem
                 review={review}
                 className={userID ? 'user' : 'popular'}
+                shape="landscape"
               />
             </li>
           ))}

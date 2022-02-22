@@ -1,10 +1,38 @@
 .review-list-item {
   width: 800px;
-  max-height: 307px;
+  /* max-height: 307px; */
   display: flex;
   border-bottom: 0.5px solid rgb(68, 85, 102);
   padding: 18px 0;
   line-height: 1.6;
+}
+
+.landscape {
+  max-height: 307px;
+}
+
+.review-list-item.block {
+  width: 450px;
+  max-height: 600px;
+  /* height: 600px !important; */
+  display: flex;
+  flex-direction: column;
+}
+
+.block .review-list-item-art {
+  display: flex;
+}
+
+.block .review-list-item-main {
+  padding-left: 0;
+}
+
+.block a.review-list-item-title {
+  max-width: 320px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  display: inline-block;
 }
 
 .review-list-item.popular {
@@ -64,10 +92,29 @@ a.review-list-item-title {
   filter: brightness(1);
 }
 
+.block .review-list-item-body {
+  width: 450px;
+  max-height: 400px;
+  overflow: hidden;
+  display: -webkit-box !important;
+  -webkit-line-clamp: 8;
+  -webkit-box-orient: vertical;
+}
+
 .review-list-item-body {
   font-family: TiemposTextWeb-Semibold, Georgia, serif;
   margin-bottom: 0;
+  overflow: hidden;
+  display: -webkit-box !important;
+  -webkit-line-clamp: 5;
+  -webkit-box-orient: vertical;
+  height: 216px;
   /* overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis; */
+}
+
+.half-green {
+  position: relative;
+  top: 3px;
 }

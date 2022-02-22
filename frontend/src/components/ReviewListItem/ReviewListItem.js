@@ -1,44 +1,27 @@
-import { Link } from 'react-router-dom';
-import StarRatingReadOnly from '../StarRating/StarRatingReadOnly';
 import AlbumArt from '../AlbumArt';
-import { formatDateDayMonthYear } from '../../utils/date-helpers';
+import Details from './Details';
 import './ReviewListItem.css';
 
-const ReviewListItem = ({ review, className = null }) => {
+const ReviewListItem = ({ review, className = '', shape }) => {
   const album = review?.album;
   return (
-    <div className={`review-list-item ${className}`}>
+    <div className={`review-list-item ${className} ${shape}`}>
       <div className="review-list-item-art">
         <AlbumArt
           title={album.title}
           artworkURL={album.artworkURL}
           size="small"
         />
+        {shape === 'block' && (
+          <div>
+            <Details review={review} album={album} shape={shape} />
+          </div>
+        )}
       </div>
       <div className="review-list-item-main">
-        <Link className="review-list-item-title" to={`/reviews/${review.id}`}>
-          {album.title}{' '}
-          <span className="review-list-item-year">{album.releaseYear}</span>
-        </Link>
-        <div className="review-list-item-info">
-          <StarRatingReadOnly
-            rating={review.rating}
-            className="star-filled-green"
-            size="small"
-          />
-          {review.rating !== 10 && review.rating % 2 !== 0 && (
-            <span className="half-green">½</span>
-          )}
-          <div>
-            <Link to={`/reviews/${review.id}`}>Reviewed by </Link>
-            <span className="review-list-item-username">
-              {review.user.username}
-            </span>
-            <span className="review-list-item-date">
-              {formatDateDayMonthYear(review.listenedDate)}
-            </span>
-          </div>
-        </div>
+        {shape !== 'block' && (
+          <Details review={review} album={album} shape="landscape" />
+        )}
         <p className="review-list-item-body">{review.body}</p>
       </div>
     </div>

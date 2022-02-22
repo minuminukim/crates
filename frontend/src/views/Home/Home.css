@@ -20,3 +20,17 @@
   padding-bottom: 3px;
   border-bottom: 1px solid #456;
 }
+
+section.popular {
+  margin-top: 30px;
+}
+
+section.popular ul {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  width: 950px;
+  padding-left: 0;
+  /* display: grid;
+  grid-template-columns: 1fr 1fr; */
+}
