@@ -3,9 +3,27 @@ const { check } = require('express-validator');
 const asyncHandler = require('express-async-handler');
 const validateSignup = require('../../validations/validateSignup');
 const { setTokenCookie, requireAuth } = require('../../utils/auth');
-const { User, Review, List, Album } = require('../../db/models');
+const {
+  User,
+  Review,
+  List,
+  Album,
+  Backlog,
+  AlbumBacklog,
+} = require('../../db/models');
 
 const router = express.Router();
+
+const userNotFoundError = () => {
+  const userError = new Error('User not found.');
+  userError.status = 404;
+  userError.title = 'User not found.';
+  userError.errors = {
+    userID: `The requested user could not be found.`,
+  };
+
+  return userError;
+};
 
 // Sign up
 router.post(
@@ -76,6 +94,7 @@ router.get(
         },
       ],
     });
+
     return res.json({
       lists,
     });
