@@ -3,6 +3,7 @@ const { check } = require('express-validator');
 const asyncHandler = require('express-async-handler');
 const validateSignup = require('../../validations/validateSignup');
 const { setTokenCookie, requireAuth } = require('../../utils/auth');
+const useAlbumFindOrCreate = require('../../utils/useAlbumFindOrCreate');
 const {
   User,
   Review,
@@ -144,17 +145,25 @@ router.put(
       },
     });
 
-    const [album, _created] = await Album.findOrCreate({
-      where: { spotifyID: spotifyID },
-      defaults: {
-        spotifyID: spotifyID,
-        title: title,
-        averageRating: 0.0,
-        ratingsCount: 0,
-        artworkURL: artworkURL,
-        artist: artist,
-        releaseYear: releaseYear,
-      },
+    // const [album, _c] = await Album.findOrCreate({
+    //   where: { spotifyID: spotifyID },
+    //   defaults: {
+    //     spotifyID: spotifyID,
+    //     title: title,
+    //     averageRating: 0.0,
+    //     ratingsCount: 0,
+    //     artworkURL: artworkURL,
+    //     artist: artist,
+    //     releaseYear: releaseYear,
+    //   },
+    // });
+
+    const { album } = await useAlbumFindOrCreate({
+      spotifyID,
+      title,
+      artworkURL,
+      artist,
+      releaseYear,
     });
 
     // create the join table record

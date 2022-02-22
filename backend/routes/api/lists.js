@@ -4,6 +4,7 @@ const { List, Album, AlbumList, User } = require('../../db/models');
 const reduceListAlbums = require('../../utils/reduceListAlbums');
 const { requireAuth } = require('../../utils/auth');
 const validateList = require('../../validations/validateList');
+const useAlbumFindOrCreate = require('../../utils/useAlbumFindOrCreate');
 
 const router = express.Router();
 
@@ -172,17 +173,24 @@ router.patch(
     const id = +req.params.id;
     const { spotifyID, title, artworkURL, artist, releaseYear } = req.body;
 
-    const [album, _created] = await Album.findOrCreate({
-      where: { spotifyID: spotifyID },
-      defaults: {
-        spotifyID: spotifyID,
-        title: title,
-        averageRating: 0.0,
-        ratingsCount: 0,
-        artworkURL: artworkURL,
-        artist: artist,
-        releaseYear: releaseYear,
-      },
+    // const [album, _created] = await Album.findOrCreate({
+    //   where: { spotifyID: spotifyID },
+    //   defaults: {
+    //     spotifyID: spotifyID,
+    //     title: title,
+    //     averageRating: 0.0,
+    //     ratingsCount: 0,
+    //     artworkURL: artworkURL,
+    //     artist: artist,
+    //     releaseYear: releaseYear,
+    //   },
+    // });
+    const { album } = await useAlbumFindOrCreate({
+      spotifyID,
+      title,
+      artworkURL,
+      artist,
+      releaseYear,
     });
 
     const [albumList, created] = await AlbumList.findOrCreate({
