@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { ActionsRow } from '.';
+import { useHistory } from 'react-router-dom';
 import { MdHearing, MdMoreTime } from 'react-icons/md';
 import { appendBacklog } from '../../store/backlogsReducer';
 import { fetchUserBacklog } from '../../store/albumsReducer';
@@ -10,17 +11,28 @@ const ListenActions = ({ album }) => {
   const sessionUser = useSelector((state) => state.session.user);
   const backlog = useSelector((state) => state.backlogs[sessionUser?.id]);
   const dispatch = useDispatch();
+  const history = useHistory();
   const [errors, setErrors] = useState([]);
   const [loading, setLoading] = useState(true);
   const [listened, setListened] = useState(null);
+  const [text, setText] = useState('');
 
   // TODO: set up dispatch for removing an item
   // depending on state, click event will dispatch one or the other
   useEffect(() => {
     dispatch(fetchUserBacklog(sessionUser?.id))
       .then((items) => items.some((item) => item.spotifyID === album.spotifyID))
-      .then((found) => (found ? setListened(true) : setListened(false)))
-      .then(() => setLoading(false));
+      .then((found) => {
+        if (found) {
+          setListened(true);
+          setText('Listened');
+        } else {
+          setListened(false);
+          setText('Listen');
+        }
+        setLoading(false);
+      })
+      .catch((error) => history.push('/not-found'));
   }, [dispatch, sessionUser?.id]);
 
   const onAdd = () => {
@@ -39,16 +51,16 @@ const ListenActions = ({ album }) => {
     <>
       <ActionsRow className="listen-actions">
         {!loading && (
-          <div className="action-icon">
+          <div
+            className={`action ${listened ? 'listened' : 'listen'}`}
+            onMouseOver={() => (listened ? setText('Remove') : null)}
+            onMouseLeave={() => (listened ? setText('Listened') : null)}
+          >
             <MdHearing className="action-icon" />
-            {listened ? (
-              <p className="action-label">already listened</p>
-            ) : (
-              <p className="action-label">Listen</p>
-            )}
+            <p className="action-label">{text}</p>
           </div>
         )}
-        <div className="action-icon">
+        <div className="action">
           <MdMoreTime className="action-icon" onClick={() => onAdd()} />
           <p className="action-label">Backlog</p>
         </div>
