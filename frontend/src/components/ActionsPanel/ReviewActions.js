@@ -12,6 +12,7 @@ const ReviewActions = ({
   onListClick,
   onDeleteClick,
   rating,
+  album,
 }) => {
   const sessionUser = useSelector((state) => state.session.user);
   const isSessionUser = sessionUser?.id === userID;
@@ -19,7 +20,7 @@ const ReviewActions = ({
 
   return sessionUser ? (
     <ul className="review-actions">
-      <ListenActions />
+      <ListenActions album={album} />
       {/* <ActionsRow
         className="action-row-rated"
         label={rating ? 'Rated' : 'Rate'}

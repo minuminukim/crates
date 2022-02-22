@@ -3,7 +3,14 @@ const { check } = require('express-validator');
 const asyncHandler = require('express-async-handler');
 const validateSignup = require('../../validations/validateSignup');
 const { setTokenCookie, requireAuth } = require('../../utils/auth');
-const useAlbumFindOrCreate = require('../../utils/useAlbumFindOrCreate');
+// const {
+//   User,
+//   Review,
+//   List,
+//   Album,
+//   Backlog,
+//   AlbumBacklog,
+// } = require('../../db/models');
 const {
   User,
   Review,
@@ -12,6 +19,7 @@ const {
   Backlog,
   AlbumBacklog,
 } = require('../../db/models');
+const useAlbumFindOrCreate = require('../../utils/useAlbumFindOrCreate');
 
 const router = express.Router();
 
@@ -152,29 +160,17 @@ router.put(
   `/:id(\\d+)/backlog`,
   // requireAuth,
   asyncHandler(async (req, res, next) => {
-    const userID = +req.params.id;
+    const id = +req.params.id;
+    console.log('req@@@@@@@@@@@@@@@', req.body);
     const { spotifyID, title, artworkURL, artist, releaseYear } = req.body;
 
     // get the user's backlog
     const [backlog, _created] = await Backlog.findOrCreate({
-      where: { userID: userID },
+      where: { userID: id },
       defaults: {
-        userID: userID,
+        userID: id,
       },
     });
-
-    // const [album, _c] = await Album.findOrCreate({
-    //   where: { spotifyID: spotifyID },
-    //   defaults: {
-    //     spotifyID: spotifyID,
-    //     title: title,
-    //     averageRating: 0.0,
-    //     ratingsCount: 0,
-    //     artworkURL: artworkURL,
-    //     artist: artist,
-    //     releaseYear: releaseYear,
-    //   },
-    // });
 
     const { album } = await useAlbumFindOrCreate({
       spotifyID,
@@ -183,6 +179,7 @@ router.put(
       artist,
       releaseYear,
     });
+    console.log('album', album, 'backlog', backlog)
 
     // create the join table record
     const [albumBacklog, created] = await AlbumBacklog.findOrCreate({
@@ -192,25 +189,34 @@ router.put(
       },
     });
 
-    if (!created) {
-      return res.status(400).json({
-        errors: [`An album cannot be added more than once to a backlog.`],
-      });
-    }
+    // if (!created) {
+    //   return res.status(400).json({
+    //     errors: [`An album cannot be added more than once to a backlog.`],
+    //   });
+    // }
 
-    const updated = await Backlog.findOne({
-      where: {
-        id: backlog.id,
-      },
-      include: {
-        model: Album,
-        as: 'albums',
-        attributes: ['id', 'spotifyID'],
-      },
+    // const updated = await Backlog.findOne({
+    //   where: {
+    //     id: backlog.id,
+    //   },
+    //   include: {
+    //     model: Album,
+    //     as: 'albums',
+    //     attributes: ['id', 'spotifyID'],
+    //   },
+    // });
+
+    const items = await AlbumBacklog.findAll({
+      where: { backlogID: backlog.id },
+      include: { model: Album },
     });
 
+
+    const albums = items.map((item) => item.Album);
+
+
     return res.json({
-      backlog: updated,
+      backlog: albums,
     });
   })
 );

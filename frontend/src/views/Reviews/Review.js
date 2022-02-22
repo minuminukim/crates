@@ -74,7 +74,7 @@ const Review = () => {
           <div>
             <ReviewActions
               rating={rating}
-              albumID={review?.albumID}
+              album={album}
               key={rating}
               userID={review?.userID}
               onEditClick={() => setShowEditModal(true)}

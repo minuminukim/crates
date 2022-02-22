@@ -13,6 +13,7 @@ const rootReducer = combineReducers({
   reviews: reviewsReducer,
   users: usersReducer,
   lists: listsReducer,
+  backlogs: backlogsReducer,
 });
 
 let enhancer;
