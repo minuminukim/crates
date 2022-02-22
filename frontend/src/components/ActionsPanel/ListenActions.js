@@ -3,9 +3,9 @@ import { useSelector, useDispatch } from 'react-redux';
 import { ActionsRow } from '.';
 import { useHistory } from 'react-router-dom';
 import { MdHearing, MdMoreTime } from 'react-icons/md';
-import { appendBacklog } from '../../store/backlogsReducer';
+import { appendBacklog, removeFromBacklog } from '../../store/backlogsReducer';
 import { fetchUserBacklog } from '../../store/albumsReducer';
-import ValidationError from '../ValidationError';
+import ValidationError, { SuccessMessage } from '../ValidationError';
 
 const ListenActions = ({ album }) => {
   const sessionUser = useSelector((state) => state.session.user);
@@ -17,6 +17,7 @@ const ListenActions = ({ album }) => {
   const [listened, setListened] = useState(null);
   const [isBacklogItem, setIsBacklogItem] = useState(null);
   const [text, setText] = useState('');
+  const [message, setMessage] = useState('');
   const [backlogText, setBacklogText] = useState('Backlog');
 
   // TODO: set up dispatch for removing an item
@@ -36,13 +37,34 @@ const ListenActions = ({ album }) => {
         }
         setLoading(false);
       })
-      .catch((error) => history.push('/not-found'));
+      .catch((error) => history.push('/error'));
   }, [dispatch, sessionUser?.id]);
 
   const onAdd = () => {
     setErrors([]);
+    setMessage('');
     dispatch(appendBacklog(album, sessionUser.id))
       .then((response) => console.log('response', response))
+      .then(() => setIsBacklogItem(true))
+      .then(() => setLoading(false))
+      .then(() => setMessage(`You have added ${album.title} to your backlog.`))
+      .catch(async (error) => {
+        const data = await error.json();
+        if (data && data.errors) {
+          setErrors(data.errors);
+        }
+      });
+  };
+
+  const onRemove = () => {
+    setErrors([]);
+    setMessage('');
+    dispatch(removeFromBacklog(album.id, album.spotifyID, sessionUser.id))
+      .then(() => setIsBacklogItem(false))
+      .then(() =>
+        setMessage(`You have removed '${album.title}' from your backlog.`)
+      )
+      .then(() => setLoading(false))
       .catch(async (error) => {
         const data = await error.json();
         if (data && data.errors) {
@@ -56,7 +78,7 @@ const ListenActions = ({ album }) => {
       <ActionsRow className="listen-actions">
         {!loading && (
           <div
-            className={`action ${listened ? 'listened' : 'listen'}`}
+            className={`action hover ${listened ? 'listened' : 'listen'}`}
             onMouseOver={() => (listened ? setText('Remove') : null)}
             onMouseLeave={() => (listened ? setText('Listened') : null)}
           >
@@ -65,16 +87,22 @@ const ListenActions = ({ album }) => {
           </div>
         )}
         <div
-          className={`action ${isBacklogItem ? 'remove' : 'append'}`}
+          className={`action hover ${isBacklogItem ? 'remove' : 'append'}`}
           onMouseOver={() => (isBacklogItem ? setBacklogText('Remove') : null)}
-          onMouseLeave={() =>
-            isBacklogItem ? setBacklogText('Backlog') : null
-          }
+          onMouseLeave={() => setBacklogText('Backlog')}
         >
-          <MdMoreTime className="action-icon" onClick={() => onAdd()} />
+          <MdMoreTime
+            className="action-icon"
+            onClick={() => (isBacklogItem ? onRemove() : onAdd())}
+          />
           <p className="action-label">{backlogText}</p>
         </div>
       </ActionsRow>
+      {message.length > 0 && (
+        <div className="success-container">
+          <SuccessMessage message={message} />
+        </div>
+      )}
       <ul className="validation-errors">
         {errors.length > 0 &&
           errors.map((error, i) => (

@@ -59,10 +59,10 @@ export const searchAlbums = (query) => async (dispatch) => {
     method: 'POST',
     body: JSON.stringify({ query }),
   });
-
-  const { backlog } = await response.json();
-  dispatch(loadAlbums(backlog));
-  return backlog;
+  
+  const { albums } = await response.json();
+  dispatch(loadAlbums(albums));
+  return albums;
 };
 
 const albumsReducer = (state = initialState, action) => {

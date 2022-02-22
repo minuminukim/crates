@@ -23,6 +23,11 @@ ul.validation-errors {
   left: 0; */
   /* position: relative; */
 }
+.success-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+}
 
 .success-message-alert {
   background-color: #00c030;
