@@ -1,13 +1,15 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { signup } from '../../store/session';
 import { InputField, InputLabel } from '../InputField';
 import ValidationError from '../ValidationError';
 import Button from '../Button';
+import { AiOutlineClose } from 'react-icons/ai';
+
 import './SignupForm.css';
 
-function SignupForm() {
+function SignupForm({ onClose }) {
   const dispatch = useDispatch();
   const sessionUser = useSelector((state) => state.session.user);
   const [email, setEmail] = useState('');
@@ -39,6 +41,11 @@ function SignupForm() {
       <h1>Sign Up</h1>
       <form onSubmit={handleSubmit} className="sign-up-form">
         <h2>JOIN CRATES</h2>
+        <AiOutlineClose
+          className="close-icon"
+          onClick={onClose}
+          style={{ cursor: 'pointer' }}
+        />
         <div className="form-row">
           <InputLabel label="Email address" />
           <InputField
@@ -80,10 +87,12 @@ function SignupForm() {
           type="submit"
           label="SIGN UP"
         />
-        {errors.length > 0 &&
-          errors.map((error, i) => (
-            <ValidationError key={`error-${i}`} error={error} />
-          ))}
+        <ul className="validation-errors">
+          {errors.length > 0 &&
+            errors.map((error, i) => (
+              <ValidationError key={`error-${i}`} error={error} />
+            ))}
+        </ul>
       </form>
     </>
   );

@@ -1,5 +1,5 @@
 ul.validation-errors {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
 }
@@ -21,7 +21,7 @@ ul.validation-errors {
   /* position: absolute;
   top: 0;
   left: 0; */
-  position: relative;
+  /* position: relative; */
 }
 
 .success-message-alert {

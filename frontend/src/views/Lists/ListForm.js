@@ -15,7 +15,6 @@ import { SuccessMessage } from '../../components/ValidationError';
 import Button from '../../components/Button';
 import DraggableList from '../../components/DraggableList/DraggableList';
 import './ListForm.css';
-import { bindActionCreators } from 'redux';
 
 const ListForm = () => {
   const [title, setTitle] = useState('');

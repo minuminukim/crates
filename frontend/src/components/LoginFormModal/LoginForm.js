@@ -52,7 +52,7 @@ function LoginForm({ handleModal }) {
         </div>
         <Button type="submit" label="SIGN IN" size="medium" color="green" />
       </form>
-      <ul className="error-container">
+      <ul className="validation-errors">
         {errors.map((error, idx) => (
           <ValidationError key={`error-${idx}`} error={error} />
         ))}

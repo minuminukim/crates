@@ -6,6 +6,7 @@ import ProfileButton from './ProfileButton';
 import LogButton from './LogButton';
 import { Modal } from '../../context/Modal';
 import LoginFormModal from '../LoginFormModal';
+import SignupModal from '../SignupForm';
 import SearchModal from '../SearchModal';
 import './Navigation.css';
 
@@ -28,7 +29,8 @@ function Navigation({ isLoaded }) {
   ) : (
     <>
       <LoginFormModal />
-      <NavLink to="/signup">CREATE ACCOUNT</NavLink>
+      <SignupModal />
+      {/* <NavLink to="/signup">CREATE ACCOUNT</NavLink> */}
     </>
   );
 
