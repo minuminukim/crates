@@ -3,14 +3,6 @@ const { check } = require('express-validator');
 const asyncHandler = require('express-async-handler');
 const validateSignup = require('../../validations/validateSignup');
 const { setTokenCookie, requireAuth } = require('../../utils/auth');
-// const {
-//   User,
-//   Review,
-//   List,
-//   Album,
-//   Backlog,
-//   AlbumBacklog,
-// } = require('../../db/models');
 const {
   User,
   Review,
@@ -18,6 +10,7 @@ const {
   Album,
   Backlog,
   AlbumBacklog,
+  UserAlbum,
 } = require('../../db/models');
 const useAlbumFindOrCreate = require('../../utils/useAlbumFindOrCreate');
 
@@ -158,7 +151,7 @@ router.get(
 // appends an album to a user's backlog
 router.put(
   `/:id(\\d+)/backlog`,
-  // requireAuth,
+  requireAuth,
   asyncHandler(async (req, res, next) => {
     const id = +req.params.id;
     console.log('req@@@@@@@@@@@@@@@', req.body);
@@ -209,7 +202,7 @@ router.put(
 
 router.delete(
   `/:id(\\d+)/backlog/:albumID`,
-  // requireAuth,
+  requireAuth,
   asyncHandler(async (req, res, next) => {
     const id = +req.params.id;
     const albumID = +req.params.albumID;
@@ -238,5 +231,51 @@ router.delete(
     return res.status(204).json({});
   })
 );
+
+router.post(
+  `/:id(\\d+)/albums`,
+  requireAuth,
+  asyncHandler(async (req, res, next) => {
+    const id = +req.params.id;
+
+    const { spotifyID, title, artworkURL, artist, releaseYear } = req.body;
+
+    const { album } = await useAlbumFindOrCreate({
+      spotifyID,
+      title,
+      artworkURL,
+      artist,
+      releaseYear,
+    });
+
+    const [userAlbum, created] = await UserAlbum.findOrCreate({
+      where: { userID: id, albumID: album.id },
+      defaults: {
+        userID: id,
+        albumID: album.id,
+      },
+    });
+
+    if (userAlbum && !created) {
+      return res.status(400).json({
+        errors: [`Album already exists in the user's records.`],
+      });
+    }
+
+    //TODO check if record exists in the user's backlog and delete
+    // const albumBacklog = await AlbumBacklog.findOne({
+    //   where: { }
+    // })
+
+    return res.json({
+      userAlbum,
+      album,
+    });
+  })
+);
+
+router.delete(
+  `/:id(\\d+)/albums/:albumID`,
+)
 
 module.exports = router;
