@@ -25,7 +25,7 @@ const ProfileDropdown = () => {
       <DropdownItem label="Home" link="/" />
       <DropdownItem label="Profile" link="#" />
       <DropdownItem label="Albums" link="#" />
-      <DropdownItem label="Diary" link="#" />
+      <DropdownItem label="Diary" link={`/users/${user.id}/diary`} />
       <DropdownItem label="Reviews" link={`/users/${user.id}/reviews`} />
       <DropdownItem label="Backlog" link={`/users/${user.id}/backlog`} />
       <DropdownItem label="Lists" link={`/users/${user.id}/lists`} />

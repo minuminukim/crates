@@ -4,7 +4,7 @@ import { fetchSingleUser } from '../../store/usersReducer';
 import { Switch, Route, useRouteMatch, useParams } from 'react-router-dom';
 import Backlog from '../Backlog';
 import ReviewsList from '../../components/ReviewsList';
-import { UserLists, UserNavigation } from '.';
+import { UserLists, UserNavigation, Diary } from '.';
 import './User.css';
 
 const User = () => {
@@ -38,6 +38,9 @@ const User = () => {
             </Route>
             <Route path={`${path}/backlog`}>
               <Backlog />
+            </Route>
+            <Route path={`${path}/diary`}>
+              <Diary />
             </Route>
           </Switch>
         )}

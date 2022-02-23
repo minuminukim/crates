@@ -1,0 +1,35 @@
+.diary-item {
+  display: flex;
+  max-width: 950px;
+}
+
+.diary-album-container {
+  position: relative;
+}
+
+.diary-item img {
+  border-radius: 3px;
+}
+
+.diary-item .overlay {
+  width: 100px;
+  height: 100px;
+}
+
+.diary-album {
+  width: 100px;
+  height: 100px;
+}
+
+a.diary-item-title {
+  font-family: TiemposTextWeb-Semibold, Georgia, serif;
+  color: #fff;
+  font-size: 24px;
+  display: flex;
+  align-items: center;
+  font-weight: 600;
+}
+
+.diary-item-title:hover {
+  color: #40bcf4;
+}
