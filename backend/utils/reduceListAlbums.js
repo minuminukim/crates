@@ -3,6 +3,7 @@ const { Album } = require('../db/models');
 // helper function that reduces albums in a list,
 // finding or creating records for each
 const reduceListAlbums = async (items) => {
+  console.log('items before in reduce', items);
   return await items.reduce(async (promise, item) => {
     // await the previous callback
     const acc = await promise;

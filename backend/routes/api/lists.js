@@ -135,6 +135,7 @@ router.put(
 
     // ...then iterate over albums and findOrCreate each
     const albums = await reduceListAlbums(req.body.albums);
+    console.log('albums after reducer', albums);
 
     const { isRanked } = req.body;
     // ...then (re)create join table records with updated indices
@@ -156,8 +157,33 @@ router.put(
     await oldList.save();
 
     // ...then fetch the updated list with its associated albums
-    const list = await List.getSingleListByID(id);
+    // const list = await List.getSingleListByID(id);
+    // console.log('albums after fetched', list.albums)
+    // albums arent returned in order
+    // const list = await List.findOne({
+    //   where: {
+    //     id: id,
+    //   },
+    //   include: [
+    //     {
+    //       model: Album,
+    //       as: 'albums',
+    //       // include: { model: AlbumList, order: ['listIndex', 'ASC'] },
+    //       order: ['AlbumList.listIndex', 'ASC'],
+    //     },
+    //     // { order: [{ model: AlbumList }, 'listIndex', 'ASC'] },
+    //   ],
+    // });
+    const list = await List.findOne({
+      where: {
+        id: id
+      },
+      raw: true
+    });
+    
+    list.albums = albums;
 
+    console.log('albums after query', list);
     return res.json({
       list,
     });

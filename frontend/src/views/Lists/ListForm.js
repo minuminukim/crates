@@ -24,6 +24,7 @@ const ListForm = () => {
   const [albums, setAlbums] = useState([]);
   const [action, setAction] = useState(null);
   const [message, setMessage] = useState('');
+  const [chosen, setChosen] = useState(false);
   const { user } = useSelector((state) => state.session);
   const { query, setQuery, results, isLoading, error } = useSearch();
   const dispatch = useDispatch();
@@ -169,8 +170,13 @@ const ListForm = () => {
               value={query}
               onChange={handleChange}
               placeholder="Enter name of album..."
+              // onFocus={() => setChosen(false)}
+              // onBlur={() => setChosen(true)}
             />
-            <ul className="search-list">
+            <ul
+              className="search-list"
+              style={{ display: chosen ? 'none' : 'block' }}
+            >
               {!isLoading &&
                 results?.length > 0 &&
                 results.map((item) => (
@@ -179,7 +185,11 @@ const ListForm = () => {
                     title={item.title}
                     artist={item.artist}
                     releaseYear={item.releaseYear}
-                    onClick={() => setAlbums([...albums, item])}
+                    // onClick={() => setAlbums([...albums, item])}
+                    onClick={() => {
+                      // setChosen(true);
+                      setAlbums([...albums, item]);
+                    }}
                   />
                 ))}
             </ul>

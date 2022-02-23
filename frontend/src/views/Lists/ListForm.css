@@ -76,6 +76,12 @@ textarea:focus {
   display: flex;
   flex-direction: column;
   width: 285px;
+  max-height: 350px;
+  /* overflow-y: scroll; */
+}
+
+.search-list {
+  overflow-y: scroll;
 }
 
 .search-field input {
