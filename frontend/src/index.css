@@ -68,3 +68,8 @@ textarea:focus {
   filter: brightness(1.5);
   cursor: pointer;
 }
+
+.page-heading {
+  font-size: 28px;
+  font-weight: 300;
+}

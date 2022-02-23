@@ -143,7 +143,7 @@ const ListenActions = ({ album }) => {
           </div>
 
           <div
-            className={`action hover ${inBacklog ? 'remove' : 'append'}`}
+            className={`actions-row ${inBacklog ? 'remove' : 'append'}`}
             onMouseOver={() => (inBacklog ? setBacklogText('Remove') : null)}
             onMouseLeave={() => setBacklogText('Backlog')}
           >

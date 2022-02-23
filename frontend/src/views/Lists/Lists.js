@@ -43,6 +43,7 @@ const Lists = () => {
             <Button
               label="Start your own list"
               onClick={() => history.push('/lists/new')}
+              className="transparent"
             />
           </section>
           <section className="popular-lists">

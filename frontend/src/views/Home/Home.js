@@ -31,7 +31,7 @@ const Home = () => {
   return (
     <div className="page-container index">
       <section className="welcome-hero">
-        <h1 className="welcome-heading">
+        <h1 className="welcome-heading page-heading">
           Welcome back, <span>{user.username}</span>. Here's what your friends
           have been listening to...
         </h1>

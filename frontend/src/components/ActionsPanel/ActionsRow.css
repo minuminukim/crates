@@ -3,7 +3,6 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  /* background-color: #445566; */
   list-style-type: none;
   width: 230px;
   color: #bcd;
@@ -17,6 +16,14 @@
   cursor: pointer;
 }
 
+.action-row-rated {
+  padding: 10px;
+}
+
+.action-row-rated p {
+  margin: 0;
+  padding-bottom: 10px;
+}
 .action-row-rated,
 .action-row-rated span {
   cursor: default !important;
@@ -55,3 +62,14 @@
   font-size: 14px;
   margin: 0;
 }
+
+p.action-label:hover {
+  cursor: pointer;
+  color: #fff;
+}
+
+.listen-actions {
+  display: flex;
+  justify-content: center;
+}
+

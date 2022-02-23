@@ -22,7 +22,7 @@ const ReviewActions = ({
     <ul className="review-actions">
       <ListenActions album={album} />
       <ActionsRow
-        className="action-row-rated hover"
+        className="action-row-rated"
         label={rating ? 'Rated' : 'Rate'}
         key={reviewID}
         onClick={onPostClick}
