@@ -107,12 +107,12 @@ router.post(
 // handles updates dispatched from the form
 router.put(
   '/:id(\\d+)',
-  // TODO: validation errors,
   requireAuth,
   validateList,
   asyncHandler(async (req, res, next) => {
     const id = +req.params.id;
     const oldList = await List.findByPk(id);
+    console.log('req.body', req.body);
 
     if (!oldList) {
       return next(listNotFoundError());
@@ -136,13 +136,14 @@ router.put(
     // ...then iterate over albums and findOrCreate each
     const albums = await reduceListAlbums(req.body.albums);
 
+    const { isRanked } = req.body;
     // ...then (re)create join table records with updated indices
     await Promise.all(
       albums.map(async (album, i) => {
         await AlbumList.create({
           albumID: album.id,
           listID: oldList.id,
-          listIndex: oldList.isRanked ? i : null,
+          listIndex: isRanked ? i : null,
         });
       })
     );
