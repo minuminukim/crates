@@ -11,6 +11,8 @@ const InputField = ({
   max,
   hidden,
   checked,
+  onFocus,
+  onBlur,
 }) => {
   return (
     // <div className="input-field-container">
@@ -26,6 +28,8 @@ const InputField = ({
       max={max}
       hidden={hidden}
       checked={checked}
+      onFocus={onFocus}
+      onBlur={onBlur}
     />
     //   {error && <p className="validation-error">{error}</p>}
     // </div>
@@ -40,6 +44,8 @@ InputField.defaultProps = {
   max: null,
   hidden: false,
   checked: null,
+  onFocus: null,
+  onBlur: null,
 };
 
 export default InputField;

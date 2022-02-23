@@ -118,13 +118,11 @@ const listsReducer = (state = initialState, action) => {
       };
 
     case LIST_ADDED:
-      // const sorted = action.list.albums.sort((a, b) => a.AlbumList.listIndex - b.AlbumList.listIndex)
       return {
         ...state,
         items: {
           ...state.items,
           [action.list.id]: action.list,
-          // [action.list.id]: sorted
         },
       };
 

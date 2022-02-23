@@ -6,7 +6,7 @@ const useSearch = () => {
   const [query, setQuery] = useState('');
   const [results, setResults] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [searchErrors, setSearchErrors] = useState([]);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -16,16 +16,22 @@ const useSearch = () => {
     }
 
     const delayedFetchTimer = setTimeout(() => {
+      setSearchErrors([])
       return dispatch(searchAlbums(query))
         .then((albums) => setResults(albums))
         .then(() => setIsLoading(false))
-        .catch((error) => setError(error));
+        .catch(async (response) => {
+          const data = await response.json();
+          if (data && data.errors) {
+            setSearchErrors(data.errors);
+          }
+        });
     }, 1000);
 
     return () => clearTimeout(delayedFetchTimer);
   }, [query, dispatch]);
 
-  return { query, setQuery, results, isLoading, error };
+  return { query, setQuery, results, isLoading, searchErrors };
 };
 
 export default useSearch;

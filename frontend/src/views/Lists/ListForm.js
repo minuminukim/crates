@@ -11,9 +11,13 @@ import { InputField, InputLabel } from '../../components/InputField';
 import SearchItem from '../../components/SearchItem';
 import { SaveButton } from '../../components/Button';
 import ValidationError from '../../components/ValidationError';
-import { SuccessMessage } from '../../components/ValidationError';
+import {
+  SuccessMessage,
+  ErrorMessages,
+} from '../../components/ValidationError';
 import Button from '../../components/Button';
 import DraggableList from '../../components/DraggableList/DraggableList';
+import SearchField from '../../components/SearchField';
 import './ListForm.css';
 
 const ListForm = () => {
@@ -24,9 +28,9 @@ const ListForm = () => {
   const [albums, setAlbums] = useState([]);
   const [action, setAction] = useState(null);
   const [message, setMessage] = useState('');
-  const [chosen, setChosen] = useState(false);
+  const [showList, setShowList] = useState(false);
   const { user } = useSelector((state) => state.session);
-  const { query, setQuery, results, isLoading, error } = useSearch();
+  const { query, setQuery, results, isLoading, searchErrors } = useSearch();
   const dispatch = useDispatch();
   const history = useHistory();
   const { listID } = useParams();
@@ -115,13 +119,7 @@ const ListForm = () => {
 
   return (
     <div className="page-container list-form-page">
-      {message.length > 0 && <SuccessMessage message={message} />}
-      <ul className="validation-errors">
-        {errors.length > 0 &&
-          errors.map((error, i) => (
-            <ValidationError key={`error-${i}`} error={error} index={i} />
-          ))}
-      </ul>
+      <ErrorMessages success={message} errors={errors} />
       <form className="list-form" onSubmit={handleSubmit}>
         <h1 className="page-heading">
           {action === 'post' ? 'New List' : 'Edit List'}
@@ -129,7 +127,7 @@ const ListForm = () => {
         <div className="list-form-top">
           <div className="list-form-left">
             <div className="form-row">
-              <InputLabel label="Name of list" />
+              <InputLabel label="Name of list" required />
               <InputField
                 id="title"
                 value={title}
@@ -165,34 +163,42 @@ const ListForm = () => {
         <div className="list-form-bottom">
           <Button label="ADD AN ALBUM" />
           <div className="search-field">
-            <InputField
+            <SearchField
+              query={query}
+              error={searchErrors}
+              onChange={handleChange}
+              onFocus={() => setShowList(true)}
+              onBlur={() => setShowList(false)}
+            />
+            {/* <InputField
               id="search"
               value={query}
               onChange={handleChange}
               placeholder="Enter name of album..."
-              // onFocus={() => setChosen(false)}
-              // onBlur={() => setChosen(true)}
+              onFocus={() => setShowList(true)}
+              onBlur={() => setShowList(false)}
             />
-            <ul
-              className="search-list"
-              style={{ display: chosen ? 'none' : 'block' }}
-            >
-              {!isLoading &&
-                results?.length > 0 &&
-                results.map((item) => (
-                  <SearchItem
-                    key={item.spotifyID}
-                    title={item.title}
-                    artist={item.artist}
-                    releaseYear={item.releaseYear}
-                    // onClick={() => setAlbums([...albums, item])}
-                    onClick={() => {
-                      // setChosen(true);
-                      setAlbums([...albums, item]);
-                    }}
-                  />
-                ))}
-            </ul>
+            {error && <ValidationError error="Sorry nothing found." />} */}
+            {showList && (
+              <ul className="search-list">
+                {!isLoading &&
+                  results?.length > 0 &&
+                  results.map((item) => (
+                    <SearchItem
+                      key={item.spotifyID}
+                      title={item.title}
+                      artist={item.artist}
+                      releaseYear={item.releaseYear}
+                      // onClick={() => setAlbums([...albums, item])}
+                      onClick={() => {
+                        // setChosen(true);
+                        setShowList(false);
+                        setAlbums([...albums, item]);
+                      }}
+                    />
+                  ))}
+              </ul>
+            )}
           </div>
 
           <Button label="CANCEL" onClick={() => history.goBack()} />

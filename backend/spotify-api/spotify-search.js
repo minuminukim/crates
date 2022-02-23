@@ -4,30 +4,7 @@ const { setAccessTokenCookie, getToken } = require('./spotify-auth');
 
 let token;
 
-const searchArtistByName = async (accessToken, artistName) => {
-  const url = `https://api.spotify.com/v1/search?q=artist:${artistName}&type=artist`;
-
-  try {
-    const response = await axios.get(url, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    });
-    console.log('response, ', response);
-    return response.data;
-  } catch (error) {
-    console.log('error', error);
-    return error;
-    // return new SearchError(
-    //   `No results found for ${artistName}.`,
-    //   400,
-    //   'Search Error',
-    //   { search: `${this.message}` }
-    // );
-  }
-};
-
-const searchAlbumsByTitle = async (title) => {
+const searchAlbumsByTitle = async (title, token) => {
   if (!token) {
     token = await getToken();
   }
@@ -47,7 +24,7 @@ const searchAlbumsByTitle = async (title) => {
         `No results found for ${title}.`,
         400,
         'Search Error',
-        { search: `No results found for ${title}` }
+        [`No results found for '${title}'`]
       );
     }
 
@@ -70,7 +47,6 @@ const wrapSearchInRetry = (searchFunction) => {
   return async (...args) => {
     try {
       const response = await searchFunction(args);
-      console.log('test', response);
       return response;
     } catch (error) {
       if (error.response.status === 401) {
@@ -96,7 +72,6 @@ const searchAlbumsWithRetry = wrapSearchInRetry(searchAlbumsByTitle);
 
 
 module.exports = {
-  searchArtistByName,
   searchAlbumsByTitle,
   searchAlbumsWithRetry,
 };

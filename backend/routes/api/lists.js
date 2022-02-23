@@ -27,9 +27,6 @@ router.get(
         {
           model: Album,
           as: 'albums',
-          // through: {
-          //   order: ['listIndex', 'ASC'],
-          // },
         },
         {
           model: User,
@@ -38,10 +35,13 @@ router.get(
       ],
     });
 
+    // iterate over lists and sort each if they're ranked
     for (const list of lists) {
-      list.albums.sort((a, b) => {
-        return a.AlbumList.listIndex - b.AlbumList.listIndex;
-      });
+      if (list.isRanked) {
+        list.albums.sort((a, b) => {
+          return a.AlbumList.listIndex - b.AlbumList.listIndex;
+        });
+      }
     }
 
     // lists.forEach((list) =>
@@ -69,10 +69,12 @@ router.get(
     });
     // const list = await List.getSingleListByID(id); // with albums
 
-    list.albums.sort((a, b) => a.AlbumList.listIndex - b.AlbumList.listIndex);
-
     if (!list) {
       return next(listNotFoundError());
+    }
+
+    if (list.isRanked) {
+      list.albums.sort((a, b) => a.AlbumList.listIndex - b.AlbumList.listIndex);
     }
 
     return res.json({
@@ -121,6 +123,11 @@ router.post(
     // ...finally fetch the list with its associated albums
     const list = await List.getSingleListByID(newList.id);
 
+    //... sort the list in place if ranked
+    if (list.isRanked) {
+      list.albums.sort((a, b) => a.AlbumList.listIndex - b.AlbumList.listIndex);
+    }
+
     return res.json({
       list,
     });
@@ -158,10 +165,9 @@ router.put(
 
     // ...then iterate over albums and findOrCreate each
     const albums = await reduceListAlbums(req.body.albums);
-    console.log('albums after reducer', albums);
 
-    const { isRanked } = req.body;
     // ...then (re)create join table records with updated indices
+    const { isRanked } = req.body;
     await Promise.all(
       albums.map(async (album, i) => {
         await AlbumList.create({
@@ -180,33 +186,13 @@ router.put(
     await oldList.save();
 
     // ...then fetch the updated list with its associated albums
-    // const list = await List.getSingleListByID(id);
-    // console.log('albums after fetched', list.albums)
-    // albums arent returned in order
-    // const list = await List.findOne({
-    //   where: {
-    //     id: id,
-    //   },
-    //   include: [
-    //     {
-    //       model: Album,
-    //       as: 'albums',
-    //       // include: { model: AlbumList, order: ['listIndex', 'ASC'] },
-    //       order: ['AlbumList.listIndex', 'ASC'],
-    //     },
-    //     // { order: [{ model: AlbumList }, 'listIndex', 'ASC'] },
-    //   ],
-    // });
-    const list = await List.findOne({
-      where: {
-        id: id,
-      },
-      raw: true,
-    });
+    const list = await List.getSingleListByID(id);
 
-    list.albums = albums;
+    // albums arent returned in order, so we sort in place
+    if (list.isRanked) {
+      list.albums.sort((a, b) => a.AlbumList.listIndex - b.AlbumList.listIndex);
+    }
 
-    console.log('albums after query', list);
     return res.json({
       list,
     });
@@ -259,6 +245,11 @@ router.patch(
     }
 
     const list = await List.getSingleListByID(id);
+
+    // albums arent returned in order, so we sort in place
+    if (list.isRanked) {
+      list.albums.sort((a, b) => a.AlbumList.listIndex - b.AlbumList.listIndex);
+    }
 
     return res.json({
       list,
