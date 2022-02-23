@@ -23,7 +23,7 @@ const StarRating = ({
 
   // width 26px, half-width 13px
   return (
-    <div className={`star-rating ${readOnly ? 'read-only' : ''}`}>
+    <div className={`star-rating ${className} ${readOnly ? 'read-only' : ''}`}>
       {[...Array(5)].map((_, i) => (
         <div className="star-wrapper" key={`star-index-${i}`}>
           <div className="star-left">

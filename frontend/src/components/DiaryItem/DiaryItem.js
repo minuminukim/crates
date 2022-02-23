@@ -6,6 +6,7 @@ import { StarRatingReadOnly } from '../StarRating';
 import { BiMenuAltLeft } from 'react-icons/bi';
 import { BsArrowRepeat } from 'react-icons/bs';
 import { MdModeEditOutline } from 'react-icons/md';
+import StarRating from '../StarRating';
 
 const DiaryItem = ({ entry }) => {
   const { userID } = useParams();
@@ -14,28 +15,43 @@ const DiaryItem = ({ entry }) => {
 
   return (
     <li className="diary-item">
-      <p>{month}</p>
-      <p>{day}</p>
-      <div className="diary-album-container">
-        <span className="overlay"></span>
-        <img
-          alt={entry.album.title}
-          src={entry.album.artworkURL}
-          className="diary-album"
-        />
+      <p className="month">{month}</p>
+      <p className="day">{day}</p>
+      <div className="album-details">
+        <div className="diary-album-container">
+          <span className="overlay"></span>
+          <img
+            alt={entry.album.title}
+            src={entry.album.artworkURL}
+            className="diary-album"
+          />
+        </div>
+        <h3 className="entry-title">
+          <Link exact to={`/reviews/${entry.id}`} className="diary-item-title">
+            {entry.album.title}
+          </Link>
+        </h3>
       </div>
-      <h3>
-        <Link exact to={`/reviews/${entry.id}`} className="diary-item-title">
-          {entry.album.title}
-        </Link>
-      </h3>
-      <p>{entry.album.releaseYear}</p>
-      <div>
-        <StarRatingReadOnly rating={entry.rating} />
+      <p className="released">{entry.album.releaseYear}</p>
+      <div className="entry-rating">
+        <StarRatingReadOnly rating={entry.rating} className="diary" />
+        {entry.rating !== 10 && entry.rating % 2 !== 0 && (
+          <span className="green half">½</span>
+        )}
       </div>
-      <div>{entry.isRelisten && <BsArrowRepeat />}</div>
-      <div>{entry.isRelisten && <BiMenuAltLeft />}</div>
-      <div>{+userID === sessionUser?.id && <MdModeEditOutline />}</div>
+      <div classsName="relisten">{entry.isRelisten && <BsArrowRepeat />}</div>
+      <div className="entry-review">
+        {entry.body.length > 0 && (
+          <Link exact to={`/reviews/${entry.id}`}>
+            <BiMenuAltLeft />
+          </Link>
+        )}
+      </div>
+      {+userID === sessionUser?.id && (
+        <div className="entry-edit">
+          <MdModeEditOutline />
+        </div>
+      )}
     </li>
   );
 };
