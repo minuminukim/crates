@@ -27,6 +27,9 @@ router.get(
         {
           model: Album,
           as: 'albums',
+          // through: {
+          //   order: ['listIndex', 'ASC'],
+          // },
         },
         {
           model: User,
@@ -34,6 +37,16 @@ router.get(
         },
       ],
     });
+
+    for (const list of lists) {
+      list.albums.sort((a, b) => {
+        return a.AlbumList.listIndex - b.AlbumList.listIndex;
+      });
+    }
+
+    // lists.forEach((list) =>
+    //   list.albums.sort((a, b) => a.AlbumList.listIndex - b.AlbumList.listIndex)
+    // );
 
     return res.json({
       lists,
@@ -45,8 +58,18 @@ router.get(
   '/:id(\\d+)',
   asyncHandler(async (req, res, next) => {
     const id = +req.params.id;
-    const list = await List.getSingleListByID(id); // with albums
-    console.log('list', JSON.stringify(list));
+    const list = await List.findOne({
+      where: { id: id },
+      include: [
+        {
+          model: Album,
+          as: 'albums',
+        },
+      ],
+    });
+    // const list = await List.getSingleListByID(id); // with albums
+
+    list.albums.sort((a, b) => a.AlbumList.listIndex - b.AlbumList.listIndex);
 
     if (!list) {
       return next(listNotFoundError());
@@ -176,11 +199,11 @@ router.put(
     // });
     const list = await List.findOne({
       where: {
-        id: id
+        id: id,
       },
-      raw: true
+      raw: true,
     });
-    
+
     list.albums = albums;
 
     console.log('albums after query', list);

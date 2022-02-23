@@ -4,6 +4,7 @@ import './AlbumGrid.css';
 import React from 'react';
 
 const AlbumGrid = ({ albums, isRanked = false }) => {
+  
   useEffect(() => {
     // TODO: re-order the albums in their correct list when returning
     // from the form. have to define a LIST_UPDATED action in store
