@@ -1,6 +1,4 @@
 'use strict';
-const generateAlbumBacklogs = require('../../utils/generateAlbumBacklogSeed');
-
 module.exports = {
   async up(queryInterface, Sequelize) {
     /**
