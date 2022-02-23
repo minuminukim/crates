@@ -1,8 +1,9 @@
 import { csrfFetch } from './csrf';
 
-export const ALBUMS_LOADED = '/albums/ALBUMS_LOADED';
-export const ALBUM_ADDED = '/albums/ALBUM_ADDED';
-const REQUEST_REJECTED = '/albums/REQUEST_REJECTED';
+export const ALBUMS_LOADED = 'albums/ALBUMS_LOADED';
+export const ALBUM_ADDED = 'albums/ALBUM_ADDED';
+export const ALBUM_REMOVED = 'albums/ALBUM_REMOVED';
+const REQUEST_REJECTED = 'albums/REQUEST_REJECTED';
 
 const initialState = {
   items: {},
@@ -21,6 +22,12 @@ const addAlbum = (album) => ({
   album,
 });
 
+export const removeAlbum = (albumID, userID) => ({
+  type: ALBUM_REMOVED,
+  albumID,
+  userID,
+});
+
 const handleAlbumsErrors = (error) => ({
   type: REQUEST_REJECTED,
   error,
@@ -33,11 +40,30 @@ export const fetchAlbums = () => (dispatch) => {
     .catch((err) => dispatch(handleAlbumsErrors(err)));
 };
 
-export const getUserAlbums = (userID) => (dispatch) => {
-  csrfFetch(`/api/users/${userID}/albums`)
-    .then((res) => res.json())
-    .then(({ albums }) => dispatch(loadAlbums(albums)))
-    .catch((err) => dispatch(handleAlbumsErrors(err)));
+export const getUserAlbums = (userID) => async (dispatch) => {
+  const response = await csrfFetch(`/api/users/${userID}/albums`);
+  const { albums } = await response.json();
+  dispatch(loadAlbums(albums, userID));
+  return albums;
+};
+
+export const addUserAlbum = (userID, newAlbum) => async (dispatch) => {
+  const response = await csrfFetch(`/api/users/${userID}/albums`, {
+    method: 'POST',
+    body: JSON.stringify(newAlbum),
+  });
+
+  const { album } = await response.json();
+  dispatch(addAlbum(album));
+  return album;
+};
+
+export const removeUserAlbum = (userID, albumID) => async (dispatch) => {
+  const response = await csrfFetch(`/api/users/${userID}/albums/${albumID}`, {
+    method: 'DELETE',
+  });
+  dispatch(removeAlbum(albumID, userID));
+  return response;
 };
 
 export const fetchSingleAlbum = (id) => (dispatch) => {
@@ -46,13 +72,6 @@ export const fetchSingleAlbum = (id) => (dispatch) => {
     .then(({ album }) => dispatch(addAlbum(album)))
     .catch((err) => dispatch(handleAlbumsErrors(err)));
 };
-
-// export const fetchUserBacklog = (userID) => async (dispatch) => {
-//   const response = await csrfFetch(`/api/users/${userID}/backlog`);
-//   const { backlog } = await response.json();
-//   dispatch(loadAlbums(backlog, userID));
-//   return backlog;
-// };
 
 export const searchAlbums = (query) => async (dispatch) => {
   const response = await csrfFetch(`/api/search`, {

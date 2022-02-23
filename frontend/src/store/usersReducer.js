@@ -1,4 +1,5 @@
 import { csrfFetch } from './csrf';
+import { ALBUMS_LOADED, ALBUM_ADDED, ALBUM_REMOVED } from './albumsReducer';
 
 const USERS_LOADED = 'users/USERS_LOADED';
 const USER_ADDED = 'users/USER_ADDED';
@@ -39,10 +40,40 @@ const usersReducer = (state = {}, action) => {
         ...state,
         ...users,
       };
+
     case USER_ADDED:
       return {
         ...state,
         [action.user.id]: action.user,
+      };
+
+    case ALBUMS_LOADED:
+      return {
+        ...state,
+        [action.userID]: {
+          ...state[action.userID],
+          albums: action.albums.map((album) => album.id),
+        },
+      };
+
+    case ALBUM_ADDED:
+      return {
+        ...state,
+        [action.userID]: {
+          ...state[action.userID],
+          albums: [...state[action.userID], action.albumID],
+        },
+      };
+
+    case ALBUM_REMOVED:
+      return {
+        ...state,
+        [action.userID]: {
+          ...state[action.userID],
+          albums: state[action.userID].filter(
+            (album) => album.id !== action.albumID
+          ),
+        },
       };
     default:
       return state;

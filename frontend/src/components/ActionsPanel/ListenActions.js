@@ -5,7 +5,11 @@ import { useHistory } from 'react-router-dom';
 import { MdHearing, MdMoreTime } from 'react-icons/md';
 import { appendBacklog, removeFromBacklog } from '../../store/backlogsReducer';
 import { fetchUserBacklog } from '../../store/backlogsReducer';
-import ValidationError, { SuccessMessage } from '../ValidationError';
+import { getUserAlbums } from '../../store/albumsReducer';
+import ValidationError, {
+  SuccessMessage,
+  ErrorMessages,
+} from '../ValidationError';
 
 const ListenActions = ({ album }) => {
   const sessionUser = useSelector((state) => state.session.user);
@@ -15,35 +19,36 @@ const ListenActions = ({ album }) => {
   const [errors, setErrors] = useState([]);
   const [loading, setLoading] = useState(true);
   const [listened, setListened] = useState(null);
-  const [isBacklogItem, setIsBacklogItem] = useState(null);
-  const [text, setText] = useState('');
+  const [inBacklog, setInBacklog] = useState(null);
+  const [listenText, setListenText] = useState('');
   const [message, setMessage] = useState('');
   const [backlogText, setBacklogText] = useState('Backlog');
 
   useEffect(() => {
     dispatch(fetchUserBacklog(sessionUser?.id))
       .then((items) => items.some((item) => item.spotifyID === album.spotifyID))
+      .then((found) => (found ? setInBacklog(true) : setInBacklog(false)))
+      .then(() => dispatch(getUserAlbums(sessionUser.id)))
+      .then((items) => items.some((item) => item.albumID === album.id))
       .then((found) => {
         if (found) {
-          setIsBacklogItem(true);
-          // setListened(true);
-          // setText('Listened');
+          setListened(true);
+          setListenText('Listened');
         } else {
-          setIsBacklogItem(false);
-          // setListened(false);
-          // setText('Listen');
+          setListened(false);
+          setListenText('Listen');
         }
         setLoading(false);
       })
-      .catch((error) => history.push('/error'));
-  }, [dispatch, sessionUser?.id]);
+      .catch((error) => console.log('error', error));
+  }, [dispatch, sessionUser.id]);
 
   const onAdd = () => {
     setErrors([]);
     setMessage('');
     dispatch(appendBacklog(album, sessionUser.id))
       .then((response) => console.log('response', response))
-      .then(() => setIsBacklogItem(true))
+      .then(() => setInBacklog(true))
       .then(() => setLoading(false))
       .then(() => setMessage(`You have added ${album.title} to your backlog.`))
       .catch(async (error) => {
@@ -58,7 +63,7 @@ const ListenActions = ({ album }) => {
     setErrors([]);
     setMessage('');
     dispatch(removeFromBacklog(album.id, album.spotifyID, sessionUser.id))
-      .then(() => setIsBacklogItem(false))
+      .then(() => setInBacklog(false))
       .then(() =>
         setMessage(`You have removed '${album.title}' from your backlog.`)
       )
@@ -71,32 +76,39 @@ const ListenActions = ({ album }) => {
       });
   };
 
+  const onListen = () => {
+    setErrors([]);
+    setMessage('');
+    dispatch()
+  }
+
   return (
-    <>
-      <ActionsRow className="listen-actions">
-        {!loading && (
+    !loading && (
+      <>
+        <ActionsRow className="listen-actions">
           <div
             className={`action hover ${listened ? 'listened' : 'listen'}`}
-            onMouseOver={() => (listened ? setText('Remove') : null)}
-            onMouseLeave={() => (listened ? setText('Listened') : null)}
+            onMouseOver={() => (listened ? setListenText('Remove') : null)}
+            onMouseLeave={() => (listened ? setListenText('Listened') : null)}
           >
             <MdHearing className="action-icon" />
-            <p className="action-label">Listen</p>
+            <p className="action-label">{listenText}</p>
           </div>
-        )}
-        <div
-          className={`action hover ${isBacklogItem ? 'remove' : 'append'}`}
-          onMouseOver={() => (isBacklogItem ? setBacklogText('Remove') : null)}
-          onMouseLeave={() => setBacklogText('Backlog')}
-        >
-          <MdMoreTime
-            className="action-icon"
-            onClick={() => (isBacklogItem ? onRemove() : onAdd())}
-          />
-          <p className="action-label">{backlogText}</p>
-        </div>
-      </ActionsRow>
-      {message.length > 0 && (
+
+          <div
+            className={`action hover ${inBacklog ? 'remove' : 'append'}`}
+            onMouseOver={() => (inBacklog ? setBacklogText('Remove') : null)}
+            onMouseLeave={() => setBacklogText('Backlog')}
+          >
+            <MdMoreTime
+              className="action-icon"
+              onClick={() => (inBacklog ? onRemove() : onAdd())}
+            />
+            <p className="action-label">{backlogText}</p>
+          </div>
+        </ActionsRow>
+        <ErrorMessages success={message} errors={errors} />
+        {/* {message.length > 0 && (
         <div className="success-container">
           <SuccessMessage message={message} />
         </div>
@@ -106,8 +118,9 @@ const ListenActions = ({ album }) => {
           errors.map((error, i) => (
             <ValidationError key={`error-${i}`} error={error} />
           ))}
-      </ul>
-    </>
+      </ul> */}
+      </>
+    )
   );
 };
 

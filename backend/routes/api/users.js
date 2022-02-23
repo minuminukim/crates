@@ -232,6 +232,34 @@ router.delete(
   })
 );
 
+router.get(
+  `/:id(\\d+)/albums`,
+  asyncHandler(async (req, res, next) => {
+    const id = +req.params.id;
+    // const albums = await UserAlbum.findAll(
+    //   { where: { userID: id } },
+    //   { include: { model: Album, as: 'albums' } }
+    // );
+    const { albums } = await User.findOne({
+      where: { id: id },
+      include: { model: Album, as: 'albums' },
+    });
+
+    console.log('albums', albums);
+
+    if (!albums) {
+      return res.status(404).json({
+        errors: ['The requested resource could not be found.'],
+      });
+    }
+
+    // const mapped = albums.map((album) => { })
+    return res.json({
+      albums,
+    });
+  })
+);
+
 router.post(
   `/:id(\\d+)/albums`,
   requireAuth,
