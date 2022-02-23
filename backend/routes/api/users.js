@@ -300,11 +300,18 @@ router.post(
         as: 'albums',
       },
     });
-    const inBacklog = backlog.albums.find((item) => item.id === album.id);
 
-    if (inBacklog) {
-      await inBacklog.destroy();
+    const albumBacklog = await AlbumBacklog.findOne({
+      where: { albumID: album.id, backlogID: backlog.id },
+    });
+    if (albumBacklog) {
+      await albumBacklog.destroy();
     }
+    // const inBacklog = backlog.albums.find((item) => item.id === album.id);
+
+    // if (inBacklog) {
+    //   await inBacklog.destroy();
+    // }
 
     return res.json({
       userAlbum,

@@ -5,7 +5,12 @@ import { useHistory } from 'react-router-dom';
 import { MdHearing, MdMoreTime } from 'react-icons/md';
 import { appendBacklog, removeFromBacklog } from '../../store/backlogsReducer';
 import { fetchUserBacklog } from '../../store/backlogsReducer';
-import { getUserAlbums } from '../../store/albumsReducer';
+import {
+  getUserAlbums,
+  addUserAlbum,
+  removeUserAlbum,
+  removeAlbum,
+} from '../../store/albumsReducer';
 import ValidationError, {
   SuccessMessage,
   ErrorMessages,
@@ -29,7 +34,7 @@ const ListenActions = ({ album }) => {
       .then((items) => items.some((item) => item.spotifyID === album.spotifyID))
       .then((found) => (found ? setInBacklog(true) : setInBacklog(false)))
       .then(() => dispatch(getUserAlbums(sessionUser.id)))
-      .then((items) => items.some((item) => item.albumID === album.id))
+      .then((items) => items.some((item) => item.id === album.id))
       .then((found) => {
         if (found) {
           setListened(true);
@@ -79,17 +84,59 @@ const ListenActions = ({ album }) => {
   const onListen = () => {
     setErrors([]);
     setMessage('');
-    dispatch()
-  }
+    setLoading(true);
+    dispatch(addUserAlbum(sessionUser.id, album))
+      .then(() => {
+        setListened(true);
+        // db record was deleted at previous endpoint already,
+        // we just need to dispatch the action to update store
+        if (inBacklog) {
+          console.log('hello');
+          setInBacklog(false);
+          // dispatch(removeAlbum(album.id, sessionUser.id));
+        }
+        setLoading(false);
+      })
+      .catch(async (error) => {
+        const data = await error.json();
+        if (data && data.errors) {
+          setErrors(data.errors);
+        }
+      });
+  };
 
+  // delete goes through, next post request 500s
+  const onUnlisten = () => {
+    setErrors([]);
+    setMessage('');
+    setLoading(true);
+    dispatch(removeUserAlbum(sessionUser.id, album.id))
+      .then(() => {
+        setListened(false);
+        setLoading(false);
+      })
+      .catch(async (error) => {
+        console.log('error', error);
+        const data = await error.json();
+        if (data && data.errors) {
+          setErrors(data.errors);
+        }
+      });
+  };
+  const handleListen = listened ? onUnlisten : onListen;
   return (
     !loading && (
       <>
         <ActionsRow className="listen-actions">
           <div
+            onClick={() => handleListen()}
             className={`action hover ${listened ? 'listened' : 'listen'}`}
-            onMouseOver={() => (listened ? setListenText('Remove') : null)}
-            onMouseLeave={() => (listened ? setListenText('Listened') : null)}
+            onMouseOver={() =>
+              listened ? setListenText('Remove') : setListenText('Listen')
+            }
+            onMouseLeave={() =>
+              listened ? setListenText('Listened') : setListenText('Listen')
+            }
           >
             <MdHearing className="action-icon" />
             <p className="action-label">{listenText}</p>

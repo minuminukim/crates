@@ -61,18 +61,19 @@ const usersReducer = (state = {}, action) => {
         ...state,
         [action.userID]: {
           ...state[action.userID],
-          albums: [...state[action.userID], action.albumID],
+          albums: [...state[action.userID].albums, action.albumID],
         },
       };
 
     case ALBUM_REMOVED:
+      const filtered = [...state[action.userID].albums].filter(
+        (id) => id !== action.albumID
+      );
       return {
         ...state,
         [action.userID]: {
           ...state[action.userID],
-          albums: state[action.userID].filter(
-            (album) => album.id !== action.albumID
-          ),
+          albums: filtered,
         },
       };
     default:
