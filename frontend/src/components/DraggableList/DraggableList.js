@@ -29,13 +29,15 @@ const DraggableList = ({ albums, updateAlbums, isRanked = false }) => {
   );
 
   return (
-    <div className="draggable-list-container">
+    <>
       {!albums ||
         (albums.length === 0 && (
-          <>
-            <p>Your list is empty.</p>
-            <p>Add albums using the field above.</p>
-          </>
+          <div className="draggable-list-empty">
+            <div>
+              <p className="serif-heading">Your list is empty.</p>
+              <p>Add albums using the field above.</p>
+            </div>
+          </div>
         ))}
       <ul className="draggable-list">
         {albums?.length > 0 &&
@@ -54,7 +56,7 @@ const DraggableList = ({ albums, updateAlbums, isRanked = false }) => {
             />
           ))}
       </ul>
-    </div>
+    </>
   );
 };
 

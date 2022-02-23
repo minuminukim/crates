@@ -12,14 +12,16 @@
 }
 
 .btn-demo-user,
-.btn-save {
+.btn-save,
+.btn-add {
   background-color: #00b020;
   color: #ddeeff;
 }
 
 .btn-demo-user:hover,
-.btn-save:hover {
-  filter: brightness(0.95);
+.btn-save:hover,
+.btn-add:hover {
+  background-image: linear-gradient(rgba(0, 0, 0, 0.1) 0 0);
 }
 
 .btn-delete {
@@ -34,4 +36,18 @@
 .btn-green {
   background-color: #00b020;
   color: #fff;
+}
+
+.btn-add {
+  width: 120px;
+}
+
+.btn-cancel {
+  width: 85px;
+  padding: 9px 12px;
+  background-color: #556677;
+}
+
+.btn-cancel:hover {
+  background-image: linear-gradient(rgba(0, 0, 0, 0.1) 0 0);
 }

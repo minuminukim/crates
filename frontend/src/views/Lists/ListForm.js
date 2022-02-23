@@ -1,24 +1,21 @@
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams, useHistory } from 'react-router-dom';
+import useSearch from '../../hooks/useSearch';
+import { InputField, InputLabel } from '../../components/InputField';
+import SearchItem from '../../components/SearchItem';
+import { SaveButton } from '../../components/Button';
+import { ErrorMessages } from '../../components/ValidationError';
+import Button from '../../components/Button';
+import Checkbox from '../../components/Checkbox';
+import DraggableList from '../../components/DraggableList/DraggableList';
+import SearchField from '../../components/SearchField';
+import './ListForm.css';
 import {
   createList,
   editList,
   fetchSingleList,
 } from '../../store/listsReducer';
-import useSearch from '../../hooks/useSearch';
-import { InputField, InputLabel } from '../../components/InputField';
-import SearchItem from '../../components/SearchItem';
-import { SaveButton } from '../../components/Button';
-import ValidationError from '../../components/ValidationError';
-import {
-  SuccessMessage,
-  ErrorMessages,
-} from '../../components/ValidationError';
-import Button from '../../components/Button';
-import DraggableList from '../../components/DraggableList/DraggableList';
-import SearchField from '../../components/SearchField';
-import './ListForm.css';
 
 const ListForm = () => {
   const [title, setTitle] = useState('');
@@ -101,7 +98,7 @@ const ListForm = () => {
 
     return dispatch(thunk(payload))
       .then((list) => {
-        setMessage(`Your list ${list.title} has been saved successfully.`);
+        setMessage(`Your list '${list.title}' has been saved successfully.`);
         return list.id;
       })
       .then((listID) =>
@@ -135,17 +132,14 @@ const ListForm = () => {
               />
             </div>
             <div className="form-row checkbox">
-              <InputField
-                type="checkbox"
-                id="isRanked"
+              <Checkbox
                 value={isRanked}
                 onChange={() => setIsRanked(!isRanked)}
-                checked={isRanked}
-              />
-              <div>
-                <InputLabel label="Ranked list" />
-                <p>Show position for each album.</p>
-              </div>
+              >
+                <InputLabel label="Ranked list">
+                  <p className="label-details">Show position for each album.</p>
+                </InputLabel>
+              </Checkbox>
             </div>
           </div>
           <div className="list-form-right">
@@ -161,26 +155,16 @@ const ListForm = () => {
           </div>
         </div>
         <div className="list-form-bottom">
-          <Button label="ADD AN ALBUM" />
           <div className="search-field">
             <SearchField
               query={query}
               error={searchErrors}
               onChange={handleChange}
               onFocus={() => setShowList(true)}
-              onBlur={() => setShowList(false)}
+              // onBlur={() => setShowList(false)}
             />
-            {/* <InputField
-              id="search"
-              value={query}
-              onChange={handleChange}
-              placeholder="Enter name of album..."
-              onFocus={() => setShowList(true)}
-              onBlur={() => setShowList(false)}
-            />
-            {error && <ValidationError error="Sorry nothing found." />} */}
-            {showList && (
-              <ul className="search-list">
+            {!searchErrors.length && showList && (
+              <ul className={`search-list ${showList ? 'absolute' : 'block'}`}>
                 {!isLoading &&
                   results?.length > 0 &&
                   results.map((item) => (
@@ -189,29 +173,43 @@ const ListForm = () => {
                       title={item.title}
                       artist={item.artist}
                       releaseYear={item.releaseYear}
-                      // onClick={() => setAlbums([...albums, item])}
                       onClick={() => {
-                        // setChosen(true);
-                        setShowList(false);
-                        setAlbums([...albums, item]);
+                        const found = albums.some(
+                          ({ spotifyID }) => spotifyID === item.spotifyID
+                        );
+
+                        if (found) {
+                          setErrors([
+                            ...errors,
+                            'Albums in a list must be unique.',
+                          ]);
+                        } else {
+                          setAlbums([...albums, item]);
+                          setShowList(false);
+                        }
                       }}
                     />
                   ))}
               </ul>
             )}
           </div>
-
-          <Button label="CANCEL" onClick={() => history.goBack()} />
-          <SaveButton disabled={errors && errors.length > 0} />
+          <div className="list-form-btns">
+            <Button
+              className="btn-cancel"
+              label="CANCEL"
+              onClick={() => history.goBack()}
+            />
+            <SaveButton disabled={errors && errors.length > 0} />
+          </div>
         </div>
+        <DraggableList
+          items={albums}
+          isRanked={isRanked}
+          albums={albums}
+          updateAlbums={(next) => setAlbums(next)}
+        />
       </form>
       {/* {albums?.length > 0 && albums.map((album) => album.title)} */}
-      <DraggableList
-        items={albums}
-        isRanked={isRanked}
-        albums={albums}
-        updateAlbums={(next) => setAlbums(next)}
-      />
       {/* <section className="list-form-search">
         <SearchBar value={query} onChange={handleChange} id="search" />
           {results?.length > 0 && <SearchList items={results} />}

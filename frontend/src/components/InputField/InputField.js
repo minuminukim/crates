@@ -15,7 +15,6 @@ const InputField = ({
   onBlur,
 }) => {
   return (
-    // <div className="input-field-container">
     <input
       type={type}
       name={id}
@@ -31,8 +30,6 @@ const InputField = ({
       onFocus={onFocus}
       onBlur={onBlur}
     />
-    //   {error && <p className="validation-error">{error}</p>}
-    // </div>
   );
 };
 

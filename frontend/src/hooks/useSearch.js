@@ -24,6 +24,7 @@ const useSearch = () => {
           const data = await response.json();
           if (data && data.errors) {
             setSearchErrors(data.errors);
+            setResults([])
           }
         });
     }, 1000);

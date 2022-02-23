@@ -2,9 +2,21 @@
   padding: 0;
 }
 
-/* .draggable-list:hover {
-  cursor: move;
-} */
+.draggable-list-empty {
+  border: 0.5px solid rgb(68, 85, 102);
+  width: 950px;
+  height: 180px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.serif-heading {
+  font-family: TiemposTextWeb-Semibold, Georgia, serif;
+  font-size: 21px;
+  color: #fff;
+  font-weight: 600;
+}
 
 .draggable-list-item {
   display: flex;
@@ -16,6 +28,41 @@
   border-radius: 3px;
   padding: 10px 48px 10px 10px;
   background-color: #1c2229;
+}
+
+.draggable-list-item:hover {
+  /* filter: brightness(1.5); */
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+div.list-index {
+  font-size: 34px;
+  color: #fff;
+  height: 50px;
+  width: 50px;
+  border: 1px solid rgb(68, 85, 102);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  margin-right: 10px;
+  border-radius: 3px;
+}
+
+.draggable-list-item img {
+  border: 1px solid rgb(68, 85, 102);
+  border-radius: 3px;
+}
+
+.draggable-list-item .title {
+  margin: 0 10px;
+}
+.draggable-list-item .year {
+  font-weight: 200;
+}
+
+p.list-index {
+  margin: 0;
 }
 
 .list-item-info,

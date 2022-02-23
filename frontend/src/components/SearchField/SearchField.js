@@ -1,7 +1,7 @@
 import ValidationError from '../ValidationError';
 import { InputField } from '../InputField';
 
-const SearchField = ({ query, error, onChange, onFocus, onBlur }) => {
+const SearchField = ({ query, error, onChange, onFocus, onBlur, children }) => {
   return (
     <>
       <InputField
@@ -13,6 +13,7 @@ const SearchField = ({ query, error, onChange, onFocus, onBlur }) => {
         onBlur={onBlur}
       />
       {error.length > 0 && <ValidationError error={error} />}
+      {children}
     </>
   );
 };
