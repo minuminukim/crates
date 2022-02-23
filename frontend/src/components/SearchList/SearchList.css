@@ -1,0 +1,6 @@
+.search-list {
+  padding-left: 0;
+  max-height: 180px;
+  /* overflow: hidden; */
+  /* overflow-y: scroll; */
+}

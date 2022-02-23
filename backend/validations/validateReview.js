@@ -8,9 +8,9 @@ const validateReview = [
   check('listenedDate')
     .exists('Please provide a valid date.')
     .isISO8601({ strict: true })
-    .withMessage('Please provide a valid date.'),
-  // .isBefore(new Date().toDateString)
-  // .withMessage('Please provide a valid date.'),
+    .withMessage('Please provide a valid date.')
+    .isBefore(new Date().toISOString())
+    .withMessage('Date cannot be set in the future.'),
   check('rating')
     .exists({ checkFalsy: true })
     .withMessage('Please provide a rating.')

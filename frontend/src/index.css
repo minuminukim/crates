@@ -24,7 +24,10 @@ button {
 
 button:disabled {
   cursor: not-allowed;
-  background-color: gray;
+  opacity: 0.2;
+  background-color: #556677 !important;
+  color: #678;
+  /* background-color: gray; */
 }
 
 a {

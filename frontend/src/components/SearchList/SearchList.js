@@ -31,6 +31,7 @@ const SearchList = ({
         <Modal onClose={() => setShowModal(false)}>
           <ReviewForm
             album={chosen}
+            onClose={() => setShowModal(false)}
             onSuccess={() => {
               closeSearchModal();
               setShowModal(false);

@@ -1,7 +1,7 @@
 .review-form {
   display: flex;
   background-color: #445566;
-  border-radius: 3px;
+  border-radius: 5px;
   width: 900px;
   min-height: 400px;
   padding: 25px 36px;
@@ -46,8 +46,8 @@ section .label-row {
 .review-form-year {
   font-family: Graphik-Regular-Web, sans-serif;
   font-weight: 200;
-  color: #9ab;
-  font-size: 22px;
+  color: #bcd;
+  font-size: 20px;
   margin-left: 5px;
 }
 
@@ -86,6 +86,11 @@ p.rating-label {
 .form-row.checkbox {
   display: flex;
   flex-direction: row;
+  align-items: center;
+}
+
+.checkbox label {
+  color: #def;
 }
 
 .replace-checkbox {
@@ -115,6 +120,7 @@ input[type='date'] {
 
 .review-form textarea::placeholder {
   color: #9ab;
+  font-size: 14px;
 }
 
 .review-form textarea {
@@ -135,4 +141,34 @@ input[type='date'] {
 .form-row-last {
   display: flex;
   justify-content: space-between;
+}
+
+.form-row.checkbox {
+  margin-bottom: 12px;
+  display: flex;
+}
+
+.review-form label {
+  margin-bottom: 7px;
+  color: #def;
+}
+
+.form-row.bottom-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.form-row.btns {
+  display: flex;
+  flex-direction: row;
+}
+
+.form-row.btns .btn-save {
+  margin-left: 5px;
+}
+
+.rating-row .label-row {
+  display: flex;
+  align-items: center;
 }

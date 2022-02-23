@@ -6,3 +6,8 @@ textarea {
   padding: 9px;
   font-family: Graphik-Regular-Web, sans-serif;
 }
+
+span.required {
+  color: #ec1200;
+  font-size: 16px;
+}

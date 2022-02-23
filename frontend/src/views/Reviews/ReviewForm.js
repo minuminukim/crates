@@ -4,13 +4,12 @@ import { useHistory } from 'react-router-dom';
 import { postReview } from '../../store/reviewsReducer';
 import AlbumArt from '../../components/AlbumArt';
 import { InputField, InputLabel } from '../../components/InputField';
-import ValidationError from '../../components/ValidationError';
+import { ErrorMessages } from '../../components/ValidationError';
 import StarRating from '../../components/StarRating';
-import { formatDateDayMonthYear } from '../../utils/date-helpers';
 import { AiOutlineClose, AiOutlineCheck } from 'react-icons/ai';
 import './ReviewForm.css';
 
-const ReviewForm = ({ album = null, onSuccess }) => {
+const ReviewForm = ({ album = null, onSuccess = null, onClose = null }) => {
   const dispatch = useDispatch();
   const history = useHistory();
   const { user } = useSelector((state) => state.session);
@@ -21,11 +20,11 @@ const ReviewForm = ({ album = null, onSuccess }) => {
   const today = new Date().toISOString().slice(0, 10);
   const [listenedDate, setListenedDate] = useState(today);
   const hiddenInput = useRef(null);
+  const [message, setMessage] = useState('');
 
   const handleSubmit = (e) => {
-    console.log('album in submit', album);
     e.preventDefault();
-    setErrors({});
+    setErrors([]);
 
     const params = {
       body,
@@ -42,11 +41,16 @@ const ReviewForm = ({ album = null, onSuccess }) => {
 
     return dispatch(postReview(params))
       .then((data) => history.push(`/reviews/${data.id}`))
+      .then(() =>
+        setMessage(
+          `You have successfully created a review for '${album.title}' `
+        )
+      )
       .then(() => onSuccess())
       .catch(async (res) => {
         const data = await res.json();
         if (data && data.errors) {
-          setErrors(data.errors);
+          setErrors(Object.values(data.errors));
         }
       });
   };
@@ -55,8 +59,7 @@ const ReviewForm = ({ album = null, onSuccess }) => {
 
   return (
     <div>
-      {Object.values(errors).length > 0 &&
-        Object.values(errors).map((error) => <ValidationError error={error} />)}
+      <ErrorMessages errors={errors} success={message} />
       <form onSubmit={handleSubmit} className="review-form">
         <section className="review-form-left">
           <AlbumArt
@@ -69,33 +72,17 @@ const ReviewForm = ({ album = null, onSuccess }) => {
           <div className="review-form-header">
             <div className="label-row">
               <h1>I LISTENED...</h1>
-              <AiOutlineClose className="close-icon large" />
+              <AiOutlineClose
+                className="close-icon large"
+                onClick={onClose || onSuccess}
+              />
             </div>
             <div>
-              <h2>
+              <h2 className="review-form-heading">
                 {album?.title}
                 <span className="review-form-year">{album?.releaseYear}</span>
               </h2>
             </div>
-          </div>
-          <div className="form-row">
-            <InputLabel label="Specify the date you listened to it" />
-            {/* <p>{formatDateDayMonthYear(listenedDate)}</p> */}
-            <input
-              type="date"
-              id="listenedDate"
-              value={listenedDate}
-              max={today}
-              onChange={(e) => setListenedDate(e.target.value)}
-              hidden
-            />
-            <InputField
-              type="date"
-              id="listenedDate"
-              value={listenedDate}
-              max={today}
-              onChange={(e) => setListenedDate(e.target.value)}
-            />
           </div>
           <div className="form-row checkbox">
             <div
@@ -115,6 +102,16 @@ const ReviewForm = ({ album = null, onSuccess }) => {
             <label>I've listened to this album before</label>
           </div>
           <div className="form-row">
+            <InputLabel label="Specify the date you listened to it" required />
+            <InputField
+              type="date"
+              id="listenedDate"
+              value={listenedDate}
+              // max={today}
+              onChange={(e) => setListenedDate(e.target.value)}
+            />
+          </div>
+          <div className="form-row">
             <textarea
               id="body"
               placeholder="Add a review..."
@@ -126,7 +123,7 @@ const ReviewForm = ({ album = null, onSuccess }) => {
           <div className="form-row-last">
             <div className="form-row rating-row">
               <div className="label-row">
-                <InputLabel label="Rating" />
+                <InputLabel label="Rating" required />
                 {rating > 0 && (
                   <p className="rating-label">{`${rating / 2} out of 5`}</p>
                 )}
@@ -141,7 +138,11 @@ const ReviewForm = ({ album = null, onSuccess }) => {
               <StarRating handleForm={onStarChange} className="form-star" />
             </div>
             <div className="form-row">
-              <button className="submit-button" type="submit">
+              <button
+                className="submit-button"
+                type="submit"
+                // disabled={errors.length > 0}
+              >
                 SAVE
               </button>
             </div>

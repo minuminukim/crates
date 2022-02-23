@@ -4,16 +4,31 @@
   border: 0;
   padding: 9px 12px;
   border-radius: 3px;
+  color: #ddeeff;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .btn-demo-user,
 .btn-save {
   background-color: #00b020;
-  color: #fff;
+  color: #ddeeff;
+}
+
+.btn-demo-user:hover,
+.btn-save:hover {
+  filter: brightness(0.95);
 }
 
 .btn-delete {
-  background-color: #ec1200;
+  background-color: #8899aa !important;
+  color: #ddeeff;
+}
+
+.btn-delete:hover {
+  background-color: #ec1200 !important;
 }
 
 .btn-green {

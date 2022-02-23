@@ -88,6 +88,7 @@ const Review = () => {
               <EditReviewForm
                 review={review}
                 album={album}
+                onClose={() => setShowListModal(false)}
                 onSuccess={() => setShowEditModal(false)}
               />
             </Modal>

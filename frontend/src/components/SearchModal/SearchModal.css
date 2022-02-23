@@ -9,6 +9,21 @@
   /* z-index: 1000; */
 }
 
+.search-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  /* width: 560px; */
+}
+
+.modal-close {
+  font-size: 26px;
+}
+
+.modal-close:hover {
+  color: #fff;
+}
+
 .search-modal-heading {
   font-family: Graphik-Regular-Web, sans-serif;
   font-size: 16px;
