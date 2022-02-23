@@ -1,8 +1,14 @@
 import { csrfFetch } from './csrf';
-import { ALBUMS_LOADED } from './albumsReducer';
 
+const BACKLOG_LOADED = 'backlogs/BACKLOG_LOADED';
 const BACKLOG_UPDATED = 'backlogs/BACKLOG_APPENDED';
 const BACKLOG_ITEM_REMOVED = 'backlogs/BACKLOG_ITEM_REMOVED';
+
+const loadBacklog = (albums, userID) => ({
+  type: BACKLOG_LOADED,
+  albums,
+  userID,
+});
 
 const updateBacklog = (userID, albums, album) => ({
   type: BACKLOG_UPDATED,
@@ -16,6 +22,13 @@ const removeItem = (userID, albumID) => ({
   userID,
   albumID,
 });
+
+export const fetchUserBacklog = (userID) => async (dispatch) => {
+  const response = await csrfFetch(`/api/users/${userID}/backlog`);
+  const { backlog } = await response.json();
+  dispatch(loadBacklog(backlog, userID));
+  return backlog;
+};
 
 export const appendBacklog = (album, userID) => async (dispatch) => {
   const response = await csrfFetch(`/api/users/${userID}/backlog`, {
@@ -43,7 +56,7 @@ export const removeFromBacklog =
 
 const backlogsReducer = (state = {}, action) => {
   switch (action.type) {
-    case ALBUMS_LOADED:
+    case BACKLOG_LOADED:
       return {
         ...state,
         [action.userID]: action.albums.map((album) => album.spotifyID),

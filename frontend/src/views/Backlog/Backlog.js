@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import AlbumArt from '../../components/AlbumArt';
 import { Link } from 'react-router-dom';
-import { fetchUserBacklog } from '../../store/albumsReducer';
+import { fetchUserBacklog } from '../../store/backlogsReducer';
+import HoverActions from '../../components/HoverActions';
 import './Backlog.css';
 
 const Backlog = () => {
@@ -17,9 +17,9 @@ const Backlog = () => {
     const fetchBacklog = async () => {
       const backlog = await dispatch(fetchUserBacklog(+userID));
       setAlbums(backlog);
-      setLoading(false);
+      // setLoading(false);
     };
-    fetchBacklog();
+    fetchBacklog().then(() => setLoading(false));
   }, [dispatch]);
 
   return (
@@ -33,7 +33,7 @@ const Backlog = () => {
             {albums?.length > 0 &&
               albums.map((album, i) => (
                 <li key={`backlog-item-${i}`} className="album-grid-item">
-                  <Link>
+                  <Link to="#">
                     <span className="overlay"></span>
                     <img
                       alt={album.title}
@@ -41,6 +41,7 @@ const Backlog = () => {
                       className="backlog-album"
                     />
                   </Link>
+                  {/* {!loading && <HoverActions album={album} />} */}
                 </li>
               ))}
           </ul>

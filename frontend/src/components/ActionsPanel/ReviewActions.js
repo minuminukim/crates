@@ -21,12 +21,6 @@ const ReviewActions = ({
   return sessionUser ? (
     <ul className="review-actions">
       <ListenActions album={album} />
-      {/* <ActionsRow
-        className="action-row-rated"
-        label={rating ? 'Rated' : 'Rate'}
-        key={reviewID}
-        children={<StarRating reviewRating={rating} readOnly={true} />}
-      /> */}
       <ActionsRow
         className="action-row-rated hover"
         label={rating ? 'Rated' : 'Rate'}

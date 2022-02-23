@@ -47,19 +47,19 @@ export const fetchSingleAlbum = (id) => (dispatch) => {
     .catch((err) => dispatch(handleAlbumsErrors(err)));
 };
 
-export const fetchUserBacklog = (userID) => async (dispatch) => {
-  const response = await csrfFetch(`/api/users/${userID}/backlog`);
-  const { backlog } = await response.json();
-  dispatch(loadAlbums(backlog, userID));
-  return backlog;
-};
+// export const fetchUserBacklog = (userID) => async (dispatch) => {
+//   const response = await csrfFetch(`/api/users/${userID}/backlog`);
+//   const { backlog } = await response.json();
+//   dispatch(loadAlbums(backlog, userID));
+//   return backlog;
+// };
 
 export const searchAlbums = (query) => async (dispatch) => {
   const response = await csrfFetch(`/api/search`, {
     method: 'POST',
     body: JSON.stringify({ query }),
   });
-  
+
   const { albums } = await response.json();
   dispatch(loadAlbums(albums));
   return albums;

@@ -4,7 +4,7 @@ import { ActionsRow } from '.';
 import { useHistory } from 'react-router-dom';
 import { MdHearing, MdMoreTime } from 'react-icons/md';
 import { appendBacklog, removeFromBacklog } from '../../store/backlogsReducer';
-import { fetchUserBacklog } from '../../store/albumsReducer';
+import { fetchUserBacklog } from '../../store/backlogsReducer';
 import ValidationError, { SuccessMessage } from '../ValidationError';
 
 const ListenActions = ({ album }) => {

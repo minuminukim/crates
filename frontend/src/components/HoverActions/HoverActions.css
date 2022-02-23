@@ -1,0 +1,11 @@
+.hover-actions {
+  position: relative;
+  bottom: 40px;
+  width: 85px;
+  height: 28px;
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+.hover-icon {
+  font-size: 20px;
+}
