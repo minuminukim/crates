@@ -239,6 +239,7 @@ router.post(
     const id = +req.params.id;
 
     const { spotifyID, title, artworkURL, artist, releaseYear } = req.body;
+    console.log('req.body', req.body);
 
     const { album } = await useAlbumFindOrCreate({
       spotifyID,
@@ -262,10 +263,20 @@ router.post(
       });
     }
 
-    //TODO check if record exists in the user's backlog and delete
-    // const albumBacklog = await AlbumBacklog.findOne({
-    //   where: { }
-    // })
+    // Check if the album exists in the user's backlog...
+    // and remove it if it does
+    const backlog = await Backlog.findOne({
+      where: { userID: id },
+      include: {
+        model: Album,
+        as: 'albums',
+      },
+    });
+    const inBacklog = backlog.albums.find((item) => item.id === album.id);
+
+    if (inBacklog) {
+      await inBacklog.destroy();
+    }
 
     return res.json({
       userAlbum,
@@ -276,6 +287,28 @@ router.post(
 
 router.delete(
   `/:id(\\d+)/albums/:albumID`,
-)
+  requireAuth,
+  asyncHandler(async (req, res, next) => {
+    const id = +req.params.id;
+    const albumID = +req.params.albumID;
+
+    const userAlbum = await UserAlbum.findOne({
+      where: {
+        userID: id,
+        albumID: albumID,
+      },
+    });
+
+    if (!userAlbum) {
+      return res.status(404).json({
+        errors: ['The requested resource could not be found.'],
+      });
+    }
+
+    await userAlbum.destroy();
+
+    return res.status(204).json({});
+  })
+);
 
 module.exports = router;
