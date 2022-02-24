@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { ActionsRow } from '.';
-import { useHistory } from 'react-router-dom';
 import { MdHearing, MdMoreTime } from 'react-icons/md';
 import { appendBacklog, removeFromBacklog } from '../../store/backlogsReducer';
 import { fetchUserBacklog } from '../../store/backlogsReducer';
@@ -9,18 +8,12 @@ import {
   getUserAlbums,
   addUserAlbum,
   removeUserAlbum,
-  removeAlbum,
 } from '../../store/albumsReducer';
-import ValidationError, {
-  SuccessMessage,
-  ErrorMessages,
-} from '../ValidationError';
+import { ErrorMessages } from '../ValidationError';
 
 const ListenActions = ({ album }) => {
   const sessionUser = useSelector((state) => state.session.user);
-  const backlog = useSelector((state) => state.backlogs[sessionUser?.id]);
   const dispatch = useDispatch();
-  const history = useHistory();
   const [errors, setErrors] = useState([]);
   const [loading, setLoading] = useState(true);
   const [listened, setListened] = useState(null);
@@ -125,12 +118,12 @@ const ListenActions = ({ album }) => {
   };
   const handleListen = listened ? onUnlisten : onListen;
   return (
-    !loading && (
-      <>
-        <ActionsRow className="listen-actions">
+    <>
+      <ActionsRow className="listen-actions">
+        {!loading && (
           <div
             onClick={() => handleListen()}
-            className={`action hover ${listened ? 'listened' : 'listen'}`}
+            className={`icon-container ${listened ? 'listened' : 'listen'}`}
             onMouseOver={() =>
               listened ? setListenText('Remove') : setListenText('Listen')
             }
@@ -141,33 +134,21 @@ const ListenActions = ({ album }) => {
             <MdHearing className="action-icon" />
             <p className="action-label">{listenText}</p>
           </div>
-
-          <div
-            className={`actions-row ${inBacklog ? 'remove' : 'append'}`}
-            onMouseOver={() => (inBacklog ? setBacklogText('Remove') : null)}
-            onMouseLeave={() => setBacklogText('Backlog')}
-          >
-            <MdMoreTime
-              className="action-icon"
-              onClick={() => (inBacklog ? onRemove() : onAdd())}
-            />
-            <p className="action-label">{backlogText}</p>
-          </div>
-        </ActionsRow>
-        <ErrorMessages success={message} errors={errors} />
-        {/* {message.length > 0 && (
-        <div className="success-container">
-          <SuccessMessage message={message} />
+        )}
+        <div
+          className={`icon-container ${inBacklog ? 'remove' : 'append'}`}
+          onMouseOver={() => (inBacklog ? setBacklogText('Remove') : null)}
+          onMouseLeave={() => setBacklogText('Backlog')}
+        >
+          <MdMoreTime
+            className="action-icon"
+            onClick={() => (inBacklog ? onRemove() : onAdd())}
+          />
+          <p className="action-label">{backlogText}</p>
         </div>
-      )}
-      <ul className="validation-errors">
-        {errors.length > 0 &&
-          errors.map((error, i) => (
-            <ValidationError key={`error-${i}`} error={error} />
-          ))}
-      </ul> */}
-      </>
-    )
+      </ActionsRow>
+      <ErrorMessages success={message} errors={errors} />
+    </>
   );
 };
 

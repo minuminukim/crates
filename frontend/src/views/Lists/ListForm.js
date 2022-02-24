@@ -26,6 +26,7 @@ const ListForm = () => {
   const [action, setAction] = useState(null);
   const [message, setMessage] = useState('');
   const [showList, setShowList] = useState(false);
+  const [loading, setLoading] = useState(true);
   const { user } = useSelector((state) => state.session);
   const { query, setQuery, results, isLoading, searchErrors } = useSearch();
   const dispatch = useDispatch();

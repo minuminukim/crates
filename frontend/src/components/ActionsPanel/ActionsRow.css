@@ -73,3 +73,25 @@ p.action-label:hover {
   justify-content: center;
 }
 
+.remove:hover p,
+.append:hover p,
+.listened:hover p,
+.listen:hover p {
+  color: #fff;
+}
+
+.icon-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.action-icon {
+  margin-bottom: 4px;
+}
+
+.listened,
+.listen {
+  margin-right: 8px;
+}

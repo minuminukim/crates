@@ -46,8 +46,12 @@
 }
 
 .btn-link:hover {
-  filter: brightness(0.5);
+  background-color: #445566;
   color: #fff;
+}
+
+.btn-link:hover a {
+  color: #fff !important;
 }
 
 /* .log-button-toggle {

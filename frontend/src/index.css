@@ -83,3 +83,7 @@ textarea:focus {
 span.nav-label {
   cursor: pointer;
 }
+
+.replace-checkbox {
+  cursor: pointer;
+}
