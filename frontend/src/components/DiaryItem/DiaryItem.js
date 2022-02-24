@@ -1,58 +1,99 @@
 import { useParams, Link } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import './DiaryItem.css';
-import { formatDateMonthDay } from '../../utils/date-helpers';
+import { formatDateDayMonthYear } from '../../utils/date-helpers';
 import { StarRatingReadOnly } from '../StarRating';
 import { BiMenuAltLeft } from 'react-icons/bi';
-import { BsArrowRepeat } from 'react-icons/bs';
+import { BsArrowRepeat, BsFillCalendarFill } from 'react-icons/bs';
 import { MdModeEditOutline } from 'react-icons/md';
-import StarRating from '../StarRating';
+import { useModal } from '../../hooks';
+import { Modal } from '../../context/Modal';
+import { EditReviewForm } from '../../views/Reviews';
+import handleImageError from '../../utils/handleImageError';
 
 const DiaryItem = ({ entry }) => {
   const { userID } = useParams();
   const sessionUser = useSelector((state) => state.session.user);
-  const [month, day] = formatDateMonthDay(entry.createdAt).split(' ');
+  const [day, month, year] = formatDateDayMonthYear(entry.createdAt).split(' ');
+  const { showModal, toggleModal } = useModal();
 
   return (
-    <li className="diary-item">
-      <p className="month">{month}</p>
-      <p className="day">{day}</p>
-      <div className="album-details">
-        <div className="diary-album-container">
-          <span className="overlay"></span>
-          <img
-            alt={entry.album.title}
-            src={entry.album.artworkURL}
-            className="diary-album"
-          />
+    <tr className="diary-item">
+      <td className="calendar">
+        <div className="calendar">
+          <BsFillCalendarFill className="calendar icon" />
+          <p className="date">
+            {month} <span>{year}</span>
+          </p>
         </div>
-        <h3 className="entry-title">
-          <Link exact to={`/reviews/${entry.id}`} className="diary-item-title">
-            {entry.album.title}
-          </Link>
-        </h3>
-      </div>
-      <p className="released">{entry.album.releaseYear}</p>
-      <div className="entry-rating">
-        <StarRatingReadOnly rating={entry.rating} className="diary" />
-        {entry.rating !== 10 && entry.rating % 2 !== 0 && (
-          <span className="green half">½</span>
-        )}
-      </div>
-      <div classsName="relisten">{entry.isRelisten && <BsArrowRepeat />}</div>
-      <div className="entry-review">
-        {entry.body.length > 0 && (
-          <Link exact to={`/reviews/${entry.id}`}>
-            <BiMenuAltLeft />
-          </Link>
-        )}
-      </div>
+      </td>
+      <td className="day">
+        <p className="day">{day}</p>
+      </td>
+      <td className="album">
+        <div className="album-details">
+          <div className="diary-album-container">
+            <span className="overlay"></span>
+            <img
+              alt={entry.album.title}
+              src={entry.album.artworkURL}
+              className="diary-album"
+              onError={handleImageError}
+            />
+          </div>
+          <h3 className="entry-title">
+            <Link
+              exact
+              to={`/reviews/${entry.id}`}
+              className="diary-item-title"
+            >
+              {entry.album.title}
+            </Link>
+          </h3>
+        </div>
+      </td>
+      <td className="released">
+        <p className="released">{entry.album.releaseYear}</p>
+      </td>
+      <td className="rating">
+        <div className="entry-rating">
+          <StarRatingReadOnly rating={entry.rating} className="diary" />
+          {entry.rating !== 10 && entry.rating % 2 !== 0 && (
+            <span className="green half">½</span>
+          )}
+        </div>
+      </td>
+      <td className="relisten">
+        <div className="relisten">
+          {entry.isRelisten && <BsArrowRepeat className="icon" />}
+        </div>
+      </td>
+      <td className="review">
+        <div className="entry-review">
+          {entry.body.length > 0 && (
+            <Link exact to={`/reviews/${entry.id}`}>
+              <BiMenuAltLeft className="icon" />
+            </Link>
+          )}
+        </div>
+      </td>
       {+userID === sessionUser?.id && (
-        <div className="entry-edit">
-          <MdModeEditOutline />
-        </div>
+        <td className="edit">
+          <div className="entry-edit">
+            <MdModeEditOutline className="icon" onClick={toggleModal} />
+            {showModal && (
+              <Modal onClose={toggleModal}>
+                <EditReviewForm
+                  review={entry}
+                  album={entry.album}
+                  onSuccess={toggleModal}
+                />
+              </Modal>
+            )}
+          </div>
+        </td>
       )}
-    </li>
+    </tr>
   );
 };
 

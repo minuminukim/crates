@@ -8,3 +8,28 @@
   align-items: center;
   /* width: 950px; */
 }
+
+.diary-table th {
+  font-size: 12px;
+  font-weight: 200;
+  color: #678;
+  border-bottom: 1px solid #384453;
+  border-top: 1px solid #384453;
+  background-color: #14181c;
+  height: 30px;
+  text-align: left;
+}
+
+table.diary-table {
+  border-collapse: collapse;
+}
+
+th.day,
+th.album,
+th.released,
+th.rating,
+th.relisten,
+th.review,
+th.edit {
+  padding-left: 20px;
+}

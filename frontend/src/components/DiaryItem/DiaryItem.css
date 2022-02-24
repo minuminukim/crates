@@ -1,21 +1,64 @@
-.diary-item {
-  display: flex;
-  align-items: center;
+tr.diary-item {
   width: 950px;
-  height: 100px;
+  height: 110px;
   border-bottom: 1px solid #384453;
-  padding: 12px 0;
+  padding: 15px 0;
 }
 
-.month {
+div.calendar {
   width: 65px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
 }
 
-.day {
+.calendar.icon {
+  font-size: 60px;
+  color: #456;
+}
+
+p.date {
+  position: absolute;
+  bottom: 8px;
+  color: #1d242b;
+  text-transform: uppercase;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0;
+}
+
+.date span {
+  font-size: 11px;
+}
+
+td.day,
+td.album,
+td.released,
+td.rating,
+td.relisten,
+td.review,
+td.edit {
+  padding-left: 20px;
+}
+
+tr .icon {
+  font-size: 24px;
+}
+
+.entry-review .icon:hover,
+.entry-edit .icon:hover {
+  cursor: pointer;
+  filter: brightness(1.2);
+}
+
+td.day {
   width: 50px;
   font-size: 28px;
   font-weight: 200;
   color: #678;
+  padding-left: 20px;
 }
 
 .album-details {

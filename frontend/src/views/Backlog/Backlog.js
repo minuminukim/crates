@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { fetchUserBacklog } from '../../store/backlogsReducer';
 import HoverActions from '../../components/HoverActions';
+import handleImageError from '../../utils/handleImageError';
 import './Backlog.css';
 
 const Backlog = () => {
@@ -39,6 +40,7 @@ const Backlog = () => {
                       alt={album.title}
                       src={album.artworkURL}
                       className="backlog-album"
+                      onError={handleImageError}
                     />
                   </Link>
                   {/* {!loading && <HoverActions album={album} />} */}
