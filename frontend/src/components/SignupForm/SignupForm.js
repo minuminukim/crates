@@ -90,7 +90,7 @@ function SignupForm({ onClose }) {
         <ul className="validation-errors">
           {errors.length > 0 &&
             errors.map((error, i) => (
-              <ValidationError key={`error-${i}`} error={error} />
+              <ValidationError key={`error-${i}`} error={error} index={i} />
             ))}
         </ul>
       </form>

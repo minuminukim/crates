@@ -25,13 +25,12 @@ function LoginForm({ handleModal }) {
   return (
     <>
       <form className="login-form" onSubmit={handleSubmit}>
-        <AiOutlineClose
-          className="close-icon"
-          onClick={handleModal}
-          style={{ cursor: 'pointer' }}
-        />
-        <div>
-          <InputLabel label="Username or Email" />
+        <div className="form-header">
+          <h1 className="page-heading">Sign In</h1>
+          <AiOutlineClose className="close-icon large" onClick={handleModal} />
+        </div>
+        <div className="form-row">
+          <InputLabel className="login" label="Username or Email" />
           <InputField
             type="text"
             id="credential"
@@ -40,8 +39,8 @@ function LoginForm({ handleModal }) {
             required
           />
         </div>
-        <div>
-          <InputLabel label="Password" />
+        <div className="form-row">
+          <InputLabel className="login" label="Password" />
           <InputField
             type="password"
             id="password"
@@ -50,11 +49,17 @@ function LoginForm({ handleModal }) {
             required
           />
         </div>
-        <Button type="submit" label="SIGN IN" size="medium" color="green" />
+        <Button
+          className="btn-save"
+          type="submit"
+          label="SIGN IN"
+          size="medium"
+          color="green"
+        />
       </form>
       <ul className="validation-errors">
         {errors.map((error, idx) => (
-          <ValidationError key={`error-${idx}`} error={error} />
+          <ValidationError key={`error-${idx}`} error={error} index={idx} />
         ))}
       </ul>
     </>

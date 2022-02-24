@@ -57,7 +57,9 @@ function Navigation({ isLoaded }) {
           <BiSearchAlt className="nav-label search-icon" />
         </li>
         <li>
-          <LogButton handleLogClick={() => setShowSearch(true)} />
+          {sessionUser && (
+            <LogButton handleLogClick={() => setShowSearch(true)} />
+          )}
           {isLoaded && showSearch && (
             <Modal onClose={() => setShowSearch(false)}>
               <SearchModal closeSearch={() => setShowSearch(false)} />

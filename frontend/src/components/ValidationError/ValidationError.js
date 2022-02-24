@@ -6,9 +6,9 @@ const ValidationError = ({ error, index = 0 }) => {
   const [visible, setVisible] = useState(true);
 
   useEffect(() => {
-    const timer = setTimeout(() => setVisible(false), 5000);
+    const timer = setTimeout(() => setVisible(false), 5000 + index * 5000);
     return () => clearTimeout(timer);
-  }, [setVisible]);
+  }, [setVisible, index]);
 
   return (
     visible && (
