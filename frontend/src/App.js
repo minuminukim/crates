@@ -32,7 +32,6 @@ function App() {
         <Switch>
           <Route exact path="/">
             {sessionUser ? <Home /> : <Landing />}
-            <Footer />
           </Route>
           <Route exact path="/login">
             <div className="login-page">
@@ -68,6 +67,7 @@ function App() {
           </Route>
         </Switch>
       )}
+      <Footer />
     </>
   );
 }
