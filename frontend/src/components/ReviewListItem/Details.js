@@ -7,11 +7,13 @@ const Details = ({ review, album, shape }) => {
   return (
     <>
       {shape === 'block' && (
-        <div>
-          <Link>
-            <FaUserCircle />
+        <div className="user-info">
+          <Link exact to={`/users/${review.userID}`}>
+            <FaUserCircle className="user-avatar" />
           </Link>
-          <Link>{review.user.username}</Link>
+          <Link className="user-link" exact to={`/users/${review.userID}`}>
+            {review.user.username}
+          </Link>
         </div>
       )}
       <Link className="review-list-item-title" to={`/reviews/${review.id}`}>

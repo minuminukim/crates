@@ -7,6 +7,16 @@
   line-height: 1.6;
 }
 
+.block .user-avatar {
+  margin-right: 4px;
+}
+
+.review-list-item.block .user-info .user-link {
+  font-size: 14px;
+  position: relative;
+  bottom: 3px;
+}
+
 .landscape {
   max-height: 307px;
 }
