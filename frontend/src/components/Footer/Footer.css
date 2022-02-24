@@ -1,0 +1,20 @@
+footer {
+  background-color: #2c3440;
+  display: flex;
+}
+
+footer ul {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+  padding: 0 80px;
+}
+
+.footer-icon {
+  font-size: 30px;
+  margin-left: 12px;
+}
+
+.footer-icon:hover {
+  filter: brightness(1.2);
+}

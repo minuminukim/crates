@@ -5,15 +5,14 @@ import Home from './views/Home';
 import Landing from './views/Landing';
 import Albums from './views/Albums';
 import { Lists, ListForm, ListPage } from './views/Lists';
-// import SignupForm from './components/SignupForm';
 import LoginForm from './components/LoginFormModal/LoginForm';
 import { restoreUser } from './store/session';
 import { fetchAlbums } from './store/albumsReducer';
 import Navigation from './components/Navigation';
-import ReviewsList from './components/ReviewsList';
 import Review from './views/Reviews';
 import NotFound from './views/NotFound';
 import { User } from './views/User';
+import Footer from './components/Footer';
 
 function App() {
   const dispatch = useDispatch();
@@ -33,6 +32,7 @@ function App() {
         <Switch>
           <Route exact path="/">
             {sessionUser ? <Home /> : <Landing />}
+            <Footer />
           </Route>
           <Route exact path="/login">
             <div className="login-page">
