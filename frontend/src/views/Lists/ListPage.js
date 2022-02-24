@@ -24,7 +24,7 @@ const ListPage = () => {
   const [username, setUsername] = useState('');
 
   useEffect(() => {
-    if (list && list.albums?.length) {
+    if (list && list.albums?.length && username) {
       setIsLoading(false);
       return;
     }
@@ -39,7 +39,7 @@ const ListPage = () => {
           console.log('error fetching list', data);
         }
       });
-  }, [dispatch]);
+  }, [dispatch, list, username]);
 
   const handleDelete = () => {
     return dispatch(deleteList(+listID))

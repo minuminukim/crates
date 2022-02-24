@@ -32,9 +32,9 @@ const Details = ({ review, album, shape }) => {
         {shape !== 'block' && (
           <div>
             <Link to={`/reviews/${review.id}`}>Reviewed by </Link>
-            <span className="review-list-item-username">
+            <Link exact to={`/users/${review.userID}`}className="review-list-item-username">
               {review.user.username}
-            </span>
+            </Link>
             <span className="review-list-item-date">
               {/* {formatDateDayMonthYear(review.listenedDate)} */}
               {formatDateDayMonthYear(review.createdAt)}
