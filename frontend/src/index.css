@@ -88,3 +88,18 @@ span.nav-label {
 .replace-checkbox {
   cursor: pointer;
 }
+
+footer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+#root,
+.App,
+.app-container {
+  height: 100%;
+}
+
+

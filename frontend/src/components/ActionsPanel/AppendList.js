@@ -78,7 +78,7 @@ const AppendList = ({ album, onClose }) => {
               onClick={() => setChosen(list.id)}
             >
               <p>{list.title}</p>
-              <p>{`${list.albums.length} album(s)`}</p>
+                {/* <p>{`${list.albums.length} album(s)`}</p> */}
             </li>
           ))}
         </ul>
