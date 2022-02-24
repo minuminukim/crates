@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, Redirect, Link } from 'react-router-dom';
 import { fetchUserLists, appendList } from '../../store/listsReducer';
 import ValidationError from '../ValidationError';
 import { SuccessMessage } from '../ValidationError';
@@ -43,7 +43,7 @@ const AppendList = ({ album, onClose }) => {
     return dispatch(appendList(payload))
       .then((list) =>
         setMessage(
-          `You have successfully added ${album.title} to your list ${list.title}`
+          `You have successfully added '${album.title}' to your list '${list.title}'`
         )
       )
       .then(() => setTimeout(() => history.go(0), 3000))
@@ -54,6 +54,9 @@ const AppendList = ({ album, onClose }) => {
           return setErrors(data.errors);
         }
       });
+  };
+  const handleNewList = () => {
+    return <Redirect to={{ pathname: '/lists/new', state: { data: album } }} />;
   };
 
   return (
@@ -67,6 +70,12 @@ const AppendList = ({ album, onClose }) => {
           ))}
         <h1 className="panel-heading">Add '{album.title}' to lists</h1>
         <ul className="user-lists">
+          <li className="new-list user-lists-item">
+            {/* New list... */}
+            <Link to={{ pathname: '/lists/new', state: { data: album } }}>
+              New list...
+            </Link>
+          </li>
           {lists.map((list, i) => (
             <li
               key={`list-${i}`}

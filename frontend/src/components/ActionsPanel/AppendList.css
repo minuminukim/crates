@@ -7,6 +7,12 @@ div.append-list {
   align-items: center;
 }
 
+.append-list h1 {
+  color: #fff;
+  /* font-family: TiemposTextWeb-Semibold, Georgia, serif; */
+  font-size: 22px;
+}
+
 ul.user-lists {
   display: flex;
   flex-direction: column;

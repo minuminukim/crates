@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { useParams, useHistory } from 'react-router-dom';
+import { useParams, useHistory, useLocation } from 'react-router-dom';
 import useSearch from '../../hooks/useSearch';
 import { InputField, InputLabel } from '../../components/InputField';
 import SearchItem from '../../components/SearchItem';
@@ -17,7 +17,7 @@ import {
   fetchSingleList,
 } from '../../store/listsReducer';
 
-const ListForm = () => {
+const ListForm = (items = []) => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [isRanked, setIsRanked] = useState(false);
@@ -32,12 +32,18 @@ const ListForm = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const { listID } = useParams();
+  const location = useLocation();
+  const data = location.state.data;
 
   useEffect(() => {
+    console.log('data', data);
     if (!user) {
       history.push('/login');
     }
     if (!listID) {
+      if (data) {
+        setAlbums([data]);
+      }
       setAction('post');
       return;
     }
@@ -203,7 +209,7 @@ const ListForm = () => {
               label="CANCEL"
               onClick={() => history.goBack()}
             />
-            <SaveButton disabled={errors && errors.length > 0} />
+            <SaveButton />
           </div>
         </div>
         <DraggableList
