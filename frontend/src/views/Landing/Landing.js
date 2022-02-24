@@ -1,14 +1,11 @@
-import { useDispatch } from 'react-redux';
-import { useHistory } from 'react-router-dom';
-import { loginDemo } from '../../store/session';
+import { useDemo } from '../../hooks';
 import Button from '../../components/Button';
 import './Landing.css';
 
 const Landing = () => {
-  const dispatch = useDispatch();
-  const history = useHistory();
-  const handleDemoUser = () =>
-    dispatch(loginDemo()).then(() => history.push('/'));
+  const { handleDemoUser } = useDemo();
+  // const handleDemoUser = () =>
+  //   dispatch(loginDemo()).then(() => history.push('/'));
   return (
     <div className="page-container landing-page">
       {/* <div className="backdrop-container"> */}
@@ -36,7 +33,6 @@ const Landing = () => {
       <Button
         className="btn-demo-user"
         label="GET STARTED –– DEMO"
-        // size="medium"
         onClick={handleDemoUser}
       />
     </div>

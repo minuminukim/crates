@@ -5,6 +5,7 @@ import Button from '../Button';
 import { InputField, InputLabel } from '../InputField';
 import { AiOutlineClose } from 'react-icons/ai';
 import ValidationError from '../ValidationError';
+import { useDemo } from '../../hooks';
 import './LoginForm.css';
 
 function LoginForm({ handleModal }) {
@@ -12,6 +13,7 @@ function LoginForm({ handleModal }) {
   const [credential, setCredential] = useState('');
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState([]);
+  const { handleDemoUser } = useDemo();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -49,13 +51,21 @@ function LoginForm({ handleModal }) {
             required
           />
         </div>
-        <Button
-          className="btn-save"
-          type="submit"
-          label="SIGN IN"
-          size="medium"
-          color="green"
-        />
+        <div className="row-btn">
+          <Button
+            className="btn-save"
+            type="submit"
+            label="SIGN IN"
+            size="medium"
+            color="green"
+          />
+          <Button
+            className="btn-save"
+            label="TRY DEMO"
+            // size="medium"
+            onClick={handleDemoUser}
+          />
+        </div>
       </form>
       <ul className="validation-errors">
         {errors.map((error, idx) => (

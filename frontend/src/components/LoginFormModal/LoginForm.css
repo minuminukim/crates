@@ -49,3 +49,8 @@ ul.error-container {
   margin: 0;
   padding: 0;
 }
+
+.row-btn {
+  display: flex;
+  justify-content: space-between;
+}

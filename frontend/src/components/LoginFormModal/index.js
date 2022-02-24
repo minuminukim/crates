@@ -1,10 +1,8 @@
-import { useState } from 'react';
 import { Modal } from '../../context/Modal';
 import LoginForm from './LoginForm';
 import { useModal } from '../../hooks';
 
 function LoginFormModal({ children }) {
-  // const [showModal, setShowModal] = useState(false);
   const { showModal, toggleModal } = useModal();
 
   return (

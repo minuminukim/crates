@@ -1,4 +1,5 @@
 import useSearch from './useSearch';
 import useModal from './useModal';
+import useDemo from './useDemo';
 
-export { useSearch, useModal };
+export { useSearch, useModal, useDemo };

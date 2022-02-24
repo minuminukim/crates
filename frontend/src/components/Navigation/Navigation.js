@@ -5,6 +5,7 @@ import { BiSearchAlt } from 'react-icons/bi';
 import ProfileButton from './ProfileButton';
 import LogButton from './LogButton';
 import { Modal } from '../../context/Modal';
+import { useDemo } from '../../hooks';
 import LoginFormModal from '../LoginFormModal';
 import SignupModal from '../SignupForm';
 import SearchModal from '../SearchModal';
@@ -13,23 +14,21 @@ import './Navigation.css';
 function Navigation({ isLoaded }) {
   const [showSearch, setShowSearch] = useState(false);
   const sessionUser = useSelector((state) => state.session.user);
+  const { handleDemoUser } = useDemo();
 
   const sessionLinks = sessionUser ? (
     <>
       <li>
         <ProfileButton user={sessionUser} />
       </li>
-      {/* <LogButton handleLogClick={() => setShowModal(true)} />
-      {showModal && (
-        <Modal onClose={() => setShowModal(false)}>
-          <SearchModal />
-        </Modal>
-      )} */}
     </>
   ) : (
     <>
       <LoginFormModal />
       <SignupModal />
+      <span className="nav-label" onClick={handleDemoUser}>
+        TRY DEMO
+      </span>
       {/* <NavLink to="/signup">CREATE ACCOUNT</NavLink> */}
     </>
   );
@@ -53,9 +52,9 @@ function Navigation({ isLoaded }) {
             LISTS
           </NavLink>
         </li>
-        <li>
-          <BiSearchAlt className="nav-label search-icon" />
-        </li>
+        {/* <li>
+            <BiSearchAlt className="nav-label search-icon" />
+          </li> */}
         <li>
           {sessionUser && (
             <LogButton handleLogClick={() => setShowSearch(true)} />
