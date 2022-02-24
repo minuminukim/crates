@@ -34,7 +34,8 @@ const Details = ({ review, album, shape }) => {
               {review.user.username}
             </span>
             <span className="review-list-item-date">
-              {formatDateDayMonthYear(review.listenedDate)}
+              {/* {formatDateDayMonthYear(review.listenedDate)} */}
+              {formatDateDayMonthYear(review.createdAt)}
             </span>
           </div>
         )}
