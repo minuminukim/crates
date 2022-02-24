@@ -42,7 +42,7 @@ const FeedPost = ({ list }) => {
           )}
         </div>
         <div
-          className={`${list.description.length ? 'list-body' : 'collapse'}`}
+          className={`${list.description ? 'list-body' : 'collapse'}`}
         >
           <p className="description">{list.description}</p>
         </div>
