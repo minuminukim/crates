@@ -33,7 +33,7 @@
   color: #fff;
 }
 
-.list-page .user-info {
+.user-info {
   display: flex;
   flex-direction: row;
   align-items: center;

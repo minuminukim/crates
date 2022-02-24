@@ -4,6 +4,7 @@ import { fetchSingleUser } from '../../store/usersReducer';
 import { FaUserCircle } from 'react-icons/fa';
 import { StarRatingReadOnly } from '../../components/StarRating';
 import { formatDateDayMonthYear } from '../../utils/date-helpers';
+import { Link } from 'react-router-dom';
 import './ReviewBody.css';
 
 const ReviewBody = ({ review, shape }) => {
@@ -31,10 +32,13 @@ const ReviewBody = ({ review, shape }) => {
     isLoaded && (
       <div className="review">
         <section className="review-header">
-          <div className="review-user">
-            <FaUserCircle className="review-avatar" />
+          <div className="user-info">
+            <FaUserCircle className="user-avatar" />
             <p>
-              Review by <span>{user?.username}</span>
+              Review by{' '}
+              <Link className="user-link" to={`/users/${review.userID}`}>
+                {user?.username}
+              </Link>
             </p>
           </div>
           <h1 className="review-heading">
