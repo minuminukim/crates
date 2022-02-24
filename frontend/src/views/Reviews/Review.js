@@ -57,39 +57,41 @@ const Review = () => {
   // return null when review doesn't exist after dispatching a delete action
   return !review ? null : (
     <div className="page-container review-page">
-      <div>
-        <AlbumArt
-          title={album?.title}
-          artworkURL={album?.artworkURL}
-          size="medium"
-        />
-      </div>
-      <div className="review-page-middle">
-        <ReviewBody review={review} album={album} />
-      </div>
-      <div>
-        {!isLoading && sessionUser ? (
-          <ReviewActions
-            review={review}
-            rating={rating}
-            album={album}
-            key={rating}
-            userID={review?.userID}
-            onDelete={handleDelete}
+      <div className="content-wrapper">
+        <div>
+          <AlbumArt
+            title={album?.title}
+            artworkURL={album?.artworkURL}
+            size="medium"
           />
-        ) : (
-          <>
-            <LoginFormModal>
-              {(toggleModal) => (
-                <ActionsRow
-                  className="solo logged-off hover"
-                  label="Sign in to log, rate or review"
-                  onClick={toggleModal}
-                />
-              )}
-            </LoginFormModal>
-          </>
-        )}
+        </div>
+        <div className="review-page-middle">
+          <ReviewBody review={review} album={album} />
+        </div>
+        <div>
+          {!isLoading && sessionUser ? (
+            <ReviewActions
+              review={review}
+              rating={rating}
+              album={album}
+              key={rating}
+              userID={review?.userID}
+              onDelete={handleDelete}
+            />
+          ) : (
+            <>
+              <LoginFormModal>
+                {(toggleModal) => (
+                  <ActionsRow
+                    className="solo logged-off hover"
+                    label="Sign in to log, rate or review"
+                    onClick={toggleModal}
+                  />
+                )}
+              </LoginFormModal>
+            </>
+          )}
+        </div>
       </div>
     </div>
   );

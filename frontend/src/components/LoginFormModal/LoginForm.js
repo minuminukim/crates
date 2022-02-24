@@ -6,6 +6,7 @@ import { InputField, InputLabel } from '../InputField';
 import { AiOutlineClose } from 'react-icons/ai';
 import ValidationError from '../ValidationError';
 // import { useDemo } from '../../hooks';
+import { useHistory } from 'react-router-dom';
 import './LoginForm.css';
 
 function LoginForm({ handleModal, page = false }) {
@@ -14,14 +15,17 @@ function LoginForm({ handleModal, page = false }) {
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState([]);
   // const { handleDemoUser } = useDemo();
+  const history = useHistory();
 
   const handleSubmit = (e) => {
     e.preventDefault();
     setErrors([]);
-    return dispatch(login({ credential, password })).catch(async (res) => {
-      const data = await res.json();
-      if (data && data.errors) setErrors(Object.values(data.errors));
-    });
+    return dispatch(login({ credential, password }))
+      .then(() => history.push('/'))
+      .catch(async (res) => {
+        const data = await res.json();
+        if (data && data.errors) setErrors(Object.values(data.errors));
+      });
   };
 
   return (

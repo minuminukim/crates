@@ -30,8 +30,6 @@ const User = () => {
           <Switch>
             <Route exact path={`${path}`}>
               <Profile user={user} />
-              {/* todo.. profile */}
-              <h2>{user?.username}</h2>
             </Route>
             <Route path={`${path}/reviews`}>
               <ReviewsList />
