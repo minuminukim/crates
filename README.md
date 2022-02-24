@@ -1,5 +1,5 @@
 # Crates
-[Crates](https://crates2022.herokuapp.com/), a clone of the film journaling network [https://letterboxd.com/], is a platform for music listeners to keep a diary of what albums they have listened to. Users are able to write and share reviews, create lists of albums, and maintain a backlog.
+[Crates](https://crates2022.herokuapp.com/), a clone of the film journaling network [Letterboxd](https://letterboxd.com/), is a platform for music listeners to keep a diary of what albums they have listened to. Users are able to write and share reviews, create lists of albums, and maintain a backlog.
 
 Crates is a full-stack application with a frontend composed in React, a RESTful API and backend built on Express, and a relational database managed in PostgreSQL.
 
