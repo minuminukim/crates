@@ -1,9 +1,9 @@
 import { csrfFetch } from './csrf';
 import { ALBUMS_LOADED, ALBUM_ADDED, ALBUM_REMOVED } from './albumsReducer';
+import { REVIEWS_LOADED } from './reviewsReducer';
 
 const USERS_LOADED = 'users/USERS_LOADED';
 const USER_ADDED = 'users/USER_ADDED';
-const USER_REMOVED = 'users/USER_REMOVED';
 
 const loadUsers = (users) => ({
   type: USERS_LOADED,
@@ -52,7 +52,7 @@ const usersReducer = (state = {}, action) => {
         ...state,
         [action.userID]: {
           ...state[action.userID],
-          albums: action.albums.map((album) => album.id),
+          albums: action.albums.map((album) => album.spotifyID),
         },
       };
 
@@ -76,6 +76,7 @@ const usersReducer = (state = {}, action) => {
           albums: filtered,
         },
       };
+
     default:
       return state;
   }

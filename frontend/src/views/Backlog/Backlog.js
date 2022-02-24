@@ -1,18 +1,16 @@
 import { useEffect, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { fetchUserBacklog } from '../../store/backlogsReducer';
-import HoverActions from '../../components/HoverActions';
 import handleImageError from '../../utils/handleImageError';
 import './Backlog.css';
 
-const Backlog = () => {
+const Backlog = ({username}) => {
   const [loading, setLoading] = useState(true);
   const dispatch = useDispatch();
   const { userID } = useParams();
   const [albums, setAlbums] = useState([]);
-  // const backlog = useSelector((state) => state.backlogs[+userID]);
 
   useEffect(() => {
     const fetchBacklog = async () => {
@@ -27,7 +25,7 @@ const Backlog = () => {
     !loading && (
       <div>
         <h2 className="section-heading">
-          YOU WANT TO LISTEN TO {albums.length} ALBUMS
+          {username} WANTS TO LISTEN TO {albums.length} ALBUMS
         </h2>
         <section className="backlog-container">
           <ul className="backlog-grid">

@@ -33,3 +33,25 @@ th.review,
 th.edit {
   padding-left: 20px;
 }
+
+.user-albums-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  column-gap: 15px;
+  row-gap: 15px;
+}
+
+.album-art-container {
+  position: relative;
+  height: 180px;
+  width: 180px;
+  border-radius: 3px;
+}
+
+.user-albums-grid img {
+  border-radius: 3px;
+}
+
+.grid-item-rating {
+  display: flex;
+}

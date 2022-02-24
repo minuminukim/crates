@@ -1,7 +1,5 @@
-import { useEffect, useState } from 'react';
 import AlbumArt from '../AlbumArt';
 import './AlbumGrid.css';
-import React from 'react';
 
 const AlbumGrid = ({ albums, isRanked = false }) => {
   return (

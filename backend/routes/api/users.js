@@ -50,7 +50,7 @@ router.get(
     const user = await User.findOne({
       where: { id: id },
       include: [
-        { model: Album, as: 'albums', attributes: ['id'] },
+        { model: Album, as: 'albums', attributes: ['id', 'spotifyID'] },
         {
           model: Review,
           as: 'reviews',

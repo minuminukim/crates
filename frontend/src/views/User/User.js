@@ -4,14 +4,14 @@ import { fetchSingleUser } from '../../store/usersReducer';
 import { Switch, Route, useRouteMatch, useParams } from 'react-router-dom';
 import Backlog from '../Backlog';
 import ReviewsList from '../../components/ReviewsList';
-import { UserLists, UserNavigation, Diary } from '.';
+import { UserLists, UserNavigation, Diary, UserAlbums } from '.';
 import './User.css';
 
 const User = () => {
   const { userID } = useParams();
   const { path } = useRouteMatch();
   const dispatch = useDispatch();
-  const user = useSelector((state) => state.users?.userID);
+  const user = useSelector((state) => state.users[userID]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -37,10 +37,13 @@ const User = () => {
               <UserLists userID={+userID} />
             </Route>
             <Route path={`${path}/backlog`}>
-              <Backlog />
+              <Backlog username={user.username} />
             </Route>
             <Route path={`${path}/diary`}>
               <Diary />
+            </Route>
+            <Route path={`${path}/albums`}>
+              <UserAlbums />
             </Route>
           </Switch>
         )}
