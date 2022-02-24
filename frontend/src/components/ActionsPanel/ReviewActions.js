@@ -5,13 +5,13 @@ import { ActionsRow } from '.';
 import './ReviewActions.css';
 import ListenActions from './ListenActions';
 import { EditReviewModal } from '../../views/Reviews';
+import { WarningMessageModal } from '../WarningMessage';
 
 const ReviewActions = ({
   userID,
-  onEditClick,
   onPostClick,
   onListClick,
-  onDeleteClick,
+  onDelete,
   rating,
   album,
   review,
@@ -42,11 +42,15 @@ const ReviewActions = ({
               />
             )}
           </EditReviewModal>
-          <ActionsRow
-            className="hover"
-            label="Delete this review..."
-            onClick={onDeleteClick}
-          />
+          <WarningMessageModal onDelete={onDelete} item="review">
+            {(toggleWarning) => (
+              <ActionsRow
+                className="hover"
+                label="Delete this review..."
+                onClick={toggleWarning}
+              />
+            )}
+          </WarningMessageModal>
         </>
       )}
       <ActionsRow

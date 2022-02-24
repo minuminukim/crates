@@ -83,10 +83,9 @@ const Review = () => {
             album={album}
             key={rating}
             userID={review?.userID}
-            // onEditClick={() => setShowEditModal(true)}
             onPostClick={() => setShowPostModal(true)}
             onListClick={() => setShowListModal(true)}
-            onDeleteClick={toggleWarning}
+            onDelete={handleDelete}
           />
         ) : (
           <>
@@ -110,15 +109,6 @@ const Review = () => {
       {showListModal && (
         <Modal onClose={() => setShowListModal(false)}>
           <AppendList album={album} onClose={() => setShowListModal(false)} />
-        </Modal>
-      )}
-      {showWarning && (
-        <Modal onClose={toggleWarning}>
-          <WarningMessage
-            item="review"
-            toggle={toggleWarning}
-            onDelete={handleDelete}
-          />
         </Modal>
       )}
     </div>
