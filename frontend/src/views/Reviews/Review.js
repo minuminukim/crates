@@ -7,11 +7,16 @@ import EditReviewForm from './EditReviewForm';
 import ReviewForm from './ReviewForm';
 import ReviewBody from './ReviewBody';
 import AlbumArt from '../../components/AlbumArt';
-import { ReviewActions, AppendList } from '../../components/ActionsPanel';
+import {
+  ReviewActions,
+  AppendList,
+  ActionsRow,
+} from '../../components/ActionsPanel';
 import { fetchSingleUser } from '../../store/usersReducer';
 import { useModal } from '../../hooks';
 import { deleteReview } from '../../store/reviewsReducer';
 import WarningMessage from '../../components/WarningMessage';
+import LoginFormModal from '../../components/LoginFormModal';
 import './Review.css';
 
 const Review = () => {
@@ -25,15 +30,19 @@ const Review = () => {
   const [showPostModal, setShowPostModal] = useState(false);
   const [showListModal, setShowListModal] = useState(false);
   const { showModal: showWarning, toggleModal: toggleWarning } = useModal();
+  const { showModal: showLogin, toggleModal: toggleLogin } = useModal();
   const [isLoading, setIsLoading] = useState(true);
   const [rating, setRating] = useState(0);
 
   useEffect(() => {
     // if (review && album) return;
-    const fetchData = async () => {
+    (async () => {
       try {
         const review = await dispatch(getSingleReview(+reviewID));
 
+        if (!sessionUser) {
+          return;
+        }
         // fetching the session user here to set rating state for the action panel
         const { reviews } = await dispatch(fetchSingleUser(sessionUser?.id));
         const found = reviews.find((item) => item.albumID === review.albumID);
@@ -45,8 +54,7 @@ const Review = () => {
           console.log('error', data.errors);
         }
       }
-    };
-    fetchData();
+    })();
     return () => setRating(0);
   }, [dispatch, sessionUser, reviewID]);
 
@@ -57,69 +65,75 @@ const Review = () => {
   };
 
   // return null when review doesn't exist after dispatching a delete action
-  return !review
-    ? null
-    : !isLoading && (
-        <div className="page-container review-page">
-          <div>
-            <AlbumArt
-              title={album?.title}
-              artworkURL={album?.artworkURL}
-              size="medium"
-            />
-          </div>
-          <div className="review-page-middle">
-            <ReviewBody review={review} album={album} />
-          </div>
-          <div>
-            <ReviewActions
-              rating={rating}
-              album={album}
-              key={rating}
-              userID={review?.userID}
-              onEditClick={() => setShowEditModal(true)}
-              onPostClick={() => setShowPostModal(true)}
-              onListClick={() => setShowListModal(true)}
-              onDeleteClick={toggleWarning}
-            />
-          </div>
-          {showEditModal && (
-            <Modal onClose={() => setShowEditModal(false)}>
-              <EditReviewForm
-                review={review}
-                album={album}
-                onClose={() => setShowListModal(false)}
-                onSuccess={() => setShowEditModal(false)}
-              />
-            </Modal>
-          )}
-          {showPostModal && (
-            <Modal onClose={() => setShowPostModal(false)}>
-              <ReviewForm
-                album={album}
-                onSuccess={() => setShowPostModal(false)}
-              />
-            </Modal>
-          )}
-          {showListModal && (
-            <Modal onClose={() => setShowListModal(false)}>
-              <AppendList
-                album={album}
-                onClose={() => setShowListModal(false)}
-              />
-            </Modal>
-          )}
-          {showWarning && (
-            <Modal onClose={toggleWarning}>
-              <WarningMessage
-                item="review"
-                toggle={toggleWarning}
-                onDelete={handleDelete}
-              />
-            </Modal>
-          )}
-        </div>
-      );
+  return !review ? null : (
+    <div className="page-container review-page">
+      <div>
+        <AlbumArt
+          title={album?.title}
+          artworkURL={album?.artworkURL}
+          size="medium"
+        />
+      </div>
+      <div className="review-page-middle">
+        <ReviewBody review={review} album={album} />
+      </div>
+      <div>
+        {!isLoading && sessionUser ? (
+          <ReviewActions
+            rating={rating}
+            album={album}
+            key={rating}
+            userID={review?.userID}
+            onEditClick={() => setShowEditModal(true)}
+            onPostClick={() => setShowPostModal(true)}
+            onListClick={() => setShowListModal(true)}
+            onDeleteClick={toggleWarning}
+          />
+        ) : (
+          <>
+            <LoginFormModal>
+              {(toggleModal) => (
+                <ActionsRow
+                  className="solo"
+                  label="Sign in to log, rate or review"
+                  onClick={toggleModal}
+                />
+              )}
+            </LoginFormModal>
+          </>
+        )}
+      </div>
+      {showEditModal && (
+        <Modal onClose={() => setShowEditModal(false)}>
+          <EditReviewForm
+            review={review}
+            album={album}
+            onClose={() => setShowListModal(false)}
+            onSuccess={() => setShowEditModal(false)}
+          />
+        </Modal>
+      )}
+      {showPostModal && (
+        <Modal onClose={() => setShowPostModal(false)}>
+          <ReviewForm album={album} onSuccess={() => setShowPostModal(false)} />
+        </Modal>
+      )}
+      {showListModal && (
+        <Modal onClose={() => setShowListModal(false)}>
+          <AppendList album={album} onClose={() => setShowListModal(false)} />
+        </Modal>
+      )}
+      {showWarning && (
+        <Modal onClose={toggleWarning}>
+          <WarningMessage
+            item="review"
+            toggle={toggleWarning}
+            onDelete={handleDelete}
+          />
+        </Modal>
+      )}
+    </div>
+  );
 };
 
 export default Review;

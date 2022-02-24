@@ -12,6 +12,7 @@ const Lists = () => {
   const history = useHistory();
   const dispatch = useDispatch();
   const listsObject = useSelector((state) => state.lists.items);
+  const sessionUser = useSelector((state) => state.session.user);
   const [isLoading, setIsLoading] = useState(true);
   const [lists, setLists] = useState([]);
 
@@ -40,11 +41,13 @@ const Lists = () => {
               Collect, curate, and share. Lists are the perfect way to group
               albums.
             </h1>
-            <Button
-              label="Start your own list"
-              onClick={() => history.push('/lists/new')}
-              className="transparent"
-            />
+            {sessionUser && (
+              <Button
+                label="Start your own list"
+                onClick={() => history.push('/lists/new')}
+                className="transparent"
+              />
+            )}
           </section>
           <section className="popular-lists">
             <h2 className="section-heading">POPULAR THIS WEEK</h2>
@@ -57,7 +60,6 @@ const Lists = () => {
           <section className="recently-shared">
             <h2 className="section-heading">RECENTLY SHARED</h2>
             <ul>
-              {/* TODO: sort by recent */}
               {sortByRecent(lists)
                 .slice(0, 10)
                 .map((list, i) => (
