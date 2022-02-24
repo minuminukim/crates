@@ -38,9 +38,9 @@ button {
 
 button:disabled {
   cursor: not-allowed;
-  opacity: 0.2;
-  background-color: #556677 !important;
-  color: #678;
+  opacity: 0.7;
+  /* background-color: #556677 !important; */
+  /* color: #678; */
   /* background-color: gray; */
 }
 

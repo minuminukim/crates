@@ -57,8 +57,8 @@ const AppendList = ({ album, onClose }) => {
   };
 
   return (
-    !isLoading &&
-    lists?.length > 0 && (
+    !isLoading && (
+      // lists?.length > 0 &&
       <div className="action-panel append-list">
         {message.length > 0 && <SuccessMessage message={message} />}
         {errors.length > 0 &&
@@ -78,7 +78,7 @@ const AppendList = ({ album, onClose }) => {
               onClick={() => setChosen(list.id)}
             >
               <p>{list.title}</p>
-                {/* <p>{`${list.albums.length} album(s)`}</p> */}
+              {/* <p>{`${list.albums.length} album(s)`}</p> */}
             </li>
           ))}
         </ul>
@@ -88,6 +88,7 @@ const AppendList = ({ album, onClose }) => {
             className="btn-save"
             size="medium"
             onClick={() => handleDispatch()}
+            disabled={!chosen}
           />
         </div>
       </div>
