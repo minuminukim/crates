@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchSingleUser } from '../../store/usersReducer';
+import { getReviewsByUserID } from '../../store/reviewsReducer';
 import { Switch, Route, useRouteMatch, useParams } from 'react-router-dom';
 import Backlog from '../Backlog';
 import ReviewsList from '../../components/ReviewsList';
-import { UserLists, UserNavigation, Diary, UserAlbums } from '.';
+import { UserLists, UserNavigation, Diary, UserAlbums, Profile } from '.';
 import './User.css';
 
 const User = () => {
@@ -16,6 +17,7 @@ const User = () => {
 
   useEffect(() => {
     return dispatch(fetchSingleUser(+userID))
+      .then(() => dispatch(getReviewsByUserID(+userID)))
       .then(() => setLoading(false))
       .catch((err) => console.log('error fetching user', err));
   }, [dispatch, userID]);
@@ -26,7 +28,8 @@ const User = () => {
         <UserNavigation />
         {!loading && (
           <Switch>
-            <Route exact path={path}>
+            <Route exact path={`${path}`}>
+              <Profile user={user} />
               {/* todo.. profile */}
               <h2>{user?.username}</h2>
             </Route>

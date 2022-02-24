@@ -23,7 +23,7 @@ const ProfileDropdown = () => {
   return (
     <ul className="profile-dropdown">
       <DropdownItem label="Home" link="/" />
-      <DropdownItem label="Profile" link="#" />
+      <DropdownItem label="Profile" link={`/users/${user.id}`} />
       <DropdownItem label="Albums" link={`/users/${user.id}/albums`} />
       <DropdownItem label="Diary" link={`/users/${user.id}/diary`} />
       <DropdownItem label="Reviews" link={`/users/${user.id}/reviews`} />

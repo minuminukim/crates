@@ -32,7 +32,7 @@ const Backlog = ({username}) => {
             {albums?.length > 0 &&
               albums.map((album, i) => (
                 <li key={`backlog-item-${i}`} className="album-grid-item">
-                  <Link to="#">
+                  {/* <Link to="#"> */}
                     <span className="overlay"></span>
                     <img
                       alt={album.title}
@@ -40,8 +40,6 @@ const Backlog = ({username}) => {
                       className="backlog-album"
                       onError={handleImageError}
                     />
-                  </Link>
-                  {/* {!loading && <HoverActions album={album} />} */}
                 </li>
               ))}
           </ul>

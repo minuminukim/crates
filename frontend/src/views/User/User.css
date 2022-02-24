@@ -2,6 +2,11 @@
   display: flex;
 }
 
+.user-profile {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
 .user-page-container {
   display: flex;
   flex-direction: column;
@@ -41,7 +46,7 @@ th.edit {
   row-gap: 15px;
 }
 
-.album-art-container {
+.grid-item .album-art-container {
   position: relative;
   height: 180px;
   width: 180px;
