@@ -26,9 +26,6 @@ const Review = () => {
   const review = useSelector((state) => state.reviews.items[reviewID]);
   const sessionUser = useSelector((state) => state.session.user);
   const album = review?.album;
-  const [showPostModal, setShowPostModal] = useState(false);
-  const [showListModal, setShowListModal] = useState(false);
-  const { showModal: showWarning, toggleModal: toggleWarning } = useModal();
   const [isLoading, setIsLoading] = useState(true);
   const [rating, setRating] = useState(0);
 
@@ -83,8 +80,6 @@ const Review = () => {
             album={album}
             key={rating}
             userID={review?.userID}
-            onPostClick={() => setShowPostModal(true)}
-            onListClick={() => setShowListModal(true)}
             onDelete={handleDelete}
           />
         ) : (
@@ -101,16 +96,6 @@ const Review = () => {
           </>
         )}
       </div>
-      {/* {showPostModal && (
-        <Modal onClose={() => setShowPostModal(false)}>
-          <ReviewForm album={album} onSuccess={() => setShowPostModal(false)} />
-        </Modal>
-      )} */}
-      {showListModal && (
-        <Modal onClose={() => setShowListModal(false)}>
-          <AppendList album={album} onClose={() => setShowListModal(false)} />
-        </Modal>
-      )}
     </div>
   );
 };

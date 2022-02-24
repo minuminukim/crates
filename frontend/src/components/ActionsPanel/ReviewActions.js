@@ -3,13 +3,12 @@ import { useParams } from 'react-router-dom';
 import StarRating from '../StarRating';
 import { ActionsRow } from '.';
 import './ReviewActions.css';
-import ListenActions from './ListenActions';
 import { EditReviewModal, PostReviewModal } from '../../views/Reviews';
 import { WarningMessageModal } from '../WarningMessage';
+import { ListenActions, AppendListModal } from '.';
 
 const ReviewActions = ({
   userID,
-  onListClick,
   onDelete,
   rating,
   album,
@@ -60,11 +59,15 @@ const ReviewActions = ({
           />
         )}
       </PostReviewModal>
-      <ActionsRow
-        label="Add this album to a list..."
-        className="hover"
-        onClick={onListClick}
-      />
+      <AppendListModal album={album}>
+        {(toggleListModal) => (
+          <ActionsRow
+            label="Add this album to a list..."
+            className="hover"
+            onClick={toggleListModal}
+          />
+        )}
+      </AppendListModal>
     </ul>
   ) : (
     <ActionsRow className="solo" label="Sign in to log, rate or review" />
