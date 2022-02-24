@@ -33,6 +33,7 @@ To run locally:
 - User registration and JWT authentication
 - Users are able to share, update and delete reviews of albums:
 <img src="./documentation/review-form.png" height=300 alt="Review form">
+
 - Users can compile collections of albums in lists
 - Users can maintain a backlog of albums to listen to
 
