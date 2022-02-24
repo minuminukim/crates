@@ -28,3 +28,32 @@
 .list-action.delete:hover {
   cursor: pointer;
 }
+
+.list-page h1 {
+  color: #fff;
+}
+
+.list-page .user-info {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  align-self: flex-start;
+}
+
+.user-info .user-avatar {
+  font-size: 24px;
+}
+
+.user-info p {
+  margin: 0;
+  margin-left: 5px;
+  font-weight: 300;
+}
+
+.user-link {
+  font-weight: 600;
+}
+
+.user-link:hover {
+  filter: brightness(1.3);
+}

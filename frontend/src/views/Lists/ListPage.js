@@ -8,6 +8,9 @@ import { deleteList } from '../../store/listsReducer';
 import { useModal } from '../../hooks';
 import { Modal } from '../../context/Modal';
 import WarningMessage from '../../components/WarningMessage';
+import { FaUserCircle } from 'react-icons/fa';
+import { fetchSingleUser } from '../../store/usersReducer';
+import { Link } from 'react-router-dom';
 import './ListPage.css';
 
 const ListPage = () => {
@@ -18,6 +21,7 @@ const ListPage = () => {
   const { showModal, toggleModal } = useModal();
   const dispatch = useDispatch();
   const history = useHistory();
+  const [username, setUsername] = useState('');
 
   useEffect(() => {
     if (list && list.albums?.length) {
@@ -26,6 +30,8 @@ const ListPage = () => {
     }
 
     return dispatch(fetchSingleList(+listID))
+      .then((list) => dispatch(fetchSingleUser(list.userID)))
+      .then((user) => setUsername(user.username))
       .then(() => setIsLoading(false))
       .catch(async (res) => {
         const data = await res.json();
@@ -46,6 +52,15 @@ const ListPage = () => {
     list?.albums.length > 0 && (
       <div className="list-page">
         <div className="content-wrap">
+          <div className="user-info">
+            <FaUserCircle className="user-avatar" />
+            <p>
+              List by{' '}
+              <Link className="user-link" to={`/users/${list?.userID}`}>
+                {username}
+              </Link>
+            </p>
+          </div>
           <section className="list-page-header">
             <h1>{list?.title}</h1>
             <p>{list?.description}</p>

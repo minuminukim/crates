@@ -6,7 +6,6 @@ import ReviewBody from './ReviewBody';
 import AlbumArt from '../../components/AlbumArt';
 import {
   ReviewActions,
-  AppendList,
   ActionsRow,
 } from '../../components/ActionsPanel';
 import { fetchSingleUser } from '../../store/usersReducer';
