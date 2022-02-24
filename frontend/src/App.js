@@ -5,7 +5,8 @@ import Home from './views/Home';
 import Landing from './views/Landing';
 import Albums from './views/Albums';
 import { Lists, ListForm, ListPage } from './views/Lists';
-import SignupForm from './components/SignupForm';
+// import SignupForm from './components/SignupForm';
+import LoginForm from './components/LoginFormModal/LoginForm';
 import { restoreUser } from './store/session';
 import { fetchAlbums } from './store/albumsReducer';
 import Navigation from './components/Navigation';
@@ -33,8 +34,10 @@ function App() {
           <Route exact path="/">
             {sessionUser ? <Home /> : <Landing />}
           </Route>
-          <Route path="/signup">
-            <SignupForm />
+          <Route exact path="/login">
+            <div className="login-page">
+              <LoginForm page />
+            </div>
           </Route>
           <Route path="/reviews/:reviewID">
             <Review />

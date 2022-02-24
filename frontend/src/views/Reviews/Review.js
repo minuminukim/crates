@@ -82,7 +82,7 @@ const Review = () => {
             <LoginFormModal>
               {(toggleModal) => (
                 <ActionsRow
-                  className="solo"
+                  className="solo logged-off hover"
                   label="Sign in to log, rate or review"
                   onClick={toggleModal}
                 />

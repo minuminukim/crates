@@ -54,3 +54,9 @@ ul.error-container {
   display: flex;
   justify-content: space-between;
 }
+
+.login-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

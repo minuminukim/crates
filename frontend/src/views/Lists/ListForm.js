@@ -34,6 +34,9 @@ const ListForm = () => {
   const { listID } = useParams();
 
   useEffect(() => {
+    if (!user) {
+      history.push('/login');
+    }
     if (!listID) {
       setAction('post');
       return;
@@ -46,7 +49,7 @@ const ListForm = () => {
         const list = await dispatch(fetchSingleList(listID));
 
         // check if session user is the owner of this list
-        if (list && list.userID !== user.id) {
+        if (list && list.userID !== user?.id) {
           return history.push('/unauthorized');
         }
 

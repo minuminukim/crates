@@ -15,3 +15,8 @@
 .remove .action-icon {
   color: #40bcf4;
 }
+
+.logged-off:hover {
+  color: #fff;
+  cursor: pointer;
+}

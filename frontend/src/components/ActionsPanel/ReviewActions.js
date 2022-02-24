@@ -7,13 +7,7 @@ import { EditReviewModal, PostReviewModal } from '../../views/Reviews';
 import { WarningMessageModal } from '../WarningMessage';
 import { ListenActions, AppendListModal } from '.';
 
-const ReviewActions = ({
-  userID,
-  onDelete,
-  rating,
-  album,
-  review,
-}) => {
+const ReviewActions = ({ userID, onDelete, rating, album, review }) => {
   const sessionUser = useSelector((state) => state.session.user);
   const isSessionUser = sessionUser?.id === userID;
   const { reviewID } = useParams();
@@ -70,7 +64,10 @@ const ReviewActions = ({
       </AppendListModal>
     </ul>
   ) : (
-    <ActionsRow className="solo" label="Sign in to log, rate or review" />
+    <ActionsRow
+      className="solo logged-off"
+      label="Sign in to log, rate or review"
+    />
   );
 };
 
