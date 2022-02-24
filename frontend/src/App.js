@@ -28,45 +28,49 @@ function App() {
   return (
     <>
       <Navigation isLoaded={isLoaded} />
-      {isLoaded && (
-        <Switch>
-          <Route exact path="/">
-            {sessionUser ? <Home /> : <Landing />}
-          </Route>
-          <Route exact path="/login">
-            <div className="login-page">
-              <LoginForm page />
-            </div>
-          </Route>
-          <Route path="/reviews/:reviewID">
-            <Review />
-          </Route>
-          <Route path="/users/:userID">
-            <User />
-          </Route>
-          {/* <Route exact path="/users/:userID/reviews">
+
+      <div className="main">
+        {isLoaded && (
+          <Switch>
+            <Route exact path="/">
+              {sessionUser ? <Home /> : <Landing />}
+            </Route>
+            <Route exact path="/login">
+              <div className="login-page">
+                <LoginForm page />
+              </div>
+            </Route>
+            <Route path="/reviews/:reviewID">
+              <Review />
+            </Route>
+            <Route path="/users/:userID">
+              <User />
+            </Route>
+            {/* <Route exact path="/users/:userID/reviews">
             <ReviewsList />
           </Route> */}
-          <Route exact path="/albums">
-            <Albums />
-          </Route>
-          <Route exact path="/lists">
-            <Lists />
-          </Route>
-          <Route exact path="/lists/new">
-            <ListForm />
-          </Route>
-          <Route exact path="/lists/:listID">
-            <ListPage />
-          </Route>
-          <Route exact path="/lists/:listID/edit">
-            <ListForm />
-          </Route>
-          <Route>
-            <NotFound />
-          </Route>
-        </Switch>
-      )}
+            <Route exact path="/albums">
+              <Albums />
+            </Route>
+            <Route exact path="/lists">
+              <Lists />
+            </Route>
+            <Route exact path="/lists/new">
+              <ListForm />
+            </Route>
+            <Route exact path="/lists/:listID">
+              <ListPage />
+            </Route>
+            <Route exact path="/lists/:listID/edit">
+              <ListForm />
+            </Route>
+            <Route>
+              <NotFound />
+            </Route>
+          </Switch>
+        )}
+      </div>
+      {/* <Footer /> */}
     </>
   );
 }

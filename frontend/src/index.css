@@ -90,16 +90,24 @@ span.nav-label {
 }
 
 footer {
-  position: absolute;
+  /* position: absolute; */
   bottom: 0;
   left: 0;
   right: 0;
+  margin-top: auto;
 }
 
 #root,
 .App,
-.app-container {
+.main {
+  min-height: 100vh;
   height: 100%;
 }
 
+#root {
+  padding-bottom: 60px;
+}
 
+[data-reactroot] {
+  height: 100% !important;
+}
