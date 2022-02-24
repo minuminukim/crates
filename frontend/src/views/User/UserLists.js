@@ -4,8 +4,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchUserLists } from '../../store/listsReducer';
 import { useHistory } from 'react-router-dom';
 import { ActionsRow } from '../../components/ActionsPanel';
+import './UserLists.css';
 
-// TODO: paging -- render 12 lists per 
+// TODO: paging -- render 12 lists per
 const UserLists = ({ userID }) => {
   const [loading, setLoading] = useState(true);
   const [lists, setLists] = useState([]);

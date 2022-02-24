@@ -12,28 +12,38 @@ const FeedPost = ({ list }) => {
 
   return (
     <li className="feed-post">
-      <div>
+      <div className="feed-post-left">
         <ListSpread albums={list.albums} listID={list.id} />
       </div>
       <div className="feed-post-right">
         <h3>
-          <Link to={`/lists/${list.id}`}>{list.title}</Link>
+          <Link className="list-link" to={`/lists/${list.id}`}>
+            {list.title}
+          </Link>
         </h3>
-        <div>
+        <div className="feed-post-info">
           {!userID && (
             <>
-              <FaUserCircle />
-              <span>{list.User.username}</span>
+              <Link className="avatar-link" exact to={`/users/${list.userID}`}>
+                <FaUserCircle className="avatar icon" />
+              </Link>
+              <Link className="user-link" exact to={`/users/${list.userID}`}>
+                <span>{list.User.username}</span>
+              </Link>
             </>
           )}
-          <span>{`${list.albums.length} albums`}</span>
+          <span className="list-length">{`${list.albums.length} ${
+            list.albums.length > 1 ? 'albums' : 'album'
+          }`}</span>
           {userID && +userID === sessionUser?.id && (
             <Link exact to={`/lists/${list.id}/edit`}>
-              <MdModeEditOutline className="icon" />
+              <MdModeEditOutline className="icon edit" />
             </Link>
           )}
         </div>
-        <div>
+        <div
+          className={`${list.description.length ? 'list-body' : 'collapse'}`}
+        >
           <p className="description">{list.description}</p>
         </div>
       </div>
