@@ -9,7 +9,7 @@ const Checkbox = ({ value, onChange, className, children }) => {
         className={`replace-checkbox ${className}`}
         onClick={() => hiddenInput.current.click()}
       >
-        {value && <AiOutlineCheck />}
+        {value && <AiOutlineCheck id="list-form-check" />}
       </div>
       <input
         type="checkbox"

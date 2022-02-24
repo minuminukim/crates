@@ -62,6 +62,14 @@
   opacity: 1.5;
 }
 
+.list-form .replace-checkbox:hover #list-form-check {
+  color: #000;
+}
+
+#list-form-check {
+  color: #9ab;
+}
+
 .list-form .replace-checkbox:hover {
   filter: brightness(1.5);
 }
