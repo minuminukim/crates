@@ -65,7 +65,7 @@ const ListForm = () => {
         }
       }
     })();
-  }, [dispatch]);
+  }, [user, listID, dispatch]);
 
   const handleChange = (e) => setQuery(e.target.value);
 

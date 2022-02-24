@@ -6,7 +6,7 @@ const useDemo = () => {
   const history = useHistory();
   const dispatch = useDispatch();
   const handleDemoUser = () => {
-    dispatch(loginDemo()).then(() => history.go(0));
+    dispatch(loginDemo()).then(() => history.push('/'));
   };
 
   return { handleDemoUser };
