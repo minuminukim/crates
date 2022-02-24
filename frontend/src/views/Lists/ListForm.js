@@ -3,13 +3,13 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useParams, useHistory, useLocation } from 'react-router-dom';
 import useSearch from '../../hooks/useSearch';
 import { InputField, InputLabel } from '../../components/InputField';
-import SearchItem from '../../components/SearchItem';
 import { SaveButton } from '../../components/Button';
 import { ErrorMessages } from '../../components/ValidationError';
 import Button from '../../components/Button';
 import Checkbox from '../../components/Checkbox';
 import DraggableList from '../../components/DraggableList/DraggableList';
-import SearchField from '../../components/SearchField';
+import { SearchField, SearchItem } from '../../components/Search';
+import areAllUnique from '../../utils/areAllUnique';
 import './ListForm.css';
 import {
   createList,
@@ -17,7 +17,7 @@ import {
   fetchSingleList,
 } from '../../store/listsReducer';
 
-const ListForm = (items = []) => {
+const ListForm = () => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [isRanked, setIsRanked] = useState(false);
@@ -32,14 +32,17 @@ const ListForm = (items = []) => {
   const dispatch = useDispatch();
   const history = useHistory();
   const { listID } = useParams();
+
+  // an album was passed in as a prop when redirected
+  // from the 'add to new list' action panel
   const location = useLocation();
-  const data = location.state.data;
+  const data = location.state?.data;
 
   useEffect(() => {
-    console.log('data', data);
     if (!user) {
       history.push('/login');
     }
+
     if (!listID) {
       if (data) {
         setAlbums([data]);
@@ -71,15 +74,15 @@ const ListForm = (items = []) => {
         }
       }
     })();
-  }, [user, listID, dispatch]);
+  }, [user, listID, dispatch, data]);
 
   const handleChange = (e) => setQuery(e.target.value);
 
-  const areAllUnique = (albums) => {
-    const mapped = albums.map((album) => album.spotifyID);
-    const unique = [...new Set(mapped)];
-    return unique.length === mapped.length;
-  };
+  // const areAllUnique = (albums) => {
+  //   const mapped = albums.map((album) => album.spotifyID);
+  //   const unique = [...new Set(mapped)];
+  //   return unique.length === mapped.length;
+  // };
 
   const handleSubmit = (e) => {
     e.preventDefault();

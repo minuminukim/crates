@@ -1,8 +1,6 @@
 import { useState } from 'react';
 import useSearch from '../../hooks/useSearch';
-import SearchBar from '../SearchBar';
-import SearchList from '../SearchList';
-import SearchField from '../SearchField';
+import { SearchField, SearchItem, SearchList } from '../Search';
 import { AiOutlineClose } from 'react-icons/ai';
 import './SearchModal.css';
 
@@ -25,7 +23,11 @@ const SearchModal = ({ closeSearch = null }) => {
             <label htmlFor="search" className="form-label">
               Name of Album
             </label>
-            <SearchField query={query} error={searchErrors} onChange={handleChange} />
+            <SearchField
+              query={query}
+              error={searchErrors}
+              onChange={handleChange}
+            />
             {/* <SearchBar value={query} onChange={handleChange} id="search" /> */}
             {results?.length > 0 && (
               <SearchList
