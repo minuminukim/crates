@@ -18,6 +18,12 @@ body {
   letter-spacing: 0.5px;
 }
 
+h1,
+h2,
+h3 {
+  letter-spacing: 1px;
+}
+
 button {
   cursor: pointer;
 }
@@ -72,4 +78,8 @@ textarea:focus {
 .page-heading {
   font-size: 28px;
   font-weight: 300;
+}
+
+span.nav-label {
+  cursor: pointer;
 }

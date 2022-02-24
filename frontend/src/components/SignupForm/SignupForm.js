@@ -38,14 +38,11 @@ function SignupForm({ onClose }) {
 
   return (
     <>
-      <h1>Sign Up</h1>
       <form onSubmit={handleSubmit} className="sign-up-form">
-        <h2>JOIN CRATES</h2>
-        <AiOutlineClose
-          className="close-icon"
-          onClick={onClose}
-          style={{ cursor: 'pointer' }}
-        />
+        <div className="form-header">
+          <h1>JOIN CRATES</h1>
+          <AiOutlineClose className="close-icon large" onClick={onClose} />
+        </div>
         <div className="form-row">
           <InputLabel label="Email address" />
           <InputField
@@ -82,11 +79,13 @@ function SignupForm({ onClose }) {
             onChange={(e) => setConfirmPassword(e.target.value)}
           />
         </div>
-        <Button
-          className="btn-save btn-register"
-          type="submit"
-          label="SIGN UP"
-        />
+        <div className="form-row-btn">
+          <Button
+            className="btn-save btn-register"
+            type="submit"
+            label="SIGN UP"
+          />
+        </div>
         <ul className="validation-errors">
           {errors.length > 0 &&
             errors.map((error, i) => (

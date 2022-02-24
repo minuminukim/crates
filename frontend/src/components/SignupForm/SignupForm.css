@@ -3,21 +3,23 @@
   flex-direction: column;
   background-color: #445566;
   width: 420px;
-  height: 550px;
-  border-radius: 3px;
+  height: 420px;
+  border-radius: 5px;
   padding: 22px 36px;
   margin: 0;
 }
 
-.sign-up-form h2 {
+.sign-up-form h1 {
   font-size: 16px;
   font-weight: 400;
   margin-bottom: 20px;
+  letter-spacing: 1.5px;
 }
 
 .sign-up-form input {
   width: 100%;
   padding: 9px;
+  border-bottom: #fff;
 }
 
 .sign-up-form .form-row {
@@ -39,6 +41,12 @@
   font-size: 15px;
   color: #fff;
   margin-bottom: 10px;
+}
+
+.form-row-btn {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
 }
 
 .sign-up-form button {
