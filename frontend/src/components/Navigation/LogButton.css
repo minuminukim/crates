@@ -8,9 +8,11 @@
   font-weight: 500;
   border: 0;
   border-radius: 3px;
-  width: 80px;
+  width: 85px;
   height: 25px;
   padding: 6px;
+  padding-right: 0;
+  text-align: center;
 }
 
 .log-button-left,
@@ -19,6 +21,33 @@
   align-items: center;
   justify-content: center;
   height: 100%;
+}
+
+.log-button-toggle {
+  background-color: #bbdd6640;
+  filter: brightness(1.5);
+  width: 25px;
+  height: 25px;
+  position: relative;
+}
+
+.btn-link {
+  position: absolute;
+  background-color: #9ab;
+  color: #000;
+  top: 50px;
+  right: 10px;
+  height: 30px;
+  padding: 4px 15px;
+}
+
+.btn-link a {
+  color: #000;
+}
+
+.btn-link:hover {
+  filter: brightness(0.5);
+  color: #fff;
 }
 
 /* .log-button-toggle {
