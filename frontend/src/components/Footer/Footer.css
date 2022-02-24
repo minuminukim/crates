@@ -1,7 +1,7 @@
 footer {
   background-color: #2c3440;
   display: flex;
-  /* position: absolute; */
+  position: absolute;
 }
 
 footer ul {

@@ -2,7 +2,6 @@ import { useDemo } from '../../hooks';
 import Button from '../../components/Button';
 import DescriptionCard, { DESCRIPTIONS } from './DescriptionCard';
 import './Landing.css';
-import Footer from '../../components/Footer';
 
 const Landing = () => {
   const { handleDemoUser } = useDemo();
@@ -53,7 +52,6 @@ const Landing = () => {
           </ul>
         </section>
       </div>
-      <Footer />
     </>
   );
 };

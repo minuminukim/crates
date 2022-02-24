@@ -28,8 +28,7 @@ function App() {
   return (
     <>
       <Navigation isLoaded={isLoaded} />
-
-      <div className="main">
+      <div className="app-container">
         {isLoaded && (
           <Switch>
             <Route exact path="/">
@@ -46,9 +45,6 @@ function App() {
             <Route path="/users/:userID">
               <User />
             </Route>
-            {/* <Route exact path="/users/:userID/reviews">
-            <ReviewsList />
-          </Route> */}
             <Route exact path="/albums">
               <Albums />
             </Route>
@@ -72,8 +68,8 @@ function App() {
             </Route>
           </Switch>
         )}
+        <Footer />
       </div>
-      {/* <Footer /> */}
     </>
   );
 }
