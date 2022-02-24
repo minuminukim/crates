@@ -101,11 +101,11 @@ const Review = () => {
           </>
         )}
       </div>
-      {showPostModal && (
+      {/* {showPostModal && (
         <Modal onClose={() => setShowPostModal(false)}>
           <ReviewForm album={album} onSuccess={() => setShowPostModal(false)} />
         </Modal>
-      )}
+      )} */}
       {showListModal && (
         <Modal onClose={() => setShowListModal(false)}>
           <AppendList album={album} onClose={() => setShowListModal(false)} />

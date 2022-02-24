@@ -4,12 +4,11 @@ import StarRating from '../StarRating';
 import { ActionsRow } from '.';
 import './ReviewActions.css';
 import ListenActions from './ListenActions';
-import { EditReviewModal } from '../../views/Reviews';
+import { EditReviewModal, PostReviewModal } from '../../views/Reviews';
 import { WarningMessageModal } from '../WarningMessage';
 
 const ReviewActions = ({
   userID,
-  onPostClick,
   onListClick,
   onDelete,
   rating,
@@ -25,9 +24,8 @@ const ReviewActions = ({
       <ListenActions album={album} />
       <ActionsRow
         className="action-row-rated"
-        label={rating ? 'Rated' : 'Rate'}
+        label={rating ? 'Rated' : 'Not Rated'}
         key={reviewID}
-        onClick={onPostClick}
       >
         <StarRating reviewRating={rating} readOnly={true} />
       </ActionsRow>
@@ -53,11 +51,15 @@ const ReviewActions = ({
           </WarningMessageModal>
         </>
       )}
-      <ActionsRow
-        label="Review or log..."
-        onClick={onPostClick}
-        className="hover"
-      />
+      <PostReviewModal album={album}>
+        {(togglePostModal) => (
+          <ActionsRow
+            label="Review or log..."
+            onClick={togglePostModal}
+            className="hover"
+          />
+        )}
+      </PostReviewModal>
       <ActionsRow
         label="Add this album to a list..."
         className="hover"
