@@ -86,7 +86,7 @@ span.list-length {
   -webkit-box-orient: vertical;
   font-family: TiemposTextWeb-Semibold, Georgia, serif;
   margin: 0;
-  height: 40px;
+  max-height: 72px;
 }
 .list-body p {
   margin: 0;

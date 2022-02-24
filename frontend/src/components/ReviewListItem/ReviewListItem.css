@@ -118,7 +118,7 @@ a.review-list-item-title {
   display: -webkit-box !important;
   -webkit-line-clamp: 5;
   -webkit-box-orient: vertical;
-  height: 216px;
+  max-height: 216px;
   /* overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis; */
