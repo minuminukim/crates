@@ -4,6 +4,7 @@ import StarRating from '../StarRating';
 import { ActionsRow } from '.';
 import './ReviewActions.css';
 import ListenActions from './ListenActions';
+import { EditReviewModal } from '../../views/Reviews';
 
 const ReviewActions = ({
   userID,
@@ -13,6 +14,7 @@ const ReviewActions = ({
   onDeleteClick,
   rating,
   album,
+  review,
 }) => {
   const sessionUser = useSelector((state) => state.session.user);
   const isSessionUser = sessionUser?.id === userID;
@@ -31,11 +33,15 @@ const ReviewActions = ({
       </ActionsRow>
       {isSessionUser && (
         <>
-          <ActionsRow
-            className="hover"
-            label="Edit or delete this review..."
-            onClick={onEditClick}
-          />
+          <EditReviewModal review={review} album={album}>
+            {(toggleEditModal) => (
+              <ActionsRow
+                className="hover"
+                label="Edit or delete this review..."
+                onClick={toggleEditModal}
+              />
+            )}
+          </EditReviewModal>
           <ActionsRow
             className="hover"
             label="Delete this review..."

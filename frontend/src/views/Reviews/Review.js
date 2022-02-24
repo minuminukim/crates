@@ -26,11 +26,9 @@ const Review = () => {
   const review = useSelector((state) => state.reviews.items[reviewID]);
   const sessionUser = useSelector((state) => state.session.user);
   const album = review?.album;
-  const [showEditModal, setShowEditModal] = useState(false);
   const [showPostModal, setShowPostModal] = useState(false);
   const [showListModal, setShowListModal] = useState(false);
   const { showModal: showWarning, toggleModal: toggleWarning } = useModal();
-  const { showModal: showLogin, toggleModal: toggleLogin } = useModal();
   const [isLoading, setIsLoading] = useState(true);
   const [rating, setRating] = useState(0);
 
@@ -80,11 +78,12 @@ const Review = () => {
       <div>
         {!isLoading && sessionUser ? (
           <ReviewActions
+            review={review}
             rating={rating}
             album={album}
             key={rating}
             userID={review?.userID}
-            onEditClick={() => setShowEditModal(true)}
+            // onEditClick={() => setShowEditModal(true)}
             onPostClick={() => setShowPostModal(true)}
             onListClick={() => setShowListModal(true)}
             onDeleteClick={toggleWarning}
@@ -103,16 +102,6 @@ const Review = () => {
           </>
         )}
       </div>
-      {showEditModal && (
-        <Modal onClose={() => setShowEditModal(false)}>
-          <EditReviewForm
-            review={review}
-            album={album}
-            onClose={() => setShowListModal(false)}
-            onSuccess={() => setShowEditModal(false)}
-          />
-        </Modal>
-      )}
       {showPostModal && (
         <Modal onClose={() => setShowPostModal(false)}>
           <ReviewForm album={album} onSuccess={() => setShowPostModal(false)} />
