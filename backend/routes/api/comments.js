@@ -74,11 +74,10 @@ router.put(
     const { userID, body } = req.body;
 
     if (oldComment.userID !== userID) {
-      const error = new Error({
-        title: 'Unauthorized',
-        message: 'You are not authorized to edit this comment.',
-        status: 401,
-      });
+      const error = new Error('You are not authorized to edit this comment.');
+      error.status = 401;
+      error.title = 'Unauthorized';
+      error.errors = ['You are not authorized to edit this comment.'];
 
       return next(error);
     }
@@ -106,11 +105,10 @@ router.delete(
     const { userID } = req.body;
 
     if (comment.userID !== userID) {
-      const error = new Error({
-        title: 'Unauthorized',
-        message: 'You are not authorized to edit this comment.',
-        status: 401,
-      });
+      const error = new Error('You are not authorized to delete this comment.');
+      error.status = 401;
+      error.title = 'Unauthorized';
+      error.errors = ['You are not authorized to delete this comment'];
 
       return next(error);
     }
