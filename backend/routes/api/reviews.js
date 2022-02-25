@@ -64,7 +64,7 @@ router.get(
  */
 router.post(
   '/',
-  // requireAuth,
+  requireAuth,
   validateReview,
   asyncHandler(async (req, res, next) => {
     const {
