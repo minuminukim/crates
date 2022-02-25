@@ -16,9 +16,10 @@ const Review = () => {
   const { reviewID } = useParams();
   const review = useSelector((state) => state.reviews.items[reviewID]);
   const sessionUser = useSelector((state) => state.session.user);
-  // const album = review?.album;
-  const album = useSelector(
-    (state) => state.albums.items[review?.album?.spotifyID]
+  const user = useSelector((state) => state.users[review?.userID]);
+  const albums = useSelector((state) => state.albums.items);
+  const album = Object.values(albums)?.find(
+    (album) => review?.albumID === album.id
   );
 
   const [isLoading, setIsLoading] = useState(true);
@@ -26,19 +27,26 @@ const Review = () => {
 
   useEffect(() => {
     (async () => {
-      if (!sessionUser) {
-        setIsLoading(false);
-        return;
-      }
       try {
-        const [review, { reviews }] = await Promise.all([
-          dispatch(getSingleReview(+reviewID)),
-          dispatch(fetchSingleUser(sessionUser?.id)),
-        ]);
-        const found = reviews.find((item) => item.albumID === review.albumID);
-        setRating(found?.rating || 0);
+        const review = await dispatch(getSingleReview(+reviewID));
+        if (review.userID !== sessionUser?.id) {
+          await dispatch(fetchSingleUser(review.userID));
+        }
+        if (sessionUser) {
+          const { reviews } = await dispatch(fetchSingleUser(sessionUser.id));
+          const found = reviews?.find(
+            (item) => item.albumID === review.albumID
+          );
+          setRating(found?.rating || 0);
+
+        }
+
         setIsLoading(false);
       } catch (res) {
+        if (res?.status === 404) {
+          history.push('/not-found');
+        }
+
         const data = await res.json();
         if (data && data.errors) {
           console.log('error', data.errors);
@@ -46,7 +54,7 @@ const Review = () => {
       }
     })();
     return () => setRating(0);
-  }, [dispatch, sessionUser, reviewID]);
+  }, [dispatch, sessionUser, reviewID, history]);
 
   const handleDelete = () => {
     return dispatch(deleteReview(+reviewID))
@@ -55,42 +63,50 @@ const Review = () => {
   };
 
   // return null when review doesn't exist after dispatching a delete action
-  return !review ? null : (
-    <div className="page-container review-page">
-      <div className="content-wrapper">
-        <div>
-          <AlbumArt
-            title={album?.title}
-            artworkURL={album?.artworkURL}
-            size="medium"
-          />
-        </div>
-        <div className="review-page-middle">
-          <ReviewBody review={review} album={album} />
-        </div>
-        <div>
-          {sessionUser && !isLoading ? (
-            <ReviewActions
-              rating={rating}
-              key={rating}
-              userID={review?.userID}
-              onDelete={handleDelete}
-            />
-          ) : (
-            <LoginFormModal>
-              {(toggleModal) => (
-                <ActionsRow
-                  className="solo logged-off hover"
-                  label="Sign in to log, rate or review"
-                  onClick={toggleModal}
+  return !review
+    ? null
+    : !isLoading && (
+        <div className="page-container review-page">
+          <div className="content-wrapper">
+            <div>
+              <AlbumArt
+                title={album?.title}
+                artworkURL={album?.artworkURL}
+                size="medium"
+              />
+            </div>
+            <div className="review-page-middle">
+              <ReviewBody
+                review={review}
+                album={album}
+                user={user}
+                // isLoading={isLoading}
+                rating={rating}
+              />
+            </div>
+            <div>
+              {sessionUser ? (
+                <ReviewActions
+                  rating={rating}
+                  key={rating}
+                  userID={review?.userID}
+                  onDelete={handleDelete}
                 />
+              ) : (
+                <LoginFormModal>
+                  {(toggleModal) => (
+                    <ActionsRow
+                      className="solo logged-off hover"
+                      label="Sign in to log, rate or review"
+                      onClick={toggleModal}
+                    />
+                  )}
+                </LoginFormModal>
               )}
-            </LoginFormModal>
-          )}
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
-  );
+      );
 };
 
 export default Review;

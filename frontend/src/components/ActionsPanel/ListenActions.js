@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { ActionsRow } from '.';
 import { MdHearing, MdMoreTime } from 'react-icons/md';
-import { appendBacklog, removeFromBacklog } from '../../store/backlogsReducer';
 import { fetchUserBacklog } from '../../store/backlogsReducer';
 import { getUserAlbums } from '../../store/albumsReducer';
 import { ErrorMessages } from '../ValidationError';
