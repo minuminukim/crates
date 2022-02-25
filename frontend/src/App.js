@@ -7,6 +7,7 @@ import Albums from './views/Albums';
 import { Lists, ListForm, ListPage } from './views/Lists';
 import LoginForm from './components/LoginFormModal/LoginForm';
 import { restoreUser } from './store/session';
+import { fetchSingleUser } from './store/usersReducer';
 import { fetchAlbums } from './store/albumsReducer';
 import Navigation from './components/Navigation';
 import Review from './views/Reviews';
@@ -21,6 +22,8 @@ function App() {
 
   useEffect(() => {
     dispatch(restoreUser())
+      // .then((user) => dispatch(fetchSingleUser(+user.id)))
+      // .then((response) => response.json())
       .then(() => dispatch(fetchAlbums()))
       .then(() => setIsLoaded(true));
   }, [dispatch]);

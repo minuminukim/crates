@@ -13,6 +13,7 @@ const User = () => {
   const { path } = useRouteMatch();
   const dispatch = useDispatch();
   const user = useSelector((state) => state.users[userID]);
+  const sessionUser = useSelector((state) => state.session.sessionUser);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {

@@ -18,22 +18,25 @@ const Backlog = ({ username }) => {
   const [loading, setLoading] = useState(true);
   const dispatch = useDispatch();
   const { userID } = useParams();
+  const users = useSelector((state) => state.users)
   const [albums, setAlbums] = useState([]);
   const sessionUser = useSelector((state) => state.session.user);
   const { query, setQuery, results, isLoading, searchErrors } = useSearch();
   const [showList, setShowList] = useState(false);
   const [errors, setErrors] = useState([]);
   const [message, setMessage] = useState('');
-  // const [loading, setLoading] = useState(null);
 
   useEffect(() => {
+    if (!username) {
+      
+    }
     const fetchBacklog = async () => {
       const backlog = await dispatch(fetchUserBacklog(+userID));
       setAlbums(backlog);
-      // setLoading(false);
     };
+
     fetchBacklog().then(() => setLoading(false));
-  }, [dispatch]);
+  }, [dispatch, userID, username]);
 
   const handleDispatch = (item) => {
     setErrors([]);
@@ -49,7 +52,7 @@ const Backlog = ({ username }) => {
         .then(() => {
           setMessage(`You have added '${item.title}' to your backlog.`);
           setAlbums([...albums, item]);
-          setTimeout(() => setAlbums([...albums, item]), 1000);
+          // setTimeout(() => setAlbums([...albums, item]), 1000);
           setLoading(false);
           setErrors([]);
         })
@@ -62,6 +65,9 @@ const Backlog = ({ username }) => {
     }
   };
 
+  const updateGrid = (removedID) =>
+    setAlbums([...albums.filter((album) => album.id !== removedID)]);
+
   return (
     !loading && (
       <>
@@ -72,7 +78,7 @@ const Backlog = ({ username }) => {
           </h2>
           <section className="backlog-container">
             {albums.length > 0 ? (
-              <BacklogGrid albums={albums} />
+              <BacklogGrid albums={albums} updateGrid={updateGrid} />
             ) : (
               <Empty item="albums" />
             )}

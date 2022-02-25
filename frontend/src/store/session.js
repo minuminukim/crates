@@ -32,6 +32,7 @@ export const restoreUser = () => async (dispatch) => {
   dispatch(setUser(data.user));
   // dispatch(addUser(data.user));
   return response;
+  // return data.user;
 };
 
 export const signup = (user) => async (dispatch) => {

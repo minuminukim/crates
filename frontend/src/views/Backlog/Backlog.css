@@ -28,3 +28,20 @@
   height: 100%;
   position: absolute;
 }
+
+/* .icon.remove {
+  position: absolute;
+} */
+.icon.remove {
+  cursor: pointer;
+  color: red;
+  top: 90%;
+  left: 90%;
+  position: relative;
+  /* position: absolute; */
+  /* top: 250px;
+  right: 50px;
+  z-index: 8; */
+  /* bottom: 25px; */
+  /* align-self: flex-end; */
+}
