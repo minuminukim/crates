@@ -4,151 +4,94 @@ import { ActionsRow } from '.';
 import { MdHearing, MdMoreTime } from 'react-icons/md';
 import { appendBacklog, removeFromBacklog } from '../../store/backlogsReducer';
 import { fetchUserBacklog } from '../../store/backlogsReducer';
-import {
-  getUserAlbums,
-  addUserAlbum,
-  removeUserAlbum,
-} from '../../store/albumsReducer';
+import { getUserAlbums } from '../../store/albumsReducer';
 import { ErrorMessages } from '../ValidationError';
+import { useListen, useBacklog } from '../../hooks';
 
 const ListenActions = ({ album }) => {
   const sessionUser = useSelector((state) => state.session.user);
   const dispatch = useDispatch();
   const [errors, setErrors] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [listened, setListened] = useState(null);
-  const [inBacklog, setInBacklog] = useState(null);
   const [listenText, setListenText] = useState('');
-  const [message, setMessage] = useState('');
   const [backlogText, setBacklogText] = useState('Backlog');
+  const { handleListen, setListened, listenSuccess, listenErrors, listened } =
+    useListen(album);
+  const {
+    inBacklog,
+    setInBacklog,
+    backlogSuccess,
+    backlogErrors,
+    handleBacklog,
+  } = useBacklog(album);
 
   useEffect(() => {
-    dispatch(fetchUserBacklog(sessionUser?.id))
-      .then((items) => items.some((item) => item.spotifyID === album.spotifyID))
-      .then((found) => (found ? setInBacklog(true) : setInBacklog(false)))
-      .then(() => dispatch(getUserAlbums(sessionUser.id)))
-      .then((items) => items.some((item) => item.id === album.id))
-      .then((found) => {
-        if (found) {
-          setListened(true);
-          setListenText('Listened');
-        } else {
-          setListened(false);
-          setListenText('Listen');
-        }
+    (async () => {
+      try {
+        const [backlogAlbums, userAlbums] = await Promise.all([
+          dispatch(fetchUserBacklog(sessionUser?.id)),
+          dispatch(getUserAlbums(sessionUser?.id)),
+        ]);
+
+        setInBacklog(
+          backlogAlbums.some((item) => item.spotifyID === album.spotifyID)
+        );
+
+        const inUserAlbums = userAlbums.some(
+          (item) => item.spotifyID === album.spotifyID
+        );
+
+        setListened(inUserAlbums);
+        setListenText(inUserAlbums ? 'Listened' : 'Listen');
         setLoading(false);
-      })
-      .catch((error) => console.log('error', error));
+      } catch (response) {
+        const data = await response.json();
+        if (data && data.errors) {
+          setErrors(data.errors);
+        }
+      }
+    })();
   }, [dispatch, sessionUser.id]);
 
-  const onAdd = () => {
-    setErrors([]);
-    setMessage('');
-    dispatch(appendBacklog(album, sessionUser.id))
-      .then((response) => console.log('response', response))
-      .then(() => setInBacklog(true))
-      .then(() => setLoading(false))
-      .then(() => setMessage(`You have added ${album.title} to your backlog.`))
-      .catch(async (error) => {
-        const data = await error.json();
-        if (data && data.errors) {
-          setErrors(data.errors);
-        }
-      });
+
+  const updateListen = () => {
+    handleListen();
+    if (inBacklog) {
+      setInBacklog(false);
+    }
+    return;
   };
 
-  const onRemove = () => {
-    setErrors([]);
-    setMessage('');
-    dispatch(removeFromBacklog(album.id, album.spotifyID, sessionUser.id))
-      .then(() => setInBacklog(false))
-      .then(() =>
-        setMessage(`You have removed '${album.title}' from your backlog.`)
-      )
-      .then(() => setLoading(false))
-      .catch(async (error) => {
-        const data = await error.json();
-        if (data && data.errors) {
-          setErrors(data.errors);
-        }
-      });
-  };
-
-  const onListen = () => {
-    setErrors([]);
-    setMessage('');
-    setLoading(true);
-    dispatch(addUserAlbum(sessionUser.id, album))
-      .then(() => {
-        setListened(true);
-        // db record was deleted at previous endpoint already,
-        // we just need to dispatch the action to update store
-        if (inBacklog) {
-          console.log('hello');
-          setInBacklog(false);
-          // dispatch(removeAlbum(album.id, sessionUser.id));
-        }
-        setLoading(false);
-      })
-      .catch(async (error) => {
-        const data = await error.json();
-        if (data && data.errors) {
-          setErrors(data.errors);
-        }
-      });
-  };
-
-  // delete goes through, next post request 500s
-  const onUnlisten = () => {
-    setErrors([]);
-    setMessage('');
-    setLoading(true);
-    dispatch(removeUserAlbum(sessionUser.id, album.id))
-      .then(() => {
-        setListened(false);
-        setLoading(false);
-      })
-      .catch(async (error) => {
-        console.log('error', error);
-        const data = await error.json();
-        if (data && data.errors) {
-          setErrors(data.errors);
-        }
-      });
-  };
-  const handleListen = listened ? onUnlisten : onListen;
-  return !loading && (
-    <>
-      <ActionsRow className="listen-actions">
-        {/* {!loading && ( */}
+  return (
+    !loading && (
+      <>
+        <ActionsRow className="listen-actions">
           <div
-            onClick={() => handleListen()}
+            onClick={updateListen}
             className={`icon-container ${listened ? 'listened' : 'listen'}`}
             onMouseOver={() =>
-              listened ? setListenText('Remove') : setListenText('Listen')
+              setListenText(`${listened ? 'Remove' : 'Listen'}`)
             }
             onMouseLeave={() =>
-              listened ? setListenText('Listened') : setListenText('Listen')
+              setListenText(`${listened ? 'Listened' : 'Listen'}`)
             }
           >
             <MdHearing className="action-icon" />
             <p className="action-label">{listenText}</p>
           </div>
-        {/* )} */}
-        <div
-          className={`icon-container ${inBacklog ? 'remove' : 'append'}`}
-          onMouseOver={() => (inBacklog ? setBacklogText('Remove') : null)}
-          onMouseLeave={() => setBacklogText('Backlog')}
-        >
-          <MdMoreTime
-            className="action-icon"
-            onClick={() => (inBacklog ? onRemove() : onAdd())}
-          />
-          <p className="action-label">{backlogText}</p>
-        </div>
-      </ActionsRow>
-      <ErrorMessages success={message} errors={errors} />
-    </>
+          <div
+            className={`icon-container ${inBacklog ? 'remove' : 'append'}`}
+            onMouseOver={() => setBacklogText(inBacklog ? 'Remove' : 'Backlog')}
+            onMouseLeave={() => setBacklogText('Backlog')}
+          >
+            <MdMoreTime className="action-icon" onClick={handleBacklog} />
+            <p className="action-label">{backlogText}</p>
+          </div>
+        </ActionsRow>
+        <ErrorMessages success={listenSuccess} errors={listenErrors} />
+        <ErrorMessages success={backlogSuccess} errors={backlogErrors} />
+      </>
+    )
   );
 };
 
