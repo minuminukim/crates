@@ -5,6 +5,7 @@ import { FaTrash } from 'react-icons/fa';
 import handleImageError from '../../utils/handleImageError';
 import { removeFromBacklog } from '../../store/backlogsReducer';
 import { ErrorMessages } from '../../components/ValidationError';
+import { ArtWithOverlay } from '../../components/AlbumArt';
 
 const BacklogGrid = ({ albums, updateGrid }) => {
   const sessionUser = useSelector((state) => state.session.user);
@@ -40,20 +41,21 @@ const BacklogGrid = ({ albums, updateGrid }) => {
         albums.map((album, i) => (
           <li key={`backlog-item-${i}`} className="album-grid-item">
             {/* <Link to="#"> */}
-            <span className="overlay">
+            <ArtWithOverlay album={album} className="backlog">
               {sessionUser && +userID === sessionUser?.id && (
                 <FaTrash
                   className="remove icon"
                   onClick={() => onDelete(album)}
                 />
               )}
-            </span>
+            </ArtWithOverlay>
+            {/* <span className="overlay"></span>
             <img
               alt={album.title}
               src={album.artworkURL}
               className="backlog-album"
               onError={handleImageError}
-            />
+            /> */}
             {/* <FaTrash className="remove icon" /> */}
           </li>
         ))}

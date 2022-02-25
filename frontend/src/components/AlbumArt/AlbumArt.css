@@ -22,3 +22,12 @@
   width: 180px;
 }
 
+.album-art-with-overlay.backlog {
+  height: 150px;
+  width: 150px;
+}
+
+.album-art-with-overlay.backlog img {
+  height: 150px;
+  width: 150px;
+}

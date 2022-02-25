@@ -26,18 +26,11 @@
 ul.backlog-grid {
   display: grid;
   grid-template-columns: repeat(4, 150px);
+  grid-auto-rows: 150px;
   column-gap: 20px;
   row-gap: 20px;
   margin-left: 0;
   width: 100%;
-  padding-left: 0;
-}
-
-.backlog-album {
-  width: 150px;
-  height: 150px;
-  border: 0.5px solid #99aabb;
-  border-radius: 3px;
   padding-left: 0;
 }
 
@@ -46,7 +39,7 @@ ul.backlog-grid {
   border-radius: 3px;
 }
 
-.overlay {
+span.overlay {
   width: 100%;
   height: 100%;
   position: absolute;
@@ -55,13 +48,8 @@ ul.backlog-grid {
 .icon.remove {
   cursor: pointer;
   color: red;
-  top: 90%;
-  left: 90%;
-  position: relative;
-  /* position: absolute; */
-  /* top: 250px;
-  right: 50px;
-  z-index: 8; */
-  /* bottom: 25px; */
-  /* align-self: flex-end; */
+  top: 80%;
+  left: 80%;
+  position: absolute;
+  z-index: 10;
 }

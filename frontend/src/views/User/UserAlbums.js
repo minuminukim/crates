@@ -3,8 +3,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { getReviewsByUserID } from '../../store/reviewsReducer';
 import { StarRatingReadOnly } from '../../components/StarRating';
-import handleImageError from '../../utils/handleImageError';
 import { Empty } from '.';
+import { ArtWithOverlay } from '../../components/AlbumArt';
 
 const UserAlbums = () => {
   const { userID } = useParams();
@@ -37,15 +37,7 @@ const UserAlbums = () => {
       {!loading && sorted?.length > 0 ? (
         sorted.map(({ rating, album }, i) => (
           <div key={`album-${i}`} className="grid-item">
-            <div className="album-art-container">
-              <span className="overlay" />
-              <img
-                src={album?.artworkURL}
-                alt={album?.title}
-                onError={handleImageError}
-                className="album-art-grid"
-              />
-            </div>
+            <ArtWithOverlay album={album} className="album-art-grid" />
             <div className="grid-item-rating">
               <StarRatingReadOnly rating={rating} />
               {rating % 2 !== 0 && <span className="half">½</span>}
