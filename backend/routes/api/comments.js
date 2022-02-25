@@ -2,6 +2,7 @@ const express = require('express');
 const asyncHandler = require('express-async-handler');
 const { Comment } = require('../../db/models');
 const { requireAuth } = require('../../utils/auth');
+const validateComment = require('../../validations/validateComment');
 
 const router = express.Router();
 
@@ -43,7 +44,7 @@ router.get(
 router.post(
   '/',
   requireAuth,
-  // validate
+  validateComment,
   asyncHandler(async (req, res, next) => {
     const { userID, reviewID, body } = req.body;
     const comment = await Comment.create({
@@ -61,7 +62,7 @@ router.post(
 router.put(
   '/:id(\\d+)',
   requireAuth,
-  //validate
+  validateComment,
   asyncHandler(async (req, res, next) => {
     const id = +req.params.id;
     const oldComment = await Comment.findByPk(id);
@@ -94,7 +95,6 @@ router.put(
 router.delete(
   `/:id(\\d+)`,
   requireAuth,
-  //validate,
   asyncHandler(async (req, res, next) => {
     const id = +req.params.id;
     const comment = await Comment.findByPk(id);
