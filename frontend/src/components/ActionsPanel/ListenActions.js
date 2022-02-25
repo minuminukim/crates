@@ -15,7 +15,7 @@ const ListenActions = ({ album }) => {
   const sessionUser = useSelector((state) => state.session.user);
   const dispatch = useDispatch();
   const [errors, setErrors] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [listened, setListened] = useState(null);
   const [inBacklog, setInBacklog] = useState(null);
   const [listenText, setListenText] = useState('');
@@ -117,10 +117,10 @@ const ListenActions = ({ album }) => {
       });
   };
   const handleListen = listened ? onUnlisten : onListen;
-  return (
+  return !loading && (
     <>
       <ActionsRow className="listen-actions">
-        {!loading && (
+        {/* {!loading && ( */}
           <div
             onClick={() => handleListen()}
             className={`icon-container ${listened ? 'listened' : 'listen'}`}
@@ -134,7 +134,7 @@ const ListenActions = ({ album }) => {
             <MdHearing className="action-icon" />
             <p className="action-label">{listenText}</p>
           </div>
-        )}
+        {/* )} */}
         <div
           className={`icon-container ${inBacklog ? 'remove' : 'append'}`}
           onMouseOver={() => (inBacklog ? setBacklogText('Remove') : null)}

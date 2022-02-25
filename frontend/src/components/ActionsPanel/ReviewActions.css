@@ -20,3 +20,11 @@
   color: #fff;
   cursor: pointer;
 }
+
+.listen-actions div {
+  padding: 10px;
+  width: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

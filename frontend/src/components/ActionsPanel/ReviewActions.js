@@ -7,12 +7,16 @@ import { EditReviewModal, PostReviewModal } from '../../views/Reviews';
 import { WarningMessageModal } from '../WarningMessage';
 import { ListenActions, AppendListModal } from '.';
 
-const ReviewActions = ({ userID, onDelete, rating, album, review }) => {
+const ReviewActions = ({ userID, onDelete, rating }) => {
   const sessionUser = useSelector((state) => state.session.user);
   const isSessionUser = sessionUser?.id === userID;
   const { reviewID } = useParams();
+  const review = useSelector((state) => state.reviews.items[reviewID]);
+  const album = useSelector(
+    (state) => state.albums.items[review?.album.spotifyID]
+  );
 
-  return sessionUser ? (
+  return (
     <ul className="review-actions">
       <ListenActions album={album} />
       <ActionsRow
@@ -22,6 +26,7 @@ const ReviewActions = ({ userID, onDelete, rating, album, review }) => {
       >
         <StarRating reviewRating={rating} readOnly={true} />
       </ActionsRow>
+
       {isSessionUser && (
         <>
           <EditReviewModal review={review} album={album}>
@@ -63,11 +68,6 @@ const ReviewActions = ({ userID, onDelete, rating, album, review }) => {
         )}
       </AppendListModal>
     </ul>
-  ) : (
-    <ActionsRow
-      className="solo logged-off"
-      label="Sign in to log, rate or review"
-    />
   );
 };
 

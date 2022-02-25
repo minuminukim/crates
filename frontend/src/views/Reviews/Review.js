@@ -4,10 +4,7 @@ import { useParams, useHistory } from 'react-router-dom';
 import { getSingleReview } from '../../store/reviewsReducer';
 import ReviewBody from './ReviewBody';
 import AlbumArt from '../../components/AlbumArt';
-import {
-  ReviewActions,
-  ActionsRow,
-} from '../../components/ActionsPanel';
+import { ReviewActions, ActionsRow } from '../../components/ActionsPanel';
 import { fetchSingleUser } from '../../store/usersReducer';
 import { deleteReview } from '../../store/reviewsReducer';
 import LoginFormModal from '../../components/LoginFormModal';
@@ -19,21 +16,25 @@ const Review = () => {
   const { reviewID } = useParams();
   const review = useSelector((state) => state.reviews.items[reviewID]);
   const sessionUser = useSelector((state) => state.session.user);
-  const album = review?.album;
+  // const album = review?.album;
+  const album = useSelector(
+    (state) => state.albums.items[review?.album?.spotifyID]
+  );
+
   const [isLoading, setIsLoading] = useState(true);
   const [rating, setRating] = useState(0);
 
   useEffect(() => {
-    // if (review && album) return;
     (async () => {
+      if (!sessionUser) {
+        setIsLoading(false);
+        return;
+      }
       try {
-        const review = await dispatch(getSingleReview(+reviewID));
-
-        if (!sessionUser) {
-          return;
-        }
-        // fetching the session user here to set rating state for the action panel
-        const { reviews } = await dispatch(fetchSingleUser(sessionUser?.id));
+        const [review, { reviews }] = await Promise.all([
+          dispatch(getSingleReview(+reviewID)),
+          dispatch(fetchSingleUser(sessionUser?.id)),
+        ]);
         const found = reviews.find((item) => item.albumID === review.albumID);
         setRating(found?.rating || 0);
         setIsLoading(false);
@@ -68,27 +69,23 @@ const Review = () => {
           <ReviewBody review={review} album={album} />
         </div>
         <div>
-          {!isLoading && sessionUser ? (
+          {sessionUser && !isLoading ? (
             <ReviewActions
-              review={review}
               rating={rating}
-              album={album}
               key={rating}
               userID={review?.userID}
               onDelete={handleDelete}
             />
           ) : (
-            <>
-              <LoginFormModal>
-                {(toggleModal) => (
-                  <ActionsRow
-                    className="solo logged-off hover"
-                    label="Sign in to log, rate or review"
-                    onClick={toggleModal}
-                  />
-                )}
-              </LoginFormModal>
-            </>
+            <LoginFormModal>
+              {(toggleModal) => (
+                <ActionsRow
+                  className="solo logged-off hover"
+                  label="Sign in to log, rate or review"
+                  onClick={toggleModal}
+                />
+              )}
+            </LoginFormModal>
           )}
         </div>
       </div>
