@@ -11,7 +11,7 @@ const Details = ({ review, album, shape }) => {
           <Link exact to={`/users/${review.userID}`}>
             <FaUserCircle className="user-avatar" />
           </Link>
-          <Link className="user-link" exact to={`/users/${review.userID}`}>
+          <Link className="user-link" to={`/users/${review.userID}`}>
             {review.user.username}
           </Link>
         </div>
@@ -32,7 +32,7 @@ const Details = ({ review, album, shape }) => {
         {shape !== 'block' && (
           <div>
             <Link to={`/reviews/${review.id}`}>Reviewed by </Link>
-            <Link exact to={`/users/${review.userID}`}className="review-list-item-username">
+            <Link to={`/users/${review.userID}`}className="review-list-item-username">
               {review.user.username}
             </Link>
             <span className="review-list-item-date">

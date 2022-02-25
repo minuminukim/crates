@@ -6,6 +6,7 @@ import { fetchUserBacklog } from '../../store/backlogsReducer';
 import { getUserAlbums } from '../../store/albumsReducer';
 import { ErrorMessages } from '../ValidationError';
 import { useListen, useBacklog } from '../../hooks';
+import { ListenIcon, BacklogIcon } from './ActionIcons';
 
 const ListenActions = ({ album }) => {
   const sessionUser = useSelector((state) => state.session.user);
@@ -52,7 +53,6 @@ const ListenActions = ({ album }) => {
     })();
   }, [dispatch, sessionUser.id]);
 
-
   const updateListen = () => {
     handleListen();
     if (inBacklog) {
@@ -65,27 +65,20 @@ const ListenActions = ({ album }) => {
     !loading && (
       <>
         <ActionsRow className="listen-actions">
-          <div
+          <ListenIcon
+            text={listenText}
             onClick={updateListen}
-            className={`icon-container ${listened ? 'listened' : 'listen'}`}
-            onMouseOver={() =>
-              setListenText(`${listened ? 'Remove' : 'Listen'}`)
-            }
-            onMouseLeave={() =>
-              setListenText(`${listened ? 'Listened' : 'Listen'}`)
-            }
-          >
-            <MdHearing className="action-icon" />
-            <p className="action-label">{listenText}</p>
-          </div>
-          <div
-            className={`icon-container ${inBacklog ? 'remove' : 'append'}`}
+            className={listened ? 'listened' : 'listen'}
+            onMouseOver={() => setListenText(listened ? 'Remove' : 'Listen')}
+            onMouseLeave={() => setListenText(listened ? 'Listened' : 'Listen')}
+          />
+          <BacklogIcon
+            text={backlogText}
+            className={inBacklog ? 'remove' : 'append'}
             onMouseOver={() => setBacklogText(inBacklog ? 'Remove' : 'Backlog')}
-            onMouseLeave={() => setBacklogText('Backlog')}
-          >
-            <MdMoreTime className="action-icon" onClick={handleBacklog} />
-            <p className="action-label">{backlogText}</p>
-          </div>
+            onMouseOver={() => setBacklogText('Backlog')}
+            onClick={handleBacklog}
+          />
         </ActionsRow>
         <ErrorMessages success={listenSuccess} errors={listenErrors} />
         <ErrorMessages success={backlogSuccess} errors={backlogErrors} />

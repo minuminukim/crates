@@ -31,7 +31,11 @@ const Profile = ({ user }) => {
             .filter((review) => review.body)
             .slice(0, 4)
             .map((review) => (
-              <ReviewListItem review={review} shape="landscape" />
+              <ReviewListItem
+                key={`${review.id}`}
+                review={review}
+                shape="landscape"
+              />
             ))}
         </section>
       )}

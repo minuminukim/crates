@@ -32,13 +32,14 @@ const Review = () => {
         if (review.userID !== sessionUser?.id) {
           await dispatch(fetchSingleUser(review.userID));
         }
+
         if (sessionUser) {
           const { reviews } = await dispatch(fetchSingleUser(sessionUser.id));
           const found = reviews?.find(
             (item) => item.albumID === review.albumID
           );
+          
           setRating(found?.rating || 0);
-
         }
 
         setIsLoading(false);
