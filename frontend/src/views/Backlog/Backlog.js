@@ -18,7 +18,7 @@ const Backlog = ({ username }) => {
   const [loading, setLoading] = useState(true);
   const dispatch = useDispatch();
   const { userID } = useParams();
-  const users = useSelector((state) => state.users)
+  const users = useSelector((state) => state.users);
   const [albums, setAlbums] = useState([]);
   const sessionUser = useSelector((state) => state.session.user);
   const { query, setQuery, results, isLoading, searchErrors } = useSearch();
@@ -27,9 +27,6 @@ const Backlog = ({ username }) => {
   const [message, setMessage] = useState('');
 
   useEffect(() => {
-    if (!username) {
-      
-    }
     const fetchBacklog = async () => {
       const backlog = await dispatch(fetchUserBacklog(+userID));
       setAlbums(backlog);
@@ -74,7 +71,8 @@ const Backlog = ({ username }) => {
         <div>
           <ErrorMessages success={message} errors={errors} />
           <h2 className="section-heading">
-            {username} WANTS TO LISTEN TO {albums.length} ALBUMS
+            {username} WANTS TO LISTEN TO {albums?.length}{' '}
+            {albums?.length > 1 ? 'ALBUMS' : 'ALBUM'}
           </h2>
           <section className="backlog-container">
             {albums.length > 0 ? (
