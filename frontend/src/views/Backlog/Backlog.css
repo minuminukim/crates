@@ -1,21 +1,44 @@
-.backlog-container {
+.backlog-content {
   display: flex;
   justify-content: center;
+  width: 100%;
 }
 
-.backlog-grid {
+.backlog-left {
+  width: 670px;
+  margin-right: 50px;
+}
+
+.backlog-right input {
+  width: 100%;
+}
+
+.backlog-right {
+  width: 230px;
+  line-height: 1.2;
+  margin-top: 30px;
+}
+
+.side-panel {
+  margin-bottom: 40px;
+}
+
+ul.backlog-grid {
   display: grid;
-  grid-template-columns: repeat(3, 300px);
+  grid-template-columns: repeat(4, 150px);
   column-gap: 20px;
   row-gap: 20px;
-  width: 950px;
+  margin-left: 0;
+  width: 100%;
+  padding-left: 0;
 }
 
 .backlog-album {
-  width: 300px;
-  height: 300px;
+  width: 150px;
+  height: 150px;
   border: 0.5px solid #99aabb;
   border-radius: 3px;
+  padding-left: 0;
 }
 
 .album-grid-item {
@@ -29,9 +52,6 @@
   position: absolute;
 }
 
-/* .icon.remove {
-  position: absolute;
-} */
 .icon.remove {
   cursor: pointer;
   color: red;

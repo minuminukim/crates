@@ -3,6 +3,7 @@ import ProfileHeader from './ProfileHeader';
 import CardRow from '../../components/CardRow';
 import ReviewListItem from '../../components/ReviewListItem';
 import { sortByRecent } from '../../utils/sorts';
+import { Empty } from '.';
 
 const Profile = ({ user }) => {
   const { items } = useSelector((state) => state.reviews);
@@ -11,23 +12,29 @@ const Profile = ({ user }) => {
   const sorted = sortByRecent([...reviews]);
 
   return (
-    <div>
-      <section>
+    <div className="profile-content">
+      <section className="profile-header">
         <ProfileHeader username={user.username} />
       </section>
       <section>
         <h2 className="section-heading">RECENT ACTIVITY</h2>
-        <CardRow items={sorted.slice(0, 4)} />
+        {reviews?.length > 0 ? (
+          <CardRow items={sorted.slice(0, 4)} />
+        ) : (
+          <Empty />
+        )}
       </section>
-      <section>
-        <h2 className="section-heading">RECENT REVIEWS</h2>
-        {sorted
-          .filter((review) => review.body)
-          .slice(0, 4)
-          .map((review) => (
-            <ReviewListItem review={review} shape="landscape" />
-          ))}
-      </section>
+      {reviews?.length > 0 && (
+        <section>
+          <h2 className="section-heading">RECENT REVIEWS</h2>
+          {sorted
+            .filter((review) => review.body)
+            .slice(0, 4)
+            .map((review) => (
+              <ReviewListItem review={review} shape="landscape" />
+            ))}
+        </section>
+      )}
     </div>
   );
 };

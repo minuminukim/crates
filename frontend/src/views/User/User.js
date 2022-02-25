@@ -25,7 +25,7 @@ const User = () => {
 
   return (
     !loading && (
-      <div className="page-container user-profile">
+      <div className="content-container user">
         <UserNavigation />
         {!loading && (
           <Switch>

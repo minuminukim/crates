@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchUserLists } from '../../store/listsReducer';
 import { useHistory } from 'react-router-dom';
+import { Empty } from '.';
 import { ActionsRow } from '../../components/ActionsPanel';
 import './UserLists.css';
 
@@ -20,29 +21,28 @@ const UserLists = ({ userID }) => {
       .catch((err) => console.log('error fetching UserLists', err));
   }, [dispatch, userID]);
 
-  return (
-    !loading &&
-    lists.length > 0 && (
-      <div className="page-container user-lists-page">
-        <div>
-          <h3 className="section-heading">ALL LISTS</h3>
-          <ul>
-            {lists.map((list, i) => (
-              <FeedPost key={`list-${i}`} list={list} />
-            ))}
-          </ul>
-        </div>
-        {userID === sessionUser?.id && (
-          <div>
-            <ActionsRow
-              label="Start a new list..."
-              className="hover solo"
-              link="/lists/new"
-            />
-          </div>
-        )}
+  return !loading && lists?.length > 0 ? (
+    <div className="user-lists-content">
+      <div>
+        <h3 className="section-heading">ALL LISTS</h3>
+        <ul>
+          {lists.map((list, i) => (
+            <FeedPost key={`list-${i}`} list={list} />
+          ))}
+        </ul>
       </div>
-    )
+      {userID === sessionUser?.id && (
+        <div>
+          <ActionsRow
+            label="Start a new list..."
+            className="hover solo"
+            link="/lists/new"
+          />
+        </div>
+      )}
+    </div>
+  ) : (
+    <Empty item="lists" />
   );
 };
 

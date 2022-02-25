@@ -3,12 +3,9 @@ import { csrfFetch } from './csrf';
 export const ALBUMS_LOADED = 'albums/ALBUMS_LOADED';
 export const ALBUM_ADDED = 'albums/ALBUM_ADDED';
 export const ALBUM_REMOVED = 'albums/ALBUM_REMOVED';
-const REQUEST_REJECTED = 'albums/REQUEST_REJECTED';
 
 const initialState = {
   items: {},
-  errors: null,
-  isLoading: true,
 };
 
 const loadAlbums = (albums, userID) => ({
@@ -28,16 +25,12 @@ export const removeAlbum = (albumID, userID) => ({
   userID,
 });
 
-const handleAlbumsErrors = (error) => ({
-  type: REQUEST_REJECTED,
-  error,
-});
+export const fetchAlbums = () => async (dispatch) => {
+  const response = await csrfFetch(`/api/albums`);
+  const { albums } = await response.json();
+  dispatch(loadAlbums(albums));
 
-export const fetchAlbums = () => (dispatch) => {
-  csrfFetch(`/api/albums`)
-    .then((res) => res.json())
-    .then(({ albums }) => dispatch(loadAlbums(albums)))
-    .catch((err) => dispatch(handleAlbumsErrors(err)));
+  return albums;
 };
 
 export const getUserAlbums = (userID) => async (dispatch) => {
@@ -66,11 +59,11 @@ export const removeUserAlbum = (userID, albumID) => async (dispatch) => {
   return response;
 };
 
-export const fetchSingleAlbum = (id) => (dispatch) => {
-  csrfFetch(`/api/albums/${id}`)
-    .then((res) => res.json())
-    .then(({ album }) => dispatch(addAlbum(album)))
-    .catch((err) => dispatch(handleAlbumsErrors(err)));
+export const fetchSingleAlbum = (id) => async (dispatch) => {
+  const response = await csrfFetch(`/api/albums/${id}`)
+  const { album } = await response.json();
+  dispatch(addAlbum(album));
+  return album;
 };
 
 export const searchAlbums = (query) => async (dispatch) => {
@@ -98,7 +91,6 @@ const albumsReducer = (state = initialState, action) => {
           ...state.items,
           ...albums,
         },
-        isLoading: false,
       };
 
     case ALBUM_ADDED:
@@ -108,17 +100,6 @@ const albumsReducer = (state = initialState, action) => {
           ...state.items,
           [action.album.spotifyID]: action.album,
         },
-        isLoading: false,
-      };
-
-    case REQUEST_REJECTED:
-      return {
-        ...state,
-        errors: {
-          ...state.errors,
-          ...action.error,
-        },
-        isLoading: false,
       };
 
     default:

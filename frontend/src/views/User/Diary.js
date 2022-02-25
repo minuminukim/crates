@@ -6,6 +6,7 @@ import { getReviewsByUserID } from '../../store/reviewsReducer';
 import { useParams } from 'react-router-dom';
 import { ErrorMessages } from '../../components/ValidationError';
 import { sortByRecent } from '../../utils/sorts';
+import { Empty } from '.';
 
 const Diary = () => {
   const dispatch = useDispatch();
@@ -23,50 +24,50 @@ const Diary = () => {
       .catch(async (err) => {
         history.push('/not-found');
       });
-  }, [dispatch]);
+  }, [dispatch, userID]);
 
-  return (
-    !loading && (
-      <div className="user-page-container">
-        <table className="diary-table" cellSpacing="0" cellPadding="0">
-          <thead>
-            <tr>
-              <th scope="col" className="month">
-                MONTH
+  return !loading && reviews?.length > 0 ? (
+    <div className="diary-content">
+      <table className="diary-table" cellSpacing="0" cellPadding="0">
+        <thead>
+          <tr>
+            <th scope="col" className="month">
+              MONTH
+            </th>
+            <th scope="col" className="day">
+              DAY
+            </th>
+            <th scope="col" className="album">
+              ALBUM
+            </th>
+            <th scope="col" className="released">
+              RELEASED
+            </th>
+            <th scope="col" className="rating">
+              RATING
+            </th>
+            <th scope="col" className="relisten">
+              RELISTEN
+            </th>
+            <th scope="col" className="review">
+              REVIEW
+            </th>
+            {sessionUser?.id === +userID && (
+              <th scope="col" className="edit">
+                EDIT
               </th>
-              <th scope="col" className="day">
-                DAY
-              </th>
-              <th scope="col" className="album">
-                ALBUM
-              </th>
-              <th scope="col" className="released">
-                RELEASED
-              </th>
-              <th scope="col" className="rating">
-                RATING
-              </th>
-              <th scope="col" className="relisten">
-                RELISTEN
-              </th>
-              <th scope="col" className="review">
-                REVIEW
-              </th>
-              {sessionUser?.id === +userID && (
-                <th scope="col" className="edit">
-                  EDIT
-                </th>
-              )}
-            </tr>
-          </thead>
-          <tbody>
-            {reviews.map((review, i) => (
-              <DiaryItem key={`entry-${i}`} entry={review} />
-            ))}
-          </tbody>
-        </table>
-      </div>
-    )
+            )}
+          </tr>
+        </thead>
+        <tbody>
+          {reviews.map((review, i) => (
+            <DiaryItem key={`entry-${i}`} entry={review} />
+          ))}
+        </tbody>
+      </table>
+    </div>
+  ) : (
+    <Empty item="diary entries" />
   );
 };
 

@@ -1,0 +1,13 @@
+div.empty {
+  border: 0.5px solid rgb(68, 85, 102);
+  width: 670px;
+  height: 340px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.user-albums-grid .empty {
+  width: 950px;
+  margin-right: 0;
+}

@@ -15,10 +15,9 @@ import { ErrorMessages } from '../../components/ValidationError';
 import './Backlog.css';
 
 const Backlog = ({ username }) => {
-  const [loading, setLoading] = useState(true);
   const dispatch = useDispatch();
   const { userID } = useParams();
-  const users = useSelector((state) => state.users);
+  const [loading, setLoading] = useState(true);
   const [albums, setAlbums] = useState([]);
   const sessionUser = useSelector((state) => state.session.user);
   const { query, setQuery, results, isLoading, searchErrors } = useSearch();
@@ -31,9 +30,12 @@ const Backlog = ({ username }) => {
       const backlog = await dispatch(fetchUserBacklog(+userID));
       setAlbums(backlog);
     };
-
     fetchBacklog().then(() => setLoading(false));
   }, [dispatch, userID, username]);
+
+  // const isCurrentUser = sessionUser && sessionUser.id === +userID;
+  // const mapped = albumIDs?.map((id) => allAlbums[id]);
+  // console.log('mapped', mapped);
 
   const handleDispatch = (item) => {
     setErrors([]);
@@ -68,62 +70,67 @@ const Backlog = ({ username }) => {
   return (
     !loading && (
       <>
-        <div>
+        <div className="backlog-content">
           <ErrorMessages success={message} errors={errors} />
-          <h2 className="section-heading">
-            {username} WANTS TO LISTEN TO {albums?.length}{' '}
-            {albums?.length > 1 ? 'ALBUMS' : 'ALBUM'}
-          </h2>
-          <section className="backlog-container">
-            {albums.length > 0 ? (
-              <BacklogGrid albums={albums} updateGrid={updateGrid} />
-            ) : (
-              <Empty item="albums" />
+          <section className="backlog-left">
+            <h2 className="section-heading">
+              {username} WANTS TO LISTEN TO {albums?.length}{' '}
+              {albums?.length === 1 ? 'ALBUM' : 'ALBUMS'}
+            </h2>
+            <section className="backlog-grid">
+              {albums.length > 0 ? (
+                <BacklogGrid albums={albums} updateGrid={updateGrid} />
+              ) : (
+                <Empty item="albums" />
+              )}
+            </section>
+          </section>
+          <section className="backlog-right">
+            {sessionUser && sessionUser.id === +userID && (
+              <>
+                <div className="side-panel">
+                  <h3 className="section-heading">HOW TO ADD</h3>
+                  <p>
+                    Add albums you want to hear to your backlog by clicking the
+                    Watchlist icon in the actions panel on a review page, or
+                    input a search in the field below.
+                  </p>
+                </div>
+                <div>
+                  <h3 className="section-heading">ADD AN ALBUM</h3>
+                  <SearchField
+                    value={query}
+                    onChange={(e) => {
+                      setQuery(e.target.value);
+                      setShowList(true);
+                    }}
+                    onFocus={() => setShowList(true)}
+                    onBlur={null}
+                    error={searchErrors}
+                  />
+                  {!searchErrors?.length && showList && (
+                    <ul
+                      className={`search-list ${
+                        showList ? 'absolute' : 'block'
+                      }`}
+                    >
+                      {!isLoading &&
+                        results?.length > 0 &&
+                        results.map((item) => (
+                          <SearchItem
+                            key={item.spotifyID}
+                            title={item.title}
+                            artist={item.artist}
+                            releaseYear={item.releaseYear}
+                            onClick={() => handleDispatch(item)}
+                          />
+                        ))}
+                    </ul>
+                  )}
+                </div>
+              </>
             )}
           </section>
-        </div>
-        <div className="side">
-          {sessionUser && sessionUser.id === +userID && (
-            <>
-              <div>
-                <h3 className="section-heading">HOW TO ADD</h3>
-                <p>
-                  Add albums you want to hear to your backlog by clicking the
-                  Watchlist icon in the actions panel on a review page.
-                </p>
-              </div>
-              <div>
-                <h3 className="section-heading">ADD AN ALBUM</h3>
-                <SearchField
-                  value={query}
-                  onChange={(e) => {
-                    setQuery(e.target.value);
-                    setShowList(true);
-                  }}
-                  onFocus={() => setShowList(true)}
-                  onBlur={null}
-                  error={searchErrors}
-                />
-                {!searchErrors?.length && showList && (
-                  <ul
-                    className={`search-list ${showList ? 'absolute' : 'block'}`}
-                  >
-                    {!isLoading &&
-                      results?.length > 0 &&
-                      results.map((item) => (
-                        <SearchItem
-                          key={item.spotifyID}
-                          title={item.title}
-                          artist={item.artist}
-                          releaseYear={item.releaseYear}
-                          onClick={() => handleDispatch(item)}
-                        />
-                      ))}
-                  </ul>
-                )}
-              </div>
-            </>
-          )}
         </div>
       </>
     )

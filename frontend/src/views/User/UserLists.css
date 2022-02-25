@@ -1,3 +1,11 @@
-.user-lists-page ul {
+.user-lists-content ul {
   padding-left: 0;
+}
+
+.user-lists-content {
+  width: 100%;
+}
+
+.user-lists-content div.empty {
+  width: 100%;
 }
