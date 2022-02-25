@@ -2,7 +2,13 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchSingleUser } from '../../store/usersReducer';
 import { getReviewsByUserID } from '../../store/reviewsReducer';
-import { Switch, Route, useRouteMatch, useParams } from 'react-router-dom';
+import {
+  Switch,
+  Route,
+  useRouteMatch,
+  useParams,
+  useHistory,
+} from 'react-router-dom';
 import Backlog from '../Backlog';
 import ReviewsList from '../../components/ReviewsList';
 import { UserLists, UserNavigation, Diary, UserAlbums, Profile } from '.';
@@ -14,13 +20,19 @@ const User = () => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.users[userID]);
   const [loading, setLoading] = useState(true);
+  const history = useHistory();
   // const sessionUser = useSelector((state) => state.session.sessionUser);
 
   useEffect(() => {
     return dispatch(fetchSingleUser(+userID))
       .then(() => dispatch(getReviewsByUserID(+userID)))
       .then(() => setLoading(false))
-      .catch((err) => console.log('error fetching user', err));
+      .catch((err) => {
+        console.log('error fetching user', err);
+        if (err && err.status === 404) {
+          history.push('/not-found');
+        }
+      });
   }, [dispatch, userID]);
 
   return (

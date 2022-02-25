@@ -21,28 +21,34 @@ const UserLists = ({ userID }) => {
       .catch((err) => console.log('error fetching UserLists', err));
   }, [dispatch, userID]);
 
-  return !loading && lists?.length > 0 ? (
-    <div className="user-lists-content">
-      <div>
-        <h3 className="section-heading">ALL LISTS</h3>
-        <ul>
-          {lists.map((list, i) => (
-            <FeedPost key={`list-${i}`} list={list} />
-          ))}
-        </ul>
-      </div>
-      {userID === sessionUser?.id && (
-        <div>
-          <ActionsRow
-            label="Start a new list..."
-            className="hover solo"
-            link="/lists/new"
-          />
+  return (
+    !loading && (
+      <div className="user-lists-content">
+        <div className="user-lists-left">
+          {lists?.length > 0 ? (
+            <>
+              <h3 className="section-heading">ALL LISTS</h3>
+              <ul>
+                {lists.map((list, i) => (
+                  <FeedPost key={`list-${i}`} list={list} />
+                ))}
+              </ul>
+            </>
+          ) : (
+            <Empty item="lists" />
+          )}
         </div>
-      )}
-    </div>
-  ) : (
-    <Empty item="lists" />
+        <div className="user-lists-right">
+          {userID === sessionUser?.id && (
+            <ActionsRow
+              label="Start a new list..."
+              className="hover solo"
+              link="/lists/new"
+            />
+          )}
+        </div>
+      </div>
+    )
   );
 };
 

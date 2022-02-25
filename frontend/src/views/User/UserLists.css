@@ -4,8 +4,18 @@
 
 .user-lists-content {
   width: 100%;
+  display: flex;
 }
 
 .user-lists-content div.empty {
   width: 100%;
+}
+
+.user-lists-left {
+  width: 670px;
+  margin-right: 50px;
+}
+
+.user-lists-right {
+  width: 230px;
 }

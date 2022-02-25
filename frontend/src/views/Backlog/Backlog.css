@@ -51,5 +51,5 @@ span.overlay {
   top: 80%;
   left: 80%;
   position: absolute;
-  z-index: 10;
+  z-index: 12;
 }

@@ -26,48 +26,52 @@ const Diary = () => {
       });
   }, [dispatch, userID]);
 
-  return !loading && reviews?.length > 0 ? (
-    <div className="diary-content">
-      <table className="diary-table" cellSpacing="0" cellPadding="0">
-        <thead>
-          <tr>
-            <th scope="col" className="month">
-              MONTH
-            </th>
-            <th scope="col" className="day">
-              DAY
-            </th>
-            <th scope="col" className="album">
-              ALBUM
-            </th>
-            <th scope="col" className="released">
-              RELEASED
-            </th>
-            <th scope="col" className="rating">
-              RATING
-            </th>
-            <th scope="col" className="relisten">
-              RELISTEN
-            </th>
-            <th scope="col" className="review">
-              REVIEW
-            </th>
-            {sessionUser?.id === +userID && (
-              <th scope="col" className="edit">
-                EDIT
-              </th>
-            )}
-          </tr>
-        </thead>
-        <tbody>
-          {reviews.map((review, i) => (
-            <DiaryItem key={`entry-${i}`} entry={review} />
-          ))}
-        </tbody>
-      </table>
-    </div>
-  ) : (
-    <Empty item="diary entries" />
+  return (
+    !loading && (
+      <div className="diary-content">
+        {reviews?.length > 0 ? (
+          <table className="diary-table" cellSpacing="0" cellPadding="0">
+            <thead>
+              <tr>
+                <th scope="col" className="month">
+                  MONTH
+                </th>
+                <th scope="col" className="day">
+                  DAY
+                </th>
+                <th scope="col" className="album">
+                  ALBUM
+                </th>
+                <th scope="col" className="released">
+                  RELEASED
+                </th>
+                <th scope="col" className="rating">
+                  RATING
+                </th>
+                <th scope="col" className="relisten">
+                  RELISTEN
+                </th>
+                <th scope="col" className="review">
+                  REVIEW
+                </th>
+                {sessionUser?.id === +userID && (
+                  <th scope="col" className="edit">
+                    EDIT
+                  </th>
+                )}
+              </tr>
+            </thead>
+            <tbody>
+              {reviews.map((review, i) => (
+                <DiaryItem key={`entry-${i}`} entry={review} />
+              ))}
+            </tbody>
+          </table>
+        ) : (
+          <Empty item="diary entries" />
+        )}
+      </div>
+    )
   );
 };
 

@@ -62,6 +62,11 @@ th.edit {
   row-gap: 15px;
 }
 
+.user-albums-content .empty {
+  width: 950px;
+  margin-left: 60px;
+}
+
 .grid-item .album-art-container {
   position: relative;
   height: 180px;
@@ -75,4 +80,8 @@ th.edit {
 
 .grid-item-rating {
   display: flex;
+}
+
+.diary-content .empty {
+  width: 950px;
 }

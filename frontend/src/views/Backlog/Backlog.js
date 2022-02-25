@@ -48,9 +48,9 @@ const Backlog = ({ username }) => {
     } else {
       setLoading(true);
       dispatch(appendBacklog(item, +userID))
-        .then(() => {
+        .then(({ backlog }) => {
           setMessage(`You have added '${item.title}' to your backlog.`);
-          setAlbums([...albums, item]);
+          setAlbums([...backlog]);
           // setTimeout(() => setAlbums([...albums, item]), 1000);
           setLoading(false);
           setErrors([]);
@@ -62,6 +62,23 @@ const Backlog = ({ username }) => {
           }
         });
     }
+  };
+
+  const onDelete = (album) => {
+    const { spotifyID, id } = album;
+    dispatch(removeFromBacklog(id, spotifyID, sessionUser?.id))
+      .then(() => {
+        setMessage(`You have removed '${album.title}' from your backlog.`);
+        updateGrid(album.id);
+      })
+      // .then(() => updateGrid(album.id))
+      // .then(() => history.go(0))
+      .catch(async (res) => {
+        const data = await res.json();
+        if (data && data.errors) {
+          setErrors(data.errors);
+        }
+      });
   };
 
   const updateGrid = (removedID) =>
@@ -78,8 +95,12 @@ const Backlog = ({ username }) => {
               {albums?.length === 1 ? 'ALBUM' : 'ALBUMS'}
             </h2>
             <section className="backlog-grid">
-              {albums.length > 0 ? (
-                <BacklogGrid albums={albums} updateGrid={updateGrid} />
+              {albums?.length > 0 ? (
+                <BacklogGrid
+                  albums={albums}
+                  updateGrid={updateGrid}
+                  onDelete={onDelete}
+                />
               ) : (
                 <Empty item="albums" />
               )}
