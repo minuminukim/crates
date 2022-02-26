@@ -1,12 +1,12 @@
 import Button from './Button';
 import './Button.css';
 
-export const SaveButton = ({ onClick, disabled = false }) => {
+export const SaveButton = ({ label = 'SAVE', onClick, disabled = false }) => {
   return (
     <Button
       className="btn-save"
       type="submit"
-      label="SAVE"
+      label={label}
       size="medium"
       onClick={onClick}
       disabled={disabled}

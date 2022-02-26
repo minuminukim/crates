@@ -36,13 +36,6 @@ const DiaryItem = ({ entry }) => {
         <div className="album-details">
           <div className="diary-album">
             <ArtWithOverlay album={entry.album} className="diary-album" />
-            {/* <span className="overlay"></span>
-            <img
-              alt={entry.album.title}
-              src={entry.album.artworkURL}
-              className="diary-album"
-              onError={handleImageError}
-            /> */}
           </div>
           <h3 className="entry-title">
             <Link

@@ -1,4 +1,4 @@
-import HoverInfo from './HoverInfo';
+import HoverInfo from '../HoverInfo';
 
 const AlbumInfo = ({ title, year }) => {
   const formatted = `${title} (${year})`;

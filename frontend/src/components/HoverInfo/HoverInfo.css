@@ -10,6 +10,7 @@ div.with-arrow {
   z-index: 7;
 }
 
+div.comment-info,
 div.album-info {
   background-color: #445566;
   font-size: 12px;

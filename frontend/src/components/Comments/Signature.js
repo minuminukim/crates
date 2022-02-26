@@ -1,15 +1,27 @@
 import { Link } from 'react-router-dom';
 import { FaUserCircle, FaTrash } from 'react-icons/fa';
-import { MdModeEditOutline } from 'react-icons/md';
-import { useSelector } from 'react-redux';
+import { WarningMessageModal } from '../WarningMessage';
+import { useSelector, useDispatch } from 'react-redux';
+import { useState } from 'react';
+import { deleteComment } from '../../store/commentsReducer';
 import { EditCommentModal } from '.';
+import { CommentIcon } from '.';
 
-const Signature = ({ userID, username, body, onEdit, commentID }) => {
+const Signature = ({ userID, username, body, onEdit, commentID, onDelete }) => {
   const sessionUser = useSelector((state) => state.session.user);
   const isSessionUser = userID === sessionUser?.id;
+  const [showEdit, setShowEdit] = useState(false);
+  const [showDelete, setShowDelete] = useState(false);
+  const dispatch = useDispatch();
+
+  const handleDelete = () => {
+    dispatch(deleteComment(sessionUser?.id, commentID))
+      .then(() => onDelete(commentID))
+      .catch((res) => console.log('error dispatching comment delete:', res));
+  };
 
   return (
-    <div className="signature comment">
+    <div className="signature-comment">
       <div>
         <Link className="avatar-link" to={`/users/${userID}`}>
           <FaUserCircle className="avatar-link" />
@@ -23,13 +35,28 @@ const Signature = ({ userID, username, body, onEdit, commentID }) => {
           <span className="tools">
             <EditCommentModal onEdit={onEdit} body={body} commentID={commentID}>
               {(toggleModal) => (
-                <MdModeEditOutline
-                  className="comment-icon edit"
+                <CommentIcon
+                  text="Edit Comment"
+                  type="edit"
                   onClick={toggleModal}
+                  onMouseOver={() => setShowEdit(true)}
+                  onMouseOut={() => setShowEdit(false)}
+                  showInfo={showEdit}
                 />
               )}
             </EditCommentModal>
-            <FaTrash className="comment-icon delete" />
+            <WarningMessageModal onDelete={handleDelete} item="comment">
+              {(toggleWarning) => (
+                <CommentIcon
+                  text="Delete comment"
+                  type="delete"
+                  onClick={toggleWarning}
+                  onMouseOver={() => setShowDelete(true)}
+                  onMouseOut={() => setShowDelete(false)}
+                  showInfo={showDelete}
+                />
+              )}
+            </WarningMessageModal>
           </span>
         )}
       </div>

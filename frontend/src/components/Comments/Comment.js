@@ -1,6 +1,6 @@
 import { Signature } from '.';
 
-const Comment = ({ comment, onEdit }) => {
+const Comment = ({ comment, onEdit, onDelete }) => {
   return (
     <li className="comment">
       <Signature
@@ -9,6 +9,7 @@ const Comment = ({ comment, onEdit }) => {
         body={comment.body}
         commentID={comment.id}
         onEdit={onEdit}
+        onDelete={onDelete}
       />
       <div className="comment-body">
         <p>{comment.body}</p>

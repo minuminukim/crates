@@ -1,0 +1,26 @@
+.edit-comment-modal {
+  background-color: #445566;
+  width: 640px;
+  height: 250px;
+  padding: 30px 40px;
+}
+
+.edit-comment-modal h1 {
+  font-size: 16px;
+  font-weight: 400;
+}
+
+.edit-comment-modal textarea {
+  width: 560px;
+  height: 112px;
+  padding: 10px 7px;
+  border-radius: 3px;
+}
+.edit-comment-modal .btn-cancel {
+  margin-right: 5px;
+}
+
+.edit-comment-modal .btn-cancel:hover {
+  color: #40bcf4;
+  filter: brightness(1.2);
+}

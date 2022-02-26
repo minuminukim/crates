@@ -6,6 +6,7 @@ import { postComment, editComment } from '../../store/commentsReducer';
 import { CommentField } from '.';
 import { AiOutlineClose } from 'react-icons/ai';
 import Button from '../Button';
+import { SaveButton } from '../Button';
 
 const CommentForm = ({
   onSuccess,
@@ -13,6 +14,7 @@ const CommentForm = ({
   toggle = null,
   initialBody = '',
   commentID = null,
+  className = '',
 }) => {
   const [body, setBody] = useState(initialBody);
   const [errors, setErrors] = useState([]);
@@ -60,7 +62,10 @@ const CommentForm = ({
   };
 
   return (
-    <form onSubmit={handleSubmit} className={`comment-form ${method}`}>
+    <form
+      onSubmit={handleSubmit}
+      className={`comment-form ${method} ${className}`}
+    >
       {method === 'PUT' && (
         <div className="form-header">
           <h1>EDIT YOUR COMMENT</h1>
@@ -75,7 +80,14 @@ const CommentForm = ({
         />
       </div>
       <div className="btn-row">
-        <Button type="submit" className="btn-save" label="POST" />
+        {method === 'POST' ? (
+          <Button type="submit" className="btn-save" label="POST" />
+        ) : (
+          <>
+            <Button className="btn-cancel" label="CANCEL" onClick={toggle} />
+            <SaveButton label="UPDATE" />
+          </>
+        )}
       </div>
       <ErrorMessages errors={errors} success={message} />
     </form>

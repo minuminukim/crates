@@ -13,7 +13,6 @@ const CommentSection = () => {
   // const comments = useSelector((state) => state.comments);
   // const users = useSelector((state) => state.users);
   const [loading, setLoading] = useState(true);
-  const history = useHistory();
   const [comments, setComments] = useState([]);
 
   useEffect(() => {
@@ -39,6 +38,8 @@ const CommentSection = () => {
     })();
   }, [dispatch, reviewID]);
 
+  const onDelete = (commentID) =>
+    setComments([...comments.filter((item) => item.id !== commentID)]);
   const onPost = (comment) => setComments([...comments, comment]);
   const onEdit = (comment) =>
     setComments([
@@ -49,13 +50,16 @@ const CommentSection = () => {
   return (
     !loading && (
       <section className="comments-section">
-        <h3 className="section-heading">{comments.length} COMMENTS</h3>
+        <h3 className="section-heading">
+          {comments.length} {comments.length === 1 ? 'COMMENT' : 'COMMENTS'}
+        </h3>
         <ul className="comments-list">
           {comments?.map((comment) => (
             <Comment
               key={`comment-${comment.id}`}
               comment={comment}
               onEdit={onEdit}
+              onDelete={onDelete}
             />
           ))}
         </ul>

@@ -1,6 +1,7 @@
 import { useModal } from '../../hooks';
 import { Modal } from '../../context/Modal';
 import { CommentForm } from '.';
+import './EditCommentModal.css';
 
 const EditCommentModal = ({ onEdit, body, commentID, children }) => {
   const { showModal, toggleModal } = useModal();
@@ -11,6 +12,7 @@ const EditCommentModal = ({ onEdit, body, commentID, children }) => {
       {showModal && (
         <Modal onClose={toggleModal}>
           <CommentForm
+            className="edit-comment-modal"
             method="PUT"
             toggle={toggleModal}
             onSuccess={onEdit}
