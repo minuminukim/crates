@@ -1,18 +1,16 @@
-import { Link } from 'react-router-dom';
-import { FaUserCircle } from 'react-icons/fa';
+import { Signature } from '.';
 
-const Comment = ({ comment }) => {
+const Comment = ({ comment, onEdit }) => {
   return (
     <li className="comment">
-      <div>
-        <Link className="avatar-link" to={`/users/${comment.userID}`}>
-          <FaUserCircle />
-        </Link>
-        <Link className="user-link" to={`/users/${comment.userID}`}>
-          {comment.username}
-        </Link>
-      </div>
-      <div>
+      <Signature
+        userID={comment.userID}
+        username={comment.username}
+        body={comment.body}
+        commentID={comment.id}
+        onEdit={onEdit}
+      />
+      <div className="comment-body">
         <p>{comment.body}</p>
       </div>
     </li>

@@ -76,7 +76,7 @@ const ListenActions = ({ album }) => {
             text={backlogText}
             className={inBacklog ? 'remove' : 'append'}
             onMouseOver={() => setBacklogText(inBacklog ? 'Remove' : 'Backlog')}
-            onMouseOver={() => setBacklogText('Backlog')}
+            onMouseLeave={() => setBacklogText('Backlog')}
             onClick={handleBacklog}
           />
         </ActionsRow>

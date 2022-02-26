@@ -1,7 +1,25 @@
-.comment {
+div.comment {
   border-bottom: 0.5px solid rgb(68, 85, 102);
   width: 100%;
   margin-left: 0;
+  display: flex;
+  justify-content: flex-start;
+  height: 75px;
+  align-items: center;
+  font-size: 14px;
+  padding: 10px 0;
+}
+
+.comment-body {
+  width: 470px;
+}
+
+.comment p {
+  margin: 0;
+}
+
+.comments-list {
+  padding-left: 0;
 }
 
 .comment-field {
@@ -21,4 +39,21 @@
   justify-content: flex-end;
   width: 100%;
   margin-top: 12px;
+}
+
+.comment .avatar-link {
+  font-size: 16px;
+}
+
+.signature.right {
+  display: flex;
+  flex-direction: column;
+}
+
+.comment .tools {
+  display: flex;
+}
+
+.comment-icon {
+  cursor: pointer;
 }

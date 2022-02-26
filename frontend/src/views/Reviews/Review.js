@@ -86,7 +86,6 @@ const Review = () => {
                 rating={rating}
               />
               <CommentSection />
-              <CommentForm />
             </div>
             <div>
               {sessionUser ? (

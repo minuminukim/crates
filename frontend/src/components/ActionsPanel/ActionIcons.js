@@ -1,7 +1,5 @@
 import { MdHearing, MdMoreTime } from 'react-icons/md';
-import { useState } from 'react';
 
-// decouple buisness (listened) from UI (text & color)
 export const ListenIcon = ({
   text = '',
   className,
