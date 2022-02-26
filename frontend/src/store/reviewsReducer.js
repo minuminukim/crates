@@ -17,11 +17,6 @@ const loadReviews = (reviews) => ({
   reviews,
 });
 
-const handleReviewsError = (error) => ({
-  type: REQUEST_REJECTED,
-  error,
-});
-
 const addReview = (review) => ({
   type: REVIEW_ADDED,
   review,

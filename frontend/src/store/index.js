@@ -6,6 +6,7 @@ import reviewsReducer from './reviewsReducer';
 import usersReducer from './usersReducer';
 import listsReducer from './listsReducer';
 import backlogsReducer from './backlogsReducer';
+import commentsReducer from './commentsReducer';
 
 const rootReducer = combineReducers({
   session,
@@ -14,6 +15,7 @@ const rootReducer = combineReducers({
   users: usersReducer,
   lists: listsReducer,
   backlogs: backlogsReducer,
+  comments: commentsReducer,
 });
 
 let enhancer;

@@ -17,6 +17,7 @@ export const addUser = (user) => ({
 
 export const fetchUsers = () => async (dispatch) => {
   const response = await fetch(`/api/users`);
+  // console.log('data', await response.json())
   const { users } = await response.json();
   dispatch(loadUsers(users));
   return users;

@@ -8,6 +8,7 @@ import { ReviewActions, ActionsRow } from '../../components/ActionsPanel';
 import { fetchSingleUser } from '../../store/usersReducer';
 import { deleteReview } from '../../store/reviewsReducer';
 import LoginFormModal from '../../components/LoginFormModal';
+import { CommentSection, CommentForm } from '../../components/Comments';
 import './Review.css';
 
 const Review = () => {
@@ -38,7 +39,7 @@ const Review = () => {
           const found = reviews?.find(
             (item) => item.albumID === review.albumID
           );
-          
+
           setRating(found?.rating || 0);
         }
 
@@ -84,6 +85,8 @@ const Review = () => {
                 // isLoading={isLoading}
                 rating={rating}
               />
+              <CommentSection />
+              <CommentForm />
             </div>
             <div>
               {sessionUser ? (
