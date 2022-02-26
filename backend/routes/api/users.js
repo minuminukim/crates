@@ -154,7 +154,6 @@ router.put(
   requireAuth,
   asyncHandler(async (req, res, next) => {
     const id = +req.params.id;
-    console.log('req@@@@@@@@@@@@@@@', req.body);
     const { spotifyID, title, artworkURL, artist, releaseYear } = req.body;
 
     // get the user's backlog
@@ -236,10 +235,7 @@ router.get(
   `/:id(\\d+)/albums`,
   asyncHandler(async (req, res, next) => {
     const id = +req.params.id;
-    // const albums = await UserAlbum.findAll(
-    //   { where: { userID: id } },
-    //   { include: { model: Album, as: 'albums' } }
-    // );
+
     const { albums } = await User.findOne({
       where: { id: id },
       include: { model: Album, as: 'albums' },
@@ -253,7 +249,6 @@ router.get(
       });
     }
 
-    // const mapped = albums.map((album) => { })
     return res.json({
       albums,
     });
@@ -307,11 +302,6 @@ router.post(
     if (albumBacklog) {
       await albumBacklog.destroy();
     }
-    // const inBacklog = backlog.albums.find((item) => item.id === album.id);
-
-    // if (inBacklog) {
-    //   await inBacklog.destroy();
-    // }
 
     return res.json({
       userAlbum,

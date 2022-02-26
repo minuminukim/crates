@@ -199,7 +199,6 @@ router.put(
 router.patch(
   '/:id(\\d+)',
   requireAuth,
-  // TODO: validation errors,
   asyncHandler(async (req, res, next) => {
     const id = +req.params.id;
     console.log('req.body', req.body);
