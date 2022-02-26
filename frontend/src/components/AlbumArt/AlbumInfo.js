@@ -1,18 +1,8 @@
-import './AlbumInfo.css';
+import HoverInfo from './HoverInfo';
 
 const AlbumInfo = ({ title, year }) => {
-  return (
-    <>
-      <div className="with-arrow">
-        <div className="album-info">
-          <span className="album-info">
-            {title} ({year})
-          </span>
-        </div>
-        <div className="arrow" />
-      </div>
-    </>
-  );
+  const formatted = `${title} (${year})`;
+  return <HoverInfo className="album-info" text={formatted} />;
 };
 
 export default AlbumInfo;

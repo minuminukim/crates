@@ -7,7 +7,7 @@ const ArtWithOverlay = ({ album, children, className }) => {
 
   return (
     <>
-      {showInfo && <AlbumInfo title={album?.title} year={album?.releaseYear} />}
+      {showInfo && <AlbumInfo title={album.title} year={album.releaseYear} />}
       <div
         className="album-art-container with-overlay"
         onMouseOver={() => setShowInfo(true)}

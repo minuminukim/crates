@@ -10,6 +10,8 @@ import { useModal } from '../../hooks';
 import { Modal } from '../../context/Modal';
 import { EditReviewForm } from '../../views/Reviews';
 import handleImageError from '../../utils/handleImageError';
+import { AlbumInfo } from '../AlbumArt';
+import { ArtWithOverlay } from '../AlbumArt';
 
 const DiaryItem = ({ entry }) => {
   const { userID } = useParams();
@@ -32,14 +34,15 @@ const DiaryItem = ({ entry }) => {
       </td>
       <td className="album">
         <div className="album-details">
-          <div className="diary-album-container">
-            <span className="overlay"></span>
+          <div className="diary-album">
+            <ArtWithOverlay album={entry.album} className="diary-album" />
+            {/* <span className="overlay"></span>
             <img
               alt={entry.album.title}
               src={entry.album.artworkURL}
               className="diary-album"
               onError={handleImageError}
-            />
+            /> */}
           </div>
           <h3 className="entry-title">
             <Link

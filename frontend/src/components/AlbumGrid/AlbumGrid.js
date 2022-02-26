@@ -1,4 +1,5 @@
 import AlbumArt from '../AlbumArt';
+import { ArtWithOverlay } from '../AlbumArt';
 import './AlbumGrid.css';
 
 const AlbumGrid = ({ albums, isRanked = false }) => {
@@ -8,11 +9,7 @@ const AlbumGrid = ({ albums, isRanked = false }) => {
         albums.length > 0 &&
         albums.map((album, i) => (
           <li key={`grid-item-${i}}`} className="grid-item">
-            <AlbumArt
-              artworkURL={album.artworkURL}
-              title={album.title}
-              size="grid"
-            />
+            <ArtWithOverlay album={album} />
             {isRanked && <span className="position">{i + 1}</span>}
           </li>
         ))}

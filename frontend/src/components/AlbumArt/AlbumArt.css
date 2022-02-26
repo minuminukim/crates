@@ -22,6 +22,11 @@
   width: 180px;
 }
 
+.grid-item img {
+  height: 180px;
+  width: 180px;
+}
+
 .album-art-with-overlay.backlog {
   height: 150px;
   width: 150px;
@@ -30,4 +35,10 @@
 .album-art-with-overlay.backlog img {
   height: 150px;
   width: 150px;
+}
+
+.album-art-with-overlay.diary-album,
+.album-art-with-overlay.diary-album img {
+  height: 80px;
+  width: 80px;
 }

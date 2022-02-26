@@ -3,6 +3,9 @@ div.with-arrow {
   flex-direction: column;
   align-items: center;
   position: absolute;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
   bottom: 100%;
   z-index: 7;
 }
@@ -18,8 +21,6 @@ div.album-info {
   max-width: 300px;
   overflow: hidden;
   text-overflow: ellipsis;
-  /* position: absolute; */
-  /* border: 1px solid green; */
 }
 
 .grid-item {

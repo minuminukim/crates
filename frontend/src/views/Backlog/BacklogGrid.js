@@ -9,11 +9,8 @@ const BacklogGrid = ({ albums, onDelete }) => {
 
   return (
     <ul className="backlog-grid">
-      {/* <ErrorMessages success={message} errors={errors} /> */}
-      {/* {albums?.length > 0 && */}
       {albums.map((album, i) => (
         <li key={`backlog-item-${i}`} className="album-grid-item">
-          {/* <Link to="#"> */}
           <ArtWithOverlay album={album} className="backlog">
             {sessionUser && +userID === sessionUser?.id && (
               <FaTrash
