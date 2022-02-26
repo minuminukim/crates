@@ -7,10 +7,11 @@
 
 .welcome-hero {
   margin-bottom: 30px;
+  margin-top: 22px;
 }
 
 .welcome-heading {
-  font-size: 28px;
+  font-size: 26px;
   font-weight: 300;
 }
 
@@ -19,6 +20,10 @@
   font-weight: 300;
   padding-bottom: 5px;
   border-bottom: 1px solid #456;
+}
+
+.recent-posts {
+  width: 950px;
 }
 
 section.popular {

@@ -20,6 +20,9 @@ const ProfileDropdown = () => {
     e.preventDefault();
     dispatch(logout());
   };
+  // <li>
+  //   <button onClick={handleLogout}>Log Out</button>
+  // </li>
   return (
     <ul className="profile-dropdown">
       <DropdownItem label="Home" link="/" />
@@ -29,10 +32,7 @@ const ProfileDropdown = () => {
       <DropdownItem label="Reviews" link={`/users/${user.id}/reviews`} />
       <DropdownItem label="Backlog" link={`/users/${user.id}/backlog`} />
       <DropdownItem label="Lists" link={`/users/${user.id}/lists`} />
-      {/* <DropdownItem label="Logout" link="{`/users/`} onClick={handleLogout} /> */}
-      <li>
-        <button onClick={handleLogout}>Log Out</button>
-      </li>
+      <DropdownItem label="Logout" link={`/users/`} onClick={handleLogout} />
     </ul>
   );
 };

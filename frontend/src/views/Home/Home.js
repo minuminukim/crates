@@ -14,7 +14,7 @@ const Home = () => {
   const dispatch = useDispatch();
   const { items } = useSelector((state) => state.reviews);
   const { user } = useSelector((state) => state.session);
-  const sorted = sortByRecent(Object.values(items)).slice(0, 5);
+  const sorted = sortByRecent(Object.values(items)).slice(0, 4);
   const popular = Object.values(items).slice(0, 6);
 
   useEffect(() => {

@@ -16,6 +16,31 @@ a.list-card-title {
   line-height: 1.2;
 }
 
+.list-card-links {
+  margin-top: 8px;
+}
+
 .list-card-title:hover {
   color: #def;
+}
+
+.list-card .user-link {
+  font-size: 14px;
+}
+
+.list-card a.avatar-link {
+  font-size: 16px;
+  margin-right: 5px;
+  position: relative;
+  top: 2px;
+}
+
+.avatar-link:hover {
+  filter: brightness(1.1);
+}
+
+.list-card.links {
+  margin-top: 6px;
+  display: flex;
+  align-items: center;
 }

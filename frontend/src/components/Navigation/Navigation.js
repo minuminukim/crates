@@ -9,6 +9,7 @@ import { useDemo } from '../../hooks';
 import LoginFormModal from '../LoginFormModal';
 import SignupModal from '../SignupForm';
 import SearchModal from '../SearchModal';
+import navLogo from '../../images/decal-dots.png';
 import './Navigation.css';
 
 function Navigation({ isLoaded }) {
@@ -35,37 +36,37 @@ function Navigation({ isLoaded }) {
 
   return (
     <nav className="nav">
-      <div className="nav-logo">
-        <NavLink className="nav-logo" exact to="/">
-          CRATES
-        </NavLink>
+      <div className="nav-wrap">
+        <div className="nav-logo">
+          <img src={navLogo} alt="Logo" />
+          <NavLink className="nav-logo" exact to="/">
+            CRATES
+          </NavLink>
+        </div>
+        <ul className="nav-links">
+          {isLoaded && sessionLinks}
+          <li>
+            <NavLink className="nav-label" exact to="/albums">
+              ALBUMS
+            </NavLink>
+          </li>
+          <li>
+            <NavLink className="nav-label" exact to="/lists">
+              LISTS
+            </NavLink>
+          </li>
+          <li>
+            {sessionUser && (
+              <LogButton handleLogClick={() => setShowSearch(true)} />
+            )}
+            {isLoaded && showSearch && (
+              <Modal onClose={() => setShowSearch(false)}>
+                <SearchModal closeSearch={() => setShowSearch(false)} />
+              </Modal>
+            )}
+          </li>
+        </ul>
       </div>
-      <ul className="nav-links">
-        {isLoaded && sessionLinks}
-        <li>
-          <NavLink className="nav-label" exact to="/albums">
-            ALBUMS
-          </NavLink>
-        </li>
-        <li>
-          <NavLink className="nav-label" exact to="/lists">
-            LISTS
-          </NavLink>
-        </li>
-        {/* <li>
-            <BiSearchAlt className="nav-label search-icon" />
-          </li> */}
-        <li>
-          {sessionUser && (
-            <LogButton handleLogClick={() => setShowSearch(true)} />
-          )}
-          {isLoaded && showSearch && (
-            <Modal onClose={() => setShowSearch(false)}>
-              <SearchModal closeSearch={() => setShowSearch(false)} />
-            </Modal>
-          )}
-        </li>
-      </ul>
     </nav>
   );
 }

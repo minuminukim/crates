@@ -30,7 +30,7 @@ const HoverActions = ({ album }) => {
       .then(() => {
         setInBacklog(true);
         setLoading(false);
-        setMessage(`You have added ${album.title} to your backlog.`);
+        setMessage(`You have added '${album.title}' to your backlog.`);
       })
       .catch(async (error) => {
         const data = await error.json();

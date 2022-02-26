@@ -6,7 +6,7 @@
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
-  border-bottom: 1px solid #2c3440;
+  border-bottom: 2px solid #2c3440;
 }
 
 .feed-post h3 {
@@ -69,8 +69,9 @@ span.list-length {
 }
 
 .avatar-link:hover .icon {
-  border: 1px solid #9ab;
+  /* border: 0.5px solid #9ab; */
   border-radius: 50%;
+  filter: brightness(1.1);
 }
 
 .feed-post .user-link {
@@ -88,8 +89,14 @@ span.list-length {
   margin: 0;
   max-height: 72px;
 }
+
+.list-link {
+  margin-bottom: 3px;
+}
+
 .list-body p {
   margin: 0;
+  margin-top: 3px;
   max-height: 72px;
 }
 

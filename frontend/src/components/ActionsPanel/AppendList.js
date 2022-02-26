@@ -1,9 +1,10 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
-import { useHistory, Redirect, Link } from 'react-router-dom';
+import { useHistory, Link } from 'react-router-dom';
 import { fetchUserLists, appendList } from '../../store/listsReducer';
-import ValidationError from '../ValidationError';
+import ValidationError, { ErrorMessages } from '../ValidationError';
 import { SuccessMessage } from '../ValidationError';
+import { AiOutlinePlus, AiOutlineClose } from 'react-icons/ai';
 import './AppendList.css';
 import Button from '../Button';
 // need userID, user lists(length && title), album title
@@ -46,7 +47,7 @@ const AppendList = ({ album, onClose }) => {
           `You have successfully added '${album.title}' to your list '${list.title}'`
         )
       )
-      .then(() => setTimeout(() => history.go(0), 3000))
+      .then(() => setTimeout(() => history.go(0), 2500))
       .catch(async (res) => {
         const data = await res.json();
         console.log('res', data);
@@ -55,24 +56,20 @@ const AppendList = ({ album, onClose }) => {
         }
       });
   };
-  const handleNewList = () => {
-    return <Redirect to={{ pathname: '/lists/new', state: { data: album } }} />;
-  };
 
   return (
     !isLoading && (
-      // lists?.length > 0 &&
       <div className="action-panel append-list">
-        {message.length > 0 && <SuccessMessage message={message} />}
-        {errors.length > 0 &&
-          errors.map((error, i) => (
-            <ValidationError key={`error-${i}`} error={error} />
-          ))}
-        <h1 className="panel-heading">Add '{album.title}' to lists</h1>
+        <ErrorMessages success={message} errors={errors} />
+        <div className="panel-header">
+          <h1 className="panel-heading">Add '{album.title}' to lists</h1>
+        </div>
         <ul className="user-lists">
           <li className="new-list user-lists-item">
-            {/* New list... */}
             <Link to={{ pathname: '/lists/new', state: { data: album } }}>
+              <span className="append-list-icon">
+                <AiOutlinePlus />
+              </span>
               New list...
             </Link>
           </li>

@@ -10,20 +10,31 @@
   justify-content: center;
   padding-left: 0;
   z-index: 8;
+  margin-right: 0;
 }
 
-.dropdown-item {
+li.dropdown-item {
   text-align: center;
   padding: 15px 4px;
   cursor: pointer;
   width: 100px;
   height: 20px;
   margin: 0;
+  margin-right: 0;
+}
+
+.dropdown-item:hover {
+  background-color: #678;
+}
+
+.dropdown-item:hover a {
+  color: #fff;
 }
 
 a.dropdown-link {
   color: #2c3440;
   font-size: 14px;
+  margin-right: 0;
 }
 
 a.dropdown-link:hover {
