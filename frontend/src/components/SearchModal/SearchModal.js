@@ -15,7 +15,10 @@ const SearchModal = ({ closeSearch = null }) => {
         <div className="form-section search-top">
           <h1 className="search-modal-heading">ADD TO YOUR ALBUMS...</h1>
           <span className="modal-close">
-            <AiOutlineClose className="modal-close" onClick={closeSearch} />
+            <AiOutlineClose
+              className="modal-close close-icon"
+              onClick={closeSearch}
+            />
           </span>
         </div>
         <div className="form-section">
