@@ -37,13 +37,15 @@ const CommentForm = () => {
     <form onSubmit={handleSubmit}>
       <div className="form-row">
         <textarea
+          className="comment-field"
           id="body"
           name="body"
           value={body}
           onChange={(e) => setBody(e.target.value)}
+          placeholder={`Reply as ${user.username}...`}
         ></textarea>
       </div>
-      <div>
+      <div className="btn-row">
         <Button type="submit" className="btn-save" label="POST" />
       </div>
       <ErrorMessages errors={errors} success={''} />

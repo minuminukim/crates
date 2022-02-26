@@ -1,6 +1,5 @@
 import { Link } from 'react-router-dom';
 import { FaUserCircle } from 'react-icons/fa';
-import { useSelector, use } from 'react-redux';
 
 const Comment = ({ comment }) => {
   return (
