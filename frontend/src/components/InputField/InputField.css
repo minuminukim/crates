@@ -9,5 +9,15 @@ textarea {
 
 span.required {
   color: #00b020;
-  font-size: 16px;
+  font-size: 10px;
+  margin-right: 5px;
+  border-radius: 50%;
+  height: 7px;
+  width: 7px;
+  display: inline-block;
+  background-color: #00b020;
+}
+
+div.replace-checkbox {
+  margin-left: 0;
 }

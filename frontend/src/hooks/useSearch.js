@@ -27,7 +27,7 @@ const useSearch = () => {
             setResults([])
           }
         });
-    }, 200);
+    }, 100);
 
     return () => clearTimeout(delayedFetchTimer);
   }, [query, dispatch]);
