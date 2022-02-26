@@ -15,7 +15,7 @@ const Home = () => {
   const { items } = useSelector((state) => state.reviews);
   const { user } = useSelector((state) => state.session);
   const sorted = sortByRecent(Object.values(items)).slice(0, 5);
-  const popular = Object.values(items).slice(0, 4);
+  const popular = Object.values(items).slice(0, 6);
 
   useEffect(() => {
     return dispatch(getReviews())
@@ -44,7 +44,7 @@ const Home = () => {
         <h2 className="section-heading">POPULAR REVIEWS WITH FRIENDS</h2>
         <ul>
           {popular.map((review) => (
-            <li key={`review-${review.id}`}>
+            <li className="popular-list-item" key={`review-${review.id}`}>
               <ReviewListItem
                 review={review}
                 shape="block"

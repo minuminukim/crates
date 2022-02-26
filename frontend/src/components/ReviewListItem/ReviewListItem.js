@@ -13,7 +13,7 @@ const ReviewListItem = ({ review, className = '', shape }) => {
           size="small"
         />
         {shape === 'block' && (
-          <div>
+          <div className="review-list-details">
             <Details review={review} album={album} shape={shape} />
           </div>
         )}

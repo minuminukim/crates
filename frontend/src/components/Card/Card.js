@@ -2,16 +2,11 @@ import { Link } from 'react-router-dom';
 import { FaUserCircle } from 'react-icons/fa';
 import { BiMenuAltLeft } from 'react-icons/bi';
 import { BsArrowRepeat } from 'react-icons/bs';
-import { GrPowerCycle } from 'react-icons/gr';
 import AlbumArt from '../AlbumArt';
 import StarRatingReadOnly from '../StarRating/StarRatingReadOnly';
 import { formatDateMonthDay } from '../../utils/date-helpers';
 import './Card.css';
 
-// const formatDateMonthDay = (dateString) => {
-//   const date = new Date(dateString);
-//   return date.toLocaleDateString('en-US', { month: 'short', day: '2-digit' });
-// };
 const Card = ({ item }) => {
   const { user, album } = item;
   const formattedDate = formatDateMonthDay(item.listenedDate);

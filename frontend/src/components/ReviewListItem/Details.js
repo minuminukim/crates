@@ -16,10 +16,13 @@ const Details = ({ review, album, shape }) => {
           </Link>
         </div>
       )}
-      <Link className="review-list-item-title" to={`/reviews/${review.id}`}>
-        {album.title}{' '}
-      </Link>
-      <span className="review-list-item-year">{album.releaseYear}</span>
+      <div className="review-list-item-release">
+        <Link className="review-list-item-title" to={`/reviews/${review.id}`}>
+          {album.title}{' '}
+        </Link>
+
+        <span className="review-list-item-year">{album.releaseYear}</span>
+      </div>
       <div className="review-list-item-info">
         <StarRatingReadOnly
           rating={review.rating}
@@ -32,7 +35,10 @@ const Details = ({ review, album, shape }) => {
         {shape !== 'block' && (
           <div>
             <Link to={`/reviews/${review.id}`}>Reviewed by </Link>
-            <Link to={`/users/${review.userID}`}className="review-list-item-username">
+            <Link
+              to={`/users/${review.userID}`}
+              className="review-list-item-username"
+            >
               {review.user.username}
             </Link>
             <span className="review-list-item-date">
