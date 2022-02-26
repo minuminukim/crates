@@ -15,7 +15,7 @@ const Signature = ({ userID, username, body, onEdit, commentID, onDelete }) => {
   const dispatch = useDispatch();
 
   const handleDelete = () => {
-    dispatch(deleteComment(sessionUser?.id, commentID))
+    dispatch(deleteComment(commentID))
       .then(() => onDelete(commentID))
       .catch((res) => console.log('error dispatching comment delete:', res));
   };
