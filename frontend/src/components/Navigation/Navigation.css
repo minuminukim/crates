@@ -50,8 +50,18 @@ a.nav-logo {
   margin-right: 12px;
 }
 
+div.nav-label {
+  margin-right: 0;
+}
+
 .nav-label:hover {
   color: #fff;
+}
+
+.caret-down-icon {
+  position: relative;
+  top: 2px;
+  margin-right: 12px;
 }
 
 .nav-logo {

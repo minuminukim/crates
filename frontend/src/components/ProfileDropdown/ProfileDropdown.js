@@ -20,9 +20,7 @@ const ProfileDropdown = () => {
     e.preventDefault();
     dispatch(logout());
   };
-  // <li>
-  //   <button onClick={handleLogout}>Log Out</button>
-  // </li>
+
   return (
     <ul className="profile-dropdown">
       <DropdownItem label="Home" link="/" />

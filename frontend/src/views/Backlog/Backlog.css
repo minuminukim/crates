@@ -23,6 +23,10 @@
   margin-bottom: 40px;
 }
 
+.backlog-grid img {
+  border-radius: 5px;
+}
+
 ul.backlog-grid {
   display: grid;
   grid-template-columns: repeat(4, 150px);

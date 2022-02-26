@@ -91,6 +91,10 @@ span.nav-label {
   cursor: pointer;
 }
 
+span.required {
+  color: #00b020;
+}
+
 .replace-checkbox {
   cursor: pointer;
 }

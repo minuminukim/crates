@@ -33,12 +33,14 @@ function ProfileButton({ user }) {
 
   return (
     <>
+      <button className="profile-button">
+        <FaUserCircle className="profile-button-icon" />
+      </button>
       <div className="profile-button" onClick={openMenu}>
-        <button className="profile-button">
-          <FaUserCircle className="profile-button-icon" />
-        </button>
-        <span className="nav-label">{user.username}</span>
-        <AiOutlineDown className="caret-down-icon" />
+        <div className="nav-label">
+          <span className="nav-username">{user.username}</span>
+          <AiOutlineDown className="caret-down-icon" />
+        </div>
       </div>
       {showMenu && <ProfileDropdown user={user} />}
     </>

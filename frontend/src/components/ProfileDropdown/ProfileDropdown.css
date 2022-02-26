@@ -20,7 +20,7 @@ li.dropdown-item {
   width: 100px;
   height: 20px;
   margin: 0;
-  margin-right: 0;
+  margin-right: 0 !important;
 }
 
 .dropdown-item:hover {
@@ -39,4 +39,8 @@ a.dropdown-link {
 
 a.dropdown-link:hover {
   color: #fff;
+}
+
+.nav-username {
+  margin-right: 2px;
 }
