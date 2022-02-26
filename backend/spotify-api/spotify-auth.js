@@ -21,18 +21,17 @@ const getToken = async () => {
   try {
     const response = await axios.post(tokenURL, data, headers);
     return response.data.access_token;
-
   } catch (error) {
     const authenticationError = new Error(
       `An error occurred while communicating with Spotify's Web API.`
     );
     authenticationError.status = 400;
     authenticationError.title = 'Authentication Error';
-    authenticationError.errors = {
-      search: `${authenticationError.message}`,
-    };
+    authenticationError.errors = [
+      `An error occurred while communicating with Spotify's Web API.`,
+    ];
 
-    return authenticationError;
+    return next(authenticationError);
   }
 };
 
@@ -56,9 +55,9 @@ const getAccessToken = async (next) => {
     );
     authenticationError.status = 400;
     authenticationError.title = 'Authentication Error';
-    authenticationError.errors = {
-      spotifyToken: `${authenticationError.message}`,
-    };
+    authenticationError.errors = [
+      `An error occurred while communicating with Spotify's Web API.`,
+    ];
 
     return next(authenticationError);
   }
@@ -78,10 +77,9 @@ const setAccessTokenCookie = async (res, next) => {
   return access_token;
 };
 
-const checkAccessToken = (req, res, next) => {
-  const { spotifyToken } = req.cookies;
-  console.log('spotifyToken', spotifyToken.maxAge);
-  next();
-};
 
-module.exports = { getAccessToken, setAccessTokenCookie, checkAccessToken, getToken };
+module.exports = {
+  getAccessToken,
+  setAccessTokenCookie,
+  getToken,
+};

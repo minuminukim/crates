@@ -44,10 +44,6 @@ router.get(
       }
     }
 
-    // lists.forEach((list) =>
-    //   list.albums.sort((a, b) => a.AlbumList.listIndex - b.AlbumList.listIndex)
-    // );
-
     return res.json({
       lists,
     });
@@ -67,7 +63,6 @@ router.get(
         },
       ],
     });
-    // const list = await List.getSingleListByID(id); // with albums
 
     if (!list) {
       return next(listNotFoundError());
@@ -210,18 +205,6 @@ router.patch(
     console.log('req.body', req.body);
     const { spotifyID, title, artworkURL, artist, releaseYear } = req.body;
 
-    // const [album, _created] = await Album.findOrCreate({
-    //   where: { spotifyID: spotifyID },
-    //   defaults: {
-    //     spotifyID: spotifyID,
-    //     title: title,
-    //     averageRating: 0.0,
-    //     ratingsCount: 0,
-    //     artworkURL: artworkURL,
-    //     artist: artist,
-    //     releaseYear: releaseYear,
-    //   },
-    // });
     const { album } = await useAlbumFindOrCreate({
       spotifyID,
       title,
@@ -259,8 +242,7 @@ router.patch(
 
 router.delete(
   `/:id(\\d+)`,
-  // requireAuth,
-  // TODO: validation,
+  requireAuth,
   asyncHandler(async (req, res, next) => {
     const id = +req.params.id;
     const list = await List.findByPk(id);
@@ -269,6 +251,14 @@ router.delete(
       return next(listNotFoundError());
     }
 
+    if (list.userID !== req.user.id) {
+      const error = new Error('You are not authorized to delete this list.');
+      error.status = 401;
+      error.title = 'Unauthorized';
+      error.errors = ['You are not authorized to delete this list'];
+
+      return next(error);
+    }
     // destroy the join table records first because of FK constraint
     await AlbumList.destroy({
       where: {

@@ -4,7 +4,6 @@ const asyncHandler = require('express-async-handler');
 
 const { User } = require('../../db/models');
 const { setTokenCookie, restoreUser } = require('../../utils/auth');
-const { setAccessTokenCookie } = require('../../spotify-api/spotify-auth');
 const { seedPassword } = require('../../config');
 const {
   handleValidationErrors,
@@ -42,7 +41,6 @@ router.post(
     }
 
     await setTokenCookie(res, user);
-    // await setAccessTokenCookie(res);
     return res.json({
       user,
     });
@@ -61,7 +59,6 @@ router.post(
     });
 
     await setTokenCookie(res, user);
-    // await setAccessTokenCookie(res);
 
     return res.json({
       user,
@@ -72,7 +69,6 @@ router.post(
 // Log out
 router.delete('/', (_req, res) => {
   res.clearCookie('token');
-  // res.clearCookie('spotifyToken');
   return res.json({ message: 'success' });
 });
 

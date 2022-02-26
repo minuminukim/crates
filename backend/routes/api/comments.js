@@ -97,14 +97,13 @@ router.delete(
   asyncHandler(async (req, res, next) => {
     const id = +req.params.id;
     const comment = await Comment.findByPk(id);
+    console.log('req.user', req.user);
 
     if (!comment) {
       return next(commentNotFoundError());
     }
 
-    const { userID } = req.body;
-
-    if (comment.userID !== userID) {
+    if (comment.userID !== req.user.id) {
       const error = new Error('You are not authorized to delete this comment.');
       error.status = 401;
       error.title = 'Unauthorized';

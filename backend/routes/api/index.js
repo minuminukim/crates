@@ -7,10 +7,6 @@ const albumsRouter = require('./albums');
 const listsRouter = require('./lists');
 const commentsRouter = require('./comments');
 
-router.post('/test', function (req, res) {
-  res.json({ requestBody: req.body });
-});
-
 router.use('/session', sessionRouter);
 router.use('/users', usersRouter);
 router.use('/search', searchRouter);

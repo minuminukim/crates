@@ -1,9 +1,8 @@
 const axios = require('axios');
 const { SearchError } = require('./spotify-errors');
-const { setAccessTokenCookie, getToken } = require('./spotify-auth');
+const { getToken } = require('./spotify-auth');
 
 let token;
-
 const searchAlbumsByTitle = async (title, token) => {
   if (!token) {
     token = await getToken();
@@ -38,8 +37,7 @@ const searchAlbumsByTitle = async (title, token) => {
 
     return mapped;
   } catch (error) {
-    // console.log('@@@@@@@@@@@ error in search', error);
-    console.log('hi');
+    console.log('@@@@@@@@@@@ error in search', error);
   }
 };
 
@@ -50,11 +48,9 @@ const wrapSearchInRetry = (searchFunction) => {
       return response;
     } catch (error) {
       if (error.response.status === 401) {
-        console.log('401 ertror in wrapper', error);
+        console.log('401 error in wrapper', error);
         try {
-          console.log('before', token);
           token = await getToken();
-          console.log('after', token);
           const response = await searchFunction(args);
           return response;
         } catch (anotherError) {
@@ -69,7 +65,6 @@ const wrapSearchInRetry = (searchFunction) => {
 };
 
 const searchAlbumsWithRetry = wrapSearchInRetry(searchAlbumsByTitle);
-
 
 module.exports = {
   searchAlbumsByTitle,
