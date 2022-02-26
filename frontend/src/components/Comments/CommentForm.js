@@ -43,16 +43,18 @@ const CommentForm = ({
         setBody('');
         setErrors([]);
         setMessage(method === 'POST' ? 'Reply posted.' : 'Reply updated.');
+
         if (method === 'PUT') {
-          toggle();
+          const messageTimeout = setTimeout(() => toggle(), 3000);
+          return () => clearTimeout(messageTimeout);
         }
       })
-      
+
       .catch(async (err) => {
         const data = await err.json();
         console.log('data', data);
         if (data && data.errors) {
-          setErrors([...errors, ...Object.values(data.errors)]);
+          setErrors(Object.values(data.errors));
         }
       });
   };
