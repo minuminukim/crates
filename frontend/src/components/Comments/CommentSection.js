@@ -10,8 +10,6 @@ const CommentSection = () => {
   const { reviewID } = useParams();
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.session);
-  // const comments = useSelector((state) => state.comments);
-  // const users = useSelector((state) => state.users);
   const [loading, setLoading] = useState(true);
   const [comments, setComments] = useState([]);
 
@@ -22,12 +20,17 @@ const CommentSection = () => {
         const filtered = Object.values(comments)?.filter(
           (comment) => comment.reviewID === +reviewID
         );
+        const usernames = {};
 
         const response = await Promise.all(
           filtered.map(async (comment) => {
-            const { username } = await dispatch(
-              fetchSingleUser(comment.userID)
-            );
+            if (!usernames[comment.userID]) {
+              const { username } = await dispatch(
+                fetchSingleUser(comment.userID)
+              );
+              usernames[comment.userID] = username;
+            }
+            const username = usernames[comment.userID];
             return { ...comment, username };
           })
         );
