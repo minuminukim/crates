@@ -49,9 +49,9 @@ function App() {
             <Route exact path="/albums">
               <Albums />
             </Route>
-            <Route path="/albums/:spotifyID">
+            {/* <Route path="/albums/:spotifyID">
               <Album />
-            </Route>
+            </Route> */}
             <Route exact path="/lists">
               <Lists />
             </Route>

@@ -26,12 +26,8 @@ p.review-by {
 
 .single-review-filled-stars {
   position: relative;
-  display: inline;
+  display: flex;
   top: 1px;
-}
-
-.year-and-rating {
-  display: inline;
 }
 
 .review .star-rating {
@@ -43,6 +39,13 @@ p.review-by {
   color: #00e054;
   font-family: Graphik-Regular-Web, sans-serif;
   font-weight: 400;
+  width: fit-content;
+  margin: 0;
+}
+
+.content-review .half-green {
+  margin: 0;
+  margin-top: 6px;
 }
 
 .review-body {
