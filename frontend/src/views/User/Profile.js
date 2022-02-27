@@ -6,8 +6,9 @@ import { fetchSingleUser } from '../../store/usersReducer';
 import ProfileHeader from './ProfileHeader';
 import CardRow from '../../components/CardRow';
 import ReviewListItem from '../../components/ReviewListItem';
-import { sortByRecent } from '../../utils/sorts';
+import { sortByRecent, sortByDateListened } from '../../utils/sorts';
 import { Empty } from '.';
+import './Profile.css';
 
 const Profile = () => {
   const { userID } = useParams();
@@ -24,7 +25,7 @@ const Profile = () => {
           dispatch(fetchSingleUser(+userID)),
         ]);
         const filtered = reviews.filter((review) => review.userID === user.id);
-        setReviews(sortByRecent([...filtered]));
+        setReviews(sortByDateListened([...filtered]));
         setUser(user);
         setLoading(false);
       } catch (res) {
@@ -65,7 +66,7 @@ const Profile = () => {
             </section>
           )}
         </div>
-        {/* <div>test</div> */}
+        <div>test</div>
       </div>
     )
   );

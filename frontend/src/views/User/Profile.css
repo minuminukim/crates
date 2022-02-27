@@ -3,3 +3,17 @@
   grid-template-columns: 670px 230px;
   column-gap: 50px;
 }
+
+.profile-content .card-row {
+  width: 670px;
+}
+.profile-content .card,
+.profile-content .card-main {
+  width: 158px;
+}
+
+.profile-content img,
+.profile-content div.album-art {
+  height: 158px;
+  width: 158px;
+}

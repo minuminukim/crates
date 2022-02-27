@@ -4,7 +4,6 @@ import { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { getReviewsByUserID } from '../../store/reviewsReducer';
 import { useParams } from 'react-router-dom';
-import { sortByRecent } from '../../utils/sorts';
 import { Empty } from '.';
 
 const Diary = () => {

@@ -36,7 +36,7 @@ const Details = ({ review, album, shape, showInfo = true }) => {
         )}
         {shape === 'landscape' && (
           <div>
-            <Link to={`/reviews/${review.id}`}>Reviewed by </Link>
+            <Link to={`/reviews/${review.id}`}>Listened by </Link>
             <Link
               to={`/users/${review.userID}`}
               className="review-list-item-username"
@@ -45,7 +45,7 @@ const Details = ({ review, album, shape, showInfo = true }) => {
             </Link>
             {showInfo && (
               <span className="review-list-item-date">
-                {formatDateDayMonthYear(review.createdAt)}
+                {formatDateDayMonthYear(review.listenedDate)}
               </span>
             )}
           </div>
