@@ -8,7 +8,7 @@ import { ReviewActions, ActionsRow } from '../../components/ActionsPanel';
 import { fetchSingleUser } from '../../store/usersReducer';
 import { deleteReview } from '../../store/reviewsReducer';
 import LoginFormModal from '../../components/LoginFormModal';
-import { CommentSection, CommentForm } from '../../components/Comments';
+import { CommentSection } from '../../components/Comments';
 import './Review.css';
 
 const Review = () => {
@@ -57,7 +57,7 @@ const Review = () => {
       }
     })();
     return () => setRating(0);
-  }, [dispatch, sessionUser, reviewID, history]);
+  }, [dispatch, sessionUser, reviewID]);
 
   const handleDelete = () => {
     return dispatch(deleteReview(+reviewID))
@@ -69,7 +69,6 @@ const Review = () => {
   return !review
     ? null
     : !isLoading && (
-        // <div className="page-container review-page">
         <div className="content-wrapper content-review">
           <section className="review-page-left">
             <div className="left-col-1">
@@ -84,7 +83,6 @@ const Review = () => {
                 review={review}
                 album={album}
                 user={user}
-                // isLoading={isLoading}
                 rating={rating}
               />
             </div>

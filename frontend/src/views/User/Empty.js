@@ -6,7 +6,7 @@ const Empty = ({ item = '', path = '', children }) => {
     <div className="empty">
       {item ? <p>No {item} yet.</p> : <p>Nothing to show yet</p>}
       {path && (
-        <Link exact to={path}>
+        <Link to={path}>
           {children}
         </Link>
       )}

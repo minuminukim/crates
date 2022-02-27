@@ -24,10 +24,10 @@ const FeedPost = ({ list }) => {
         <div className="feed-post-info">
           {!userID && (
             <>
-              <Link className="avatar-link" exact to={`/users/${list.userID}`}>
+              <Link className="avatar-link" to={`/users/${list.userID}`}>
                 <FaUserCircle className="avatar icon" />
               </Link>
-              <Link className="user-link" exact to={`/users/${list.userID}`}>
+              <Link className="user-link" to={`/users/${list.userID}`}>
                 <span>{list.User.username}</span>
               </Link>
             </>
@@ -36,7 +36,7 @@ const FeedPost = ({ list }) => {
             list.albums.length > 1 ? 'albums' : 'album'
           }`}</span>
           {userID && +userID === sessionUser?.id && (
-            <Link exact to={`/lists/${list.id}/edit`}>
+            <Link to={`/lists/${list.id}/edit`}>
               <MdModeEditOutline className="icon edit" />
             </Link>
           )}

@@ -34,7 +34,7 @@ const LogButton = ({ handleLogClick, handleToggleClick }) => {
       </span>
       {showButton && (
         <div className="btn-link">
-          <Link exact to="/lists/new">
+          <Link to="/lists/new">
             Start a new list...
           </Link>
         </div>

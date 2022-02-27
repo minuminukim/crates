@@ -39,7 +39,6 @@ const DiaryItem = ({ entry }) => {
           </div>
           <h3 className="entry-title">
             <Link
-              exact
               to={`/reviews/${entry.id}`}
               className="diary-item-title"
             >
@@ -67,7 +66,7 @@ const DiaryItem = ({ entry }) => {
       <td className="review">
         <div className="entry-review">
           {entry.body.length > 0 && (
-            <Link exact to={`/reviews/${entry.id}`}>
+            <Link to={`/reviews/${entry.id}`}>
               <BiMenuAltLeft className="icon" />
             </Link>
           )}
