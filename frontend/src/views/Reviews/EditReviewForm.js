@@ -52,8 +52,8 @@ const EditReviewForm = ({ review, onSuccess }) => {
 
     if (action && action === 'delete') {
       return dispatch(deleteReview(review.id))
+      // .then(() => onSuccess())
         .then(() => history.push('/'))
-        .then(() => onSuccess())
         .catch((err) => err);
     }
 

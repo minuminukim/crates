@@ -40,13 +40,13 @@ const ReviewForm = ({ album = null, onSuccess = null, onClose = null }) => {
     };
 
     return dispatch(postReview(params))
-      .then((data) => history.push(`/reviews/${data.id}`))
-      .then(() =>
+      .then((data) => {
         setMessage(
           `You have successfully created a review for '${album.title}' `
-        )
-      )
-      .then(() => onSuccess())
+        );
+        onSuccess(); // close modal
+        history.push(`/reviews/${data.id}`);
+      })
       .catch(async (res) => {
         const data = await res.json();
         if (data && data.errors) {
@@ -138,10 +138,7 @@ const ReviewForm = ({ album = null, onSuccess = null, onClose = null }) => {
               <StarRating handleForm={onStarChange} className="form-star" />
             </div>
             <div className="form-row">
-              <button
-                className="submit-button"
-                type="submit"
-              >
+              <button className="submit-button" type="submit">
                 SAVE
               </button>
             </div>

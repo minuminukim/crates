@@ -40,30 +40,23 @@
   top: 30px;
   right: 0px;
   background-color: #9ab;
-  color: #2c3440;
   font-size: 12px;
   width: 160px;
   height: 34px;
   display: flex;
   justify-content: center;
   align-items: center;
+  cursor: pointer;
 }
 
-.btn-link a {
-  color: #000;
-  width: 100%;
-  padding: 4px 15px;
+a.btn-link {
+  color: #2c3440;
+  padding: 4 15px;
+  text-align: center;
 }
 
-.btn-link:hover a {
+.btn-link:hover {
   background-color: #678;
   color: #fff;
 }
 
-.btn-link:hover a {
-  color: #fff !important;
-}
-
-/* .log-button-toggle {
-  background-color: rgba(85, 221, 102, 0.25);
-} */

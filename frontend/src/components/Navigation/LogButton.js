@@ -35,9 +35,11 @@ const LogButton = ({ handleLogClick, handleToggleClick }) => {
         </span>
       </button>
       {showButton && (
-        <div className="btn-link">
-          <Link to="/lists/new">Start a new list...</Link>
-        </div>
+        // <div className="btn-link">
+        <Link className="btn-link" to="/lists/new">
+          Start a new list...
+        </Link>
+        // </div>
       )}
     </div>
   );
