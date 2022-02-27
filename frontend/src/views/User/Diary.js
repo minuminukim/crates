@@ -15,10 +15,19 @@ const Diary = () => {
   const [loading, setLoading] = useState(true);
   const sessionUser = useSelector((state) => state.session.user);
 
+  console.log('reviews', reviews);
+
+  const sortByDateListened = (reviews) => {
+    return [...reviews].sort(
+      (a, b) => new Date(b.listenedDate) - new Date(a.listenedDate)
+    );
+  };
+
   useEffect(() => {
     dispatch(getReviewsByUserID(+userID))
-      .then((reviews) => sortByRecent(reviews))
-      .then((reviews) => setReviews(reviews))
+      // .then((reviews) => sortByRecent(reviews))
+      .then((reviews) => sortByDateListened(reviews))
+      .then((sorted) => setReviews(sorted))
       .then(() => setLoading(false))
       .catch(async (res) => {
         if (res && res?.status === 404) {

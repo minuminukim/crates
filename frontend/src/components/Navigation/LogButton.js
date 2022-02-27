@@ -26,20 +26,18 @@ const LogButton = ({ handleLogClick, handleToggleClick }) => {
   return (
     <div className="log-button-container">
       <button className="log-button">
-        <div className="log-button-left" onClick={handleLogClick}>
+        <span className="log-button-left" onClick={handleLogClick}>
           <AiOutlinePlus />
-          <p>LOG</p>
-        </div>
+          LOG
+        </span>
         <span className="log-button-toggle" onClick={openButton}>
           <AiOutlineDown />
         </span>
       </button>
       {showButton && (
-        // <div className="btn-link">
         <Link className="btn-link" to="/lists/new">
           Start a new list...
         </Link>
-        // </div>
       )}
     </div>
   );

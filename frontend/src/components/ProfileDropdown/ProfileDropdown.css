@@ -1,7 +1,41 @@
-.profile-dropdown {
+.profile-button {
+  display: flex;
+  flex-direction: column;
+  width: 112px;
+}
+
+.dropdown-button-row {
+  display: flex;
+  align-items: center;
+}
+
+.dropdown-button-row .nav-label {
+  max-width: 80px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.nav-username {
+  max-width: 60px;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+div.dropdown-wrap {
   position: absolute;
   top: 53px;
   background-color: #9ab;
+  border-bottom-left-radius: 3px;
+  border-bottom-right-radius: 3px;
+  display: block;
+  padding-left: 0;
+  z-index: 8;
+  margin-right: 0;
+  width: 112px;
+}
+
+.profile-dropdown {
   color: #2c3440;
   border-bottom-left-radius: 3px;
   border-bottom-right-radius: 3px;
@@ -12,6 +46,7 @@
   padding-left: 0;
   z-index: 8;
   margin-right: 0;
+  width: 100%;
 }
 
 .profile-button.active {
@@ -22,6 +57,11 @@
 
 .profile-button.active .nav-label {
   color: #fff;
+}
+
+.dropdown-link:last-child {
+  border-bottom-left-radius: 3px;
+  border-bottom-right-radius: 3px;
 }
 
 li.dropdown-item {
@@ -46,7 +86,8 @@ a.dropdown-link {
   color: #2c3440;
   font-size: 12px;
   margin-right: 0;
-  width: 110px;
+  min-width: 110px;
+  width: 100%;
   display: flex;
   padding-left: 3px;
 }

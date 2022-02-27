@@ -19,12 +19,14 @@ function ProfileButton({ user }) {
         onMouseOver={openMenu}
         onMouseLeave={() => toggleMenu()}
       >
-        <button className="profile-button">
-          <FaUserCircle className="profile-button-icon" />
-        </button>
-        <div className="nav-label">
-          <span className="nav-username">{user.username}</span>
-          <AiOutlineDown className="caret-down-icon" />
+        <div className="dropdown-button-row">
+          <button className="profile-button">
+            <FaUserCircle className="profile-button-icon" />
+          </button>
+          <div className="nav-label">
+            <span className="nav-username">{user.username}</span>
+            <AiOutlineDown className="caret-down-icon" />
+          </div>
         </div>
         {showMenu && <ProfileDropdown user={user} toggle={toggleMenu} />}
       </div>

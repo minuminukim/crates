@@ -66,6 +66,10 @@ th.edit {
   margin-left: 60px;
 }
 
+.user-albums-content .grid-item {
+  border-radius: 3px;
+}
+
 .grid-item .album-art-container {
   position: relative;
   height: 180px;
@@ -73,11 +77,12 @@ th.edit {
   border-radius: 3px;
 }
 
-.user-albums-grid img {
+.user-albums-content img {
   border-radius: 3px;
 }
 
 .grid-item-rating {
+  margin-top: 5px;
   display: flex;
 }
 

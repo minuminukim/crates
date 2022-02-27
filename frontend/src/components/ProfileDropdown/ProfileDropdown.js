@@ -20,44 +20,42 @@ const ProfileDropdown = ({ toggle }) => {
   };
 
   return (
-    <ul className="profile-dropdown" onMouseLeave={() => toggle()}>
-      <DropdownItem label="Home" link="/" onClick={() => toggle()} />
-      <DropdownItem
-        label="Profile"
-        link={`/users/${user.id}`}
-        onClick={() => toggle()}
-      />
-      <DropdownItem
-        label="Albums"
-        link={`/users/${user.id}/albums`}
-        onClick={() => toggle()}
-      />
-      <DropdownItem
-        label="Diary"
-        link={`/users/${user.id}/diary`}
-        onClick={() => toggle()}
-      />
-      <DropdownItem
-        label="Reviews"
-        link={`/users/${user.id}/reviews`}
-        onClick={() => toggle()}
-      />
-      <DropdownItem
-        label="Backlog"
-        link={`/users/${user.id}/backlog`}
-        onClick={() => toggle()}
-      />
-      <DropdownItem
-        label="Lists"
-        link={`/users/${user.id}/lists`}
-        onClick={() => toggle()}
-      />
-      <DropdownItem
-        label="Logout"
-        link={`/`}
-        onClick={handleLogout}
-      />
-    </ul>
+    <div className="dropdown-wrap" onMouseLeave={() => toggle()}>
+      <ul className="profile-dropdown" onMouseLeave={() => toggle()}>
+        <DropdownItem label="Home" link="/" onClick={() => toggle()} />
+        <DropdownItem
+          label="Profile"
+          link={`/users/${user.id}`}
+          onClick={() => toggle()}
+        />
+        <DropdownItem
+          label="Albums"
+          link={`/users/${user.id}/albums`}
+          onClick={() => toggle()}
+        />
+        <DropdownItem
+          label="Diary"
+          link={`/users/${user.id}/diary`}
+          onClick={() => toggle()}
+        />
+        <DropdownItem
+          label="Reviews"
+          link={`/users/${user.id}/reviews`}
+          onClick={() => toggle()}
+        />
+        <DropdownItem
+          label="Backlog"
+          link={`/users/${user.id}/backlog`}
+          onClick={() => toggle()}
+        />
+        <DropdownItem
+          label="Lists"
+          link={`/users/${user.id}/lists`}
+          onClick={() => toggle()}
+        />
+        <DropdownItem label="Logout" link={`/`} onClick={handleLogout} />
+      </ul>
+    </div>
   );
 };
 

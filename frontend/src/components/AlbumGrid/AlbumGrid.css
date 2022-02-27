@@ -14,8 +14,17 @@
 
 .album-grid img {
   border: 0.5px solid #99aabb;
+  border-radius: 3px;
 }
 
-.position {
+.album-grid .position {
   color: #fff;
+  text-align: center;
+  margin-top: 5px;
+}
+
+.list-page-main .grid-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }

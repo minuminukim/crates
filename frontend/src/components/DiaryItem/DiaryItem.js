@@ -14,7 +14,7 @@ import { ArtWithOverlay } from '../AlbumArt';
 const DiaryItem = ({ entry }) => {
   const { userID } = useParams();
   const sessionUser = useSelector((state) => state.session.user);
-  const [day, month, year] = formatDateDayMonthYear(entry.createdAt).split(' ');
+  const [day, month, year] = formatDateDayMonthYear(entry.listenedDate).split(' ');
   const { showModal, toggleModal } = useModal();
 
   return (

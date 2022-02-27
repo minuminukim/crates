@@ -89,6 +89,10 @@ h3.title {
   color: #fff;
   font-size: 26px;
   font-weight: 600;
+  max-width: 510px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 p.year {
