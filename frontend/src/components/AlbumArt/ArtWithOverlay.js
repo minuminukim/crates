@@ -2,14 +2,14 @@ import { useState } from 'react';
 import { AlbumInfo } from '.';
 import handleImageError from '../../utils/handleImageError';
 
-const ArtWithOverlay = ({ album, children, className }) => {
+const ArtWithOverlay = ({ album, children, className = '' }) => {
   const [showInfo, setShowInfo] = useState(false);
 
   return (
     <>
       {showInfo && <AlbumInfo title={album.title} year={album.releaseYear} />}
       <div
-        className="album-art-container with-overlay"
+        className={`album-art-container with-overlay ${className}`}
         onMouseOver={() => setShowInfo(true)}
         onMouseOut={() => setShowInfo(false)}
       >

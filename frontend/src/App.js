@@ -13,6 +13,7 @@ import Review from './views/Reviews';
 import NotFound from './views/NotFound';
 import { User } from './views/User';
 import Footer from './components/Footer';
+import Album from './views/Albums/Album';
 
 function App() {
   const dispatch = useDispatch();
@@ -48,9 +49,9 @@ function App() {
             <Route exact path="/albums">
               <Albums />
             </Route>
-            {/* <Route exact path="/albums/:spotifyID">
-              <h2>Album</h2>
-            </Route> */}
+            <Route path="/albums/:spotifyID">
+              <Album />
+            </Route>
             <Route exact path="/lists">
               <Lists />
             </Route>

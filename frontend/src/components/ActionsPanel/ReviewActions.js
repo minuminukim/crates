@@ -38,7 +38,11 @@ const ReviewActions = ({ userID, onDelete, rating }) => {
               />
             )}
           </EditReviewModal>
-          <WarningMessageModal onDelete={onDelete} item="review" itemID={reviewID}>
+          <WarningMessageModal
+            onDelete={onDelete}
+            item="review"
+            itemID={reviewID}
+          >
             {(toggleWarning) => (
               <ActionsRow
                 className="hover"

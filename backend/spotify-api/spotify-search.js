@@ -60,7 +60,10 @@ const fetchSingleAlbum = async (id, token) => {
     const mappedTracks = album.tracks.items.map((item) => ({
       name: item.name,
       trackNumber: item.track_number,
+      durationMS: item.duration_ms,
     }));
+
+    console.log('tracks', album.tracks.items);
 
     const data = {
       spotifyID: album.id,
@@ -72,11 +75,14 @@ const fetchSingleAlbum = async (id, token) => {
       totalTracks: album.total_tracks,
       genres: album.genres,
       tracks: mappedTracks,
+      label: album.label,
     };
 
+    // return album;
     return data;
   } catch (error) {
     console.log('error fetching album', error);
+    return next(error);
   }
 };
 

@@ -1,0 +1,78 @@
+.single-album-view {
+  display: grid;
+  grid-template-columns: 230px 670px;
+  column-gap: 50px;
+}
+
+.album-view-main {
+  display: grid;
+  grid-template-columns: 390px 230px;
+  column-gap: 50px;
+}
+
+.album-art-230 {
+  height: 230px;
+  width: 230px;
+  border-radius: 3px;
+}
+
+img.album-art-230 {
+  border: 0.5px solid #99aabb;
+}
+
+a.album-nav-label {
+  color: #00e054;
+  font-size: 16px;
+  margin-right: 12px;
+  padding-bottom: 4px;
+}
+
+.album-nav {
+  border-bottom: 1px solid #456;
+  padding-bottom: 4px;
+}
+
+a.album-nav-label:hover {
+  border-bottom: 1px solid #00e054;
+}
+
+.album-nav .active:hover {
+  border-bottom: 1px solid #fff;
+}
+.album-nav .active {
+  color: #fff;
+  border-bottom: 1px solid #fff;
+}
+
+.album-details {
+  display: flex;
+  flex-direction: column;
+  width: 390px;
+}
+
+.album-tracklist {
+  display: flex;
+  flex-direction: column;
+  padding-left: 0;
+  list-style-type: initial;
+}
+
+.album-track {
+  display: flex;
+  color: #789;
+  font-size: 14px;
+}
+
+p.trackname {
+  display: flex;
+  width: 160px;
+  margin-right: 4px;
+}
+
+.trackname span {
+  content: '';
+  flex: 1 1 auto;
+  border-bottom: 1px dotted #456;
+  position: relative;
+  bottom: 1px;
+}
