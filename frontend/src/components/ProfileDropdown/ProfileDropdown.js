@@ -54,9 +54,8 @@ const ProfileDropdown = ({ toggle }) => {
       />
       <DropdownItem
         label="Logout"
-        link={`/users/`}
+        link={`/`}
         onClick={handleLogout}
-        onClick={() => toggle()}
       />
     </ul>
   );

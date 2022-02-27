@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { fetchComments } from '../../store/commentsReducer';
 import { fetchSingleUser } from '../../store/usersReducer';
 import { Comment, CommentForm } from '.';
+import { sortByRecent } from '../../utils/sorts';
 import './Comment.css';
 
 const CommentSection = () => {
@@ -35,7 +36,7 @@ const CommentSection = () => {
           })
         );
 
-        setComments(response);
+        setComments(sortByRecent(response));
         setLoading(false);
       } catch (res) {
         console.log('error fetching comments and users', res);
@@ -53,14 +54,22 @@ const CommentSection = () => {
   const onDelete = (commentID) =>
     setComments([...comments.filter((item) => item.id !== commentID)]);
 
-  const onPost = (comment) =>
-    setComments([...comments, withUsername(comment, user)]);
+  const onPost = (comment) => {
+    const updated = [...comments, withUsername(comment, user)];
+    setComments(sortByRecent(updated));
+    // setComments([...comments, withUsername(comment, user)]);
+  };
 
   const onEdit = (comment) => {
-    setComments([
+    const updated = [
       ...comments.filter((item) => item.id !== comment.id),
       withUsername(comment, user),
-    ]);
+    ];
+    setComments(sortByRecent(updated));
+    // setComments([
+    //   ...comments.filter((item) => item.id !== comment.id),
+    //   withUsername(comment, user),
+    // ]);
   };
 
   return (
