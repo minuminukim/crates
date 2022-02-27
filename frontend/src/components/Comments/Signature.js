@@ -22,7 +22,7 @@ const Signature = ({ userID, username, body, onEdit, commentID, onDelete }) => {
 
   return (
     <div className="signature-comment">
-      <div>
+      <div className="avatar-link">
         <Link className="avatar-link" to={`/users/${userID}`}>
           <FaUserCircle className="avatar-link" />
         </Link>

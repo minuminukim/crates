@@ -3,6 +3,7 @@
   width: 640px;
   height: 250px;
   padding: 30px 40px;
+  border-radius: 3px;
 }
 
 .edit-comment-modal h1 {

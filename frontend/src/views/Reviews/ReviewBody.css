@@ -4,6 +4,7 @@ h1.review-heading {
   font-size: 24px;
   display: flex;
   align-items: center;
+  margin-bottom: 12px;
 }
 
 .review-release-year {
@@ -11,7 +12,20 @@ h1.review-heading {
   font-size: 19px;
   font-weight: 300;
   color: #89a;
-  margin: 0 5px;
+  margin-left: 6px;
+  margin-right: 12px;
+  position: relative;
+  top: 1px;
+}
+
+p.review-by {
+  font-size: 16px;
+  margin-left: 8px;
+}
+
+.single-review-filled-stars {
+  position: relative;
+  top: 1px;
 }
 
 .half-green {
@@ -30,4 +44,9 @@ h1.review-heading {
 div.user-info {
   padding-bottom: 8px;
   border-bottom: 0.5px solid rgb(68, 85, 102);
+}
+
+.review-listened-date {
+  font-size: 14px;
+  filter: brightness(0.8);
 }

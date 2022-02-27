@@ -8,7 +8,6 @@ import { Link } from 'react-router-dom';
 import './ReviewBody.css';
 
 const ReviewBody = () => {
-  // console.log('review', review, 'album', album, 'isLoading', isLoading);
   const { reviewID } = useParams();
   const review = useSelector((state) => state.reviews.items[reviewID]);
   const user = useSelector((state) => state.users[review?.userID]);
@@ -16,25 +15,15 @@ const ReviewBody = () => {
   const album = Object.values(albums)?.find(
     (album) => album.id === review.albumID
   );
-  // useEffect(() => {
-  //   return dispatch(fetchSingleUser(review.userID))
-  //     .then((user) => setUser(user))
-  //     .then(() => setIsLoaded(true))
-  //     .catch(async (res) => {
-  //       const data = await res.json();
-  //       if (data && data.errors) {
-  //         console.log('error in ReviewBody fetching user', data);
-  //         return data.errors;
-  //       }
-  //     });
-  // }, [dispatch, review.userID]);
 
   return (
     <div className="review">
       <section className="review-header">
         <div className="user-info">
-          <FaUserCircle className="user-avatar" />
-          <p>
+          <Link className="avatar-link" to={`/users/${review?.userID}`}>
+            <FaUserCircle className="user-avatar" />
+          </Link>
+          <p className="review-by">
             Review by{' '}
             <Link className="user-link" to={`/users/${review?.userID}`}>
               {user?.username}

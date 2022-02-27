@@ -11,7 +11,7 @@ const CommentIcon = ({
   type,
 }) => {
   return (
-    <div style={{ position: 'relative' }}>
+    <div className="comment-icon-wrapped" style={{ position: 'relative' }}>
       {showInfo && <HoverInfo text={text} className="comment-info" />}
       {type === 'edit' ? (
         <MdModeEditOutline

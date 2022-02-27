@@ -31,7 +31,7 @@ const CommentSection = () => {
             return { ...comment, username };
           })
         );
-        
+
         setComments(response);
         setLoading(false);
       } catch (res) {
@@ -40,14 +40,25 @@ const CommentSection = () => {
     })();
   }, [dispatch, reviewID]);
 
+  // helper that appends username to a new / edited comment because
+  // that value isn't returned from the form
+  const withUsername = (comment, sessionUser) => {
+    const { username } = sessionUser;
+    return { ...comment, username };
+  };
+
   const onDelete = (commentID) =>
     setComments([...comments.filter((item) => item.id !== commentID)]);
-  const onPost = (comment) => setComments([...comments, comment]);
-  const onEdit = (comment) =>
+
+  const onPost = (comment) =>
+    setComments([...comments, withUsername(comment, user)]);
+
+  const onEdit = (comment) => {
     setComments([
       ...comments.filter((item) => item.id !== comment.id),
-      comment,
+      withUsername(comment, user),
     ]);
+  };
 
   return (
     !loading && (

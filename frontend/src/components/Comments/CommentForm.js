@@ -47,6 +47,7 @@ const CommentForm = ({
         setMessage(method === 'POST' ? 'Reply posted.' : 'Reply updated.');
 
         if (method === 'PUT') {
+          console.log('comment', comment);
           const messageTimeout = setTimeout(() => toggle(), 3000);
           return () => clearTimeout(messageTimeout);
         }
