@@ -6,6 +6,7 @@
 
 .profile-content .card-row {
   width: 670px;
+  justify-content: flex-start;
 }
 .profile-content .card,
 .profile-content .card-main {
@@ -16,4 +17,37 @@
 .profile-content div.album-art {
   height: 158px;
   width: 158px;
+}
+
+.profile-content .card-signature {
+  width: 158px;
+}
+
+.profile-content .overlay {
+  width: 158px;
+}
+
+.profile-recent-activity {
+  margin-bottom: 24px;
+}
+
+.profile-recent-activity h2.section-heading {
+  margin-bottom: 18px;
+}
+
+.profile-content .profile-recent-reviews {
+  width: 670px;
+}
+
+.profile-recent-reviews .section-heading {
+  margin-bottom: 0;
+}
+
+.profile-recent-reviews .review-list-item {
+  width: 670px;
+}
+
+.side-panel.backlog span.overlay {
+  width: 230px;
+  height: 110px;
 }

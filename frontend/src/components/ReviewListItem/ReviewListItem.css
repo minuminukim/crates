@@ -99,15 +99,22 @@ a.review-list-item-title {
   margin-left: 8px;
 }
 
-.review-list-item-username {
+a.review-list-item-username {
   font-weight: 600;
   position: relative;
   top: 2px;
+  margin-left: 4px;
 }
 
 .review-list-item-info a:hover {
   color: #9ab;
   filter: brightness(1);
+}
+
+span.review-list-item-date {
+  margin-left: 4px;
+  position: relative;
+  top: 2px;
 }
 
 .block .review-list-item-body {

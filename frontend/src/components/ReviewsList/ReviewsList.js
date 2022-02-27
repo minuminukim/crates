@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { getReviews } from '../../store/reviewsReducer';
-import { sortByRecent } from '../../utils/sorts';
+import { sortByRecent, sortByDateListened } from '../../utils/sorts';
 import ReviewListItem from '../ReviewListItem';
 import { Empty } from '../../views/User';
 import './ReviewsList.css';
@@ -23,7 +23,7 @@ const ReviewsList = ({ className = null }) => {
   useEffect(() => {
     return dispatch(getReviews()).then((reviews) => {
       const sorted = userID
-        ? sortByRecent(filterByUserID([...reviews]))
+        ? sortByDateListened(filterByUserID([...reviews]))
         : sortPopularReviews([...reviews]);
       setReviews(sorted);
       setLoading(false);

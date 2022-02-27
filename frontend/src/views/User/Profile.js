@@ -6,7 +6,7 @@ import { fetchSingleUser } from '../../store/usersReducer';
 import ProfileHeader from './ProfileHeader';
 import CardRow from '../../components/CardRow';
 import ReviewListItem from '../../components/ReviewListItem';
-import { sortByRecent, sortByDateListened } from '../../utils/sorts';
+import { sortByDateListened } from '../../utils/sorts';
 import { Empty } from '.';
 import './Profile.css';
 
@@ -41,7 +41,7 @@ const Profile = () => {
           <section className="profile-header">
             <ProfileHeader username={user.username} />
           </section>
-          <section>
+          <section className="profile-recent-activity">
             <h2 className="section-heading">RECENT ACTIVITY</h2>
             {reviews?.length > 0 ? (
               <CardRow items={reviews.slice(0, 4)} />
@@ -50,7 +50,7 @@ const Profile = () => {
             )}
           </section>
           {reviews?.length > 0 && (
-            <section>
+            <section className="profile-recent-reviews">
               <h2 className="section-heading">RECENT REVIEWS</h2>
               {reviews
                 // we only want the ones that have bodies
@@ -66,7 +66,6 @@ const Profile = () => {
             </section>
           )}
         </div>
-        <div>test</div>
       </div>
     )
   );
