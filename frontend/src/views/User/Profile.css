@@ -1,0 +1,5 @@
+.profile-content {
+  display: grid;
+  grid-template-columns: 670px 230px;
+  column-gap: 50px;
+}

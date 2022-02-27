@@ -36,33 +36,36 @@ const Profile = () => {
   return (
     !loading && (
       <div className="profile-content">
-        <section className="profile-header">
-          <ProfileHeader username={user.username} />
-        </section>
-        <section>
-          <h2 className="section-heading">RECENT ACTIVITY</h2>
-          {reviews?.length > 0 ? (
-            <CardRow items={reviews.slice(0, 4)} />
-          ) : (
-            <Empty />
-          )}
-        </section>
-        {reviews?.length > 0 && (
-          <section>
-            <h2 className="section-heading">RECENT REVIEWS</h2>
-            {reviews
-            // we only want the ones that have bodies
-            .filter((review) => review.body)
-            .slice(0, 4)
-            .map((review) => (
-              <ReviewListItem
-                key={`${review.id}`}
-                review={review}
-                shape="landscape"
-              />
-            ))}
+        <div>
+          <section className="profile-header">
+            <ProfileHeader username={user.username} />
           </section>
-        )}
+          <section>
+            <h2 className="section-heading">RECENT ACTIVITY</h2>
+            {reviews?.length > 0 ? (
+              <CardRow items={reviews.slice(0, 4)} />
+            ) : (
+              <Empty />
+            )}
+          </section>
+          {reviews?.length > 0 && (
+            <section>
+              <h2 className="section-heading">RECENT REVIEWS</h2>
+              {reviews
+                // we only want the ones that have bodies
+                .filter((review) => review.body)
+                .slice(0, 4)
+                .map((review) => (
+                  <ReviewListItem
+                    key={`${review.id}`}
+                    review={review}
+                    shape="landscape"
+                  />
+                ))}
+            </section>
+          )}
+        </div>
+        {/* <div>test</div> */}
       </div>
     )
   );
