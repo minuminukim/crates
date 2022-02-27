@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { BiSearchAlt } from 'react-icons/bi';
 import ProfileButton from './ProfileButton';
 import LogButton from './LogButton';
 import { Modal } from '../../context/Modal';
@@ -30,7 +29,6 @@ function Navigation({ isLoaded }) {
       <span className="nav-label" onClick={handleDemoUser}>
         TRY DEMO
       </span>
-      {/* <NavLink to="/signup">CREATE ACCOUNT</NavLink> */}
     </>
   );
 

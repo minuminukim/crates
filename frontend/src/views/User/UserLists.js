@@ -25,9 +25,9 @@ const UserLists = ({ userID }) => {
     !loading && (
       <div className="user-lists-content">
         <div className="user-lists-left">
+          <h3 className="section-heading">ALL LISTS</h3>
           {lists?.length > 0 ? (
             <>
-              <h3 className="section-heading">ALL LISTS</h3>
               <ul>
                 {lists.map((list, i) => (
                   <FeedPost key={`list-${i}`} list={list} />

@@ -4,13 +4,14 @@ import { useSelector, useDispatch } from 'react-redux';
 import { getReviewsByUserID, getReviews } from '../../store/reviewsReducer';
 import { sortByRecent } from '../../utils/sorts';
 import ReviewListItem from '../ReviewListItem';
+import { Empty } from '../../views/User';
 import './ReviewsList.css';
 
 const ReviewsList = ({ className = null }) => {
   const { userID } = useParams();
   const dispatch = useDispatch();
   const [reviews, setReviews] = useState([]);
-  // const { items } = useSelector((state) => state.reviews);
+  const [loading, setLoading] = useState(true);
 
   const filterByUserID = (reviews) =>
     reviews.filter((review) => review.userID === +userID);
@@ -20,35 +21,39 @@ const ReviewsList = ({ className = null }) => {
   const sortPopularReviews = (reviews) => reviews.slice(0, 6);
 
   useEffect(() => {
-    // return dispatch(getReviewsByUserID(+userID))
-    // if (!userID) return;
     return (
       dispatch(getReviews())
         // .then((reviews) => reviews.filter((review) => review.userID === userID))
-        .then((reviews) =>
-          userID
-            ? sortByRecent(filterByUserID(reviews))
-            : sortPopularReviews(reviews)
-        )
-        .then((sorted) => setReviews(sorted))
-        .catch((err) => console.log('ReviewsList error', err))
+        .then((reviews) => {
+          const sorted = userID
+            ? sortByRecent(filterByUserID([...reviews]))
+            : sortPopularReviews([...reviews]);
+          setReviews(sorted);
+          setLoading(false);
+        })
+      // .then((sorted) => setReviews(sorted))
+      // .catch((err) => console.log('ReviewsList error', err))
     );
   }, [dispatch]);
 
   return (
-    reviews.length > 0 && (
+    !loading && (
       <div className="page-container reviews-list-container">
-        <ul className={`reviews-list ${className}`}>
-          {reviews.map((review) => (
-            <li key={`review-${review.id}`}>
-              <ReviewListItem
-                review={review}
-                className={userID ? 'user' : 'popular'}
-                shape="landscape"
-              />
-            </li>
-          ))}
-        </ul>
+        {reviews?.length > 0 ? (
+          <ul className={`reviews-list ${className}`}>
+            {reviews.map((review) => (
+              <li key={`review-${review.id}`}>
+                <ReviewListItem
+                  review={review}
+                  className={userID ? 'user' : 'popular'}
+                  shape="landscape"
+                />
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <Empty item="reviews" />
+        )}
       </div>
     )
   );

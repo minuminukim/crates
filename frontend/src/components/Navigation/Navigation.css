@@ -75,6 +75,8 @@ div.profile-button {
   justify-content: center;
   align-items: center;
   font-size: 14px;
+  width: 130px;
+  padding: 5px 0;
 }
 
 button.profile-button {
