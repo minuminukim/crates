@@ -41,6 +41,45 @@ const searchAlbumsByTitle = async (title, token) => {
   }
 };
 
+const fetchSingleAlbum = async (id, token) => {
+  if (!token) {
+    token = await getToken();
+  }
+
+  const url = `https://api.spotify.com/v1/albums/${id}`;
+
+  try {
+    const response = await axios.get(url, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    });
+
+    const album = response.data;
+    const mappedTracks = album.tracks.items.map((item) => ({
+      name: item.name,
+      trackNumber: item.track_number,
+    }));
+
+    const data = {
+      spotifyID: album.id,
+      title: album.name,
+      artist: album.artists[0].name,
+      artistImageURL: album.artists[0]?.images || [],
+      releaseYear: +album.release_date.split('-')[0],
+      artworkURL: album.images[0].url,
+      totalTracks: album.total_tracks,
+      genres: album.genres,
+      tracks: mappedTracks,
+    };
+
+    return data;
+  } catch (error) {
+    console.log('error fetching album', error);
+  }
+};
+
 const wrapSearchInRetry = (searchFunction) => {
   return async (...args) => {
     try {
@@ -65,8 +104,10 @@ const wrapSearchInRetry = (searchFunction) => {
 };
 
 const searchAlbumsWithRetry = wrapSearchInRetry(searchAlbumsByTitle);
+const fetchSingleAlbumWithRetry = wrapSearchInRetry(fetchSingleAlbum);
 
 module.exports = {
   searchAlbumsByTitle,
   searchAlbumsWithRetry,
+  fetchSingleAlbumWithRetry,
 };
