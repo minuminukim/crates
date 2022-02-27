@@ -6,7 +6,6 @@ import {
   appendBacklog,
   removeFromBacklog,
 } from '../../store/backlogsReducer';
-import areAllUnique from '../../utils/areAllUnique';
 import { BacklogGrid } from '.';
 import { Empty } from '../User';
 import { useSearch } from '../../hooks';
@@ -51,7 +50,6 @@ const Backlog = ({ username }) => {
         .then(({ backlog }) => {
           setMessage(`You have added '${item.title}' to your backlog.`);
           setAlbums([...backlog]);
-          // setTimeout(() => setAlbums([...albums, item]), 1000);
           setLoading(false);
           setErrors([]);
         })
@@ -126,7 +124,7 @@ const Backlog = ({ username }) => {
                       setShowList(true);
                     }}
                     onFocus={() => setShowList(true)}
-                    onBlur={null}
+                    onBlur={() => setShowList(false)}
                     error={searchErrors}
                   />
                   {!searchErrors?.length && showList && (
@@ -143,7 +141,7 @@ const Backlog = ({ username }) => {
                             title={item.title}
                             artist={item.artist}
                             releaseYear={item.releaseYear}
-                            onClick={() => handleDispatch(item)}
+                            onMouseDown={() => handleDispatch(item)}
                           />
                         ))}
                     </ul>

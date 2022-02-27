@@ -1,28 +1,36 @@
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { FaTrash } from 'react-icons/fa';
 import { ArtWithOverlay } from '../../components/AlbumArt';
 import { useState } from 'react';
-import HoverInfo from '../../components/HoverInfo';
+import { DeleteIcon } from '../../components/ActionsPanel/ActionIcons';
 
 const BacklogGrid = ({ albums, onDelete }) => {
   const sessionUser = useSelector((state) => state.session.user);
   const { userID } = useParams();
-  const [showHover, setShowHover] = useState(false);
+  const [hoverIndex, setHoverIndex] = useState(null);
+  const handleDelete = (album) => {
+    onDelete(album);
+    setHoverIndex(null);
+  };
 
   return (
     <ul className="backlog-grid">
       {albums.map((album, i) => (
-        <li key={`backlog-item-${i}`} className="album-grid-item">
+        <li
+          key={`backlog-item-${i}`}
+          className="album-grid-item"
+          onMouseOver={() => setHoverIndex(i)}
+          onMouseLeave={() => setHoverIndex(null)}
+        >
           <ArtWithOverlay album={album} className="backlog">
-            {sessionUser && +userID === sessionUser?.id && (
-              <FaTrash
-                className="remove icon"
-                onClick={() => onDelete(album)}
-                onMouseOver={() => setShowHover(true)}
-                onMouseLeave={() => setShowHover(false)}
-              />
-            )}
+            {sessionUser &&
+              +userID === sessionUser?.id &&
+              hoverIndex !== null &&
+              hoverIndex === i && (
+                <div className="hover-actions">
+                  <DeleteIcon onClick={() => handleDelete(album)} />
+                </div>
+              )}
             {/* {showHover && <HoverInfo text="Remove album" />} */}
           </ArtWithOverlay>
         </li>

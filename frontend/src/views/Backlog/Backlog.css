@@ -49,11 +49,30 @@ span.overlay {
   position: absolute;
 }
 
-.icon.remove {
+.backlog-grid .remove {
   cursor: pointer;
-  color: red;
-  top: 80%;
-  left: 80%;
   position: absolute;
   z-index: 12;
+}
+
+div.hover-actions {
+  background-color: rgba(0, 0, 0, 0.9);
+  z-index: 12;
+  position: absolute;
+  left: 80%;
+  top: 80%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 25px;
+  height: 25px;
+  border-radius: 3px;
+}
+
+div.hover-actions .action-icon {
+  font-size: 16px;
+}
+
+.action-icon.remove:hover {
+  color: #ec1200;
 }

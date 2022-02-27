@@ -4,13 +4,12 @@
   gap: 12px;
 }
 
-.album-grid img {
-  transition: outline 0.1s linear;
+.album-grid .with-overlay {
   border-radius: 3px;
 }
 
-.album-grid img:hover {
-  outline: 3px solid #00e054;
+.album-grid .with-overlay:hover {
+  z-index: 12;
 }
 
 .album-grid img {

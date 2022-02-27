@@ -23,6 +23,11 @@
   transition: border 0.1s linear;
 }
 
+div.list-art {
+  background-color: rgba(0, 0, 0, 0.4);
+  border: 0.5px solid rgba(153, 170, 187, 0.4);
+}
+
 .overlay:hover {
   border: 3px solid #00e054;
 }

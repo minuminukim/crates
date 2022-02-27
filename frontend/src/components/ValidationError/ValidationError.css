@@ -17,12 +17,17 @@ ul.validation-errors {
   margin: 5px;
   border-radius: 5px;
   padding: 0 5px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 12;
 }
 
 .success-container {
   position: fixed;
   top: 0;
   left: 0;
+  z-index: 12;
 }
 
 .success-message-alert {

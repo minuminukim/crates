@@ -1,4 +1,7 @@
 import { MdHearing, MdMoreTime } from 'react-icons/md';
+import { FaTrash } from 'react-icons/fa';
+import { useState } from 'react';
+import HoverInfo from '../HoverInfo';
 
 export const ListenIcon = ({
   text = '',
@@ -37,5 +40,21 @@ export const BacklogIcon = ({
       <MdMoreTime className="action-icon" />
       {text && <p className="action-label">{text}</p>}
     </div>
+  );
+};
+
+export const DeleteIcon = ({ onClick }) => {
+  const [showHover, setShowHover] = useState(false);
+
+  return (
+    <>
+      <FaTrash
+        className="action-icon remove"
+        onClick={onClick}
+        onMouseOver={() => setShowHover(true)}
+        onMouseLeave={() => setShowHover(false)}
+      />
+      {showHover && <HoverInfo className="hover-remove" text="Remove album" />}
+    </>
   );
 };

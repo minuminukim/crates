@@ -11,7 +11,8 @@ div.with-arrow {
 }
 
 div.comment-info,
-div.album-info {
+div.album-info,
+div.hover-remove {
   background-color: #445566;
   font-size: 12px;
   font-weight: 600;

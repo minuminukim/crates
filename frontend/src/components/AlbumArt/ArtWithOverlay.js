@@ -13,8 +13,7 @@ const ArtWithOverlay = ({ album, children, className }) => {
         onMouseOver={() => setShowInfo(true)}
         onMouseOut={() => setShowInfo(false)}
       >
-        <span className="overlay" />
-        {children}
+        <span className="overlay">{children}</span>
         <img
           src={album?.artworkURL}
           alt={album?.title}

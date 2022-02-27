@@ -8,7 +8,6 @@ const SearchList = ({
   items,
   isModal,
   closeSearchModal = null,
-  onClick = null,
 }) => {
   const [chosen, setChosen] = useState(null);
   const [showModal, setShowModal] = useState(false);

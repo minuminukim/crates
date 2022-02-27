@@ -14,7 +14,7 @@ const ListSpread = ({ gap, albums, listID, size = 'medium' }) => {
       {items?.length &&
         items.slice(0, 5).map((item, i) => (
           <div
-            className={`album-art-container album-art-container-${size}`}
+            className={`album-art-container album-art-container-${size} list-art`}
             key={`album-art-${i}`}
             id={`album-${i}`}
           >

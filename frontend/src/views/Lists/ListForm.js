@@ -26,7 +26,6 @@ const ListForm = () => {
   const [action, setAction] = useState(null);
   const [message, setMessage] = useState('');
   const [showList, setShowList] = useState(false);
-  const [loading, setLoading] = useState(true);
   const { user } = useSelector((state) => state.session);
   const { query, setQuery, results, isLoading, searchErrors } = useSearch();
   const dispatch = useDispatch();
@@ -78,12 +77,6 @@ const ListForm = () => {
 
   const handleChange = (e) => setQuery(e.target.value);
 
-  // const areAllUnique = (albums) => {
-  //   const mapped = albums.map((album) => album.spotifyID);
-  //   const unique = [...new Set(mapped)];
-  //   return unique.length === mapped.length;
-  // };
-
   const handleSubmit = (e) => {
     e.preventDefault();
     setErrors([]);
@@ -123,7 +116,6 @@ const ListForm = () => {
           setErrors([...Object.values(data.errors)]);
           return;
         }
-        console.log('error', data);
       });
   };
 
@@ -222,11 +214,6 @@ const ListForm = () => {
           updateAlbums={(next) => setAlbums(next)}
         />
       </form>
-      {/* {albums?.length > 0 && albums.map((album) => album.title)} */}
-      {/* <section className="list-form-search">
-        <SearchBar value={query} onChange={handleChange} id="search" />
-          {results?.length > 0 && <SearchList items={results} />}
-      </section> */}
     </div>
   );
 };

@@ -1,12 +1,13 @@
 import { useState } from 'react';
 import useSearch from '../../hooks/useSearch';
-import { SearchField, SearchItem, SearchList } from '../Search';
+import { SearchField, SearchList } from '../Search';
 import { AiOutlineClose } from 'react-icons/ai';
 import './SearchModal.css';
 
 const SearchModal = ({ closeSearch = null }) => {
   const { query, setQuery, results, isLoading, searchErrors } = useSearch();
   // const [showForm, setShowForm] = useState(false);
+  const [showList, setShowList] = useState(false);
   const handleChange = (e) => setQuery(e.target.value);
 
   return (
@@ -30,9 +31,10 @@ const SearchModal = ({ closeSearch = null }) => {
               query={query}
               error={searchErrors}
               onChange={handleChange}
+              onFocus={() => setShowList(true)}
+              // onBlur={() => setShowList(false)}
             />
-            {/* <SearchBar value={query} onChange={handleChange} id="search" /> */}
-            {results?.length > 0 && (
+            {showList && (
               <SearchList
                 items={results}
                 isModal={true}
@@ -42,17 +44,6 @@ const SearchModal = ({ closeSearch = null }) => {
           </div>
         </div>
       </form>
-      {/* {showForm && (
-        <Modal onClose={() => setShowForm(false)}>
-          <ReviewForm
-            album={chosen}
-            onSuccess={() => {
-              closeSearch();
-              setShowForm(false);
-            }}
-          />
-        </Modal>
-      )} */}
     </>
   );
 };
