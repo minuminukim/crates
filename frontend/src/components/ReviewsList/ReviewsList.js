@@ -21,17 +21,14 @@ const ReviewsList = ({ className = null }) => {
   const sortPopularReviews = (reviews) => reviews.slice(0, 6);
 
   useEffect(() => {
-    return (
-      dispatch(getReviews())
-        .then((reviews) => {
-          const sorted = userID
-            ? sortByRecent(filterByUserID([...reviews]))
-            : sortPopularReviews([...reviews]);
-          setReviews(sorted);
-          setLoading(false);
-        })
-    );
-  }, [dispatch]);
+    return dispatch(getReviews()).then((reviews) => {
+      const sorted = userID
+        ? sortByRecent(filterByUserID([...reviews]))
+        : sortPopularReviews([...reviews]);
+      setReviews(sorted);
+      setLoading(false);
+    });
+  }, [dispatch, userID]);
 
   return (
     !loading && (
