@@ -43,14 +43,15 @@ const useBacklog = (album) => {
       });
   };
 
-  const handleBacklog = () => (inBacklog ? onRemove() : onAdd());
+  // const handleBacklog = () => (inBacklog ? onRemove() : onAdd());
 
   return {
     inBacklog,
     setInBacklog,
     backlogSuccess: message,
     backlogErrors: errors,
-    handleBacklog,
+    onRemove,
+    onAdd,
   };
 };
 

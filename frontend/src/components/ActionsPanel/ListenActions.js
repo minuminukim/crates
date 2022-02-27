@@ -14,14 +14,23 @@ const ListenActions = ({ album }) => {
   const [loading, setLoading] = useState(false);
   const [listenText, setListenText] = useState('');
   const [backlogText, setBacklogText] = useState('Backlog');
-  const { handleListen, setListened, listenSuccess, listenErrors, listened } =
-    useListen(album);
+
+  const {
+    onListen,
+    onUnlisten,
+    setListened,
+    listenSuccess,
+    listenErrors,
+    listened,
+  } = useListen(album);
+
   const {
     inBacklog,
     setInBacklog,
     backlogSuccess,
     backlogErrors,
-    handleBacklog,
+    onAdd,
+    onRemove,
   } = useBacklog(album);
 
   useEffect(() => {
@@ -53,11 +62,15 @@ const ListenActions = ({ album }) => {
   }, [dispatch, sessionUser.id]);
 
   const updateListen = () => {
-    handleListen();
-    if (inBacklog) {
-      setInBacklog(false);
+    if (listened) {
+      onUnlisten();
+    } else {
+      onListen();
+
+      if (inBacklog) {
+        onRemove();
+      }
     }
-    return;
   };
 
   return (
@@ -76,7 +89,7 @@ const ListenActions = ({ album }) => {
             className={inBacklog ? 'remove' : 'append'}
             onMouseOver={() => setBacklogText(inBacklog ? 'Remove' : 'Backlog')}
             onMouseLeave={() => setBacklogText('Backlog')}
-            onClick={handleBacklog}
+            onClick={() => (inBacklog ? onRemove() : onAdd())}
           />
         </ActionsRow>
         <ErrorMessages success={listenSuccess} errors={listenErrors} />

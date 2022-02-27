@@ -41,10 +41,9 @@ const useListen = (album) => {
       });
   };
 
-  const handleListen = () => (listened ? onUnlisten() : onListen());
-
   return {
-    handleListen,
+    onUnlisten,
+    onListen,
     listenSuccess: message,
     listenErrors: errors,
     setListened,

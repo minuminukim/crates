@@ -27,6 +27,15 @@ const userNotFoundError = () => {
   return userError;
 };
 
+const unauthorizedError = () => {
+  const error = new Error('Unauthorized');
+  error.status = 401;
+  error.title = 'Unauthorized';
+  error.errors = ['You are unauthorized to update this resource.'];
+
+  return error;
+};
+
 // Sign up
 router.post(
   '',
@@ -156,6 +165,10 @@ router.put(
     const id = +req.params.id;
     const { spotifyID, title, artworkURL, artist, releaseYear } = req.body;
 
+    if (id !== req.user.id) {
+      return next(unauthorizedError());
+    }
+
     // get the user's backlog
     const [backlog, _created] = await Backlog.findOrCreate({
       where: { userID: id },
@@ -199,6 +212,7 @@ router.put(
   })
 );
 
+// removes an album from a user's log
 router.delete(
   `/:id(\\d+)/backlog/:albumID`,
   requireAuth,
@@ -223,6 +237,10 @@ router.delete(
       return res
         .status(404)
         .json({ errors: ['The requested resource could not be found.'] });
+    }
+
+    if (id !== req.user.id) {
+      return next(unauthorizedError());
     }
 
     await albumBacklog.destroy();
@@ -259,6 +277,10 @@ router.post(
   asyncHandler(async (req, res, next) => {
     const id = +req.params.id;
 
+    if (id !== req.user.id) {
+      return next(unauthorizedError());
+    }
+
     const { spotifyID, title, artworkURL, artist, releaseYear } = req.body;
 
     const { album } = await useAlbumFindOrCreate({
@@ -283,23 +305,6 @@ router.post(
       });
     }
 
-    // Check if the album exists in the user's backlog...
-    // and remove it if it does
-    const backlog = await Backlog.findOne({
-      where: { userID: id },
-      include: {
-        model: Album,
-        as: 'albums',
-      },
-    });
-
-    const albumBacklog = await AlbumBacklog.findOne({
-      where: { albumID: album.id, backlogID: backlog.id },
-    });
-    if (albumBacklog) {
-      await albumBacklog.destroy();
-    }
-
     return res.json({
       userAlbum,
       album,
@@ -313,6 +318,10 @@ router.delete(
   asyncHandler(async (req, res, next) => {
     const id = +req.params.id;
     const albumID = +req.params.albumID;
+
+    if (id !== req.user.id) {
+      return next(unauthorizedError());
+    }
 
     const userAlbum = await UserAlbum.findOne({
       where: {
