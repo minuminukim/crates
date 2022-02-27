@@ -83,7 +83,7 @@ const Album = (id) => {
               <p>{album.releaseYear}</p>
               <p>By {album.artist}</p>
             </div>
-            <div className="album-details">
+            <div className="album-view-details">
               <AlbumNavigation />
               <Switch>
                 <Route path={`${path}/tracks`}>

@@ -44,7 +44,7 @@ a.album-nav-label:hover {
   border-bottom: 1px solid #fff;
 }
 
-.album-details {
+.album-view-details {
   display: flex;
   flex-direction: column;
   width: 390px;
