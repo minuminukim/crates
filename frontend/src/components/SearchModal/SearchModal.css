@@ -6,14 +6,12 @@
   padding: 22px 36px 26px 36px;
   width: 636px;
   height: 135px;
-  /* z-index: 1000; */
 }
 
 .search-top {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  /* width: 560px; */
 }
 
 .modal-close {

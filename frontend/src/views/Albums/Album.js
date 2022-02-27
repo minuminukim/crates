@@ -12,7 +12,6 @@ import './Album.css';
 const Album = (id) => {
   const [album, setAlbum] = useState();
   const [loading, setLoading] = useState(true);
-  // const [errors, setErrors] = useState(false);
   const [reviews, setReviews] = useState([]);
   const { spotifyID } = useParams();
   const dispatch = useDispatch();

@@ -65,8 +65,7 @@ const Backlog = ({ username }) => {
         setMessage(`You have removed '${album.title}' from your backlog.`);
         updateGrid(album.id);
       })
-      // .then(() => updateGrid(album.id))
-      // .then(() => history.go(0))
+
       .catch(async (res) => {
         const data = await res.json();
         if (data && data.errors) {

@@ -24,7 +24,6 @@ const User = () => {
   useEffect(() => {
     return (
       dispatch(fetchSingleUser(+userID))
-        // .then(() => dispatch(getReviewsByUserID(+userID)))
         .then(() => setLoading(false))
         .catch((err) => {
           if (err && err.status === 404) {

@@ -31,7 +31,6 @@ const BacklogGrid = ({ albums, onDelete }) => {
                   <DeleteIcon onClick={() => handleDelete(album)} />
                 </div>
               )}
-            {/* {showHover && <HoverInfo text="Remove album" />} */}
           </ArtWithOverlay>
         </li>
       ))}

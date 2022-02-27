@@ -17,6 +17,7 @@ router.get(
   })
 );
 
+// fetch a single album from database
 // router.get(
 //   '/:id(\\d+)',
 //   asyncHandler(async (req, res, next) => {
@@ -40,11 +41,21 @@ router.get(
 //   })
 // );
 
+// fetch a single album via spotify api
 router.get(
   '/:spotifyID',
   asyncHandler(async (req, res, next) => {
     const { spotifyID } = req.params;
     const album = await fetchSingleAlbumWithRetry(spotifyID);
+
+    if (!album) {
+      const albumError = new Error('Album not found.');
+      albumError.status = 404;
+      albumError.title = 'Album not found.';
+      albumError.errors = [`The requested album could not be found.`];
+
+      return next(albumError);
+    }
 
     return res.json({
       album,

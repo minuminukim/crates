@@ -30,7 +30,6 @@ const Review = () => {
     (async () => {
       try {
         const review = await dispatch(getSingleReview(+reviewID));
-        // setReview(review);
         if (review.userID !== sessionUser?.id) {
           await dispatch(fetchSingleUser(review.userID));
         }

@@ -6,7 +6,6 @@ import './SearchModal.css';
 
 const SearchModal = ({ closeSearch = null }) => {
   const { query, setQuery, results, isLoading, searchErrors } = useSearch();
-  // const [showForm, setShowForm] = useState(false);
   const [showList, setShowList] = useState(false);
   const handleChange = (e) => setQuery(e.target.value);
 
@@ -32,7 +31,6 @@ const SearchModal = ({ closeSearch = null }) => {
               error={searchErrors}
               onChange={handleChange}
               onFocus={() => setShowList(true)}
-              // onBlur={() => setShowList(false)}
             />
             {showList && (
               <SearchList

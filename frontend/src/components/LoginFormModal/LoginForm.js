@@ -14,7 +14,6 @@ function LoginForm({ handleModal, page = false }) {
   const [credential, setCredential] = useState('');
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState([]);
-  // const { handleDemoUser } = useDemo();
   const history = useHistory();
 
   const handleSubmit = (e) => {
@@ -68,12 +67,6 @@ function LoginForm({ handleModal, page = false }) {
             size="medium"
             color="green"
           />
-          {/* <Button
-            className="btn-save"
-            label="TRY DEMO"
-            // size="medium"
-            onClick={handleDemoUser}
-          /> */}
         </div>
       </form>
       <ul className="validation-errors">

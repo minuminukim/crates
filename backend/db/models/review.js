@@ -8,7 +8,6 @@ module.exports = (sequelize, DataTypes) => {
     }
 
     static async getSingleReviewByID(id) {
-      // return await Review.findByPk(id);
       return await Review.findOne({
         where: {
           id: id,

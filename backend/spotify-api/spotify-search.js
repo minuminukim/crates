@@ -76,7 +76,6 @@ const fetchSingleAlbum = async (id, token) => {
       label: album.label,
     };
 
-    // return album;
     return data;
   } catch (error) {
     return next(error);

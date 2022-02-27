@@ -141,7 +141,6 @@ const ReviewForm = ({ album = null, onSuccess = null, onClose = null }) => {
               <button
                 className="submit-button"
                 type="submit"
-                // disabled={errors.length > 0}
               >
                 SAVE
               </button>

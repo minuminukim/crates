@@ -48,7 +48,6 @@ const Home = () => {
               <ReviewListItem
                 review={review}
                 shape="block"
-                // className={userID ? 'user' : 'popular'}
               />
             </li>
           ))}

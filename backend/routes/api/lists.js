@@ -256,12 +256,14 @@ router.delete(
 
       return next(error);
     }
+
     // destroy the join table records first because of FK constraint
     await AlbumList.destroy({
       where: {
         listID: id,
       },
     });
+    
     await list.destroy();
 
     return res.status(204).json({});
