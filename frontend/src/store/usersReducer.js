@@ -1,6 +1,5 @@
 import { csrfFetch } from './csrf';
 import { ALBUMS_LOADED, ALBUM_ADDED, ALBUM_REMOVED } from './albumsReducer';
-import { REVIEWS_LOADED } from './reviewsReducer';
 
 const USERS_LOADED = 'users/USERS_LOADED';
 const USER_ADDED = 'users/USER_ADDED';
@@ -17,7 +16,6 @@ export const addUser = (user) => ({
 
 export const fetchUsers = () => async (dispatch) => {
   const response = await fetch(`/api/users`);
-  // console.log('data', await response.json())
   const { users } = await response.json();
   dispatch(loadUsers(users));
   return users;

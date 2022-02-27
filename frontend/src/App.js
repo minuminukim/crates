@@ -13,7 +13,6 @@ import Review from './views/Reviews';
 import NotFound from './views/NotFound';
 import { User } from './views/User';
 import Footer from './components/Footer';
-import Album from './views/Albums/Album';
 
 function App() {
   const dispatch = useDispatch();

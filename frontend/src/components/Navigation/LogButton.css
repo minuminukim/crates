@@ -15,6 +15,10 @@
   text-align: center;
 }
 
+.log-button-container {
+  position: relative;
+}
+
 .log-button-left,
 .log-button-toggle {
   display: flex;
@@ -33,20 +37,26 @@
 
 .btn-link {
   position: absolute;
+  top: 30px;
+  right: 0px;
   background-color: #9ab;
-  color: #000;
-  top: 50px;
-  right: 10px;
-  height: 30px;
-  padding: 4px 15px;
+  color: #2c3440;
+  font-size: 12px;
+  width: 160px;
+  height: 34px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .btn-link a {
   color: #000;
+  width: 100%;
+  padding: 4px 15px;
 }
 
-.btn-link:hover {
-  background-color: #445566;
+.btn-link:hover a {
+  background-color: #678;
   color: #fff;
 }
 

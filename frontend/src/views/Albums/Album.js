@@ -5,7 +5,6 @@ import { fetchSingleAlbum } from '../../store/albumsReducer';
 import AlbumArt from '../../components/AlbumArt';
 import { AlbumNavigation, Tracklist } from '.';
 import { getReviews } from '../../store/reviewsReducer';
-import { ReviewActions } from '../../components/ActionsPanel';
 import ReviewListItem from '../../components/ReviewListItem';
 import { sortByRecent } from '../../utils/sorts';
 import './Album.css';
@@ -13,7 +12,7 @@ import './Album.css';
 const Album = (id) => {
   const [album, setAlbum] = useState();
   const [loading, setLoading] = useState(true);
-  const [errors, setErrors] = useState(false);
+  // const [errors, setErrors] = useState(false);
   const [reviews, setReviews] = useState([]);
   const { spotifyID } = useParams();
   const dispatch = useDispatch();

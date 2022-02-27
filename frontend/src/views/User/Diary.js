@@ -4,7 +4,6 @@ import { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { getReviewsByUserID } from '../../store/reviewsReducer';
 import { useParams } from 'react-router-dom';
-import { ErrorMessages } from '../../components/ValidationError';
 import { sortByRecent } from '../../utils/sorts';
 import { Empty } from '.';
 
@@ -21,8 +20,10 @@ const Diary = () => {
       .then((reviews) => sortByRecent(reviews))
       .then((reviews) => setReviews(reviews))
       .then(() => setLoading(false))
-      .catch(async (err) => {
-        history.push('/not-found');
+      .catch(async (res) => {
+        if (res && res?.status === 404) {
+          history.push('/not-found');
+        }
       });
   }, [dispatch, userID]);
 

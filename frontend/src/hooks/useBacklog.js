@@ -32,7 +32,7 @@ const useBacklog = (album) => {
     dispatch(removeFromBacklog(album.id, album.spotifyID, sessionUser.id))
       .then(() => {
         setInBacklog(false);
-        setMessage(`You have removed '${album.title} from your backlog.'`);
+        setMessage(`You have removed '${album.title}' from your backlog.`);
       })
 
       .catch(async (error) => {

@@ -6,7 +6,6 @@
 
 .backdrop-container {
   margin-top: -70px;
-  /* background: transparent; */
 }
 
 .backdrop {
@@ -20,14 +19,19 @@
 .credit-container {
   align-self: flex-end;
   transform: rotate(-90deg);
-  /* position: absolute; */
-  /* color: #9ab; */
-  color: rgb(68, 85, 102);
-  /* opacity: 0.5; */
+  font-size: 14px;
+  position: relative;
+  left: 250px;
+  bottom: 220px;
+}
+
+.credit-container a {
+  margin-left: 4px;
+  color: #456;
 }
 
 a.credit-link:hover {
-  opacity: #9ab;
+  color: #9ab;
 }
 
 .hero {

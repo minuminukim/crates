@@ -1,8 +1,7 @@
 import { NavLink, useRouteMatch } from 'react-router-dom';
-import { Album, Tracklist } from '.';
 
 const AlbumNavigation = () => {
-  const { url, path } = useRouteMatch();
+  const { url } = useRouteMatch();
 
   return (
     <nav className="album-nav">

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
-import { getReviewsByUserID, getReviews } from '../../store/reviewsReducer';
+import { useDispatch } from 'react-redux';
+import { getReviews } from '../../store/reviewsReducer';
 import { sortByRecent } from '../../utils/sorts';
 import ReviewListItem from '../ReviewListItem';
 import { Empty } from '../../views/User';
@@ -23,7 +23,6 @@ const ReviewsList = ({ className = null }) => {
   useEffect(() => {
     return (
       dispatch(getReviews())
-        // .then((reviews) => reviews.filter((review) => review.userID === userID))
         .then((reviews) => {
           const sorted = userID
             ? sortByRecent(filterByUserID([...reviews]))

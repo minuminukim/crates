@@ -17,7 +17,6 @@ const Review = () => {
   const { reviewID } = useParams();
   const review = useSelector((state) => state.reviews.items[reviewID]);
   const sessionUser = useSelector((state) => state.session.user);
-  // const [review, setReview] = useState(null);
   const user = useSelector((state) => state.users[review?.userID]);
   const albums = useSelector((state) => state.albums.items);
   const album = Object.values(albums)?.find(
@@ -26,7 +25,6 @@ const Review = () => {
 
   const [isLoading, setIsLoading] = useState(true);
   const [rating, setRating] = useState(0);
-  // const [message, setMessa]
 
   useEffect(() => {
     (async () => {
@@ -83,7 +81,7 @@ const Review = () => {
             <div className="review-page-middle">
               <ReviewBody
                 review={review}
-                album={review.album}
+                album={review?.album}
                 user={user}
                 rating={rating}
               />
@@ -111,7 +109,6 @@ const Review = () => {
             )}
           </section>
         </div>
-        // </div>
       );
 };
 

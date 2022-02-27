@@ -172,3 +172,9 @@ input[type='date'] {
   display: flex;
   align-items: center;
 }
+
+p.rating-label {
+  margin-left: 7px;
+  position: relative;
+  bottom: 3px;
+}

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { getReviewsByUserID } from '../../store/reviewsReducer';
 import { StarRatingReadOnly } from '../../components/StarRating';
@@ -8,10 +8,9 @@ import { ArtWithOverlay } from '../../components/AlbumArt';
 
 const UserAlbums = () => {
   const { userID } = useParams();
-  const user = useSelector((state) => state.users[userID]);
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
-  const [errors, setErrors] = useState([]);
+  const [_errors, setErrors] = useState([]);
   const [reviews, setReviews] = useState([]);
 
   useEffect(() => {

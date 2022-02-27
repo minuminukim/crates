@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
 import { FaUserCircle } from 'react-icons/fa';
 import { AiOutlineDown } from 'react-icons/ai';
 import ProfileDropdown from '../ProfileDropdown';

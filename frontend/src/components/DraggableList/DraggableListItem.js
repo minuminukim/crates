@@ -1,6 +1,5 @@
 import {
   AiOutlineClose,
-  AiOutlineMenu,
   AiOutlineArrowUp,
   AiOutlineArrowDown,
 } from 'react-icons/ai';

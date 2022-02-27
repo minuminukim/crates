@@ -1,4 +1,4 @@
-import { useParams, useHistory } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchComments } from '../../store/commentsReducer';
@@ -57,7 +57,6 @@ const CommentSection = () => {
   const onPost = (comment) => {
     const updated = [...comments, withUsername(comment, user)];
     setComments(sortByRecent(updated));
-    // setComments([...comments, withUsername(comment, user)]);
   };
 
   const onEdit = (comment) => {
@@ -66,10 +65,6 @@ const CommentSection = () => {
       withUsername(comment, user),
     ];
     setComments(sortByRecent(updated));
-    // setComments([
-    //   ...comments.filter((item) => item.id !== comment.id),
-    //   withUsername(comment, user),
-    // ]);
   };
 
   return (

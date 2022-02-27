@@ -2,7 +2,6 @@ import FeedPost from '../../components/FeedPost';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchUserLists } from '../../store/listsReducer';
-import { useHistory } from 'react-router-dom';
 import { Empty } from '.';
 import { ActionsRow } from '../../components/ActionsPanel';
 import './UserLists.css';

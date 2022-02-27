@@ -30,7 +30,6 @@ li.dropdown-item {
   height: 20px;
   margin: 0;
   margin-right: 0 !important;
-  /* text-align: left; */
 }
 
 .dropdown-link:hover {
@@ -47,7 +46,6 @@ a.dropdown-link {
   color: #2c3440;
   font-size: 12px;
   margin-right: 0;
-  /* text-align: left; */
   width: 110px;
   display: flex;
   padding-left: 3px;
