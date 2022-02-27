@@ -22,6 +22,7 @@ const CommentSection = () => {
         const filtered = Object.values(comments)?.filter(
           (comment) => comment.reviewID === +reviewID
         );
+
         const response = await Promise.all(
           filtered.map(async (comment) => {
             const { username } = await dispatch(
@@ -30,6 +31,7 @@ const CommentSection = () => {
             return { ...comment, username };
           })
         );
+        
         setComments(response);
         setLoading(false);
       } catch (res) {

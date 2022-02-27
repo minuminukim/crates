@@ -68,13 +68,14 @@ const Review = () => {
   return !review
     ? null
     : !isLoading && (
-        <div className="page-container review-page">
-          <div className="content-wrapper">
-            <div>
+        // <div className="page-container review-page">
+        <div className="content-wrapper content-review">
+          <section className="review-page-left">
+            <div className="left-col-1">
               <AlbumArt
                 title={album?.title}
                 artworkURL={album?.artworkURL}
-                size="medium"
+                size="review"
               />
             </div>
             <div className="review-page-middle">
@@ -85,30 +86,31 @@ const Review = () => {
                 // isLoading={isLoading}
                 rating={rating}
               />
-              <CommentSection />
             </div>
-            <div>
-              {sessionUser ? (
-                <ReviewActions
-                  rating={rating}
-                  key={rating}
-                  userID={review?.userID}
-                  onDelete={handleDelete}
-                />
-              ) : (
-                <LoginFormModal>
-                  {(toggleModal) => (
-                    <ActionsRow
-                      className="solo logged-off hover"
-                      label="Sign in to log, rate or review"
-                      onClick={toggleModal}
-                    />
-                  )}
-                </LoginFormModal>
-              )}
-            </div>
-          </div>
+            <CommentSection />
+          </section>
+          <section className="review-page-right">
+            {sessionUser ? (
+              <ReviewActions
+                rating={rating}
+                key={rating}
+                userID={review?.userID}
+                onDelete={handleDelete}
+              />
+            ) : (
+              <LoginFormModal>
+                {(toggleModal) => (
+                  <ActionsRow
+                    className="solo logged-off hover"
+                    label="Sign in to log, rate or review"
+                    onClick={toggleModal}
+                  />
+                )}
+              </LoginFormModal>
+            )}
+          </section>
         </div>
+        // </div>
       );
 };
 

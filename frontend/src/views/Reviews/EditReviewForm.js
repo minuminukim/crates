@@ -142,7 +142,6 @@ const EditReviewForm = ({ review, onSuccess }) => {
               id="body"
               placeholder="Add a review..."
               value={form.body}
-              onChange={(e) => console.log(e.target.id)}
               onChange={handleChange}
             />
           </div>

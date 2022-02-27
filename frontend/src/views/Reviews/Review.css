@@ -1,16 +1,27 @@
-.review-page {
+.content-wrapper {
   display: flex;
   justify-content: center;
   width: 100%;
   padding: 30px;
 }
 
-.review-page .content-wrapper {
+.content-review {
   display: grid;
-  grid-template-columns: 1fr 2fr 1fr;
-  width: 1100px;
+  width: 950px;
+  grid-template-columns: 670px 230px;
+  column-gap: 50px;
+}
+
+.review-page-left {
+  display: grid;
+  grid-template-columns: 150px 470px;
+  column-gap: 50px;
 }
 
 .review-page-middle {
   width: 470px;
+}
+
+.comments-section {
+  grid-column: 1 / 3;
 }
