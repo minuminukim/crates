@@ -17,6 +17,7 @@ const Review = () => {
   const { reviewID } = useParams();
   const review = useSelector((state) => state.reviews.items[reviewID]);
   const sessionUser = useSelector((state) => state.session.user);
+  // const [review, setReview] = useState(null);
   const user = useSelector((state) => state.users[review?.userID]);
   const albums = useSelector((state) => state.albums.items);
   const album = Object.values(albums)?.find(
@@ -31,6 +32,7 @@ const Review = () => {
     (async () => {
       try {
         const review = await dispatch(getSingleReview(+reviewID));
+        // setReview(review);
         if (review.userID !== sessionUser?.id) {
           await dispatch(fetchSingleUser(review.userID));
         }
@@ -73,15 +75,15 @@ const Review = () => {
           <section className="review-page-left">
             <div className="left-col-1">
               <AlbumArt
-                title={album?.title}
-                artworkURL={album?.artworkURL}
+                title={review.album?.title}
+                artworkURL={review.album?.artworkURL}
                 size="review"
               />
             </div>
             <div className="review-page-middle">
               <ReviewBody
                 review={review}
-                album={album}
+                album={review.album}
                 user={user}
                 rating={rating}
               />

@@ -76,3 +76,23 @@ p.trackname {
   position: relative;
   bottom: 1px;
 }
+
+.single-album-view .review-list-item-main {
+  padding-left: 0;
+}
+
+.single-album-view .review-list-item-info {
+  flex-direction: row-reverse;
+  justify-content: flex-end;
+}
+
+.single-album-view .review-list-item-info a {
+  margin-left: 0;
+}
+.single-album-view a.review-list-item-username {
+  margin-right: 6px;
+}
+
+.album-reviews h3 {
+  margin-bottom: 0;
+}

@@ -2,16 +2,25 @@ import AlbumArt from '../AlbumArt';
 import Details from './Details';
 import './ReviewListItem.css';
 
-const ReviewListItem = ({ review, className = '', shape }) => {
+const ReviewListItem = ({
+  review,
+  className = '',
+  shape,
+  withArt = true,
+  showInfo = true,
+}) => {
+  console.log('review', review);
   const album = review?.album;
   return (
     <div className={`review-list-item ${className} ${shape}`}>
       <div className="review-list-item-art">
-        <AlbumArt
-          title={album.title}
-          artworkURL={album.artworkURL}
-          size="small"
-        />
+        {withArt && (
+          <AlbumArt
+            title={album.title}
+            artworkURL={album.artworkURL}
+            size="small"
+          />
+        )}
         {shape === 'block' && (
           <div className="review-list-details">
             <Details review={review} album={album} shape={shape} />
@@ -20,7 +29,12 @@ const ReviewListItem = ({ review, className = '', shape }) => {
       </div>
       <div className="review-list-item-main">
         {shape !== 'block' && (
-          <Details review={review} album={album} shape="landscape" />
+          <Details
+            review={review}
+            album={album}
+            shape={shape}
+            showInfo={showInfo}
+          />
         )}
         <p className="review-list-item-body">{review.body}</p>
       </div>

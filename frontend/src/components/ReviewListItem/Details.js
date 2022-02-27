@@ -3,7 +3,7 @@ import { StarRatingReadOnly } from '../StarRating';
 import { formatDateDayMonthYear } from '../../utils/date-helpers';
 import { Link } from 'react-router-dom';
 
-const Details = ({ review, album, shape }) => {
+const Details = ({ review, album, shape, showInfo = true }) => {
   return (
     <>
       {shape === 'block' && (
@@ -16,13 +16,15 @@ const Details = ({ review, album, shape }) => {
           </Link>
         </div>
       )}
-      <div className="review-list-item-release">
-        <Link className="review-list-item-title" to={`/reviews/${review.id}`}>
-          {album.title}{' '}
-        </Link>
+      {showInfo && (
+        <div className="review-list-item-release">
+          <Link className="review-list-item-title" to={`/reviews/${review.id}`}>
+            {album.title}{' '}
+          </Link>
 
-        <span className="review-list-item-year">{album.releaseYear}</span>
-      </div>
+          <span className="review-list-item-year">{album.releaseYear}</span>
+        </div>
+      )}
       <div className="review-list-item-info">
         <StarRatingReadOnly
           rating={review.rating}
@@ -32,7 +34,7 @@ const Details = ({ review, album, shape }) => {
         {review.rating !== 10 && review.rating % 2 !== 0 && (
           <span className="half-green">½</span>
         )}
-        {shape !== 'block' && (
+        {shape === 'landscape' && (
           <div>
             <Link to={`/reviews/${review.id}`}>Reviewed by </Link>
             <Link
@@ -41,10 +43,11 @@ const Details = ({ review, album, shape }) => {
             >
               {review.user.username}
             </Link>
-            <span className="review-list-item-date">
-              {/* {formatDateDayMonthYear(review.listenedDate)} */}
-              {formatDateDayMonthYear(review.createdAt)}
-            </span>
+            {showInfo && (
+              <span className="review-list-item-date">
+                {formatDateDayMonthYear(review.createdAt)}
+              </span>
+            )}
           </div>
         )}
       </div>

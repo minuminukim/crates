@@ -9,9 +9,12 @@ const Tracklist = ({ tracks }) => {
     <ol className="album-tracklist">
       {tracks?.length > 0 &&
         tracks.map((track) => (
-          <li className="album-track">
+          <li key={track.name} className="album-track">
             <div className="album-track-left">
-              <p className="trackname">{track.name}<span></span></p>
+              <p className="trackname">
+                {track.name}
+                <span></span>
+              </p>
             </div>
             <div className="album-track-right">
               <p>{formatted(track.durationMS)}</p>
