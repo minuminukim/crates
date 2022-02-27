@@ -97,7 +97,6 @@ router.delete(
   asyncHandler(async (req, res, next) => {
     const id = +req.params.id;
     const comment = await Comment.findByPk(id);
-    console.log('req.user', req.user);
 
     if (!comment) {
       return next(commentNotFoundError());

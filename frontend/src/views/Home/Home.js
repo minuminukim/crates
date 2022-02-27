@@ -23,7 +23,7 @@ const Home = () => {
       .catch(async (res) => {
         const data = await res.json();
         if (data && data.errors) {
-          console.log('errors', data.errors);
+          return data;
         }
       });
   }, [dispatch]);

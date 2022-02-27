@@ -28,7 +28,7 @@ const Profile = () => {
         setUser(user);
         setLoading(false);
       } catch (res) {
-        console.log('error', res);
+        return res;
       }
     })();
   }, [dispatch, userID]);

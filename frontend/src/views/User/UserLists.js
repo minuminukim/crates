@@ -17,7 +17,7 @@ const UserLists = ({ userID }) => {
     return dispatch(fetchUserLists(userID))
       .then((items) => setLists(items))
       .then(() => setLoading(false))
-      .catch((err) => console.log('error fetching UserLists', err));
+      .catch((err) => err);
   }, [dispatch, userID]);
 
   return (

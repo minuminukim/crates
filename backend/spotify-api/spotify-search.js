@@ -37,7 +37,7 @@ const searchAlbumsByTitle = async (title, token) => {
 
     return mapped;
   } catch (error) {
-    console.log('@@@@@@@@@@@ error in search', error);
+    return error;
   }
 };
 
@@ -63,8 +63,6 @@ const fetchSingleAlbum = async (id, token) => {
       durationMS: item.duration_ms,
     }));
 
-    console.log('tracks', album.tracks.items);
-
     const data = {
       spotifyID: album.id,
       title: album.name,
@@ -81,7 +79,6 @@ const fetchSingleAlbum = async (id, token) => {
     // return album;
     return data;
   } catch (error) {
-    console.log('error fetching album', error);
     return next(error);
   }
 };
@@ -93,7 +90,6 @@ const wrapSearchInRetry = (searchFunction) => {
       return response;
     } catch (error) {
       if (error.response.status === 401) {
-        console.log('401 error in wrapper', error);
         try {
           token = await getToken();
           const response = await searchFunction(args);
@@ -102,7 +98,6 @@ const wrapSearchInRetry = (searchFunction) => {
           return anotherError;
         }
       } else {
-        console.log('error in wrapSearch', error);
         return error;
       }
     }

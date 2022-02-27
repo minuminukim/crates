@@ -10,7 +10,6 @@ import StarRating from '../StarRating';
 import './ReviewForm.css';
 
 const ReviewForm = ({ album = null, onSuccess = null }) => {
-  console.log('album', album);
   const dispatch = useDispatch();
   const history = useHistory();
   const { user } = useSelector((state) => state.session);
@@ -22,7 +21,6 @@ const ReviewForm = ({ album = null, onSuccess = null }) => {
   const [listenedDate, setListenedDate] = useState(today);
 
   const handleSubmit = (e) => {
-    console.log('album in submit', album);
     e.preventDefault();
     setErrors({});
 

@@ -68,7 +68,6 @@ const ListForm = () => {
       } catch (error) {
         const data = await error.json();
         if (data && data.errors) {
-          console.log('error fetching list', data);
           return history.push('/not-found');
         }
       }

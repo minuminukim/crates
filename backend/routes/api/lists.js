@@ -137,7 +137,6 @@ router.put(
   asyncHandler(async (req, res, next) => {
     const id = +req.params.id;
     const oldList = await List.findByPk(id);
-    console.log('req.body', req.body);
 
     if (!oldList) {
       return next(listNotFoundError());
@@ -201,7 +200,6 @@ router.patch(
   requireAuth,
   asyncHandler(async (req, res, next) => {
     const id = +req.params.id;
-    console.log('req.body', req.body);
     const { spotifyID, title, artworkURL, artist, releaseYear } = req.body;
 
     const { album } = await useAlbumFindOrCreate({

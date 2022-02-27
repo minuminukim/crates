@@ -52,7 +52,7 @@ const Review = () => {
 
         const data = await res.json();
         if (data && data.errors) {
-          console.log('error', data.errors);
+          return data;
         }
       }
     })();
@@ -62,7 +62,7 @@ const Review = () => {
   const handleDelete = () => {
     return dispatch(deleteReview(+reviewID))
       .then(() => history.push('/'))
-      .catch((err) => console.log('error deleting review', err));
+      .catch((err) => err);
   };
 
   // return null when review doesn't exist after dispatching a delete action

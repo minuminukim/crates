@@ -143,7 +143,6 @@ router.put(
     const id = +req.params.id;
     const dbReview = await Review.getSingleReviewByID(id);
 
-    console.log('req.body', req.body);
 
     if (!dbReview) {
       return res

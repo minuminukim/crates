@@ -22,7 +22,7 @@ const Signature = ({ userID, username, body, onEdit, commentID, onDelete }) => {
         // update parent's state
         onDelete(commentID);
       } catch (res) {
-        console.log('error handling delete', res);
+        return res;
       }
     })();
   };

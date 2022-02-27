@@ -34,7 +34,6 @@ const useListen = (album) => {
         setMessage(`You have removed '${album.title}' from your albums.`);
       })
       .catch(async (error) => {
-        console.log('error', error);
         const data = await error.json();
         if (data && data.errors) {
           setErrors(data.errors);
@@ -54,4 +53,3 @@ const useListen = (album) => {
 };
 
 export default useListen;
-

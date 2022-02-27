@@ -37,7 +37,6 @@ export const appendBacklog = (album, userID) => async (dispatch) => {
   });
 
   const albums = await response.json();
-  console.log('data', albums);
   dispatch(updateBacklog(userID, albums, album));
   return albums;
 };

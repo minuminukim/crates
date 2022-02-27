@@ -22,7 +22,7 @@ const AppendList = ({ album, onClose }) => {
       dispatch(fetchUserLists(user.id))
         .then((items) => setLists(items))
         .then(() => setIsLoading(false))
-        .catch((err) => console.log('error fetching user lists', err))
+        .catch((err) => err)
     );
   }, [dispatch, user.id]);
 

@@ -19,13 +19,12 @@ const Lists = () => {
   useEffect(() => {
     return (
       dispatch(fetchLists())
-        // .then((items) => console.log('items', items))
         .then((items) => setLists(items))
         .then(() => setIsLoading(false))
         .catch(async (res) => {
           const data = await res.json();
           if (data && data.errors) {
-            console.log('Error in ListsView:', data.errors);
+            return data;
           }
         })
     );

@@ -241,8 +241,6 @@ router.get(
       include: { model: Album, as: 'albums' },
     });
 
-    console.log('albums', albums);
-
     if (!albums) {
       return res.status(404).json({
         errors: ['The requested resource could not be found.'],
@@ -262,7 +260,6 @@ router.post(
     const id = +req.params.id;
 
     const { spotifyID, title, artworkURL, artist, releaseYear } = req.body;
-    console.log('req.body', req.body);
 
     const { album } = await useAlbumFindOrCreate({
       spotifyID,

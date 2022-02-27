@@ -37,7 +37,7 @@ const ListPage = () => {
       .catch(async (res) => {
         const data = await res.json();
         if (data && data.errors) {
-          console.log('error fetching list', data);
+          return data;
         }
       });
   }, [dispatch, list, username]);
@@ -45,7 +45,7 @@ const ListPage = () => {
   const handleDelete = () => {
     return dispatch(deleteList(+listID))
       .then(() => history.push('/'))
-      .catch((err) => console.log('error deleting list', err));
+      .catch((err) => err);
   };
 
   return (

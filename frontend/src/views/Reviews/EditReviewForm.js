@@ -54,7 +54,7 @@ const EditReviewForm = ({ review, onSuccess }) => {
       return dispatch(deleteReview(review.id))
         .then(() => history.push('/'))
         .then(() => onSuccess())
-        .catch((err) => console.log('error on delete submission: ', err));
+        .catch((err) => err);
     }
 
     const params = { ...form, userID: user.id, id: review.id };

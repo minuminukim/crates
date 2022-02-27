@@ -78,8 +78,6 @@ export const deleteReview = (id) => async (dispatch) => {
   const response = await csrfFetch(`/api/reviews/${id}`, {
     method: 'DELETE',
   });
-  // console.log('response', response);
-  // const { message } = await response.json();
   dispatch(removeReview(id));
   return response;
 };
@@ -98,7 +96,6 @@ const reviewsReducer = (state = initialState, action) => {
       };
 
     case REQUEST_REJECTED:
-      console.log('hello', action.error);
       return {
         ...state,
         isLoading: false,

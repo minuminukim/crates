@@ -32,10 +32,6 @@ const Backlog = ({ username }) => {
     fetchBacklog().then(() => setLoading(false));
   }, [dispatch, userID, username]);
 
-  // const isCurrentUser = sessionUser && sessionUser.id === +userID;
-  // const mapped = albumIDs?.map((id) => allAlbums[id]);
-  // console.log('mapped', mapped);
-
   const handleDispatch = (item) => {
     setErrors([]);
     setShowList(false);

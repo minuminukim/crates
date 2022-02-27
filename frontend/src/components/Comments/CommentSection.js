@@ -39,7 +39,7 @@ const CommentSection = () => {
         setComments(sortByRecent(response));
         setLoading(false);
       } catch (res) {
-        console.log('error fetching comments and users', res);
+        return res;
       }
     })();
   }, [dispatch, reviewID]);

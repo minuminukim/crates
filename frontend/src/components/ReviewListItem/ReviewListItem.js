@@ -9,7 +9,6 @@ const ReviewListItem = ({
   withArt = true,
   showInfo = true,
 }) => {
-  console.log('review', review);
   const album = review?.album;
   return (
     <div className={`review-list-item ${className} ${shape}`}>

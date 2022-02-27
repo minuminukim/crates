@@ -47,7 +47,6 @@ const CommentForm = ({
         setMessage(method === 'POST' ? 'Reply posted.' : 'Reply updated.');
 
         if (method === 'PUT') {
-          console.log('comment', comment);
           const messageTimeout = setTimeout(() => toggle(), 2000);
           return () => clearTimeout(messageTimeout);
         }
@@ -55,7 +54,6 @@ const CommentForm = ({
 
       .catch(async (err) => {
         const data = await err.json();
-        console.log('data', data);
         if (data && data.errors) {
           setErrors(Object.values(data.errors));
         }
