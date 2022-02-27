@@ -2,9 +2,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 import { useHistory, Link } from 'react-router-dom';
 import { fetchUserLists, appendList } from '../../store/listsReducer';
-import ValidationError, { ErrorMessages } from '../ValidationError';
-import { SuccessMessage } from '../ValidationError';
-import { AiOutlinePlus, AiOutlineClose } from 'react-icons/ai';
+import { ErrorMessages } from '../ValidationError';
+import { AiOutlinePlus } from 'react-icons/ai';
 import './AppendList.css';
 import Button from '../Button';
 // need userID, user lists(length && title), album title
@@ -21,7 +20,6 @@ const AppendList = ({ album, onClose }) => {
   useEffect(() => {
     return (
       dispatch(fetchUserLists(user.id))
-        // .then((items) => items.filter((item) => item.userID === user.id))
         .then((items) => setLists(items))
         .then(() => setIsLoading(false))
         .catch((err) => console.log('error fetching user lists', err))
@@ -29,7 +27,6 @@ const AppendList = ({ album, onClose }) => {
   }, [dispatch, user.id]);
 
   const handleDispatch = () => {
-    console.log('album', album);
     setErrors([]);
     const payload = {
       listID: chosen,
@@ -50,7 +47,6 @@ const AppendList = ({ album, onClose }) => {
       .then(() => setTimeout(() => history.go(0), 2500))
       .catch(async (res) => {
         const data = await res.json();
-        console.log('res', data);
         if (data && data.errors) {
           return setErrors(data.errors);
         }
@@ -84,7 +80,6 @@ const AppendList = ({ album, onClose }) => {
               onClick={() => setChosen(list.id)}
             >
               <p>{list.title}</p>
-              {/* <p>{`${list.albums.length} album(s)`}</p> */}
             </li>
           ))}
         </ul>

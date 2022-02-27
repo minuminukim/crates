@@ -1,5 +1,5 @@
 import { useParams, Link } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import './DiaryItem.css';
 import { formatDateDayMonthYear } from '../../utils/date-helpers';
 import { StarRatingReadOnly } from '../StarRating';
@@ -9,8 +9,6 @@ import { MdModeEditOutline } from 'react-icons/md';
 import { useModal } from '../../hooks';
 import { Modal } from '../../context/Modal';
 import { EditReviewForm } from '../../views/Reviews';
-import handleImageError from '../../utils/handleImageError';
-import { AlbumInfo } from '../AlbumArt';
 import { ArtWithOverlay } from '../AlbumArt';
 
 const DiaryItem = ({ entry }) => {

@@ -6,6 +6,7 @@
 
 .album-grid img {
   transition: outline 0.1s linear;
+  border-radius: 3px;
 }
 
 .album-grid img:hover {

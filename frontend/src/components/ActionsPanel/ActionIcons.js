@@ -9,7 +9,6 @@ export const ListenIcon = ({
 }) => {
   return (
     <div
-      className={className}
       onClick={onClick}
       className={`icon-container ${className}`}
       onMouseOver={onMouseOver}
@@ -30,7 +29,6 @@ export const BacklogIcon = ({
 }) => {
   return (
     <div
-      className={className}
       onClick={onClick}
       className={`icon-container ${className}`}
       onMouseOver={onMouseOver}

@@ -174,7 +174,7 @@ const ListForm = () => {
               error={searchErrors}
               onChange={handleChange}
               onFocus={() => setShowList(true)}
-              // onBlur={() => setShowList(false)}
+              onBlur={() => setShowList(false)}
             />
             {!searchErrors.length && showList && (
               <ul className={`search-list ${showList ? 'absolute' : 'block'}`}>
@@ -186,7 +186,7 @@ const ListForm = () => {
                       title={item.title}
                       artist={item.artist}
                       releaseYear={item.releaseYear}
-                      onClick={() => {
+                      onMouseDown={() => {
                         const found = albums.some(
                           ({ spotifyID }) => spotifyID === item.spotifyID
                         );

@@ -2,9 +2,10 @@ h1.review-heading {
   font-family: TiemposTextWeb-Semibold, Georgia, serif;
   color: #fff !important;
   font-size: 24px;
-  display: flex;
-  align-items: center;
+  display: inline;
   margin-bottom: 12px;
+  max-width: 425px;
+  overflow-wrap: normal;
 }
 
 .review-release-year {
@@ -25,7 +26,16 @@ p.review-by {
 
 .single-review-filled-stars {
   position: relative;
+  display: inline;
   top: 1px;
+}
+
+.year-and-rating {
+  display: inline;
+}
+
+.review .star-rating {
+  display: inline;
 }
 
 .half-green {
@@ -44,6 +54,9 @@ p.review-by {
 .content-review div.user-info {
   padding-bottom: 8px;
   border-bottom: 0.5px solid rgb(68, 85, 102);
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
 }
 
 .review-listened-date {

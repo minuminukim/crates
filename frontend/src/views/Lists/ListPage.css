@@ -1,15 +1,10 @@
-.list-page {
-  display: flex;
-  /* flex-direction: column; */
-  justify-content: center;
+.list-page-content {
+  display: grid;
+  grid-template-columns: 1fr 230px;
+  column-gap: 50px;
   padding: 30px 0;
-}
-
-.list-page .content-wrap {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 750px;
+  height: fit-content;
+  width: 950px;
 }
 
 .list-page-header,
@@ -25,22 +20,40 @@
   background-color: #445566;
 }
 
-.list-action.delete:hover {
-  cursor: pointer;
+.list-actions {
+  border-radius: 3px;
 }
 
-.list-page h1 {
+.list-action {
+  width: 230px;
+  height: 38px;
+  padding: 10px 0;
+}
+
+.list-delete:hover {
+  cursor: pointer;
   color: #fff;
 }
 
-.user-info {
+.list-delete {
+  border-bottom-left-radius: 3px;
+  border-bottom-right-radius: 3px;
+}
+
+.list-page-header h1 {
+  color: #fff;
+}
+
+.list-page-content .user-info {
   display: flex;
   flex-direction: row;
   align-items: center;
   align-self: flex-start;
+  padding-bottom: 8px;
+  border-bottom: 0.5px solid rgb(68, 85, 102);
 }
 
-.user-info .user-avatar {
+.user-info .avatar-link {
   font-size: 24px;
 }
 
@@ -56,4 +69,15 @@
 
 .user-link:hover {
   filter: brightness(1.3);
+}
+
+div.list-date {
+  border-bottom: 0.5px solid rgb(68, 85, 102);
+}
+
+p.list-date {
+  margin: 0;
+  padding: 8px 0;
+  font-size: 14px;
+  color: #678;
 }

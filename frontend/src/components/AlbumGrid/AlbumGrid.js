@@ -1,4 +1,3 @@
-import AlbumArt from '../AlbumArt';
 import { ArtWithOverlay } from '../AlbumArt';
 import './AlbumGrid.css';
 

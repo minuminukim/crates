@@ -30,21 +30,22 @@ const ReviewBody = () => {
             </Link>
           </p>
         </div>
-        <h1 className="review-heading">
-          {album?.title}{' '}
+        <h1 className="review-heading">{album?.title}</h1>
+        <div className="year-and-rating">
           <span className="review-release-year">{album?.releaseYear}</span>
-          <span className="single-review-filled-stars">
+          <div className="single-review-filled-stars">
             {
               <StarRatingReadOnly
                 rating={review?.rating}
                 className="star-filled-green"
-              />
+              >
+                {review.rating !== 10 && review.rating % 2 !== 0 && (
+                  <span className="half-green">½</span>
+                )}
+              </StarRatingReadOnly>
             }
-          </span>
-          {review.rating !== 10 && review.rating % 2 !== 0 && (
-            <span className="half-green">½</span>
-          )}
-        </h1>
+          </div>
+        </div>
         <p className="review-listened-date">{`Listened ${formatDateDayMonthYear(
           review.listenedDate
         )}`}</p>

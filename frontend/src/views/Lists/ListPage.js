@@ -11,6 +11,7 @@ import WarningMessage from '../../components/WarningMessage';
 import { FaUserCircle } from 'react-icons/fa';
 import { fetchSingleUser } from '../../store/usersReducer';
 import { Link } from 'react-router-dom';
+import { formatDateDayMonthYear } from '../../utils/date-helpers';
 import './ListPage.css';
 
 const ListPage = () => {
@@ -50,25 +51,30 @@ const ListPage = () => {
   return (
     !isLoading &&
     list?.albums.length > 0 && (
-      <div className="list-page">
-        <div className="content-wrap">
-          <div className="user-info">
-            <FaUserCircle className="user-avatar" />
+      <div className="list-page-content">
+        <section className="list-page-main">
+          <section className="user-info">
+            <Link className="avatar-link" to={`/users/${list?.userID}`}>
+              <FaUserCircle className="avatar-link" />
+            </Link>
             <p>
               List by{' '}
               <Link className="user-link" to={`/users/${list?.userID}`}>
                 {username}
               </Link>
             </p>
+          </section>
+          <div className="list-date">
+            <p className="list-date">
+              <span>Published</span> {formatDateDayMonthYear(list.createdAt)}
+            </p>
           </div>
           <section className="list-page-header">
             <h1>{list?.title}</h1>
             <p>{list?.description}</p>
           </section>
-          <main className="list-page-main">
-            <AlbumGrid albums={list?.albums} isRanked={list?.isRanked} />
-          </main>
-        </div>
+          <AlbumGrid albums={list?.albums} isRanked={list?.isRanked} />
+        </section>
         <section className="list-page-side">
           <ListActions
             userID={list?.userID}
