@@ -48,7 +48,7 @@ const CommentForm = ({
 
         if (method === 'PUT') {
           console.log('comment', comment);
-          const messageTimeout = setTimeout(() => toggle(), 3000);
+          const messageTimeout = setTimeout(() => toggle(), 2000);
           return () => clearTimeout(messageTimeout);
         }
       })

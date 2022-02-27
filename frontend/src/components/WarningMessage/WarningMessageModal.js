@@ -10,7 +10,11 @@ const WarningMessageModal = ({ item, onDelete, children }) => {
       {children(toggleWarning)}
       {showWarning && (
         <Modal onClose={toggleWarning}>
-          <WarningMessage item={item} onDelete={onDelete} />
+          <WarningMessage
+            item={item}
+            onDelete={onDelete}
+            toggle={toggleWarning}
+          />
         </Modal>
       )}
     </>

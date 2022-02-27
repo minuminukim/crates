@@ -1,7 +1,6 @@
 import { useState, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import ValidationError from '../../components/ValidationError';
 import { editReview, deleteReview } from '../../store/reviewsReducer';
 import AlbumArt from '../../components/AlbumArt';
 import { InputField, InputLabel } from '../../components/InputField';
@@ -23,10 +22,10 @@ const EditReviewForm = ({ review, onSuccess }) => {
     isRelisten: review.isRelisten,
     body: review.body,
     rating: review.rating,
-    // ...review
   });
+
   const hiddenInput = useRef(null);
-  const today = new Date().toISOString().slice(0, 10);
+  // const today = new Date().toISOString().slice(0, 10);
 
   const handleChange = (e) =>
     setForm({
@@ -70,7 +69,6 @@ const EditReviewForm = ({ review, onSuccess }) => {
         .then(() => onSuccess())
         // force re-render on ReviewActions with updated rating
         .then(() => history.go(0))
-        // .then(() => history.push(`/reviews/${review.id}`))
         .catch(async (res) => {
           const data = await res.json();
           if (data && data.errors) {
@@ -159,7 +157,6 @@ const EditReviewForm = ({ review, onSuccess }) => {
                 type="number"
                 id="rating"
                 value={form.rating}
-                // error={errors?.rating}
                 onChange={handleChange}
                 hidden
               />

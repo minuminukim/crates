@@ -96,3 +96,7 @@ div.comment-icon-wrapped {
 div.comment-icon-wrapped:hover {
   opacity: 0.9;
 }
+
+.comment-form textarea {
+  padding: 15px;
+}

@@ -41,7 +41,7 @@ p.review-by {
   line-height: 1.6;
 }
 
-div.user-info {
+.content-review div.user-info {
   padding-bottom: 8px;
   border-bottom: 0.5px solid rgb(68, 85, 102);
 }

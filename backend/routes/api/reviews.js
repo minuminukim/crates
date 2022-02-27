@@ -179,7 +179,7 @@ router.delete(
     const review = await Review.getSingleReviewByID(id);
 
     if (!review) {
-      return res.status(404).json({ message: 'Review does not exist' });
+      return res.status(404).json({ errors: ['Review does not exist'] });
     }
 
     const { albumID } = review;

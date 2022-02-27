@@ -25,6 +25,7 @@ const Review = () => {
 
   const [isLoading, setIsLoading] = useState(true);
   const [rating, setRating] = useState(0);
+  // const [message, setMessa]
 
   useEffect(() => {
     (async () => {

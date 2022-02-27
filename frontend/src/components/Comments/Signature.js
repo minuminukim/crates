@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { FaUserCircle, FaTrash } from 'react-icons/fa';
+import { FaUserCircle } from 'react-icons/fa';
 import { WarningMessageModal } from '../WarningMessage';
 import { useSelector, useDispatch } from 'react-redux';
 import { useState } from 'react';
@@ -15,9 +15,16 @@ const Signature = ({ userID, username, body, onEdit, commentID, onDelete }) => {
   const dispatch = useDispatch();
 
   const handleDelete = () => {
-    dispatch(deleteComment(commentID))
-      .then(() => onDelete(commentID))
-      .catch((res) => console.log('error dispatching comment delete:', res));
+    (async () => {
+      try {
+        // dispatch delete action
+        await dispatch(deleteComment(commentID));
+        // update parent's state
+        onDelete(commentID);
+      } catch (res) {
+        console.log('error handling delete', res);
+      }
+    })();
   };
 
   return (
@@ -45,7 +52,11 @@ const Signature = ({ userID, username, body, onEdit, commentID, onDelete }) => {
                 />
               )}
             </EditCommentModal>
-            <WarningMessageModal onDelete={handleDelete} item="comment">
+            <WarningMessageModal
+              onDelete={handleDelete}
+              item="comment"
+              itemID={commentID}
+            >
               {(toggleWarning) => (
                 <CommentIcon
                   text="Delete comment"

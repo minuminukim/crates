@@ -1,0 +1,41 @@
+.warning-message-container {
+  background-color: #445566;
+  width: 455px;
+  height: 160px;
+  padding: 22px 36px;
+  display: flex;
+  flex-direction: column;
+}
+
+.warning-message-container .modal-heading {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 400;
+  letter-spacing: 1px;
+}
+
+.warning-message-container .message-header {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.warning-message-container .close-icon {
+  font-size: 26px;
+}
+
+.warning-btns {
+  display: flex;
+  justify-content: flex-end;
+  padding-top: 8px;
+}
+
+.warning-message-container .btn-cancel {
+  background-color: #8899aa !important;
+  color: #ddeeff;
+  margin-right: 3px;
+}
+
+.warning-message {
+  color: #def;
+}
