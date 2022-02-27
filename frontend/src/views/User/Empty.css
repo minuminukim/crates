@@ -11,3 +11,7 @@ div.empty {
   width: 950px;
   margin-right: 0;
 }
+
+.reviews-list-container .empty {
+  width: 950px;
+}

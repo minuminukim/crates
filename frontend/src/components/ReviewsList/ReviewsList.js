@@ -31,8 +31,6 @@ const ReviewsList = ({ className = null }) => {
           setReviews(sorted);
           setLoading(false);
         })
-      // .then((sorted) => setReviews(sorted))
-      // .catch((err) => console.log('ReviewsList error', err))
     );
   }, [dispatch]);
 
