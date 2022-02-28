@@ -11,7 +11,7 @@ import WarningMessage from '../../components/WarningMessage';
 import { FaUserCircle } from 'react-icons/fa';
 import { fetchSingleUser } from '../../store/usersReducer';
 import { Link } from 'react-router-dom';
-import { formatDateDayMonthYear } from '../../utils/date-helpers';
+import { dateTimeToString } from '../../utils/date-helpers';
 import './ListPage.css';
 
 const ListPage = () => {
@@ -66,7 +66,7 @@ const ListPage = () => {
           </section>
           <div className="list-date">
             <p className="list-date">
-              <span>Published</span> {formatDateDayMonthYear(list.createdAt)}
+              <span>Published</span> {dateTimeToString(list.createdAt)}
             </p>
           </div>
           <section className="list-page-header">

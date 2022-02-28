@@ -1,11 +1,11 @@
-// Feb 06
+// ISOstring => Feb 06
 export const formatDateMonthDay = (dateString) => {
   const string = dateString.split('-').join('/');
   const date = new Date(string);
   return date.toLocaleDateString('en-US', { month: 'short', day: '2-digit' });
 };
 
-// 06 Feb 2022
+// ISOstring => 06 Feb 2022
 export const formatDateDayMonthYear = (dateString) => {
   const string = dateString.split('-').join('/');
   const date = new Date(string);
@@ -27,4 +27,17 @@ export const toDateString = () => {
   const day = today.getDate().toString().padStart(2, '0');
   const date = `${year}-${month}-${day}`;
   return date;
+};
+
+export const dateTimeToString = (datetime) => {
+  const date = new Date(datetime);
+  const split = date
+    .toLocaleDateString('en-US', {
+      day: '2-digit',
+      month: 'short',
+      year: 'numeric',
+    })
+    .split(' ');
+
+  return `${split[1].slice(0, 2)} ${split[0]} ${split[2]}`;
 };
