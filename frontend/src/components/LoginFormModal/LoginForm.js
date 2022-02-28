@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
 import { login } from '../../store/session';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Button from '../Button';
 import { InputField, InputLabel } from '../InputField';
 import { AiOutlineClose } from 'react-icons/ai';
 import ValidationError from '../ValidationError';
-// import { useDemo } from '../../hooks';
-import { useHistory } from 'react-router-dom';
+import { useHistory, Redirect } from 'react-router-dom';
 import './LoginForm.css';
 
 function LoginForm({ handleModal, page = false }) {
@@ -15,6 +14,11 @@ function LoginForm({ handleModal, page = false }) {
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState([]);
   const history = useHistory();
+  const sessionUser = useSelector((state) => state.session?.user);
+
+  if (sessionUser) {
+    return <Redirect to="/" />;
+  }
 
   const handleSubmit = (e) => {
     e.preventDefault();
