@@ -106,7 +106,7 @@ const Backlog = ({ username }) => {
                   <h3 className="section-heading">HOW TO ADD</h3>
                   <p>
                     Add albums you want to hear to your backlog by clicking the
-                    Watchlist icon in the actions panel on a review page, or
+                    Backlog icon in the actions panel on a review page, or
                     input a search in the field below.
                   </p>
                 </div>
