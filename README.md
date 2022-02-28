@@ -1,7 +1,7 @@
 # Crates
 [Crates](https://crates2022.herokuapp.com/), a clone of the film journaling network [Letterboxd](https://letterboxd.com/), is a platform for music listeners to keep a living diary of albums they have listened to.
 
-Crates is a full-stack application with a frontend client composed in React, a RESTful API and server built in Express, and a relational database managed in PostgreSQL.
+A full-stack application, Crates is designed with a frontend composed in React, a RESTful API and server built in Express, and a relational database managed in PostgreSQL.
 
 <img src="./documentation/landing-page.png" width=1440 alt="Crates landing page">
 
@@ -57,6 +57,6 @@ To run locally:
 ## Looking Forward
 Pulling together an MVP in two weeks, compromises had to be made in the interest of time. I decided to focus in on journaling as the core identity of the project. Letterboxd also serves as a great database -- this is an aspect of the platform I'd like to expand on in future iterations. The application is currently connected to the Spotify Web API, which is communicated with through search requests as users generate content. However, it would be nice to be able to dynamically generate views for albums around the data that return from queries.
 
-I'd like to overhaul the design of the Redux store. I believe that it was too closely modeled after the relational structure of the SQL database, which quickly became too unwieldy to maintain. It would be nice to scale back its shape and flatten the data.
+I'd like to overhaul the design of the Redux store. I believe that it was too closely modeled after the relational structure of the SQL database, which quickly became unwieldy and difficult to maintain. It would be nice to scale back its shape and flatten the data.
 
 Additionally, I'd like to build a more responsive application that better serves the mobile experience.
