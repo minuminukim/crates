@@ -43,7 +43,7 @@ To run locally:
 * Maintain a backlog of records to listen to or revisit:
 <img src="./documentation/backlog.png" width=1440 alt="A grid view of album art.">
 
-* Share, update and delete comments
+* Post, update and delete comments
 
 ## Technologies
 - React
