@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, useHistory } from 'react-router-dom';
 import Home from './views/Home';
 import Landing from './views/Landing';
 import Albums from './views/Albums';
@@ -18,11 +18,16 @@ function App() {
   const dispatch = useDispatch();
   const sessionUser = useSelector((state) => state.session.user);
   const [isLoaded, setIsLoaded] = useState(false);
+  const history = useHistory();
 
   useEffect(() => {
     dispatch(restoreUser())
       .then(() => dispatch(fetchAlbums()))
-      .then(() => setIsLoaded(true));
+      .then(() => setIsLoaded(true))
+      .catch(() => {
+        setIsLoaded(true);
+        history.push('/error');
+      });
   }, [dispatch]);
 
   return (
