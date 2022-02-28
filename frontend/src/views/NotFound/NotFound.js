@@ -1,5 +1,6 @@
 import error from '../../images/garage.jpeg';
 import { Link } from 'react-router-dom';
+import handleImageError from '../../utils/handleImageError';
 import './NotFound.css';
 
 const NotFound = () => {
@@ -13,6 +14,7 @@ const NotFound = () => {
         src={error}
         alt="An evening at Paradise Garage."
         className="error-backdrop"
+        onError={handleImageError}
       />
     </div>
   );
