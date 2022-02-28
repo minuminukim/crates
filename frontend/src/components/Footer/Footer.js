@@ -1,4 +1,5 @@
 import { FaLinkedin, FaGithub } from 'react-icons/fa';
+import { AiOutlineMail } from 'react-icons/ai';
 import './Footer.css';
 
 function Footer() {
@@ -23,6 +24,11 @@ function Footer() {
             rel="noreferrer"
           >
             <FaLinkedin />
+          </a>
+        </li>
+        <li>
+          <a className="footer-icon" href="mailto:minumoseskim@gmail.com">
+            <AiOutlineMail />
           </a>
         </li>
       </ul>
