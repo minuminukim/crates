@@ -7,6 +7,7 @@ import { InputField, InputLabel } from '../../components/InputField';
 import { ErrorMessages } from '../../components/ValidationError';
 import StarRating from '../../components/StarRating';
 import { AiOutlineClose, AiOutlineCheck } from 'react-icons/ai';
+import { toDateString } from '../../utils/date-helpers';
 import './ReviewForm.css';
 
 const ReviewForm = ({ album = null, onSuccess = null, onClose = null }) => {
@@ -17,7 +18,7 @@ const ReviewForm = ({ album = null, onSuccess = null, onClose = null }) => {
   const [rating, setRating] = useState(0);
   const [isRelisten, setIsRelisten] = useState(false);
   const [errors, setErrors] = useState({});
-  const today = new Date().toISOString().slice(0, 10);
+  const today = toDateString();
   const [listenedDate, setListenedDate] = useState(today);
   const hiddenInput = useRef(null);
   const [message, setMessage] = useState('');
@@ -107,7 +108,7 @@ const ReviewForm = ({ album = null, onSuccess = null, onClose = null }) => {
               type="date"
               id="listenedDate"
               value={listenedDate}
-              // max={today}
+              max={today}
               onChange={(e) => setListenedDate(e.target.value)}
             />
           </div>

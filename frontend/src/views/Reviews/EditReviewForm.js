@@ -8,6 +8,7 @@ import { SaveButton, DeleteButton } from '../../components/Button';
 import StarRating from '../../components/StarRating';
 import { ErrorMessages } from '../../components/ValidationError';
 import { AiOutlineClose, AiOutlineCheck } from 'react-icons/ai';
+import { toDateString } from '../../utils/date-helpers';
 import './ReviewForm.css';
 
 const EditReviewForm = ({ review, onSuccess }) => {
@@ -24,8 +25,8 @@ const EditReviewForm = ({ review, onSuccess }) => {
     rating: review.rating,
   });
 
+  const today = toDateString();
   const hiddenInput = useRef(null);
-  // const today = new Date().toISOString().slice(0, 10);
 
   const handleChange = (e) =>
     setForm({
@@ -132,7 +133,7 @@ const EditReviewForm = ({ review, onSuccess }) => {
               id="listenedDate"
               value={form.listenedDate}
               onChange={handleChange}
-              // max={today}
+              max={today}
             />
           </div>
           <div className="form-row">
