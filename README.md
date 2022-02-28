@@ -1,9 +1,9 @@
 # Crates
-[Crates](https://crates2022.herokuapp.com/), a clone of the film journaling network [Letterboxd](https://letterboxd.com/), is a platform for music listeners to keep a diary of what albums they have listened to. Users are able to write and share reviews, create lists of albums, and maintain a backlog.
+[Crates](https://crates2022.herokuapp.com/), a clone of the film journaling network [Letterboxd](https://letterboxd.com/), is a platform for music listeners to keep a living diary of albums they have listened to.
 
-Crates is a full-stack application with a frontend composed in React, a RESTful API and backend built on Express, and a relational database managed in PostgreSQL.
+A full-stack application, Crates is designed with a frontend composed in React, a RESTful API and server built in Express, and a relational database managed in PostgreSQL.
 
-<img src="./documentation/landing-page.png" height=600 alt="Crates landing page">
+<img src="./documentation/landing-page.png" width=1440 alt="Crates landing page">
 
 ## Live Site
 [Crates](https://crates2022.herokuapp.com/)
@@ -30,12 +30,20 @@ To run locally:
 - Finally, start your servers by running `npm start` in `backend` and a second time in `frontend`
 
 ## Features
-- User registration and JWT authentication
-- Users are able to share, update and delete reviews of albums:
-<img src="./documentation/review-form.png" height=300 alt="Review form">
+* User registration and JWT authentication
+* Share, update and delete reviews of albums.
+<img src="./documentation/review-form.png" width=1440 alt="A user reviews Promise.">
 
-- Users can compile collections of albums in lists
-- Users can maintain a backlog of albums to listen to
+* A user maintains a diary of their listening history:
+<img src="./documentation/diary.png" width=1440 alt="A journal of a user's listening history.">
+
+* Compile collections of albums in (un)ordered lists:
+<img src="./documentation/list-form.png" width=1440 alt="A user composes a list of albums.">
+
+* Maintain a backlog of records to listen to or revisit:
+<img src="./documentation/backlog.png" width=1440 alt="A grid view of album art.">
+
+* Post, update and delete comments
 
 ## Technologies
 - React
@@ -46,3 +54,9 @@ To run locally:
 - Sequelize
 - Spotify Web API
 
+## Looking Forward
+Pulling together an MVP in two weeks, compromises had to be made in the interest of time. I decided to focus in on journaling as the core identity of the project. Letterboxd also serves as a great database -- this is an aspect of the platform I'd like to expand on in future iterations. The application is currently connected to the Spotify Web API, which is communicated with through search requests as users generate content. However, it would be nice to be able to dynamically generate views for albums around the data that return from queries.
+
+I'd like to overhaul the design of the Redux store. I believe that it was too closely modeled after the relational structure of the SQL database, which quickly became unwieldy and difficult to maintain. It would be nice to scale back its shape and flatten the data.
+
+Additionally, I'd like to build a more responsive application that better serves the mobile experience.
