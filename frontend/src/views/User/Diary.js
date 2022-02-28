@@ -14,8 +14,6 @@ const Diary = () => {
   const [loading, setLoading] = useState(true);
   const sessionUser = useSelector((state) => state.session.user);
 
-  console.log('reviews', reviews);
-
   const sortByDateListened = (reviews) => {
     return [...reviews].sort(
       (a, b) => new Date(b.listenedDate) - new Date(a.listenedDate)
