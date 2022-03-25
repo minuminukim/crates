@@ -9,21 +9,20 @@ const Landing = () => {
 
   return (
     <>
+      <div className="backdrop">
+        <a
+          className="credit-link"
+          href="https://www.erezavissar.com/"
+          rel="noreferrer"
+          target="_blank"
+        >
+          <span className="details">
+            † DJ Rashad †, DJ Spinn, Traxman (2013), Photo by{' '}
+          </span>
+          Erez Avissar.
+        </a>
+      </div>
       <div className="page-container landing-page">
-        <div className="backdrop"></div>
-        <div className="credit-container">
-          <a
-            className="credit-link"
-            href="https://www.erezavissar.com/"
-            rel="noreferrer"
-            target="_blank"
-          >
-            <span className="credit-link">
-              † DJ Rashad †, DJ Spinn, Traxman (2013), Photo by{' '}
-            </span>
-            Erez Avissar.
-          </a>
-        </div>
         <div className="hero">
           <h1 className="hero-heading">
             Track albums you've listened to.
