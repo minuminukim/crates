@@ -108,3 +108,15 @@ footer {
   right: 0;
   margin-top: auto;
 }
+
+.hover-green:hover {
+  background-color: #00e054;
+}
+
+.hover-orange:hover {
+  background-color: #ff8000;
+}
+
+.hover-blue:hover {
+  background-color: #40bcf4;
+}

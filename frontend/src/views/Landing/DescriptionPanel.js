@@ -28,7 +28,7 @@ const DescriptionPanel = ({ message, action, color }) => {
   return (
     <li className={`description-panel hover-${color}`}>
       <div className="card-icon">{icon}</div>
-      <p>{message}</p>
+      <p className="panel-text">{message}</p>
     </li>
   );
 };

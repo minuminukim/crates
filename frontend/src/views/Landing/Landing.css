@@ -97,3 +97,8 @@ section.descriptions h2 {
   border-radius: 3px;
   padding: 12px;
 }
+
+.description-panel:hover p.panel-text,
+.description-panel:hover .card-icon {
+  color: #fff;
+}
