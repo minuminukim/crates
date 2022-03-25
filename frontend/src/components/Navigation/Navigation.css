@@ -17,12 +17,8 @@
   width: 950px;
 }
 
-.nav li {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-right: 12px;
-  cursor: pointer;
+.nav.landing .nav-wrap {
+  width: 1200px;
 }
 
 .nav-logo img {
@@ -41,13 +37,28 @@ a.nav-logo {
 .nav-links {
   display: flex;
   list-style-type: none;
+  padding-left: 0;
+  /* max-width: 470px; */
+  /* width: 100%; */
+  justify-content: flex-end;
+}
+
+.nav-link {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.nav-link:not(:last-child) {
+  margin-right: 24px;
 }
 
 .nav-label {
   color: #99aabb;
   font-size: 14px;
   font-weight: 600;
-  margin-right: 12px;
+  /* margin-right: 12px; */
 }
 
 div.nav-label {
@@ -58,16 +69,18 @@ div.nav-label {
   color: #fff;
 }
 
-.caret-down-icon {
+.caret-down-icon,
+svg.caret-down-icon {
   position: relative;
   top: 2px;
-  margin-right: 12px;
+  margin-right: 0 !important;
 }
 
-.nav-logo {
+div.nav-logo {
   font-size: 30px;
   color: #fff;
   font-weight: 600;
+  padding-right: 30px;
 }
 
 div.profile-button {
@@ -77,6 +90,7 @@ div.profile-button {
   font-size: 14px;
   min-width: 110px;
   padding: 5px 0;
+  margin-right: 16px;
 }
 
 button.profile-button {

@@ -60,23 +60,6 @@ button.btn-demo-user {
   height: 50px;
 }
 
-.landing-cards {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 12px;
-}
-
-.description-card {
-  color: #def;
-  height: 105px;
-  width: 310px;
-  background-color: #445566;
-  display: flex;
-  align-items: center;
-  border-radius: 3px;
-  padding: 12px;
-}
-
 .card-icon {
   font-size: 40px;
   margin-right: 12px;
@@ -86,5 +69,31 @@ section.descriptions {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  margin: 0 auto;
+  margin: 0;
+  max-width: 950px;
+}
+
+section.descriptions h2 {
+  border: 0;
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+.landing-panels {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  padding-left: 0;
+  margin-top: 0;
+}
+
+.description-panel {
+  color: #def;
+  height: 105px;
+  width: 310px;
+  background-color: #445566;
+  display: flex;
+  align-items: center;
+  border-radius: 3px;
+  padding: 12px;
 }

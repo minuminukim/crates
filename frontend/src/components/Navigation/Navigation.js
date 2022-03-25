@@ -4,65 +4,48 @@ import { useSelector } from 'react-redux';
 import ProfileButton from './ProfileButton';
 import LogButton from './LogButton';
 import { Modal } from '../../context/Modal';
-import { useDemo } from '../../hooks';
-import LoginFormModal from '../LoginFormModal';
-import SignupModal from '../SignupForm';
 import SearchModal from '../SearchModal';
-import navLogo from '../../images/decal-dots.png';
+import NavLogo from '../../images/decal-dots.png';
+import UnauthenticatedLinks from './UnauthenticatedLinks';
 import './Navigation.css';
 
 function Navigation({ isLoaded }) {
   const [showSearch, setShowSearch] = useState(false);
   const sessionUser = useSelector((state) => state.session.user);
-  const { handleDemoUser } = useDemo();
-
-  const sessionLinks = sessionUser ? (
-    <>
-      <li>
-        <ProfileButton user={sessionUser} />
-      </li>
-    </>
-  ) : (
-    <>
-      <LoginFormModal />
-      <SignupModal />
-      <span className="nav-label" onClick={handleDemoUser}>
-        TRY DEMO
-      </span>
-    </>
-  );
+  const navigationType = sessionUser ? 'main' : 'landing';
 
   return (
-    <nav className="nav">
+    <nav className={`nav ${navigationType}`}>
       <div className="nav-wrap">
         <div className="nav-logo">
-          <img src={navLogo} alt="Logo" />
+          <img src={NavLogo} alt="Logo" />
           <NavLink className="nav-logo" exact to="/">
             CRATES
           </NavLink>
         </div>
         <ul className="nav-links">
-          {isLoaded && sessionLinks}
-          <li>
+          {isLoaded &&
+            (sessionUser ? <ProfileButton /> : <UnauthenticatedLinks />)}
+          <li className="nav-link">
             <NavLink className="nav-label" exact to="/albums">
               ALBUMS
             </NavLink>
           </li>
-          <li>
+          <li className="nav-link">
             <NavLink className="nav-label" exact to="/lists">
               LISTS
             </NavLink>
           </li>
-          <li>
-            {sessionUser && (
+          {sessionUser && (
+            <li className="nav-link">
               <LogButton handleLogClick={() => setShowSearch(true)} />
-            )}
-            {isLoaded && showSearch && (
-              <Modal onClose={() => setShowSearch(false)}>
-                <SearchModal closeSearch={() => setShowSearch(false)} />
-              </Modal>
-            )}
-          </li>
+              {isLoaded && showSearch && (
+                <Modal onClose={() => setShowSearch(false)}>
+                  <SearchModal closeSearch={() => setShowSearch(false)} />
+                </Modal>
+              )}
+            </li>
+          )}
         </ul>
       </div>
     </nav>

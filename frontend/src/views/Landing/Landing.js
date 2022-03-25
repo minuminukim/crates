@@ -1,6 +1,7 @@
 import { useDemo } from '../../hooks';
 import Button from '../../components/Button';
-import DescriptionCard, { DESCRIPTIONS } from './DescriptionCard';
+import DescriptionPanel from './DescriptionPanel';
+import { DESCRIPTIONS } from '../../constants';
 import './Landing.css';
 
 const Landing = () => {
@@ -39,15 +40,14 @@ const Landing = () => {
         </div>
         <section className="descriptions">
           <h2 className="section-heading">CRATES LETS YOU...</h2>
-          <ul className="landing-cards">
-            {DESCRIPTIONS.map(({ message, action }, i) => (
-              <li className="landing-card" key={`description-${message}`}>
-                <DescriptionCard
-                  key={`description-${message}`}
-                  message={message}
-                  action={action}
-                />
-              </li>
+          <ul className="landing-panels">
+            {DESCRIPTIONS.map(({ message, action, color }) => (
+              <DescriptionPanel
+                key={`description-${message}`}
+                message={message}
+                action={action}
+                color={color}
+              />
             ))}
           </ul>
         </section>

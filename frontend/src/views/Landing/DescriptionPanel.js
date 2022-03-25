@@ -3,7 +3,6 @@ import { BsFillCalendarFill } from 'react-icons/bs';
 import { FaStar } from 'react-icons/fa';
 import { BiMenuAltLeft } from 'react-icons/bi';
 import { IoGridSharp } from 'react-icons/io5';
-import { DESCRIPTIONS } from './descriptions';
 
 const buttonReducer = (action) => {
   switch (action) {
@@ -24,15 +23,14 @@ const buttonReducer = (action) => {
   }
 };
 
-const DescriptionCard = ({ message, action }) => {
+const DescriptionPanel = ({ message, action, color }) => {
   const icon = buttonReducer(action);
   return (
-    <div className="description-card">
+    <li className={`description-panel hover-${color}`}>
       <div className="card-icon">{icon}</div>
       <p>{message}</p>
-    </div>
+    </li>
   );
 };
 
-export { DESCRIPTIONS };
-export default DescriptionCard;
+export default DescriptionPanel;
