@@ -2,8 +2,13 @@ import { FaUserCircle } from 'react-icons/fa';
 import { StarRatingReadOnly } from '../StarRating';
 import { formatDateDayMonthYear } from '../../utils/date-helpers';
 import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
-const Details = ({ review, album, shape, showInfo = true }) => {
+const Details = ({ shape, reviewID, showInfo = true }) => {
+  const review = useSelector((state) => state.reviews.items[reviewID]);
+  const album = useSelector((state) => state.albums.items[review?.albumID]);
+  const user = useSelector((state) => state.users[review?.userID]);
+
   return (
     <>
       {shape === 'block' && (
@@ -12,13 +17,13 @@ const Details = ({ review, album, shape, showInfo = true }) => {
             <FaUserCircle className="user-avatar" />
           </Link>
           <Link className="user-link" to={`/users/${review.userID}`}>
-            {review.user.username}
+            {user?.username}
           </Link>
         </div>
       )}
       {showInfo && (
         <div className="review-list-item-release">
-          <Link className="review-list-item-title" to={`/reviews/${review.id}`}>
+          <Link className="review-list-item-title" to={`/reviews/${reviewID}`}>
             {album.title}{' '}
           </Link>
 
@@ -41,7 +46,7 @@ const Details = ({ review, album, shape, showInfo = true }) => {
               to={`/users/${review.userID}`}
               className="review-list-item-username"
             >
-              {review.user.username}
+              {user?.username}
             </Link>
             {showInfo && (
               <span className="review-list-item-date">

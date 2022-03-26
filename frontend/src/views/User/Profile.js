@@ -14,29 +14,14 @@ const Profile = () => {
   const { userID } = useParams();
   const username = useSelector((state) => state.users[userID].username);
   const reviewIDs = useSelector((state) => state.users[userID].reviews);
-  const reviews = useSelector((state) =>
-    reviewIDs.map((id) => state.reviews.items[id])
-  );
-  const [loading, setLoading] = useState(true);
-  // const [reviews, setReviews] = useState([]);
-  const dispatch = useDispatch();
 
-  // useEffect(() => {
-  //   (async () => {
-  //     try {
-  //       const [reviews, user] = await Promise.all([
-  //         dispatch(fetchReviews()),
-  //         dispatch(fetchSingleUser(+userID)),
-  //       ]);
-  //       const filtered = reviews.filter((review) => review.userID === user.id);
-  //       setReviews(sortByDateListened([...filtered]));
-  //       setUser(user);
-  //       setLoading(false);
-  //     } catch (res) {
-  //       return res;
-  //     }
-  //   })();
-  // }, [dispatch, userID]);
+  // we only want the ones that have bodies
+  const filtered = useSelector((state) =>
+    reviewIDs
+      .filter((id) => state.reviews.items[id].body)
+      .sort((a, b) => b - a)
+      .slice(0, 4)
+  );
 
   return (
     <div className="profile-content">
@@ -52,20 +37,12 @@ const Profile = () => {
             <Empty />
           )}
         </section>
-        {reviews?.length > 0 && (
+        {filtered?.length > 0 && (
           <section className="profile-recent-reviews">
             <h2 className="section-heading">RECENT REVIEWS</h2>
-            {reviews
-              // we only want the ones that have bodies
-              .filter((review) => review.body)
-              .slice(0, 4)
-              .map((review) => (
-                <ReviewListItem
-                  key={`${review.id}`}
-                  review={review}
-                  shape="landscape"
-                />
-              ))}
+            {filtered.map((id) => (
+              <ReviewListItem key={`${id}`} reviewID={id} shape="landscape" />
+            ))}
           </section>
         )}
       </div>

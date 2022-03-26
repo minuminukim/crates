@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { fetchReviews } from '../../store/reviewsReducer';
 import { sortByRecent, sortByDateListened } from '../../utils/sorts';
 import ReviewListItem from '../ReviewListItem';
@@ -10,6 +10,8 @@ import './ReviewsList.css';
 const ReviewsList = ({ className = null }) => {
   const { userID } = useParams();
   const dispatch = useDispatch();
+  const reviewIDs = useSelector((state) => state.users[userID]?.reviews);
+  console.log('reviewIDs', reviewIDs);
   const [reviews, setReviews] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -29,16 +31,17 @@ const ReviewsList = ({ className = null }) => {
       setLoading(false);
     });
   }, [dispatch, userID]);
+  console.log('reviewIDs', reviewIDs)
 
   return (
     !loading && (
       <div className="page-container reviews-list-container">
-        {reviews?.length > 0 ? (
+        {reviewIDs?.length > 0 ? (
           <ul className={`reviews-list ${className}`}>
-            {reviews.map((review) => (
-              <li key={`review-${review.id}`}>
+            {reviewIDs.map((id) => (
+              <li key={`review-${id}`}>
                 <ReviewListItem
-                  review={review}
+                  reviewID={id}
                   className={userID ? 'user' : 'popular'}
                   shape="landscape"
                 />
