@@ -1,46 +1,27 @@
-import { useEffect, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useState } from 'react';
 import { useBacklog } from '../../hooks';
-import { fetchBacklogByUserID } from '../../store/backlogsReducer';
 import { MdMoreTime } from 'react-icons/md';
 import { ErrorMessages } from '../ValidationError';
 
 const BacklogIcon = ({ albumID }) => {
-  const dispatch = useDispatch();
-  const userID = useSelector((state) => state.session.user?.id);
-  const backlog = useSelector((state) => state.backlogs.items[userID]);
-  const inBacklog = backlog && backlog.albums.some((id) => id === albumID);
-  const [isLoading, setLoading] = useState(true);
+  const { onAdd, onRemove, message, errors, inBacklog, isLoading } =
+    useBacklog(albumID);
   const [text, setText] = useState(inBacklog ? 'Remove' : 'Backlog');
-  const action = inBacklog ? 'remove' : 'append';
-
-  const { onAdd, onRemove, message, errors } = useBacklog(albumID);
-
-  useEffect(() => {
-    if (backlog) {
-      setLoading(false);
-      return;
-    }
-
-    setLoading(true);
-    dispatch(fetchBacklogByUserID(userID)).then(
-      () => setLoading(false),
-      (error) => {
-        console.log('error fetching backlog', error);
-      }
-    );
-  }, [dispatch, userID, backlog]);
 
   const onMouseOver = () => setText(inBacklog ? 'Remove' : 'Backlog');
   const onMouseLeave = () => setText('Backlog');
+  const handleClick = () => {
+    if (isLoading) return;
+    return inBacklog ? onRemove() : onAdd();
+  };
 
   return (
     !isLoading && (
       <>
         <ErrorMessages success={message} errors={errors} />
         <div
-          onClick={inBacklog ? onRemove : onAdd}
-          className={`icon-container ${action}`}
+          onClick={handleClick}
+          className={`icon-container ${inBacklog ? 'remove' : 'append'}`}
           onMouseOver={onMouseOver}
           onMouseLeave={onMouseLeave}
         >

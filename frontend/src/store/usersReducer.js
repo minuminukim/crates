@@ -40,6 +40,8 @@ const usersReducer = (state = {}, action) => {
     }
 
     case ALBUMS_LOADED: {
+      // Until we can figure out how to reduce all ALBUMS_LOADED events
+      // we only update this slice when a user's albums are fetched
       if (!action.userID) {
         return state;
       }
@@ -57,6 +59,7 @@ const usersReducer = (state = {}, action) => {
       };
     }
 
+    // Event occurs when a user marks an album as 'listened'
     case ALBUM_ADDED:
       return {
         ...state,
@@ -66,6 +69,7 @@ const usersReducer = (state = {}, action) => {
         },
       };
 
+    // Event occurs when a user removes a 'listen'
     case ALBUM_REMOVED:
       const filtered = [...state[action.userID].albums].filter(
         (id) => id !== action.albumID

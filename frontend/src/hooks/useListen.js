@@ -1,20 +1,41 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { addUserAlbum, removeUserAlbum } from '../store/albumsReducer';
+import {
+  addUserAlbum,
+  removeUserAlbum,
+  fetchAlbumsByUserID,
+} from '../store/albumsReducer';
 
-const useListen = (album) => {
-  const [listened, setListened] = useState(false);
+const useListen = (albumID) => {
+  const dispatch = useDispatch();
+  const userID = useSelector((state) => state.session.user?.id);
+  const album = useSelector((state) => state.albums.items[albumID]);
+  const userAlbums = useSelector((state) => state.users[userID]?.albums);
+  const isListened = userAlbums && userAlbums.some((id) => id === albumID);
+
   const [errors, setErrors] = useState([]);
   const [message, setMessage] = useState('');
-  const sessionUser = useSelector((state) => state.session.user);
-  const dispatch = useDispatch();
+  const [isLoading, setLoading] = useState(true);
+
+  useEffect(() => {
+    if (userAlbums) {
+      setLoading(false);
+      return;
+    }
+
+    dispatch(fetchAlbumsByUserID(userID)).then(
+      () => setLoading(false),
+      (error) => {
+        console.log('error fetching user', error);
+      }
+    );
+  }, [userAlbums, userID]);
 
   const onListen = () => {
     setErrors([]);
     setMessage('');
-    dispatch(addUserAlbum(sessionUser.id, album))
+    dispatch(addUserAlbum(userID, album))
       .then(() => {
-        setListened(true);
         setMessage(`You have added '${album.title}' to your albums.`);
       })
       .catch(async (error) => {
@@ -28,9 +49,8 @@ const useListen = (album) => {
   const onUnlisten = () => {
     setErrors([]);
     setMessage('');
-    dispatch(removeUserAlbum(sessionUser.id, album.id, album.spotifyID))
+    dispatch(removeUserAlbum(userID, albumID))
       .then(() => {
-        setListened(false);
         setMessage(`You have removed '${album.title}' from your albums.`);
       })
       .catch(async (error) => {
@@ -44,10 +64,10 @@ const useListen = (album) => {
   return {
     onUnlisten,
     onListen,
-    listenSuccess: message,
-    listenErrors: errors,
-    setListened,
-    listened,
+    message,
+    errors,
+    isListened,
+    isLoading,
   };
 };
 

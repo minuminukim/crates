@@ -1,6 +1,6 @@
 import { csrfFetch } from './csrf';
 import { REVIEWS_LOADED, REVIEW_ADDED } from './reviewsReducer';
-import { BACKLOG_LOADED } from './backlogsReducer';
+import { BACKLOG_LOADED, removeFromBacklog } from './backlogsReducer';
 
 export const ALBUMS_LOADED = 'albums/albumsLoaded';
 export const ALBUM_ADDED = 'albums/albumAdded';
@@ -16,16 +16,16 @@ const albumsLoaded = (albums, userID) => ({
   userID,
 });
 
-const albumAdded = (album) => ({
+const albumAdded = (album, userID) => ({
   type: ALBUM_ADDED,
   album,
+  userID,
 });
 
-export const albumRemoved = (albumID, userID, spotifyID) => ({
+export const albumRemoved = (albumID, userID) => ({
   type: ALBUM_REMOVED,
   albumID,
   userID,
-  spotifyID,
 });
 
 export const fetchAlbums = () => async (dispatch) => {
@@ -36,23 +36,33 @@ export const fetchAlbums = () => async (dispatch) => {
   return albums;
 };
 
-export const getUserAlbums = (userID) => async (dispatch) => {
+export const fetchAlbumsByUserID = (userID) => async (dispatch) => {
   const response = await csrfFetch(`/api/users/${userID}/albums`);
   const { albums } = await response.json();
   dispatch(albumsLoaded(albums, userID));
   return albums;
 };
 
-export const addUserAlbum = (userID, newAlbum) => async (dispatch) => {
-  const response = await csrfFetch(`/api/users/${userID}/albums`, {
-    method: 'POST',
-    body: JSON.stringify(newAlbum),
-  });
+export const addUserAlbum =
+  (userID, newAlbum) => async (dispatch, getState) => {
+    const response = await csrfFetch(`/api/users/${userID}/albums`, {
+      method: 'POST',
+      body: JSON.stringify(newAlbum),
+    });
+    const { album } = await response.json();
+    dispatch(albumAdded(album, userID));
 
-  const { album } = await response.json();
-  dispatch(albumAdded(album));
-  return album;
-};
+    // Check if the record exists in the user's backlog and remove from if it is
+    const state = getState();
+    const backlog = state.backlogs.items[userID];
+    const inBacklog = backlog && backlog.albums.some((id) => id === album.id);
+
+    if (inBacklog) {
+      await dispatch(removeFromBacklog(album.id, userID));
+    }
+
+    return album;
+  };
 
 export const removeUserAlbum = (userID, albumID) => async (dispatch) => {
   const response = await csrfFetch(`/api/users/${userID}/albums/${albumID}`, {
@@ -135,7 +145,6 @@ const albumsReducer = (state = initialState, action) => {
     case REVIEW_ADDED: {
       const { album } = action.review;
       const isNewEntry = !state.hasOwnProperty([album.id]);
-      // const reviews = isNewEntry ? [review.id] : album?.review
       const reviews = isNewEntry
         ? [action.review.id]
         : state[album.id]?.reviews?.concat(action.review.id);

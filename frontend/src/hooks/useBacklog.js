@@ -53,7 +53,6 @@ const useBacklog = (albumID) => {
       .then(() => {
         setMessage(`You have removed '${album.title}' from your backlog.`);
       })
-
       .catch(async (error) => {
         const data = await error.json();
         if (data && data.errors) {
@@ -64,6 +63,7 @@ const useBacklog = (albumID) => {
 
   return {
     inBacklog,
+    isLoading,
     message,
     errors,
     onRemove,
