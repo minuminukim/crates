@@ -1,4 +1,4 @@
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import Card from '../Card';
 import './CardRow.css';
 
@@ -16,7 +16,6 @@ const CardRow = ({ reviewIDs }) => {
 
   return (
     <div className="card-row">
-      {/* {items && items.map((item) => <Card key={item.id} item={item} />)} */}
       {mostRecentlyListened.map((id) => (
         <Card key={id} reviewID={id} />
       ))}

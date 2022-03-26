@@ -10,10 +10,7 @@ const ReviewBody = () => {
   const { reviewID } = useParams();
   const review = useSelector((state) => state.reviews.items[reviewID]);
   const user = useSelector((state) => state.users[review?.userID]);
-  const albums = useSelector((state) => state.albums.items);
-  const album = Object.values(albums)?.find(
-    (album) => album.id === review.albumID
-  );
+  const album = useSelector((state) => state.albums.items[review?.albumID]);
 
   return (
     <div className="review">
@@ -39,7 +36,7 @@ const ReviewBody = () => {
             className="star-filled-green"
           />
 
-          {review.rating !== 10 && review.rating % 2 !== 0 && (
+          {review?.rating !== 10 && review?.rating % 2 !== 0 && (
             <p className="half-green">½</p>
           )}
         </div>

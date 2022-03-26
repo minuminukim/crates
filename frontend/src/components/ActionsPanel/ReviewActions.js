@@ -7,14 +7,12 @@ import { EditReviewModal, PostReviewModal } from '../../views/Reviews';
 import { WarningMessageModal } from '../WarningMessage';
 import { ListenActions, AppendListModal } from '.';
 
-const ReviewActions = ({ userID, onDelete, rating }) => {
-  const sessionUser = useSelector((state) => state.session.user);
-  const isSessionUser = sessionUser?.id === userID;
+const ReviewActions = ({ onDelete, rating }) => {
   const { reviewID } = useParams();
   const review = useSelector((state) => state.reviews.items[reviewID]);
-  const album = useSelector(
-    (state) => state.albums.items[review?.album.spotifyID]
-  );
+  const album = useSelector((state) => state.albums.items[review?.albumID]);
+  const sessionUser = useSelector((state) => state.session.user);
+  const isSessionUser = sessionUser?.id === review?.userID;
 
   return (
     <ul className="review-actions">

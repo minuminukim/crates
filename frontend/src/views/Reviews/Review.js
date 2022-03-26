@@ -18,50 +18,42 @@ const Review = () => {
   const review = useSelector((state) => state.reviews.items[reviewID]);
   const sessionUser = useSelector((state) => state.session.user);
   const user = useSelector((state) => state.users[review?.userID]);
-  const albums = useSelector((state) => state.albums.items);
-  const album = Object.values(albums)?.find(
-    (album) => review?.albumID === album.id
-  );
+  const [isLoading, setLoading] = useState(true);
+  const rating = useSelector((state) => {
+    if (!sessionUser) return 0;
+    const reviews = state.reviews.items;
 
-  const [isLoading, setIsLoading] = useState(true);
-  const [rating, setRating] = useState(0);
+    // Iterate over the current user's reviews and find a review
+    // associated with the current view's album
+    const userReviews = state.users[sessionUser.id].reviews;
+    const found = userReviews.find(
+      (id) => reviews[id].albumID === review.albumID
+    );
+    return found ? reviews[found].rating : 0;
+  });
 
   useEffect(() => {
-    (async () => {
-      try {
-        const review = await dispatch(fetchSingleReview(+reviewID));
-        if (review.userID !== sessionUser?.id) {
-          await dispatch(fetchSingleUser(review.userID));
-        }
+    if (review) {
+      setLoading(false);
+      return;
+    }
 
-        if (sessionUser) {
-          const { reviews } = await dispatch(fetchSingleUser(sessionUser.id));
-          const found = reviews?.find(
-            (item) => item.albumID === review.albumID
-          );
-
-          setRating(found?.rating || 0);
-        }
-
-        setIsLoading(false);
-      } catch (res) {
-        if (res?.status === 404) {
+    dispatch(fetchSingleReview(+reviewID)).then(
+      () => setLoading(false),
+      (error) => {
+        console.log(`Error fetching review ${reviewID}`, error);
+        if (error.status === 404) {
           history.push('/not-found');
         }
-
-        const data = await res.json();
-        if (data && data.errors) {
-          return data;
-        }
       }
-    })();
-    return () => setRating(0);
+    );
   }, [dispatch, sessionUser, reviewID]);
 
   const handleDelete = () => {
-    return dispatch(deleteReview(+reviewID))
-      .then(() => history.push('/'))
-      .catch((err) => err);
+    dispatch(deleteReview(+reviewID)).then(
+      () => history.push('/'),
+      (error) => console.error('Error deleting review', error)
+    );
   };
 
   // return null when review doesn't exist after dispatching a delete action
@@ -71,19 +63,10 @@ const Review = () => {
         <div className="content-wrapper content-review">
           <section className="review-page-left">
             <div className="left-col-1">
-              <AlbumArt
-                title={review.album?.title}
-                artworkURL={review.album?.artworkURL}
-                size="review"
-              />
+              <AlbumArt albumID={review.albumID} size="review" />
             </div>
             <div className="review-page-middle">
-              <ReviewBody
-                review={review}
-                album={review?.album}
-                user={user}
-                rating={rating}
-              />
+              <ReviewBody />
             </div>
             <CommentSection />
           </section>

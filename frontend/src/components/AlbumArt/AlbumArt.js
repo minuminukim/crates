@@ -2,7 +2,7 @@ import { useSelector } from 'react-redux';
 import handleImageError from '../../utils/handleImageError';
 import './AlbumArt.css';
 
-const AlbumArt = ({ size, style = null, albumID, children }) => {
+const AlbumArt = ({ albumID, size, style = null, children }) => {
   const album = useSelector((state) => state.albums.items[albumID]);
   return (
     <>

@@ -10,35 +10,35 @@ import './ReviewsList.css';
 const ReviewsList = ({ className = null }) => {
   const { userID } = useParams();
   const dispatch = useDispatch();
-  const reviewIDs = useSelector((state) => state.users[userID]?.reviews);
-  console.log('reviewIDs', reviewIDs);
-  const [reviews, setReviews] = useState([]);
+
+  // Select and sort depending on the current location:
+  const mostRecentlyListened = useSelector((state) => {
+    const reviewIDs = userID
+      ? state.users[userID].reviews
+      : state.reviews.reviewIDs;
+
+    return [...reviewIDs].sort((a, b) => {
+      const left = state.reviews.items[a];
+      const right = state.reviews.items[b];
+      return new Date(right.listenedDate) - new Date(left.listenedDate);
+    });
+  });
+
   const [loading, setLoading] = useState(true);
 
-  const filterByUserID = (reviews) =>
-    reviews.filter((review) => review.userID === +userID);
-
-  // just slicing 6 for now because current db schema doesn't have any
-  // sort of popularity metric
-  const sortPopularReviews = (reviews) => reviews.slice(0, 6);
-
   useEffect(() => {
-    return dispatch(fetchReviews()).then((reviews) => {
-      const sorted = userID
-        ? sortByDateListened(filterByUserID([...reviews]))
-        : sortPopularReviews([...reviews]);
-      setReviews(sorted);
-      setLoading(false);
-    });
-  }, [dispatch, userID]);
-  console.log('reviewIDs', reviewIDs)
+    dispatch(fetchReviews()).then(
+      () => setLoading(false),
+      (error) => console.error('error fetching reviews at ReviewList', error)
+    );
+  }, [dispatch]);
 
   return (
     !loading && (
       <div className="page-container reviews-list-container">
-        {reviewIDs?.length > 0 ? (
+        {mostRecentlyListened?.length > 0 ? (
           <ul className={`reviews-list ${className}`}>
-            {reviewIDs.map((id) => (
+            {mostRecentlyListened.map((id) => (
               <li key={`review-${id}`}>
                 <ReviewListItem
                   reviewID={id}
