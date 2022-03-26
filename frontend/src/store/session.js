@@ -1,16 +1,16 @@
 import { csrfFetch } from './csrf.js';
 import { addUser } from './usersReducer.js';
 
-const SET_USER = 'session/setUser';
-const REMOVE_USER = 'session/removeUser';
+export const SESSION_STARTED = 'session/sessionStarted';
+const SESSION_ENDED = 'session/sessionEnded';
 
-const setUser = (user) => ({
-  type: SET_USER,
-  payload: user,
+const sessionStarted = (user) => ({
+  type: SESSION_STARTED,
+  user,
 });
 
-const removeUser = () => ({
-  type: REMOVE_USER,
+const sessionEnded = () => ({
+  type: SESSION_ENDED,
 });
 
 export const login =
@@ -21,15 +21,16 @@ export const login =
       body: JSON.stringify({ credential, password }),
     });
     const data = await response.json();
-    dispatch(setUser(data.user));
-    dispatch(addUser(data.user));
+    dispatch(sessionStarted(data.user));
+
     return response;
   };
 
 export const restoreUser = () => async (dispatch) => {
   const response = await csrfFetch('/api/session');
   const data = await response.json();
-  dispatch(setUser(data.user));
+  dispatch(sessionStarted(data.user));
+
   return response;
 };
 
@@ -45,8 +46,8 @@ export const signup = (user) => async (dispatch) => {
     }),
   });
   const data = await response.json();
-  dispatch(setUser(data.user));
-  dispatch(addUser(data.user));
+  dispatch(sessionStarted(data.user));
+
   return response;
 };
 
@@ -54,7 +55,7 @@ export const logout = () => async (dispatch) => {
   const response = await csrfFetch('/api/session', {
     method: 'DELETE',
   });
-  dispatch(removeUser());
+  dispatch(sessionEnded());
   return response;
 };
 
@@ -63,23 +64,35 @@ export const loginDemo = () => async (dispatch) => {
     method: 'POST',
   });
   const data = await response.json();
-  dispatch(setUser(data.user));
-  dispatch(addUser(data.user));
+  dispatch(sessionStarted(data.user));
+
   return data;
 };
+
+/* ------ SELECTORS ------ */
+export const getSessionUser = (state) => state.session.user;
 
 const initialState = { user: null };
 
 function reducer(state = initialState, action) {
-  let newState;
   switch (action.type) {
-    case SET_USER:
-      newState = Object.assign({}, state, { user: action.payload });
-      return newState;
+    case SESSION_STARTED:
+      const { id, username } = action.user;
 
-    case REMOVE_USER:
-      newState = Object.assign({}, state, { user: null });
-      return newState;
+      return {
+        ...state,
+        user: {
+          id,
+          username,
+        },
+      };
+
+    case SESSION_ENDED:
+      const next = { ...state };
+      delete next.user;
+      return {
+        user: null,
+      };
 
     default:
       return state;

@@ -1,73 +1,72 @@
 import { csrfFetch } from './csrf';
 import { ALBUMS_LOADED, ALBUM_ADDED, ALBUM_REMOVED } from './albumsReducer';
+import { SESSION_STARTED } from './session';
+import { mapObjectIDs, mapSpotifyIDs } from '../utils';
 
-const USERS_LOADED = 'users/USERS_LOADED';
-const USER_ADDED = 'users/USER_ADDED';
+const USER_LOADED = 'users/USER_LOADED';
 
-const loadUsers = (users) => ({
-  type: USERS_LOADED,
-  users,
-});
-
-export const addUser = (user) => ({
-  type: USER_ADDED,
+export const userLoaded = (user) => ({
+  type: USER_LOADED,
   user,
 });
-
-export const fetchUsers = () => async (dispatch) => {
-  const response = await fetch(`/api/users`);
-  const { users } = await response.json();
-  dispatch(loadUsers(users));
-  return users;
-};
 
 export const fetchSingleUser = (userID) => async (dispatch) => {
   const response = await csrfFetch(`/api/users/${userID}`);
   const { user } = await response.json();
-  dispatch(addUser(user));
+  dispatch(userLoaded(user));
+
   return user;
 };
 
 const usersReducer = (state = {}, action) => {
   switch (action.type) {
-    case USERS_LOADED:
-      const users = action.users.reduce((acc, user) => {
-        acc[user.id] = user;
-        return acc;
-      }, {});
+    case USER_LOADED:
+    case SESSION_STARTED: {
+      const albums = mapSpotifyIDs(action.user.albums) || [];
+      const reviews = mapObjectIDs(action.user.reviews) || [];
+
       return {
         ...state,
-        ...users,
+        [action.user.id]: {
+          ...action.user,
+          albums,
+          reviews,
+        },
       };
+    }
 
-    case USER_ADDED:
-      return {
-        ...state,
-        [action.user.id]: action.user,
-      };
+    case ALBUMS_LOADED: {
+      if (!action.userID) {
+        return state;
+      }
 
-    case ALBUMS_LOADED:
+      const previousAlbums = state[action.userID].albums;
+      const mapped = mapSpotifyIDs(action.albums);
+      const unique = [...new Set([...previousAlbums, ...mapped])];
+
       return {
         ...state,
         [action.userID]: {
           ...state[action.userID],
-          albums: action.albums.map((album) => album.spotifyID),
+          albums: unique,
         },
       };
+    }
 
     case ALBUM_ADDED:
       return {
         ...state,
         [action.userID]: {
           ...state[action.userID],
-          albums: [...state[action.userID].albums, action.albumID],
+          albums: [...state[action.userID].albums, action.spotifyID],
         },
       };
 
     case ALBUM_REMOVED:
       const filtered = [...state[action.userID].albums].filter(
-        (id) => id !== action.albumID
+        (id) => id !== action.spotifyID
       );
+      
       return {
         ...state,
         [action.userID]: {

@@ -19,10 +19,11 @@ const addAlbum = (album) => ({
   album,
 });
 
-export const removeAlbum = (albumID, userID) => ({
+export const removeAlbum = (albumID, userID, spotifyID) => ({
   type: ALBUM_REMOVED,
   albumID,
   userID,
+  spotifyID,
 });
 
 export const fetchAlbums = () => async (dispatch) => {
@@ -51,16 +52,17 @@ export const addUserAlbum = (userID, newAlbum) => async (dispatch) => {
   return album;
 };
 
-export const removeUserAlbum = (userID, albumID) => async (dispatch) => {
-  const response = await csrfFetch(`/api/users/${userID}/albums/${albumID}`, {
-    method: 'DELETE',
-  });
-  dispatch(removeAlbum(albumID, userID));
-  return response;
-};
+export const removeUserAlbum =
+  (userID, albumID, spotifyID) => async (dispatch) => {
+    const response = await csrfFetch(`/api/users/${userID}/albums/${albumID}`, {
+      method: 'DELETE',
+    });
+    dispatch(removeAlbum(albumID, userID));
+    return response;
+  };
 
 export const fetchSingleAlbum = (id) => async (dispatch) => {
-  const response = await csrfFetch(`/api/albums/${id}`)
+  const response = await csrfFetch(`/api/albums/${id}`);
   const { album } = await response.json();
   dispatch(addAlbum(album));
   return album;

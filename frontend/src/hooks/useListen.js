@@ -28,7 +28,7 @@ const useListen = (album) => {
   const onUnlisten = () => {
     setErrors([]);
     setMessage('');
-    dispatch(removeUserAlbum(sessionUser.id, album.id))
+    dispatch(removeUserAlbum(sessionUser.id, album.id, album.spotifyID))
       .then(() => {
         setListened(false);
         setMessage(`You have removed '${album.title}' from your albums.`);
