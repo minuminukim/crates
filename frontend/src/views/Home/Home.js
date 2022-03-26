@@ -45,9 +45,9 @@ const Home = () => {
       <section className="popular">
         <h2 className="section-heading">POPULAR REVIEWS</h2>
         <ul>
-          {popular.map((review) => (
-            <li className="popular-list-item" key={`review-${review.id}`}>
-              <ReviewListItem review={review} shape="block" />
+          {popular.map(({ id }) => (
+            <li className="popular-list-item" key={`review-${id}`}>
+              <ReviewListItem reviewID={id} shape="block" />
             </li>
           ))}
         </ul>
