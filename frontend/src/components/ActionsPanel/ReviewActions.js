@@ -9,14 +9,14 @@ import { ListenActions, AppendListModal } from '.';
 
 const ReviewActions = ({ onDelete, rating }) => {
   const { reviewID } = useParams();
+  const userID = useSelector((state) => state.session.user?.id);
   const review = useSelector((state) => state.reviews.items[reviewID]);
   const album = useSelector((state) => state.albums.items[review?.albumID]);
-  const sessionUser = useSelector((state) => state.session.user);
-  const isSessionUser = sessionUser?.id === review?.userID;
+  const isSessionUser = userID === review?.userID;
 
   return (
     <ul className="review-actions">
-      <ListenActions album={album} />
+      <ListenActions album={album} albumID={review?.albumID} />
       <ActionsRow
         className="action-row-rated"
         label={rating ? 'Rated' : 'Not Rated'}

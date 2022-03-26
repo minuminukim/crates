@@ -1,32 +1,32 @@
 import { csrfFetch } from './csrf';
+import { mapObjectIDs } from '../utils';
 
-const BACKLOG_LOADED = 'backlogs/BACKLOG_LOADED';
-const BACKLOG_UPDATED = 'backlogs/BACKLOG_APPENDED';
-const BACKLOG_ITEM_REMOVED = 'backlogs/BACKLOG_ITEM_REMOVED';
+export const BACKLOG_LOADED = 'backlogs/backlogLoaded';
+const BACKLOG_UPDATED = 'backlogs/backlogUpdated';
+const BACKLOG_ITEM_REMOVED = 'backlogs/backlogItemRemoved';
 
-const loadBacklog = (albums, userID) => ({
+const backlogLoaded = (backlog, userID) => ({
   type: BACKLOG_LOADED,
-  albums,
+  backlog,
   userID,
 });
 
-const updateBacklog = (userID, albums, album) => ({
+const backlogUpdated = (userID, album) => ({
   type: BACKLOG_UPDATED,
   userID,
-  albums,
   album,
 });
 
-const removeItem = (userID, albumID) => ({
+const backlogItemRemoved = (userID, albumID) => ({
   type: BACKLOG_ITEM_REMOVED,
   userID,
   albumID,
 });
 
-export const fetchUserBacklog = (userID) => async (dispatch) => {
+export const fetchBacklogByUserID = (userID) => async (dispatch) => {
   const response = await csrfFetch(`/api/users/${userID}/backlog`);
   const { backlog } = await response.json();
-  dispatch(loadBacklog(backlog, userID));
+  dispatch(backlogLoaded(backlog, userID));
   return backlog;
 };
 
@@ -35,52 +35,75 @@ export const appendBacklog = (album, userID) => async (dispatch) => {
     method: 'PUT',
     body: JSON.stringify(album),
   });
-
-  const albums = await response.json();
-  dispatch(updateBacklog(userID, albums, album));
-  return albums;
+  const data = await response.json();
+  dispatch(backlogUpdated(userID, data.album));
+  return data;
 };
 
-export const removeFromBacklog =
-  (albumID, spotifyID, userID) => async (dispatch) => {
-    const response = await csrfFetch(
-      `/api/users/${userID}/backlog/${albumID}`,
-      {
-        method: 'DELETE',
-      }
-    );
-    dispatch(removeItem(userID, albumID));
-    return response;
-  };
+export const removeFromBacklog = (albumID, userID) => async (dispatch) => {
+  const response = await csrfFetch(`/api/users/${userID}/backlog/${albumID}`, {
+    method: 'DELETE',
+  });
+  dispatch(backlogItemRemoved(userID, albumID));
+  return response;
+};
 
-const backlogsReducer = (state = {}, action) => {
+const initialState = {
+  items: {},
+  userIDs: [],
+};
+
+const backlogsReducer = (state = initialState, action) => {
   switch (action.type) {
-    case BACKLOG_LOADED:
-      return {
-        ...state,
-        [action.userID]: action.albums.map((album) => album.id),
+    case BACKLOG_LOADED: {
+      const { id, userID, albums } = action.backlog;
+      const albumIDs = mapObjectIDs(albums);
+      const backlog = {
+        id,
+        userID,
+        albums: albumIDs,
       };
 
-    case BACKLOG_UPDATED:
-      if (!state[action.userID]) {
-        return {
-          ...state,
-          [action.userID]: action.albums.map((album) => album.id),
-        };
-      } else {
-        return {
-          ...state,
-          [action.userID]: [...state[action.userID], action.album.id],
-        };
-      }
+      return {
+        items: {
+          ...state.items,
+          [action.userID]: backlog,
+        },
+        userIDs: [...state.userIDs, action.userID],
+      };
+    }
 
-    case BACKLOG_ITEM_REMOVED:
+    case BACKLOG_UPDATED: {
+      const albumID = action.album.id;
+      const previousBacklog = state.items[action.userID];
+
       return {
         ...state,
-        [action.userID]: [...state[action.userID]].filter(
-          (id) => id !== action.albumID
-        ),
+        items: {
+          ...state.items,
+          [action.userID]: {
+            ...previousBacklog,
+            albums: [...previousBacklog.albums, albumID],
+          },
+        },
       };
+    }
+
+    case BACKLOG_ITEM_REMOVED: {
+      const previousIDs = state.items[action.userID]?.albums;
+      const nextIDs = previousIDs.filter((id) => id !== action.albumID);
+
+      return {
+        ...state,
+        items: {
+          ...state.items,
+          [action.userID]: {
+            ...state.items[action.userID],
+            albums: nextIDs,
+          },
+        },
+      };
+    }
 
     default:
       return state;

@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import {
-  fetchUserBacklog,
+  fetchBacklogByUserID,
   appendBacklog,
   removeFromBacklog,
 } from '../../store/backlogsReducer';
@@ -26,7 +26,7 @@ const Backlog = ({ username }) => {
 
   useEffect(() => {
     const fetchBacklog = async () => {
-      const backlog = await dispatch(fetchUserBacklog(+userID));
+      const backlog = await dispatch(fetchBacklogByUserID(+userID));
       setAlbums(backlog);
     };
     fetchBacklog().then(() => setLoading(false));
@@ -106,8 +106,8 @@ const Backlog = ({ username }) => {
                   <h3 className="section-heading">HOW TO ADD</h3>
                   <p>
                     Add albums you want to hear to your backlog by clicking the
-                    Backlog icon in the actions panel on a review page, or
-                    input a search in the field below.
+                    Backlog icon in the actions panel on a review page, or input
+                    a search in the field below.
                   </p>
                 </div>
                 <div>

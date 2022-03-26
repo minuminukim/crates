@@ -22,6 +22,10 @@ const usersReducer = (state = {}, action) => {
   switch (action.type) {
     case USER_LOADED:
     case SESSION_STARTED: {
+      if (!action.user) {
+        return state;
+      }
+
       const albums = mapObjectIDs(action.user.albums) || [];
       const reviews = mapObjectIDs(action.user.reviews) || [];
 

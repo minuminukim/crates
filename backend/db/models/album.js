@@ -12,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
 
     static associate(models) {
       Album.hasMany(models.Track, { foreignKey: 'albumID' });
-      Album.hasMany(models.Review, { foreignKey: 'albumID' });
+      Album.hasMany(models.Review, { foreignKey: 'albumID', as: 'reviews' });
       Album.belongsToMany(models.User, {
         through: 'UserAlbum',
         otherKey: 'userID',

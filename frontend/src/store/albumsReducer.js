@@ -1,5 +1,6 @@
 import { csrfFetch } from './csrf';
 import { REVIEWS_LOADED, REVIEW_ADDED } from './reviewsReducer';
+import { BACKLOG_LOADED } from './backlogsReducer';
 
 export const ALBUMS_LOADED = 'albums/albumsLoaded';
 export const ALBUM_ADDED = 'albums/albumAdded';
@@ -82,7 +83,8 @@ export const searchAlbums = (query) => async (dispatch) => {
 const albumsReducer = (state = initialState, action) => {
   switch (action.type) {
     case ALBUMS_LOADED: {
-      const albums = action.albums.reduce((acc, album) => {
+      const items = action.backlog ? action.backlog.albums : action.albums;
+      const albums = items.reduce((acc, album) => {
         album.reviews = album?.reviews || [];
         acc[album.id] = album;
         return acc;

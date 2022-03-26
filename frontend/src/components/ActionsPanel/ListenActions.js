@@ -1,19 +1,26 @@
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { ActionsRow } from '.';
-import { fetchUserBacklog } from '../../store/backlogsReducer';
+import { fetchBacklogByUserID } from '../../store/backlogsReducer';
 import { getUserAlbums } from '../../store/albumsReducer';
 import { ErrorMessages } from '../ValidationError';
 import { useListen, useBacklog } from '../../hooks';
-import { ListenIcon, BacklogIcon } from './ActionIcons';
+import { ListenIcon } from './ActionIcons';
+import BacklogIcon from './BacklogIcon';
 
-const ListenActions = ({ album }) => {
-  const sessionUser = useSelector((state) => state.session.user);
+
+const ListenActions = ({ albumID }) => {
   const dispatch = useDispatch();
+  const sessionUser = useSelector((state) => state.session.user);
+  const album = useSelector((state) => state.albums.items[albumID]);
+  const user = useSelector((state) => {
+    const sessionUser = state.session.user;
+    return sessionUser ? state.users[sessionUser.id] : null;
+  });
+
   const [errors, setErrors] = useState([]);
   const [loading, setLoading] = useState(false);
   const [listenText, setListenText] = useState('');
-  const [backlogText, setBacklogText] = useState('Backlog');
 
   const {
     onListen,
@@ -24,26 +31,27 @@ const ListenActions = ({ album }) => {
     listened,
   } = useListen(album);
 
-  const {
-    inBacklog,
-    setInBacklog,
-    backlogSuccess,
-    backlogErrors,
-    onAdd,
-    onRemove,
-  } = useBacklog(album);
+  // const {
+  //   inBacklog,
+  //   setInBacklog,
+  //   backlogSuccess,
+  //   backlogErrors,
+  //   onAdd,
+  //   onRemove,
+  // } = useBacklog(album);
 
   useEffect(() => {
+    // if (backlog) {
+    //   setLoading(false);
+    //   return;
+    // }
+
     (async () => {
       try {
         const [backlogAlbums, userAlbums] = await Promise.all([
-          dispatch(fetchUserBacklog(sessionUser?.id)),
+          dispatch(fetchBacklogByUserID(sessionUser?.id)),
           dispatch(getUserAlbums(sessionUser?.id)),
         ]);
-
-        setInBacklog(
-          backlogAlbums.some((item) => item.spotifyID === album.spotifyID)
-        );
 
         const inUserAlbums = userAlbums.some(
           (item) => item.spotifyID === album.spotifyID
@@ -67,9 +75,9 @@ const ListenActions = ({ album }) => {
     } else {
       onListen();
 
-      if (inBacklog) {
-        onRemove();
-      }
+      // if (inBacklog) {
+      //   onRemove();
+      // }
     }
   };
 
@@ -85,15 +93,16 @@ const ListenActions = ({ album }) => {
             onMouseLeave={() => setListenText(listened ? 'Listened' : 'Listen')}
           />
           <BacklogIcon
-            text={backlogText}
-            className={inBacklog ? 'remove' : 'append'}
-            onMouseOver={() => setBacklogText(inBacklog ? 'Remove' : 'Backlog')}
-            onMouseLeave={() => setBacklogText('Backlog')}
-            onClick={() => (inBacklog ? onRemove() : onAdd())}
+            // text={backlogText}
+            albumID={albumID}
+            // className={inBacklog ? 'remove' : 'append'}
+            // onMouseOver={() => setBacklogText(inBacklog ? 'Remove' : 'Backlog')}
+            // onMouseLeave={() => setBacklogText('Backlog')}
+            // onClick={() => (inBacklog ? onRemove() : onAdd())}
           />
         </ActionsRow>
         <ErrorMessages success={listenSuccess} errors={listenErrors} />
-        <ErrorMessages success={backlogSuccess} errors={backlogErrors} />
+        {/* <ErrorMessages success={backlogSuccess} errors={backlogErrors} /> */}
       </>
     )
   );

@@ -37,7 +37,7 @@ const Profile = () => {
         <section className="profile-recent-reviews">
           <h2 className="section-heading">RECENT REVIEWS</h2>
           {mostRecentReviews.map((id) => (
-            <ReviewListItem key={`${id}`} reviewID={id} shape="landscape" />
+            <ReviewListItem key={id} reviewID={id} shape="landscape" />
           ))}
         </section>
       </div>

@@ -5,7 +5,6 @@ import { fetchSingleReview } from '../../store/reviewsReducer';
 import ReviewBody from './ReviewBody';
 import AlbumArt from '../../components/AlbumArt';
 import { ReviewActions, ActionsRow } from '../../components/ActionsPanel';
-import { fetchSingleUser } from '../../store/usersReducer';
 import { deleteReview } from '../../store/reviewsReducer';
 import LoginFormModal from '../../components/LoginFormModal';
 import { CommentSection } from '../../components/Comments';
@@ -17,7 +16,6 @@ const Review = () => {
   const { reviewID } = useParams();
   const review = useSelector((state) => state.reviews.items[reviewID]);
   const sessionUser = useSelector((state) => state.session.user);
-  const user = useSelector((state) => state.users[review?.userID]);
   const [isLoading, setLoading] = useState(true);
   const rating = useSelector((state) => {
     if (!sessionUser) return 0;
@@ -27,7 +25,7 @@ const Review = () => {
     // associated with the current view's album
     const userReviews = state.users[sessionUser.id].reviews;
     const found = userReviews.find(
-      (id) => reviews[id].albumID === review.albumID
+      (id) => reviews[id].albumID === review?.albumID
     );
     return found ? reviews[found].rating : 0;
   });
@@ -47,7 +45,7 @@ const Review = () => {
         }
       }
     );
-  }, [dispatch, sessionUser, reviewID]);
+  }, [dispatch, reviewID]);
 
   const handleDelete = () => {
     dispatch(deleteReview(+reviewID)).then(

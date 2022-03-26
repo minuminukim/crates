@@ -1,5 +1,4 @@
 const express = require('express');
-const { check } = require('express-validator');
 const asyncHandler = require('express-async-handler');
 const validateSignup = require('../../validations/validateSignup');
 const { setTokenCookie, requireAuth } = require('../../utils/auth');
@@ -43,6 +42,7 @@ router.post(
   asyncHandler(async (req, res) => {
     const { email, password, username } = req.body;
     const user = await User.signup({ email, username, password });
+    await Backlog.create({ userID: user.id });
 
     await setTokenCookie(res, user);
 
@@ -134,24 +134,30 @@ router.get(
       return next(userNotFoundError());
     }
 
-    // find or create backlog because model isn't set up to
-    // automatically create a backlog on user creation
     const [backlog, _created] = await Backlog.findOrCreate({
       where: { userID: id },
       defaults: {
         userID: id,
       },
+      include: {
+        model: Album,
+        as: 'albums',
+        include: {
+          model: Review,
+          as: 'reviews',
+        },
+      },
     });
 
-    const items = await AlbumBacklog.findAll({
-      where: { backlogID: backlog.id },
-      include: { model: Album },
-    });
+    // const items = await AlbumBacklog.findAll({
+    //   where: { backlogID: backlog.id },
+    //   include: { model: Album },
+    // });
 
-    const albums = items.map((item) => item.Album);
+    // const albums = items.map((item) => item.Album);
 
     return res.json({
-      backlog: albums,
+      backlog,
     });
   })
 );
@@ -198,15 +204,16 @@ router.put(
       });
     }
 
-    const items = await AlbumBacklog.findAll({
-      where: { backlogID: backlog.id },
-      include: { model: Album },
-    });
+    // const items = await AlbumBacklog.findAll({
+    //   where: { backlogID: backlog.id },
+    //   include: { model: Album },
+    // });
 
-    const albums = items.map((item) => item.Album);
+    // const albums = items.map((item) => item.Album);
 
     return res.json({
-      backlog: albums,
+      // backlog: albums,
+      album,
     });
   })
 );
