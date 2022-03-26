@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { getReviewsByUserID } from '../../store/reviewsReducer';
+import { fetchReviewsByUserID } from '../../store/reviewsReducer';
 import { StarRatingReadOnly } from '../../components/StarRating';
 import { Empty } from '.';
 import { ArtWithOverlay } from '../../components/AlbumArt';
@@ -14,7 +14,7 @@ const UserAlbums = () => {
   const [reviews, setReviews] = useState([]);
 
   useEffect(() => {
-    dispatch(getReviewsByUserID(+userID))
+    dispatch(fetchReviewsByUserID(+userID))
       .then((reviews) => setReviews(reviews))
       .then(() => setLoading(false))
       .catch((err) => setErrors(err));

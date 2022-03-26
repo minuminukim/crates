@@ -4,7 +4,7 @@ import { useParams, useRouteMatch, Switch, Route } from 'react-router-dom';
 import { fetchSingleAlbum } from '../../store/albumsReducer';
 import AlbumArt from '../../components/AlbumArt';
 import { AlbumNavigation, Tracklist } from '.';
-import { getReviews } from '../../store/reviewsReducer';
+import { fetchReviews } from '../../store/reviewsReducer';
 import ReviewListItem from '../../components/ReviewListItem';
 import { sortByRecent } from '../../utils/sorts';
 import './Album.css';
@@ -22,7 +22,7 @@ const Album = (id) => {
       try {
         const [album, reviews] = await Promise.all([
           dispatch(fetchSingleAlbum(spotifyID)),
-          dispatch(getReviews()),
+          dispatch(fetchReviews()),
         ]);
         const filtered = reviews.filter(
           (review) => review.album.spotifyID === spotifyID

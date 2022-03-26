@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams, useHistory } from 'react-router-dom';
-import { getSingleReview } from '../../store/reviewsReducer';
+import { fetchSingleReview } from '../../store/reviewsReducer';
 import ReviewBody from './ReviewBody';
 import AlbumArt from '../../components/AlbumArt';
 import { ReviewActions, ActionsRow } from '../../components/ActionsPanel';
@@ -29,7 +29,7 @@ const Review = () => {
   useEffect(() => {
     (async () => {
       try {
-        const review = await dispatch(getSingleReview(+reviewID));
+        const review = await dispatch(fetchSingleReview(+reviewID));
         if (review.userID !== sessionUser?.id) {
           await dispatch(fetchSingleUser(review.userID));
         }

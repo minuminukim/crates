@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { getReviews } from '../../store/reviewsReducer';
+import { fetchReviews } from '../../store/reviewsReducer';
 import CardRow from '../../components/CardRow';
 import ReviewListItem from '../../components/ReviewListItem';
 import { sortByDateListened } from '../../utils/sorts';
@@ -15,7 +15,7 @@ const Home = () => {
   const popular = Object.values(items).slice(0, 6);
 
   useEffect(() => {
-    return dispatch(getReviews())
+    return dispatch(fetchReviews())
       .then(() => setIsLoading(false))
       .catch(async (res) => {
         const data = await res.json();

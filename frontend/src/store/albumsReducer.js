@@ -1,25 +1,26 @@
 import { csrfFetch } from './csrf';
+import { REVIEWS_LOADED, REVIEW_ADDED } from './reviewsReducer';
 
-export const ALBUMS_LOADED = 'albums/ALBUMS_LOADED';
-export const ALBUM_ADDED = 'albums/ALBUM_ADDED';
-export const ALBUM_REMOVED = 'albums/ALBUM_REMOVED';
+export const ALBUMS_LOADED = 'albums/albumsLoaded';
+export const ALBUM_ADDED = 'albums/albumAdded';
+export const ALBUM_REMOVED = 'albums/albumRemoved';
 
 const initialState = {
   items: {},
 };
 
-const loadAlbums = (albums, userID) => ({
+const albumsLoaded = (albums, userID) => ({
   type: ALBUMS_LOADED,
   albums,
   userID,
 });
 
-const addAlbum = (album) => ({
+const albumAdded = (album) => ({
   type: ALBUM_ADDED,
   album,
 });
 
-export const removeAlbum = (albumID, userID, spotifyID) => ({
+export const albumRemoved = (albumID, userID, spotifyID) => ({
   type: ALBUM_REMOVED,
   albumID,
   userID,
@@ -29,7 +30,7 @@ export const removeAlbum = (albumID, userID, spotifyID) => ({
 export const fetchAlbums = () => async (dispatch) => {
   const response = await csrfFetch(`/api/albums`);
   const { albums } = await response.json();
-  dispatch(loadAlbums(albums));
+  dispatch(albumsLoaded(albums));
 
   return albums;
 };
@@ -37,7 +38,7 @@ export const fetchAlbums = () => async (dispatch) => {
 export const getUserAlbums = (userID) => async (dispatch) => {
   const response = await csrfFetch(`/api/users/${userID}/albums`);
   const { albums } = await response.json();
-  dispatch(loadAlbums(albums, userID));
+  dispatch(albumsLoaded(albums, userID));
   return albums;
 };
 
@@ -48,23 +49,22 @@ export const addUserAlbum = (userID, newAlbum) => async (dispatch) => {
   });
 
   const { album } = await response.json();
-  dispatch(addAlbum(album));
+  dispatch(albumAdded(album));
   return album;
 };
 
-export const removeUserAlbum =
-  (userID, albumID, spotifyID) => async (dispatch) => {
-    const response = await csrfFetch(`/api/users/${userID}/albums/${albumID}`, {
-      method: 'DELETE',
-    });
-    dispatch(removeAlbum(albumID, userID));
-    return response;
-  };
+export const removeUserAlbum = (userID, albumID) => async (dispatch) => {
+  const response = await csrfFetch(`/api/users/${userID}/albums/${albumID}`, {
+    method: 'DELETE',
+  });
+  dispatch(albumRemoved(albumID, userID));
+  return response;
+};
 
 export const fetchSingleAlbum = (id) => async (dispatch) => {
   const response = await csrfFetch(`/api/albums/${id}`);
   const { album } = await response.json();
-  dispatch(addAlbum(album));
+  dispatch(albumAdded(album));
   return album;
 };
 
@@ -75,14 +75,15 @@ export const searchAlbums = (query) => async (dispatch) => {
   });
 
   const { albums } = await response.json();
-  dispatch(loadAlbums(albums));
+  dispatch(albumsLoaded(albums));
   return albums;
 };
 
 const albumsReducer = (state = initialState, action) => {
   switch (action.type) {
-    case ALBUMS_LOADED:
+    case ALBUMS_LOADED: {
       const albums = action.albums.reduce((acc, album) => {
+        album.reviews = album?.reviews || [];
         acc[album.spotifyID] = album;
         return acc;
       }, {});
@@ -94,8 +95,14 @@ const albumsReducer = (state = initialState, action) => {
           ...albums,
         },
       };
+    }
 
-    case ALBUM_ADDED:
+    // When an album entry was created in db as a result of
+    // new user generated content
+    case ALBUM_ADDED: {
+      const reviews = action.album?.reviews || [];
+      action.album.reviews = reviews;
+
       return {
         ...state,
         items: {
@@ -103,7 +110,49 @@ const albumsReducer = (state = initialState, action) => {
           [action.album.spotifyID]: action.album,
         },
       };
+    }
+    case REVIEWS_LOADED: {
+      const albums = action.reviews
+        .map(({ id, album }) => ({ id, album }))
+        .reduce((acc, { id, album }) => {
+          album.reviews = album?.reviews || [id];
+          acc[album.spotifyID] = album;
+          return acc;
+        }, {});
 
+      return {
+        ...state,
+        items: {
+          ...state.items,
+          ...albums,
+        },
+      };
+    }
+
+    case REVIEW_ADDED: {
+      const { album } = action.review;
+      const isNewEntry = !state.hasOwnProperty([album.spotifyID]);
+      // const reviews = isNewEntry ? [review.id] : album?.review
+      const reviews = isNewEntry
+        ? [action.review.id]
+        : state[album.spotifyID]?.reviews?.concat(action.review.id);
+
+      return {
+        ...state,
+        items: {
+          ...state.items,
+          [album.spotifyID]: isNewEntry
+            ? {
+                ...album,
+                reviews,
+              }
+            : {
+                ...state[album.spotifyID],
+                reviews,
+              },
+        },
+      };
+    }
     default:
       return state;
   }

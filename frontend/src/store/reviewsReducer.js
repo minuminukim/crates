@@ -1,55 +1,52 @@
 import { csrfFetch } from './csrf';
 
-const REVIEWS_LOADED = 'reviews/REVIEWS_LOADED';
-const REQUEST_REJECTED = 'reviews/REQUEST_REJECTED';
-const REVIEW_ADDED = 'reviews/REVIEW_ADDED';
-const REVIEW_UPDATED = 'reviews/REVIEW_UPDATED';
-const REVIEW_REMOVED = 'reviews/REVIEW_DELETED';
+export const REVIEWS_LOADED = 'reviews/reviewsLoaded';
+export const REVIEW_ADDED = 'reviews/reviewAdded';
+const REVIEW_UPDATED = 'reviews/reviewUpdated';
+export const REVIEW_REMOVED = 'reviews/reviewDeleted';
 
 const initialState = {
   items: {},
-  isLoading: true,
-  errors: null,
 };
 
-const loadReviews = (reviews) => ({
+const reviewsLoaded = (reviews) => ({
   type: REVIEWS_LOADED,
   reviews,
 });
 
-const addReview = (review) => ({
+const reviewAdded = (review) => ({
   type: REVIEW_ADDED,
   review,
 });
 
-const updateReview = (review) => ({
+const reviewUpdated = (review) => ({
   type: REVIEW_UPDATED,
   review,
 });
 
-const removeReview = (reviewID) => ({
+const reviewRemoved = (reviewID) => ({
   type: REVIEW_REMOVED,
   reviewID,
 });
 
-export const getReviews = () => async (dispatch) => {
+export const fetchReviews = () => async (dispatch) => {
   const response = await csrfFetch(`/api/reviews`);
   const { reviews } = await response.json();
-  dispatch(loadReviews(reviews));
+  dispatch(reviewsLoaded(reviews));
   return reviews;
 };
 
-export const getSingleReview = (id) => async (dispatch) => {
+export const fetchSingleReview = (id) => async (dispatch) => {
   const response = await csrfFetch(`/api/reviews/${id}`);
   const { review } = await response.json();
-  dispatch(addReview(review));
+  dispatch(reviewAdded(review));
   return review;
 };
 
-export const getReviewsByUserID = (userID) => async (dispatch) => {
+export const fetchReviewsByUserID = (userID) => async (dispatch) => {
   const response = await csrfFetch(`/api/users/${userID}/reviews`);
   const { reviews } = await response.json();
-  dispatch(loadReviews(reviews));
+  dispatch(reviewsLoaded(reviews));
   return reviews;
 };
 
@@ -59,7 +56,7 @@ export const postReview = (params) => async (dispatch) => {
     body: JSON.stringify(params),
   });
   const { review } = await response.json();
-  dispatch(addReview(review));
+  dispatch(reviewAdded(review));
   return review;
 };
 
@@ -70,7 +67,7 @@ export const editReview = (review) => async (dispatch) => {
   });
 
   const { updated } = await response.json();
-  dispatch(updateReview(updated));
+  dispatch(reviewUpdated(updated));
   return updated;
 };
 
@@ -78,7 +75,7 @@ export const deleteReview = (id) => async (dispatch) => {
   const response = await csrfFetch(`/api/reviews/${id}`, {
     method: 'DELETE',
   });
-  dispatch(removeReview(id));
+  dispatch(reviewRemoved(id));
   return response;
 };
 
@@ -86,20 +83,14 @@ const reviewsReducer = (state = initialState, action) => {
   switch (action.type) {
     case REVIEWS_LOADED:
       const items = action.reviews.reduce((acc, review) => {
+        // review.spotifyID =
+        // delete review.album;
         acc[review.id] = review;
         return acc;
       }, {});
       return {
         ...state,
         items,
-        isLoading: false,
-      };
-
-    case REQUEST_REJECTED:
-      return {
-        ...state,
-        isLoading: false,
-        errors: action.error,
       };
 
     case REVIEW_ADDED:
@@ -109,7 +100,6 @@ const reviewsReducer = (state = initialState, action) => {
           ...state.items,
           [action.review.id]: action.review,
         },
-        isLoading: false,
       };
 
     case REVIEW_UPDATED:
@@ -122,14 +112,13 @@ const reviewsReducer = (state = initialState, action) => {
             ...action.review,
           },
         },
-        isLoading: false,
       };
 
     case REVIEW_REMOVED:
       const newState = {
         ...state,
         items: {
-          ...state.items
+          ...state.items,
         },
       };
       delete newState.items[action.reviewID];

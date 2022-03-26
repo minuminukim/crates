@@ -11,7 +11,7 @@ const router = express.Router();
 router.get(
   '/',
   asyncHandler(async (req, res, next) => {
-    const reviews = await Review.getReviews();
+    const reviews = await Review.fetchReviews();
 
     return res.json({
       reviews,
@@ -23,7 +23,7 @@ router.get(
   '/:id(\\d+)',
   asyncHandler(async (req, res, next) => {
     const id = +req.params.id;
-    const review = await Review.getSingleReviewByID(id);
+    const review = await Review.fetchSingleReviewByID(id);
 
     if (!review) {
       const reviewError = new Error('Review not found.');
@@ -126,7 +126,7 @@ router.post(
     }
 
     // doing another fetch here so i can send payload with associated album
-    const review = await Review.getSingleReviewByID(newReview.id);
+    const review = await Review.fetchSingleReviewByID(newReview.id);
 
     return res.json({
       review,
@@ -141,8 +141,7 @@ router.put(
   asyncHandler(async (req, res, next) => {
     const review = req.body;
     const id = +req.params.id;
-    const dbReview = await Review.getSingleReviewByID(id);
-
+    const dbReview = await Review.fetchSingleReviewByID(id);
 
     if (!dbReview) {
       return res
@@ -155,7 +154,7 @@ router.put(
     const pairs = Object.entries(review);
     pairs.forEach(([key, value]) => dbReview.set(key, value));
     await dbReview.save();
-    const updated = await Review.getSingleReviewByID(id);
+    const updated = await Review.fetchSingleReviewByID(id);
 
     // update album ratings
     if (isChanged) {
@@ -175,7 +174,7 @@ router.delete(
   requireAuth,
   asyncHandler(async (req, res, next) => {
     const id = +req.params.id;
-    const review = await Review.getSingleReviewByID(id);
+    const review = await Review.fetchSingleReviewByID(id);
 
     if (!review) {
       return res.status(404).json({ errors: ['Review does not exist'] });

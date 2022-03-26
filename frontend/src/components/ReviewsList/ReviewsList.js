@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { getReviews } from '../../store/reviewsReducer';
+import { fetchReviews } from '../../store/reviewsReducer';
 import { sortByRecent, sortByDateListened } from '../../utils/sorts';
 import ReviewListItem from '../ReviewListItem';
 import { Empty } from '../../views/User';
@@ -21,7 +21,7 @@ const ReviewsList = ({ className = null }) => {
   const sortPopularReviews = (reviews) => reviews.slice(0, 6);
 
   useEffect(() => {
-    return dispatch(getReviews()).then((reviews) => {
+    return dispatch(fetchReviews()).then((reviews) => {
       const sorted = userID
         ? sortByDateListened(filterByUserID([...reviews]))
         : sortPopularReviews([...reviews]);

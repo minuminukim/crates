@@ -7,7 +7,7 @@ module.exports = (sequelize, DataTypes) => {
       Review.belongsTo(models.Album, { foreignKey: 'albumID', as: 'album' });
     }
 
-    static async getSingleReviewByID(id) {
+    static async fetchSingleReviewByID(id) {
       return await Review.findOne({
         where: {
           id: id,
@@ -16,14 +16,14 @@ module.exports = (sequelize, DataTypes) => {
       });
     }
 
-    static async getReviews() {
+    static async fetchReviews() {
       return await Review.findAll({ include: ['album', 'user'] });
     }
 
     static async getAlbumReviews(albumID) {
       return await Review.findAll({
         where: { albumID: albumID },
-        include: 'album',
+        include: ['album', 'user'],
       });
     }
 

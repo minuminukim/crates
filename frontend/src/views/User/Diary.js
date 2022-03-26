@@ -2,7 +2,7 @@ import DiaryItem from '../../components/DiaryItem';
 import { useDispatch, useSelector } from 'react-redux';
 import { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
-import { getReviewsByUserID } from '../../store/reviewsReducer';
+import { fetchReviewsByUserID } from '../../store/reviewsReducer';
 import { useParams } from 'react-router-dom';
 import { Empty } from '.';
 
@@ -21,7 +21,7 @@ const Diary = () => {
   };
 
   useEffect(() => {
-    dispatch(getReviewsByUserID(+userID))
+    dispatch(fetchReviewsByUserID(+userID))
       // .then((reviews) => sortByRecent(reviews))
       .then((reviews) => sortByDateListened(reviews))
       .then((sorted) => setReviews(sorted))

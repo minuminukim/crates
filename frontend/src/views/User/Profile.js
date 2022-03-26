@@ -1,7 +1,7 @@
 import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { getReviews } from '../../store/reviewsReducer';
+import { fetchReviews } from '../../store/reviewsReducer';
 import { fetchSingleUser } from '../../store/usersReducer';
 import ProfileHeader from './ProfileHeader';
 import CardRow from '../../components/CardRow';
@@ -21,7 +21,7 @@ const Profile = () => {
     (async () => {
       try {
         const [reviews, user] = await Promise.all([
-          dispatch(getReviews()),
+          dispatch(fetchReviews()),
           dispatch(fetchSingleUser(+userID)),
         ]);
         const filtered = reviews.filter((review) => review.userID === user.id);
