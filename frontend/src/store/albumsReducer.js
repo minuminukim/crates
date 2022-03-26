@@ -84,7 +84,7 @@ const albumsReducer = (state = initialState, action) => {
     case ALBUMS_LOADED: {
       const albums = action.albums.reduce((acc, album) => {
         album.reviews = album?.reviews || [];
-        acc[album.spotifyID] = album;
+        acc[album.id] = album;
         return acc;
       }, {});
 
@@ -107,16 +107,17 @@ const albumsReducer = (state = initialState, action) => {
         ...state,
         items: {
           ...state.items,
-          [action.album.spotifyID]: action.album,
+          [action.album.id]: action.album,
         },
       };
     }
+
     case REVIEWS_LOADED: {
       const albums = action.reviews
         .map(({ id, album }) => ({ id, album }))
         .reduce((acc, { id, album }) => {
           album.reviews = album?.reviews || [id];
-          acc[album.spotifyID] = album;
+          acc[album.id] = album;
           return acc;
         }, {});
 
@@ -131,23 +132,23 @@ const albumsReducer = (state = initialState, action) => {
 
     case REVIEW_ADDED: {
       const { album } = action.review;
-      const isNewEntry = !state.hasOwnProperty([album.spotifyID]);
+      const isNewEntry = !state.hasOwnProperty([album.id]);
       // const reviews = isNewEntry ? [review.id] : album?.review
       const reviews = isNewEntry
         ? [action.review.id]
-        : state[album.spotifyID]?.reviews?.concat(action.review.id);
+        : state[album.id]?.reviews?.concat(action.review.id);
 
       return {
         ...state,
         items: {
           ...state.items,
-          [album.spotifyID]: isNewEntry
+          [album.id]: isNewEntry
             ? {
                 ...album,
                 reviews,
               }
             : {
-                ...state[album.spotifyID],
+                ...state[album.id],
                 reviews,
               },
         },

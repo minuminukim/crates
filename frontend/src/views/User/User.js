@@ -22,15 +22,18 @@ const User = () => {
   const history = useHistory();
 
   useEffect(() => {
-    return (
-      dispatch(fetchSingleUser(+userID))
-        .then(() => setLoading(false))
-        .catch((err) => {
-          if (err && err.status === 404) {
-            history.push('/not-found');
-          }
-        })
-    );
+    if (user) {
+      setLoading(false);
+      return;
+    }
+
+    dispatch(fetchSingleUser(+userID))
+      .then(() => setLoading(false))
+      .catch((err) => {
+        if (err && err.status === 404) {
+          history.push('/not-found');
+        }
+      });
   }, [dispatch, userID]);
 
   return (

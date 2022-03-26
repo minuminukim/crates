@@ -3,9 +3,9 @@ import { ALBUMS_LOADED, ALBUM_ADDED, ALBUM_REMOVED } from './albumsReducer';
 import { SESSION_STARTED } from './session';
 import { mapObjectIDs, mapSpotifyIDs } from '../utils';
 
-const USER_LOADED = 'users/USER_LOADED';
+export const USER_LOADED = 'users/USER_LOADED';
 
-export const userLoaded = (user) => ({
+const userLoaded = (user) => ({
   type: USER_LOADED,
   user,
 });
@@ -22,7 +22,7 @@ const usersReducer = (state = {}, action) => {
   switch (action.type) {
     case USER_LOADED:
     case SESSION_STARTED: {
-      const albums = mapSpotifyIDs(action.user.albums) || [];
+      const albums = mapObjectIDs(action.user.albums) || [];
       const reviews = mapObjectIDs(action.user.reviews) || [];
 
       return {
@@ -41,7 +41,7 @@ const usersReducer = (state = {}, action) => {
       }
 
       const previousAlbums = state[action.userID].albums;
-      const mapped = mapSpotifyIDs(action.albums);
+      const mapped = mapObjectIDs(action.albums);
       const unique = [...new Set([...previousAlbums, ...mapped])];
 
       return {
@@ -58,15 +58,15 @@ const usersReducer = (state = {}, action) => {
         ...state,
         [action.userID]: {
           ...state[action.userID],
-          albums: [...state[action.userID].albums, action.spotifyID],
+          albums: [...state[action.userID].albums, action.album.id],
         },
       };
 
     case ALBUM_REMOVED:
       const filtered = [...state[action.userID].albums].filter(
-        (id) => id !== action.spotifyID
+        (id) => id !== action.albumID
       );
-      
+
       return {
         ...state,
         [action.userID]: {

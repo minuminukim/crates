@@ -1,13 +1,11 @@
 import { csrfFetch } from './csrf';
+import { USER_LOADED } from './usersReducer';
+import { SESSION_STARTED } from './session';
 
 export const REVIEWS_LOADED = 'reviews/reviewsLoaded';
 export const REVIEW_ADDED = 'reviews/reviewAdded';
 const REVIEW_UPDATED = 'reviews/reviewUpdated';
 export const REVIEW_REMOVED = 'reviews/reviewDeleted';
-
-const initialState = {
-  items: {},
-};
 
 const reviewsLoaded = (reviews) => ({
   type: REVIEWS_LOADED,
@@ -78,20 +76,33 @@ export const deleteReview = (id) => async (dispatch) => {
   dispatch(reviewRemoved(id));
   return response;
 };
+const initialState = {
+  items: {},
+  reviewIDs: [],
+};
 
 const reviewsReducer = (state = initialState, action) => {
   switch (action.type) {
     case REVIEWS_LOADED:
-      const items = action.reviews.reduce((acc, review) => {
-        // review.spotifyID =
-        // delete review.album;
-        acc[review.id] = review;
+    case USER_LOADED:
+    case SESSION_STARTED: {
+      const reviews = action.user ? action.user.reviews : action.reviews;
+      const nextState = reviews.reduce((acc, review) => {
+        acc.items[review.id] = review;
+        acc.reviewIDs.push(review.id);
         return acc;
-      }, {});
+      }, initialState);
+      const unique = [...new Set([...state.reviewIDs, ...nextState.reviewIDs])];
+
       return {
         ...state,
-        items,
+        items: {
+          ...state.items,
+          ...nextState.items,
+        },
+        reviewIDs: unique,
       };
+    }
 
     case REVIEW_ADDED:
       return {
@@ -100,6 +111,7 @@ const reviewsReducer = (state = initialState, action) => {
           ...state.items,
           [action.review.id]: action.review,
         },
+        reviewIDs: [...state.reviewIDs, action.review.id],
       };
 
     case REVIEW_UPDATED:
@@ -120,6 +132,7 @@ const reviewsReducer = (state = initialState, action) => {
         items: {
           ...state.items,
         },
+        reviewIDs: [...state.reviewIDs].filter((id) => id !== action.reviewID),
       };
       delete newState.items[action.reviewID];
       return newState;

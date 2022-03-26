@@ -5,11 +5,15 @@ import { BsArrowRepeat } from 'react-icons/bs';
 import AlbumArt from '../AlbumArt';
 import StarRatingReadOnly from '../StarRating/StarRatingReadOnly';
 import { formatDateMonthDay } from '../../utils/date-helpers';
+import { useSelector } from 'react-redux';
 import './Card.css';
 
-const Card = ({ item }) => {
-  const { user, album } = item;
-  const formattedDate = formatDateMonthDay(item.listenedDate);
+const Card = ({ reviewID }) => {
+  const item = useSelector((state) => state.reviews.items[reviewID]);
+  const user = useSelector((state) => state.users[item?.userID]);
+  const album = useSelector((state) => state.albums.items[item?.albumID]);
+  // const { user, album } = item;
+  const formattedDate = formatDateMonthDay(item?.listenedDate);
   return (
     <div className="card">
       <Link to={`/reviews/${item.id}`} className="card-link">
@@ -29,7 +33,9 @@ const Card = ({ item }) => {
       <div className="card-review-info">
         <div className="card-review-rating">
           <span>{<StarRatingReadOnly rating={item.rating} />}</span>
-          {item.rating !== 10 && item.rating % 2 !== 0 && <span className="half">½</span>}
+          {item.rating !== 10 && item.rating % 2 !== 0 && (
+            <span className="half">½</span>
+          )}
         </div>
         {item.isRelisten && <BsArrowRepeat className="relisten-icon" />}
         {item.body.length > 0 && (

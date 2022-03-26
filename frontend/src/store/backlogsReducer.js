@@ -49,7 +49,7 @@ export const removeFromBacklog =
         method: 'DELETE',
       }
     );
-    dispatch(removeItem(userID, spotifyID));
+    dispatch(removeItem(userID, albumID));
     return response;
   };
 
@@ -58,19 +58,19 @@ const backlogsReducer = (state = {}, action) => {
     case BACKLOG_LOADED:
       return {
         ...state,
-        [action.userID]: action.albums.map((album) => album.spotifyID),
+        [action.userID]: action.albums.map((album) => album.id),
       };
 
     case BACKLOG_UPDATED:
       if (!state[action.userID]) {
         return {
           ...state,
-          [action.userID]: action.albums.map((album) => album.spotifyID),
+          [action.userID]: action.albums.map((album) => album.id),
         };
       } else {
         return {
           ...state,
-          [action.userID]: [...state[action.userID], action.album.spotifyID],
+          [action.userID]: [...state[action.userID], action.album.id],
         };
       }
 

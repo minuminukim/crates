@@ -13,9 +13,12 @@ const Home = () => {
   const { user } = useSelector((state) => state.session);
   const sorted = sortByDateListened(Object.values(items)).slice(0, 4);
   const popular = Object.values(items).slice(0, 6);
+  const recentReviewIDs = sortByDateListened(Object.values(items))
+    .slice(0, 4)
+    .map(({ id }) => id);
 
   useEffect(() => {
-    return dispatch(fetchReviews())
+    dispatch(fetchReviews())
       .then(() => setIsLoading(false))
       .catch(async (res) => {
         const data = await res.json();
@@ -35,7 +38,9 @@ const Home = () => {
       </section>
       <section className="recent-posts-section">
         <h2 className="section-heading">NEW ON CRATES</h2>
-        {!isLoading && <CardRow items={sorted} />}
+        {!isLoading && (
+          <CardRow items={sorted} reviewIDs={recentReviewIDs} feed="home" />
+        )}
       </section>
       <section className="popular">
         <h2 className="section-heading">POPULAR REVIEWS</h2>
