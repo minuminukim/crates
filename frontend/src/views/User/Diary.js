@@ -8,35 +8,39 @@ import { Empty } from '.';
 
 const Diary = () => {
   const dispatch = useDispatch();
-  const { userID } = useParams();
   const history = useHistory();
-  const [reviews, setReviews] = useState([]);
+  const { userID } = useParams();
+  const reviewIDs = useSelector((state) => state.users[userID]?.reviews);
   const [loading, setLoading] = useState(true);
   const sessionUser = useSelector((state) => state.session.user);
 
-  const sortByDateListened = (reviews) => {
-    return [...reviews].sort(
-      (a, b) => new Date(b.listenedDate) - new Date(a.listenedDate)
-    );
-  };
+  const mostRecentlyListened = useSelector((state) => {
+    return [...reviewIDs]
+      .sort((a, b) => {
+        const left = state.reviews.items[a];
+        const right = state.reviews.items[b];
+        return new Date(right.listenedDate) - new Date(left.listenedDate);
+      })
+  });
 
   useEffect(() => {
+    if (reviewIDs) {
+      setLoading(false);
+      return;
+    }
     dispatch(fetchReviewsByUserID(+userID))
-      // .then((reviews) => sortByRecent(reviews))
-      .then((reviews) => sortByDateListened(reviews))
-      .then((sorted) => setReviews(sorted))
       .then(() => setLoading(false))
       .catch(async (res) => {
         if (res && res?.status === 404) {
           history.push('/not-found');
         }
       });
-  }, [dispatch, userID]);
+  }, [dispatch, userID, reviewIDs]);
 
   return (
     !loading && (
       <div className="diary-content">
-        {reviews?.length > 0 ? (
+        {mostRecentlyListened?.length > 0 ? (
           <table className="diary-table" cellSpacing="0" cellPadding="0">
             <thead>
               <tr>
@@ -69,8 +73,8 @@ const Diary = () => {
               </tr>
             </thead>
             <tbody>
-              {reviews.map((review, i) => (
-                <DiaryItem key={`entry-${i}`} entry={review} />
+              {mostRecentlyListened?.map((reviewID, i) => (
+                <DiaryItem key={`entry-${i}`} reviewID={reviewID} />
               ))}
             </tbody>
           </table>

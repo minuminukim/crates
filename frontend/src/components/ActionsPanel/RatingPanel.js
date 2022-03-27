@@ -19,6 +19,19 @@ const RatingPanel = ({ albumID }) => {
     return found ? state.reviews.items[found].rating : 0;
   });
 
+  // useEffect(() => {
+  //   // Iterate over user's reviewIDs, and look for one
+  //   // associated with the current album
+  //   if (userReviews) {
+  //     console.log('userReviews', userReviews);
+  //     const matchingID = userReviews.find(
+  //       (id) => allReviews[id].albumID === review.albumID
+  //     );
+  //     console.log('matchingID', matchingID);
+  //     setRating(matchingID ? allReviews[matchingID].rating : 0);
+  //   }
+  // }, [rating, userReviews, review?.albumID]);
+
   return (
     <ActionsRow
       className="action-row-rated"

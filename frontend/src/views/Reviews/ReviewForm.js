@@ -64,6 +64,7 @@ const ReviewForm = ({ album = null, onSuccess = null, onClose = null }) => {
       <form onSubmit={handleSubmit} className="review-form">
         <section className="review-form-left">
           <AlbumArt
+            albumID={album?.id}
             title={album?.title}
             artworkURL={album?.artworkURL}
             size="medium"

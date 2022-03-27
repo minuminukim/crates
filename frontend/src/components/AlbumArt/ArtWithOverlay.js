@@ -1,8 +1,10 @@
 import { useState } from 'react';
+import { useSelector } from 'react-redux';
 import { AlbumInfo } from '.';
 import handleImageError from '../../utils/handleImageError';
 
-const ArtWithOverlay = ({ album, children, className = '' }) => {
+const ArtWithOverlay = ({ albumID, children, className = '' }) => {
+  const album = useSelector((state) => state.albums.items[albumID]);
   const [showInfo, setShowInfo] = useState(false);
 
   return (

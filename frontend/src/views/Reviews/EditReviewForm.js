@@ -73,7 +73,7 @@ const EditReviewForm = ({ albumID, reviewID, onSuccess }) => {
         .then(() => onSuccess())
         // force re-render on ReviewActions with updated rating
         // until we find a way to decouple it
-        // .then(() => history.go(0))
+        .then(() => history.go(0))
         .catch(async (res) => {
           const data = await res.json();
           if (data && data.errors) {

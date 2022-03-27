@@ -1,46 +1,49 @@
 import { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { fetchReviewsByUserID } from '../../store/reviewsReducer';
 import { StarRatingReadOnly } from '../../components/StarRating';
 import { Empty } from '.';
 import { ArtWithOverlay } from '../../components/AlbumArt';
+import { fetchAlbumsByUserID } from '../../store/albumsReducer';
 
 const UserAlbums = () => {
-  const { userID } = useParams();
   const dispatch = useDispatch();
-  const [loading, setLoading] = useState(true);
-  const [_errors, setErrors] = useState([]);
-  const [reviews, setReviews] = useState([]);
-
-  useEffect(() => {
-    dispatch(fetchReviewsByUserID(+userID))
-      .then((reviews) => setReviews(reviews))
-      .then(() => setLoading(false))
-      .catch((err) => setErrors(err));
-  }, [dispatch, userID]);
-
-  const albumIDs = new Set();
-  const uniqueReviews = reviews?.filter(({ album }) => {
-    if (albumIDs.has(album.id)) return false;
-    albumIDs.add(album.id);
-    return true;
+  const { userID } = useParams();
+  const albumIDs = useSelector((state) => state.users[userID]?.albums);
+  const sortedByRelease = useSelector((state) => {
+    if (!albumIDs || albumIDs?.length === 0) return [];
+    return [...albumIDs].sort((a, b) => {
+      const left = state.albums.items[a];
+      const right = state.albums.items[b];
+      return right.releaseYear - left.releaseYear;
+    });
   });
 
-  const sorted = [...uniqueReviews].sort(
-    (a, b) => b.album.releaseYear - a.album.releaseYear
-  );
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    if (albumIDs) {
+      setLoading(false);
+      return;
+    }
+
+    dispatch(fetchAlbumsByUserID(+userID)).then(
+      () => setLoading(false),
+      (error) => console.log('error fetching user albums', error)
+    );
+  }, [dispatch, userID, albumIDs]);
 
   return (
     <div className="user-albums-content">
-      {!loading && sorted?.length > 0 ? (
-        sorted.map(({ rating, album }, i) => (
+      {!loading && sortedByRelease?.length > 0 ? (
+        sortedByRelease.map((albumID, i) => (
           <div key={`album-${i}`} className="grid-item">
-            <ArtWithOverlay album={album} className="album-art-grid" />
-            <div className="grid-item-rating">
+            <ArtWithOverlay albumID={albumID} className="album-art-grid" />
+            {/* <div className="grid-item-rating">
               <StarRatingReadOnly rating={rating} />
               {rating % 2 !== 0 && <span className="half">½</span>}
-            </div>
+            </div> */}
           </div>
         ))
       ) : (

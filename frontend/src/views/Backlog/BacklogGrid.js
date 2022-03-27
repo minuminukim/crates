@@ -4,9 +4,11 @@ import { ArtWithOverlay } from '../../components/AlbumArt';
 import { useState } from 'react';
 import { DeleteIcon } from '../../components/ActionsPanel/ActionIcons';
 
-const BacklogGrid = ({ albums, onDelete }) => {
-  const sessionUser = useSelector((state) => state.session.user);
+const BacklogGrid = ({ onDelete }) => {
   const { userID } = useParams();
+  const albumIDs = useSelector((state) => state.backlogs.items[userID]?.albums);
+  const albums = useSelector((state) => state.albums.items);
+  const sessionUser = useSelector((state) => state.session.user);
   const [hoverIndex, setHoverIndex] = useState(null);
   const handleDelete = (album) => {
     onDelete(album);
@@ -15,20 +17,20 @@ const BacklogGrid = ({ albums, onDelete }) => {
 
   return (
     <ul className="backlog-grid">
-      {albums.map((album, i) => (
+      {albumIDs.map((albumID, i) => (
         <li
           key={`backlog-item-${i}`}
           className="album-grid-item"
           onMouseOver={() => setHoverIndex(i)}
           onMouseLeave={() => setHoverIndex(null)}
         >
-          <ArtWithOverlay album={album} className="backlog">
+          <ArtWithOverlay albumID={albumID} className="backlog">
             {sessionUser &&
               +userID === sessionUser?.id &&
               hoverIndex !== null &&
               hoverIndex === i && (
                 <div className="hover-actions">
-                  <DeleteIcon onClick={() => handleDelete(album)} />
+                  <DeleteIcon onClick={() => handleDelete(albums[albumID])} />
                 </div>
               )}
           </ArtWithOverlay>

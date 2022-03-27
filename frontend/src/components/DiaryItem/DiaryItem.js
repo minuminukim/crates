@@ -11,10 +11,14 @@ import { Modal } from '../../context/Modal';
 import { EditReviewForm } from '../../views/Reviews';
 import { ArtWithOverlay } from '../AlbumArt';
 
-const DiaryItem = ({ entry }) => {
+const DiaryItem = ({ reviewID }) => {
   const { userID } = useParams();
   const sessionUser = useSelector((state) => state.session.user);
-  const [day, month, year] = formatDateDayMonthYear(entry.listenedDate).split(' ');
+  const review = useSelector((state) => state.reviews.items[reviewID]);
+  const album = useSelector((state) => state.albums.items[review?.albumID]);
+  const [day, month, year] = formatDateDayMonthYear(review?.listenedDate).split(
+    ' '
+  );
   const { showModal, toggleModal } = useModal();
 
   return (
@@ -33,38 +37,35 @@ const DiaryItem = ({ entry }) => {
       <td className="album">
         <div className="album-details">
           <div className="diary-album">
-            <ArtWithOverlay album={entry.album} className="diary-album" />
+            <ArtWithOverlay albumID={review?.albumID} className="diary-album" />
           </div>
           <h3 className="entry-title">
-            <Link
-              to={`/reviews/${entry.id}`}
-              className="diary-item-title"
-            >
-              {entry.album.title}
+            <Link to={`/reviews/${reviewID}`} className="diary-item-title">
+              {album?.title}
             </Link>
           </h3>
         </div>
       </td>
       <td className="released">
-        <p className="released">{entry.album.releaseYear}</p>
+        <p className="released">{album?.releaseYear}</p>
       </td>
       <td className="rating">
         <div className="entry-rating">
-          <StarRatingReadOnly rating={entry.rating} className="diary" />
-          {entry.rating !== 10 && entry.rating % 2 !== 0 && (
+          <StarRatingReadOnly rating={review?.rating} className="diary" />
+          {review?.rating !== 10 && review?.rating % 2 !== 0 && (
             <span className="green half">½</span>
           )}
         </div>
       </td>
       <td className="relisten">
         <div className="relisten">
-          {entry.isRelisten && <BsArrowRepeat className="icon" />}
+          {review?.isRelisten && <BsArrowRepeat className="icon" />}
         </div>
       </td>
       <td className="review">
         <div className="entry-review">
-          {entry.body.length > 0 && (
-            <Link to={`/reviews/${entry.id}`}>
+          {review?.body.length > 0 && (
+            <Link to={`/reviews/${reviewID}`}>
               <BiMenuAltLeft className="icon" />
             </Link>
           )}
@@ -77,8 +78,8 @@ const DiaryItem = ({ entry }) => {
             {showModal && (
               <Modal onClose={toggleModal}>
                 <EditReviewForm
-                  review={entry}
-                  album={entry.album}
+                  reviewID={reviewID}
+                  albumID={review?.albumID}
                   onSuccess={toggleModal}
                 />
               </Modal>

@@ -13,9 +13,11 @@ import { SearchField, SearchItem } from '../../components/Search';
 import { ErrorMessages } from '../../components/ValidationError';
 import './Backlog.css';
 
-const Backlog = ({ username }) => {
+const Backlog = () => {
   const dispatch = useDispatch();
   const { userID } = useParams();
+  const username = useSelector((state) => state.users[userID]?.username)
+  const backlog = useSelector((state) => state.backlogs.items[userID]);
   const [loading, setLoading] = useState(true);
   const [albums, setAlbums] = useState([]);
   const sessionUser = useSelector((state) => state.session.user);
@@ -23,13 +25,18 @@ const Backlog = ({ username }) => {
   const [showList, setShowList] = useState(false);
   const [errors, setErrors] = useState([]);
   const [message, setMessage] = useState('');
+  console.log('backlog', backlog);
 
   useEffect(() => {
-    const fetchBacklog = async () => {
-      const backlog = await dispatch(fetchBacklogByUserID(+userID));
-      setAlbums(backlog);
-    };
-    fetchBacklog().then(() => setLoading(false));
+    if (backlog) {
+      setLoading(false);
+      return;
+    }
+
+    dispatch(fetchBacklogByUserID(+userID)).then(
+      () => setLoading(false),
+      (error) => console.log('Error fetching backlog', error)
+    );
   }, [dispatch, userID, username]);
 
   const handleDispatch = (item) => {
@@ -59,8 +66,7 @@ const Backlog = ({ username }) => {
   };
 
   const onDelete = (album) => {
-    const { spotifyID, id } = album;
-    dispatch(removeFromBacklog(id, spotifyID, sessionUser?.id))
+    dispatch(removeFromBacklog(album?.id, +userID))
       .then(() => {
         setMessage(`You have removed '${album.title}' from your backlog.`);
         updateGrid(album.id);
@@ -88,7 +94,7 @@ const Backlog = ({ username }) => {
               {albums?.length === 1 ? 'ALBUM' : 'ALBUMS'}
             </h2>
             <section className="backlog-grid">
-              {albums?.length > 0 ? (
+              {backlog?.albums.length > 0 ? (
                 <BacklogGrid
                   albums={albums}
                   updateGrid={updateGrid}
