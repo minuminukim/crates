@@ -1,26 +1,27 @@
 import { csrfFetch } from './csrf';
+import { mapObjectIDs } from '../utils';
 
 const LISTS_LOADED = 'lists/LISTS_LOADED';
 const LIST_ADDED = 'lists/LIST_ADDED';
 const LIST_UPDATED = 'lists/LIST_UPDATED';
 const LIST_REMOVED = 'lists/LIST_REMOVED';
 
-const loadLists = (lists) => ({
+const listsLoaded = (lists) => ({
   type: LISTS_LOADED,
   lists,
 });
 
-const addList = (list) => ({
+const listAdded = (list) => ({
   type: LIST_ADDED,
   list,
 });
 
-const updateList = (list) => ({
+const listUpdated = (list) => ({
   type: LIST_UPDATED,
   list,
 });
 
-const removeList = (listID) => ({
+const listRemoved = (listID) => ({
   type: LIST_REMOVED,
   listID,
 });
@@ -28,21 +29,21 @@ const removeList = (listID) => ({
 export const fetchLists = () => async (dispatch) => {
   const response = await csrfFetch(`/api/lists`);
   const { lists } = await response.json();
-  dispatch(loadLists(lists));
+  dispatch(listsLoaded(lists));
   return lists;
 };
 
 export const fetchSingleList = (listID) => async (dispatch) => {
   const response = await csrfFetch(`/api/lists/${listID}`);
   const { list } = await response.json();
-  dispatch(addList(list));
+  dispatch(listAdded(list));
   return list;
 };
 
 export const fetchUserLists = (userID) => async (dispatch) => {
   const response = await csrfFetch(`/api/users/${userID}/lists`);
   const { lists } = await response.json();
-  dispatch(loadLists(lists));
+  dispatch(listsLoaded(lists));
   return lists;
 };
 
@@ -60,7 +61,7 @@ export const createList = (params) => async (dispatch) => {
   });
 
   const { list } = await response.json();
-  dispatch(addList(list));
+  dispatch(listAdded(list));
 
   return list;
 };
@@ -72,7 +73,7 @@ export const editList = (data) => async (dispatch) => {
   });
 
   const { list } = await response.json();
-  dispatch(updateList(list));
+  dispatch(listUpdated(list));
 
   return list;
 };
@@ -84,7 +85,7 @@ export const appendList = (data) => async (dispatch) => {
   });
 
   const { list } = await response.json();
-  dispatch(updateList(list));
+  dispatch(listUpdated(list));
   return list;
 };
 
@@ -93,21 +94,29 @@ export const deleteList = (listID) => async (dispatch) => {
     method: 'DELETE',
   });
 
-  dispatch(removeList(listID));
+  dispatch(listRemoved(listID));
   return response;
 };
 
-const initialState = { items: {} };
+const initialState = { items: {}, listIDs: [] };
 
 // TODO: change payload on express end to send album IDs rather than
 // the album objects
 const listsReducer = (state = initialState, action) => {
   switch (action.type) {
-    case LISTS_LOADED:
+    case LISTS_LOADED: {
       const lists = action.lists.reduce((acc, list) => {
+        // Pull the listIndex from the album's join table entry
+        const albums = list.albums.map(({ id, AlbumList }) => {
+          return { id, listIndex: AlbumList.listIndex };
+        });
+        list.albums = albums;
         acc[list.id] = list;
         return acc;
       }, {});
+
+      const listIDs = mapObjectIDs(action.lists);
+      const uniqueIDs = [...new Set([...state.listIDs, ...listIDs])];
 
       return {
         ...state,
@@ -115,18 +124,32 @@ const listsReducer = (state = initialState, action) => {
           ...state.items,
           ...lists,
         },
+        listIDs: uniqueIDs,
       };
+    }
 
-    case LIST_ADDED:
+    case LIST_ADDED: {
+      const albums = action.list.albums.map(({ id, AlbumList }) => {
+        return { id, listIndex: AlbumList.listIndex };
+      });
+      action.list.albums = albums;
+
       return {
         ...state,
         items: {
           ...state.items,
           [action.list.id]: action.list,
         },
+        listIDs: [...state.listIDs, action.list.id],
       };
+    }
 
-    case LIST_UPDATED:
+    case LIST_UPDATED: {
+      const albums = action.list.albums.map(({ id, AlbumList }) => {
+        return { id, listIndex: AlbumList.listIndex };
+      });
+      action.list.albums = albums;
+
       return {
         ...state,
         items: {
@@ -134,23 +157,26 @@ const listsReducer = (state = initialState, action) => {
           [action.list.id]: {
             ...state.items[action.list.id],
             ...action.list,
-            albums: {
-              ...state.items[action.list.id].albums,
-              ...action.list.albums,
-            },
+            // albums: {
+            //   ...state.items[action.list.id].albums,
+            //   ...action.list.albums,
+            // },
           },
         },
       };
+    }
 
-    case LIST_REMOVED:
-      const newState = {
+    case LIST_REMOVED: {
+      const nextState = {
         ...state,
         items: {
           ...state.items,
         },
+        listIDs: state.listIDs.filter((id) => id !== action.listID),
       };
-      delete newState.items[action.listID];
-      return newState;
+      delete nextState.items[action.listID];
+      return nextState;
+    }
 
     default:
       return state;

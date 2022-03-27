@@ -8,9 +8,9 @@ import { sortByRecent } from '../../utils/sorts';
 import './Comment.css';
 
 const CommentSection = () => {
-  const { reviewID } = useParams();
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.session);
+  const { reviewID } = useParams();
   const [loading, setLoading] = useState(true);
   const [comments, setComments] = useState([]);
 

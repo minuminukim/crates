@@ -98,7 +98,6 @@ const reviewsReducer = (state = initialState, action) => {
         },
         { items: {}, reviewIDs: [] }
       );
-      console.log('nextState', nextState);
       const unique = [...new Set([...state.reviewIDs, ...nextState.reviewIDs])];
 
       return {

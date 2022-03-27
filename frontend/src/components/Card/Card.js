@@ -9,14 +9,14 @@ import { useSelector } from 'react-redux';
 import './Card.css';
 
 const Card = ({ reviewID }) => {
-  const item = useSelector((state) => state.reviews.items[reviewID]);
-  const user = useSelector((state) => state.users[item?.userID]);
-  const album = useSelector((state) => state.albums.items[item?.albumID]);
-  // const { user, album } = item;
-  const formattedDate = formatDateMonthDay(item?.listenedDate);
+  const review = useSelector((state) => state.reviews.items[reviewID]);
+  const user = useSelector((state) => state.users[review.userID]);
+  const album = useSelector((state) => state.albums.items[review?.albumID]);
+  const formattedDate = formatDateMonthDay(review?.listenedDate);
+
   return (
     <div className="card">
-      <Link to={`/reviews/${item.id}`} className="card-link">
+      <Link to={`/reviews/${review.id}`} className="card-link">
         <div className="card-main">
           <span className="overlay"></span>
           <AlbumArt albumID={album?.id} size="medium" />
@@ -28,14 +28,14 @@ const Card = ({ reviewID }) => {
       </Link>
       <div className="card-review-info">
         <div className="card-review-rating">
-          <span>{<StarRatingReadOnly rating={item.rating} />}</span>
-          {item.rating !== 10 && item.rating % 2 !== 0 && (
+          <span>{<StarRatingReadOnly rating={review.rating} />}</span>
+          {review.rating !== 10 && review.rating % 2 !== 0 && (
             <span className="half">½</span>
           )}
         </div>
-        {item.isRelisten && <BsArrowRepeat className="relisten-icon" />}
-        {item.body.length > 0 && (
-          <Link className="card-review-link" to={`/reviews/${item.id}`}>
+        {review.isRelisten && <BsArrowRepeat className="relisten-icon" />}
+        {review.body.length > 0 && (
+          <Link className="card-review-link" to={`/reviews/${review.id}`}>
             <BiMenuAltLeft className="menu-icon" />
           </Link>
         )}

@@ -17,22 +17,20 @@ import './ListPage.css';
 const ListPage = () => {
   const { listID } = useParams();
   const list = useSelector((state) => state.lists.items[listID]);
+  const user = useSelector((state) => state.users[list?.userID]);
   const sessionUser = useSelector((state) => state.session.user);
   const [isLoading, setIsLoading] = useState(true);
   const { showModal, toggleModal } = useModal();
   const dispatch = useDispatch();
   const history = useHistory();
-  const [username, setUsername] = useState('');
 
   useEffect(() => {
-    if (list && list.albums?.length && username) {
+    if (list) {
       setIsLoading(false);
       return;
     }
 
-    return dispatch(fetchSingleList(+listID))
-      .then((list) => dispatch(fetchSingleUser(list.userID)))
-      .then((user) => setUsername(user.username))
+    dispatch(fetchSingleList(+listID))
       .then(() => setIsLoading(false))
       .catch(async (res) => {
         const data = await res.json();
@@ -40,12 +38,13 @@ const ListPage = () => {
           return data;
         }
       });
-  }, [dispatch, list, username]);
+  }, [dispatch, list, listID]);
 
   const handleDelete = () => {
-    return dispatch(deleteList(+listID))
-      .then(() => history.push('/'))
-      .catch((err) => err);
+    dispatch(deleteList(+listID)).then(
+      () => history.push('/'),
+      (error) => console.log('Error deleting list', error)
+    );
   };
 
   return (
@@ -60,7 +59,7 @@ const ListPage = () => {
             <p>
               List by{' '}
               <Link className="user-link" to={`/users/${list?.userID}`}>
-                {username}
+                {user?.username}
               </Link>
             </p>
           </section>

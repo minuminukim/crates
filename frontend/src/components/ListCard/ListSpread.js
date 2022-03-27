@@ -1,9 +1,17 @@
 import { Link } from 'react-router-dom';
 import handleImageError from '../../utils/handleImageError';
 import './ListSpread.css';
+import { mapObjectIDs } from '../../utils';
+import { useSelector } from 'react-redux';
 
-const ListSpread = ({ gap, albums, listID, size = 'medium' }) => {
+const ListSpread = ({ gap, listID, size = 'medium' }) => {
+  const albums = useSelector((state) => {
+    const albumIDs = mapObjectIDs(state.lists.items[listID]?.albums) || [];
+    return albumIDs.map((id) => state.albums.items[id]);
+  });
+
   const items = [...albums.slice(0, 5)];
+
   while (items.length < 5) {
     items.push(<div></div>);
   }

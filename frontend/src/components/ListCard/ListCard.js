@@ -2,16 +2,18 @@ import { Link } from 'react-router-dom';
 import { ListSpread } from '.';
 import { FaUserCircle } from 'react-icons/fa';
 import './ListCard.css';
+import { useSelector } from 'react-redux';
 
-const ListCard = ({ list, size = 'medium' }) => {
-  const albums = list?.albums;
+const ListCard = ({ listID, size = 'medium' }) => {
+  const list = useSelector((state) => state.lists.items[listID]);
+  const user = useSelector((state) => state.users[list?.userID]);
 
   return (
     <div className={`list-card list-card-${size}`}>
-      <ListSpread albums={albums} listID={list.id} gap={30} size={size} />
+      <ListSpread listID={listID} gap={30} size={size} />
       <div>
         <div className="list-card-links">
-          <Link to={`/lists/${list.id}`} className="list-card-title">
+          <Link to={`/lists/${listID}`} className="list-card-title">
             {list.title}
           </Link>
         </div>
@@ -20,7 +22,7 @@ const ListCard = ({ list, size = 'medium' }) => {
             <FaUserCircle className="avatar-link" />
           </Link>
           <Link to={`/users/${list.userID}`} className="user-link">
-            {list.User?.username}
+            {user?.username}
           </Link>
         </div>
       </div>

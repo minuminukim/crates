@@ -6,14 +6,15 @@ import { useSelector } from 'react-redux';
 
 import './FeedPost.css';
 
-const FeedPost = ({ list }) => {
+const FeedPost = ({ listID }) => {
   const { userID } = useParams();
   const sessionUser = useSelector((state) => state.session.user);
-
+  const list = useSelector((state) => state.lists.items[listID]);
+  const user = useSelector((state) => state.users[list?.userID]);
   return (
     <li className="feed-post">
       <div className="feed-post-left">
-        <ListSpread albums={list.albums} listID={list.id} />
+        <ListSpread albums={list.albums} listID={listID} />
       </div>
       <div className="feed-post-right">
         <h3>
@@ -28,7 +29,7 @@ const FeedPost = ({ list }) => {
                 <FaUserCircle className="avatar icon" />
               </Link>
               <Link className="user-link" to={`/users/${list.userID}`}>
-                <span>{list.User.username}</span>
+                <span>{user?.username}</span>
               </Link>
             </>
           )}
@@ -41,9 +42,7 @@ const FeedPost = ({ list }) => {
             </Link>
           )}
         </div>
-        <div
-          className={`${list.description ? 'list-body' : 'collapse'}`}
-        >
+        <div className={`${list.description ? 'list-body' : 'collapse'}`}>
           <p className="description">{list.description}</p>
         </div>
       </div>

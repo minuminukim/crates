@@ -11,28 +11,21 @@ import './Lists.css';
 const Lists = () => {
   const history = useHistory();
   const dispatch = useDispatch();
-  const listsObject = useSelector((state) => state.lists.items);
   const sessionUser = useSelector((state) => state.session.user);
   const [isLoading, setIsLoading] = useState(true);
-  const [lists, setLists] = useState([]);
+  const listIDs = useSelector((state) => state.lists.listIDs);
+  const byRecent = [...listIDs].sort((a, b) => b - a);
 
   useEffect(() => {
-    return (
-      dispatch(fetchLists())
-        .then((items) => setLists(items))
-        .then(() => setIsLoading(false))
-        .catch(async (res) => {
-          const data = await res.json();
-          if (data && data.errors) {
-            return data;
-          }
-        })
+    dispatch(fetchLists()).then(
+      () => setIsLoading(false),
+      (error) => console.log('error fetching list', error)
     );
   }, [dispatch]);
 
   return (
     !isLoading &&
-    lists.length > 0 && (
+    listIDs.length > 0 && (
       <div className="page-container lists-view-container">
         <div className="lists-view-wrapper">
           <section className="lists-header">
@@ -51,18 +44,18 @@ const Lists = () => {
           <section className="popular-lists">
             <h2 className="section-heading">POPULAR THIS WEEK</h2>
             <div className="popular-lists">
-              <ListCard list={listsObject[1]} size="large" />
-              <ListCard list={listsObject[2]} size="large" />
-              <ListCard list={listsObject[5]} size="large" />
+              <ListCard listID={1} size="large" />
+              <ListCard listID={2} size="large" />
+              <ListCard listID={5} size="large" />
             </div>
           </section>
           <section className="recently-shared">
             <h2 className="section-heading">RECENTLY SHARED</h2>
             <ul>
-              {sortByRecent(lists)
+              {byRecent
                 .slice(0, 10)
-                .map((list, i) => (
-                  <FeedPost key={`list-${i}`} list={list} />
+                .map((listID, i) => (
+                  <FeedPost key={`list-${i}`} listID={listID} />
                 ))}
             </ul>
           </section>
