@@ -3,6 +3,7 @@ import { addUser } from './usersReducer.js';
 
 export const SESSION_STARTED = 'session/sessionStarted';
 const SESSION_ENDED = 'session/sessionEnded';
+const USER_UNAUTHENTICATED = 'session/userUnauthenticated';
 
 const sessionStarted = (user) => ({
   type: SESSION_STARTED,
@@ -11,6 +12,10 @@ const sessionStarted = (user) => ({
 
 const sessionEnded = () => ({
   type: SESSION_ENDED,
+});
+
+const userUnauthenticated = () => ({
+  type: USER_UNAUTHENTICATED,
 });
 
 export const login =
@@ -29,6 +34,11 @@ export const login =
 export const restoreUser = () => async (dispatch) => {
   const response = await csrfFetch('/api/session');
   const data = await response.json();
+  if (!data.user) {
+    dispatch(userUnauthenticated);
+    return null;
+  }
+
   dispatch(sessionStarted(data.user));
 
   return response;
@@ -91,6 +101,12 @@ function reducer(state = initialState, action) {
       const next = { ...state };
       delete next.user;
       return {
+        user: null,
+      };
+
+    case USER_UNAUTHENTICATED:
+      return {
+        ...state,
         user: null,
       };
 

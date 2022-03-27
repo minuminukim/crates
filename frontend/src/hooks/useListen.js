@@ -18,7 +18,7 @@ const useListen = (albumID) => {
   const [isLoading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (userAlbums) {
+    if (userAlbums || !userID) {
       setLoading(false);
       return;
     }

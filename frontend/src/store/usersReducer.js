@@ -1,7 +1,7 @@
 import { csrfFetch } from './csrf';
 import { ALBUMS_LOADED, ALBUM_ADDED, ALBUM_REMOVED } from './albumsReducer';
 import { SESSION_STARTED } from './session';
-import { mapObjectIDs, mapSpotifyIDs } from '../utils';
+import { mapObjectIDs } from '../utils';
 
 export const USER_LOADED = 'users/USER_LOADED';
 
@@ -39,9 +39,9 @@ const usersReducer = (state = {}, action) => {
       };
     }
 
+    // Until we can figure out how to reduce all ALBUMS_LOADED events
+    // we only update this slice when a user's albums are fetched
     case ALBUMS_LOADED: {
-      // Until we can figure out how to reduce all ALBUMS_LOADED events
-      // we only update this slice when a user's albums are fetched
       if (!action.userID) {
         return state;
       }

@@ -87,11 +87,18 @@ const reviewsReducer = (state = initialState, action) => {
     case USER_LOADED:
     case SESSION_STARTED: {
       const reviews = action.user ? action.user.reviews : action.reviews;
-      const nextState = reviews.reduce((acc, review) => {
-        acc.items[review.id] = review;
-        acc.reviewIDs.push(review.id);
-        return acc;
-      }, initialState);
+      const nextState = reviews.reduce(
+        (acc, review) => {
+          if (!acc.items[review.id]) {
+            acc.items[review.id] = review;
+            acc.reviewIDs.push(review.id);
+          }
+          // acc.items[review.id] = review;
+          return acc;
+        },
+        { items: {}, reviewIDs: [] }
+      );
+      console.log('nextState', nextState);
       const unique = [...new Set([...state.reviewIDs, ...nextState.reviewIDs])];
 
       return {
@@ -127,15 +134,12 @@ const reviewsReducer = (state = initialState, action) => {
       };
 
     case REVIEW_REMOVED:
-      const newState = {
-        ...state,
-        items: {
-          ...state.items,
-        },
+      const nextState = { ...state };
+      delete nextState.items[action.reviewID];
+      return {
+        ...nextState,
         reviewIDs: [...state.reviewIDs].filter((id) => id !== action.reviewID),
       };
-      delete newState.items[action.reviewID];
-      return newState;
 
     default:
       return state;

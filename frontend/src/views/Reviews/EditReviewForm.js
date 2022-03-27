@@ -1,5 +1,5 @@
 import { useState, useRef } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { editReview, deleteReview } from '../../store/reviewsReducer';
 import AlbumArt from '../../components/AlbumArt';
@@ -11,12 +11,13 @@ import { AiOutlineClose, AiOutlineCheck } from 'react-icons/ai';
 import { toDateString } from '../../utils/date-helpers';
 import './ReviewForm.css';
 
-const EditReviewForm = ({ review, onSuccess }) => {
+const EditReviewForm = ({ albumID, reviewID, onSuccess }) => {
   const dispatch = useDispatch();
   const history = useHistory();
+  const review = useSelector((state) => state.reviews.items[reviewID]);
+  const album = useSelector((state) => state.albums.items[albumID]);
   const [errors, setErrors] = useState([]);
   const [action, setAction] = useState(null);
-  const { album, user } = review;
   const [message, setMessage] = useState('');
   const [form, setForm] = useState({
     listenedDate: review.listenedDate,
@@ -52,13 +53,15 @@ const EditReviewForm = ({ review, onSuccess }) => {
     setErrors([]);
 
     if (action && action === 'delete') {
-      return dispatch(deleteReview(review.id))
-      // .then(() => onSuccess())
-        .then(() => history.push('/'))
-        .catch((err) => err);
+      return (
+        dispatch(deleteReview(review.id))
+          // .then(() => onSuccess())
+          .then(() => history.push('/'))
+          .catch((err) => err)
+      );
     }
 
-    const params = { ...form, userID: user.id, id: review.id };
+    const params = { ...form, userID: review.userID, id: review.id };
 
     return (
       dispatch(editReview(params))
@@ -69,7 +72,8 @@ const EditReviewForm = ({ review, onSuccess }) => {
         )
         .then(() => onSuccess())
         // force re-render on ReviewActions with updated rating
-        .then(() => history.go(0))
+        // until we find a way to decouple it
+        // .then(() => history.go(0))
         .catch(async (res) => {
           const data = await res.json();
           if (data && data.errors) {
@@ -87,11 +91,7 @@ const EditReviewForm = ({ review, onSuccess }) => {
       <form onSubmit={handleSubmit} className="review-form edit">
         <ErrorMessages errors={errors} success={message} />
         <section className="review-form-left">
-          <AlbumArt
-            title={album?.title}
-            artworkURL={album?.artworkURL}
-            size="medium"
-          />
+          <AlbumArt albumID={album?.id} size="medium" />
         </section>
         <section className="review-form-right">
           <div className="review-form-header">

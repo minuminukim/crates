@@ -1,0 +1,33 @@
+import { useParams } from 'react-router-dom';
+import ActionsRow from './ActionsRow';
+import StarRating from '../StarRating';
+import { useSelector } from 'react-redux';
+import { useEffect, useState } from 'react';
+
+const RatingPanel = ({ albumID }) => {
+  const { reviewID } = useParams();
+  const userID = useSelector((state) => state.session.user?.id);
+  const review = useSelector((state) => state.reviews.items[reviewID]);
+  // Iterate over the current user's reviews and derive a rating,
+  // if one is found associated with the current album
+  const rating = useSelector((state) => {
+    if (!userID) return 0;
+    const found = state.users[userID].reviews.find((id) => {
+      const current = state.reviews.items[id];
+      return current?.albumID === review.albumID;
+    });
+    return found ? state.reviews.items[found].rating : 0;
+  });
+
+  return (
+    <ActionsRow
+      className="action-row-rated"
+      label={rating ? 'Rated' : 'Not Rated'}
+      key={reviewID}
+    >
+      <StarRating reviewRating={rating} readOnly={true} />
+    </ActionsRow>
+  );
+};
+
+export default RatingPanel;

@@ -7,9 +7,10 @@ import { sortByDateListened } from '../../utils/sorts';
 import './Home.css';
 
 const Home = () => {
-  const [isLoading, setIsLoading] = useState(true);
   const dispatch = useDispatch();
+  const [isLoading, setIsLoading] = useState(true);
   const { items } = useSelector((state) => state.reviews);
+  const reviewIDs = useSelector((state) => state.reviews.reviewIDs);
   const { user } = useSelector((state) => state.session);
   const sorted = sortByDateListened(Object.values(items)).slice(0, 4);
   const popular = Object.values(items).slice(0, 6);

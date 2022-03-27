@@ -1,13 +1,14 @@
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import StarRating from '../StarRating';
 import { ActionsRow } from '.';
 import './ReviewActions.css';
 import { EditReviewModal, PostReviewModal } from '../../views/Reviews';
 import { WarningMessageModal } from '../WarningMessage';
 import { ListenActions, AppendListModal } from '.';
+import RatingPanel from './RatingPanel';
+import LoginPanel from './LoginPanel';
 
-const ReviewActions = ({ onDelete, rating }) => {
+const ReviewActions = ({ onDelete }) => {
   const { reviewID } = useParams();
   const userID = useSelector((state) => state.session.user?.id);
   const review = useSelector((state) => state.reviews.items[reviewID]);
@@ -16,18 +17,17 @@ const ReviewActions = ({ onDelete, rating }) => {
 
   return (
     <ul className="review-actions">
-      <ListenActions album={album} albumID={review?.albumID} />
-      <ActionsRow
-        className="action-row-rated"
-        label={rating ? 'Rated' : 'Not Rated'}
-        key={reviewID}
-      >
-        <StarRating reviewRating={rating} readOnly={true} />
-      </ActionsRow>
+      <ListenActions albumID={review?.albumID} />
+      <RatingPanel albumID={review?.albumID} />
 
       {isSessionUser && (
         <>
-          <EditReviewModal review={review} album={album}>
+          <EditReviewModal
+            review={review}
+            reviewID={reviewID}
+            albumID={album?.id}
+            album={album}
+          >
             {(toggleEditModal) => (
               <ActionsRow
                 className="hover"
@@ -51,7 +51,7 @@ const ReviewActions = ({ onDelete, rating }) => {
           </WarningMessageModal>
         </>
       )}
-      <PostReviewModal album={album}>
+      <PostReviewModal album={album} albumID={album?.id}>
         {(togglePostModal) => (
           <ActionsRow
             label="Review or log..."
@@ -60,7 +60,7 @@ const ReviewActions = ({ onDelete, rating }) => {
           />
         )}
       </PostReviewModal>
-      <AppendListModal album={album}>
+      <AppendListModal album={album} albumID={album?.id}>
         {(toggleListModal) => (
           <ActionsRow
             label="Add this album to a list..."

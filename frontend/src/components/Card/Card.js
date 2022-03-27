@@ -22,7 +22,7 @@ const Card = ({ reviewID }) => {
           <AlbumArt albumID={album?.id} size="medium" />
           <div className="card-signature">
             <FaUserCircle />
-            <span>{user.username}</span>
+            <span>{user?.username}</span>
           </div>
         </div>
       </Link>

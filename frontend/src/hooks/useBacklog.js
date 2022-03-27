@@ -17,7 +17,7 @@ const useBacklog = (albumID) => {
   const [message, setMessage] = useState('');
 
   useEffect(() => {
-    if (backlog) {
+    if (backlog || !userID) {
       setLoading(false);
       return;
     }
