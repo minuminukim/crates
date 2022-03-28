@@ -63,24 +63,22 @@ const EditReviewForm = ({ albumID, reviewID, onSuccess }) => {
 
     const params = { ...form, userID: review.userID, id: review.id };
 
-    return (
-      dispatch(editReview(params))
-        .then(() =>
-          setMessage(
-            `You have successfully edited your entry for '${album?.title}'`
-          )
-        )
-        .then(() => onSuccess())
+    return dispatch(editReview(params))
+      .then(() => {
+        setMessage(
+          `You have successfully edited your entry for '${album?.title}'`
+        );
+        onSuccess();
         // force re-render on ReviewActions with updated rating
         // until we find a way to decouple it
-        .then(() => history.go(0))
-        .catch(async (res) => {
-          const data = await res.json();
-          if (data && data.errors) {
-            setErrors(Object.values(data.errors));
-          }
-        })
-    );
+        history.go(0);
+      })
+      .catch(async (res) => {
+        const data = await res.json();
+        if (data && data.errors) {
+          setErrors(Object.values(data.errors));
+        }
+      });
   };
 
   const onEdit = () => setAction('edit');

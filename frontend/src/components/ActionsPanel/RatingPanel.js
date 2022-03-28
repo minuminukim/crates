@@ -8,29 +8,21 @@ const RatingPanel = ({ albumID }) => {
   const { reviewID } = useParams();
   const userID = useSelector((state) => state.session.user?.id);
   const review = useSelector((state) => state.reviews.items[reviewID]);
-  // Iterate over the current user's reviews and derive a rating,
-  // if one is found associated with the current album
+
+  // Iterate over the current user's reviews to find most recent
+  // rating associated with the current album
   const rating = useSelector((state) => {
     if (!userID) return 0;
-    const found = state.users[userID].reviews.find((id) => {
+
+    // Sort in descending order because we want the most recent rating
+    const reviewIDs = [...state.users[userID].reviews].sort((a, b) => b - a);
+    const foundID = reviewIDs.find((id) => {
       const current = state.reviews.items[id];
       return current?.albumID === review.albumID;
     });
-    return found ? state.reviews.items[found].rating : 0;
-  });
 
-  // useEffect(() => {
-  //   // Iterate over user's reviewIDs, and look for one
-  //   // associated with the current album
-  //   if (userReviews) {
-  //     console.log('userReviews', userReviews);
-  //     const matchingID = userReviews.find(
-  //       (id) => allReviews[id].albumID === review.albumID
-  //     );
-  //     console.log('matchingID', matchingID);
-  //     setRating(matchingID ? allReviews[matchingID].rating : 0);
-  //   }
-  // }, [rating, userReviews, review?.albumID]);
+    return foundID ? state.reviews.items[foundID].rating : 0;
+  });
 
   return (
     <ActionsRow

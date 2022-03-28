@@ -26,7 +26,6 @@ const ReviewActions = ({ onDelete }) => {
             review={review}
             reviewID={reviewID}
             albumID={album?.id}
-            album={album}
           >
             {(toggleEditModal) => (
               <ActionsRow

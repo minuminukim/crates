@@ -2,7 +2,7 @@ import { useModal } from '../../hooks';
 import { EditReviewForm } from '.';
 import { Modal } from '../../context/Modal';
 
-const EditReviewModal = ({ review, album, reviewID, albumID, children }) => {
+const EditReviewModal = ({ review, reviewID, albumID, children }) => {
   const { showModal: showEditModal, toggleModal: toggleEditModal } = useModal();
 
   return (
@@ -14,7 +14,6 @@ const EditReviewModal = ({ review, album, reviewID, albumID, children }) => {
             reviewID={reviewID}
             albumID={albumID}
             review={review}
-            album={album}
             onClose={toggleEditModal}
             onSuccess={toggleEditModal}
           />
