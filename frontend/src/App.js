@@ -22,7 +22,7 @@ function App() {
 
   useEffect(() => {
     dispatch(restoreUser())
-      .then(() => dispatch(fetchAlbums()))
+      // .then(() => dispatch(fetchAlbums()))
       .then(() => setIsLoaded(true))
       .catch(() => {
         setIsLoaded(true);

@@ -132,7 +132,6 @@ const usersReducer = (state = {}, action) => {
 
     case LIST_ADDED: {
       const { id: listID, userID } = action.list;
-
       const user = state.hasOwnProperty([userID])
         ? { ...state[userID] }
         : action.list.User;

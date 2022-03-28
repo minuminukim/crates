@@ -6,6 +6,11 @@ import {
   removeFromBacklog,
 } from './backlogsReducer';
 
+import { SESSION_STARTED } from './session';
+
+import { LISTS_LOADED, LIST_ADDED, LIST_UPDATED } from './listsReducer';
+import { USER_LOADED } from './usersReducer';
+
 export const ALBUMS_LOADED = 'albums/albumsLoaded';
 export const ALBUM_ADDED = 'albums/albumAdded';
 export const ALBUM_REMOVED = 'albums/albumRemoved';
@@ -97,9 +102,8 @@ export const searchAlbums = (query) => async (dispatch) => {
 const albumsReducer = (state = initialState, action) => {
   switch (action.type) {
     case ALBUMS_LOADED: {
-      const items = action.backlog ? action.backlog.albums : action.albums;
-      const albums = items.reduce((acc, album) => {
-        album.reviews = album?.reviews || [];
+      // const items = action.backlog ? action.backlog.albums : action.albums;
+      const albums = action.albums.reduce((acc, album) => {
         acc[album.id] = album;
         return acc;
       }, {});
@@ -113,27 +117,53 @@ const albumsReducer = (state = initialState, action) => {
       };
     }
 
-    // When an album entry was created in db as a result of
-    // new user generated content
+    case SESSION_STARTED:
+    case USER_LOADED: {
+      if (!action.user || !action.user.albums) {
+        return state;
+      }
+
+      const albums = action.user.albums.reduce(
+        (acc, album) => {
+          if (!acc[album.id]) {
+            acc[album.id] = album;
+          }
+          return acc;
+        },
+        { ...state.items }
+      );
+
+      return {
+        ...state,
+        items: albums,
+      };
+    }
+
     case ALBUM_ADDED:
     case BACKLOG_UPDATED: {
-      const reviews = action.album?.reviews || [];
-      action.album.reviews = reviews;
+      // Check if key already exists and merge the two if so
+      const albumID = action.album.id;
+      const album = state.items.hasOwnProperty([albumID])
+        ? { ...state.items[albumID] }
+        : { ...action.album };
+
+      if ('UserAlbum' in album) {
+        delete album.UserAlbum;
+      }
 
       return {
         ...state,
         items: {
           ...state.items,
-          [action.album.id]: action.album,
+          [albumID]: album,
         },
       };
     }
 
     case REVIEWS_LOADED: {
       const albums = action.reviews
-        .map(({ id, album }) => ({ id, album }))
-        .reduce((acc, { id, album }) => {
-          album.reviews = album?.reviews || [id];
+        .map(({ album }) => album)
+        .reduce((acc, album) => {
           acc[album.id] = album;
           return acc;
         }, {});
@@ -149,27 +179,86 @@ const albumsReducer = (state = initialState, action) => {
 
     case REVIEW_ADDED: {
       const { album } = action.review;
-      const isNewEntry = !state.hasOwnProperty([album.id]);
-      const reviews = isNewEntry
-        ? [action.review.id]
-        : state[album.id]?.reviews?.concat(action.review.id);
+      const nextAlbum = state.items.hasOwnProperty([album.id])
+        ? { ...state.items[album.id], ...album }
+        : album;
 
       return {
         ...state,
         items: {
           ...state.items,
-          [album.id]: isNewEntry
-            ? {
-                ...album,
-                reviews,
-              }
-            : {
-                ...state[album.id],
-                reviews,
-              },
+          [album.id]: {
+            ...nextAlbum,
+          },
         },
       };
     }
+
+    case LISTS_LOADED: {
+      // Reduce array of lists into state.items object
+      // Each list object has an array of albums nested:
+      // [{ ..., albums: [...]}, {..., albums: [...]}, ...]
+      const nextState = action.lists.reduce(
+        (acc, { albums }) => {
+          for (const album of albums) {
+            if (!acc[album.id]) {
+              acc[album.id] = album;
+            }
+          }
+          return acc;
+        },
+        { ...state.items } // Initialize accumulator with state.items
+      );
+
+      return {
+        ...state,
+        items: nextState,
+      };
+    }
+
+    case LIST_ADDED:
+    case LIST_UPDATED: {
+      const { albums } = action.list;
+      const nextState = albums.reduce(
+        (acc, current) => {
+          if (!acc[current.id]) {
+            // Make a copy so that listsReducer keeps reference to
+            // AlbumList when we delete it here
+            const album = { ...current };
+            delete album.AlbumList;
+            acc[current.id] = album;
+          }
+          return acc;
+        },
+        { ...state.items }
+      );
+
+      return {
+        ...state,
+        items: nextState,
+      };
+    }
+
+    case BACKLOG_LOADED: {
+      const { albums } = action.backlog;
+      const nextState = albums.reduce(
+        (acc, current) => {
+          if (!acc[current.id]) {
+            const album = { ...current };
+            delete album.AlbumBacklog;
+            acc[current.id] = album;
+          }
+          return acc;
+        },
+        { ...state.items }
+      );
+
+      return {
+        ...state,
+        items: nextState,
+      };
+    }
+
     default:
       return state;
   }

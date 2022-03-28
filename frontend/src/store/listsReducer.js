@@ -3,7 +3,7 @@ import { mapObjectIDs } from '../utils';
 
 export const LISTS_LOADED = 'lists/LISTS_LOADED';
 export const LIST_ADDED = 'lists/LIST_ADDED';
-const LIST_UPDATED = 'lists/LIST_UPDATED';
+export const LIST_UPDATED = 'lists/LIST_UPDATED';
 export const LIST_REMOVED = 'lists/LIST_REMOVED';
 
 const listsLoaded = (lists, userID) => ({
@@ -101,8 +101,6 @@ export const deleteList = (listID, userID) => async (dispatch) => {
 
 const initialState = { items: {}, listIDs: [] };
 
-// TODO: change payload on express end to send album IDs rather than
-// the album objects
 const listsReducer = (state = initialState, action) => {
   switch (action.type) {
     case LISTS_LOADED: {
