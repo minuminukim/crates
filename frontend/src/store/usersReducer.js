@@ -3,6 +3,7 @@ import { ALBUMS_LOADED, ALBUM_ADDED, ALBUM_REMOVED } from './albumsReducer';
 import { SESSION_STARTED } from './session';
 import { mapObjectIDs } from '../utils';
 import { LISTS_LOADED, LIST_ADDED, LIST_REMOVED } from './listsReducer';
+import { REVIEWS_LOADED, REVIEW_ADDED, REVIEW_REMOVED } from './reviewsReducer';
 
 export const USER_LOADED = 'users/USER_LOADED';
 
@@ -156,6 +157,59 @@ const usersReducer = (state = {}, action) => {
         [userID]: {
           ...state[userID],
           lists: state[userID].lists.filter((id) => id !== listID),
+        },
+      };
+    }
+
+    case REVIEWS_LOADED: {
+      return action.reviews
+        .map(({ id, user }) => [id, user])
+        .reduce(
+          (acc, [reviewID, user]) => {
+            if (acc[user.id]) {
+              const reviewIDs =
+                'reviews' in acc[user.id]
+                  ? acc[user.id].reviews.concat(reviewID)
+                  : [reviewID];
+              acc[user.id].reviews = [...new Set(reviewIDs)];
+            } else {
+              acc[user.id] = user;
+              acc[user.id].reviews = [reviewID];
+            }
+            return acc;
+          },
+          { ...state }
+        );
+    }
+
+    case REVIEW_ADDED: {
+      const { userID, id: reviewID } = action.review;
+      const user = state.hasOwnProperty([userID])
+        ? { ...state[userID] }
+        : action.review.user;
+
+      const reviewIDs =
+        'reviews' in user
+          ? [...new Set([...user.reviews, reviewID])]
+          : [reviewID];
+
+      return {
+        ...state,
+        [userID]: {
+          ...user,
+          reviews: reviewIDs,
+        },
+      };
+    }
+
+    case REVIEW_REMOVED: {
+      const { reviewID, userID } = action;
+
+      return {
+        ...state,
+        [userID]: {
+          ...state[userID],
+          reviews: state[userID].reviews.filter((id) => id !== reviewID),
         },
       };
     }

@@ -22,9 +22,10 @@ const reviewUpdated = (review) => ({
   review,
 });
 
-const reviewRemoved = (reviewID) => ({
+const reviewRemoved = (reviewID, userID) => ({
   type: REVIEW_REMOVED,
   reviewID,
+  userID,
 });
 
 export const fetchReviews = () => async (dispatch) => {
@@ -69,11 +70,11 @@ export const editReview = (review) => async (dispatch) => {
   return updated;
 };
 
-export const deleteReview = (id) => async (dispatch) => {
-  const response = await csrfFetch(`/api/reviews/${id}`, {
+export const deleteReview = (reviewID, userID) => async (dispatch) => {
+  const response = await csrfFetch(`/api/reviews/${reviewID}`, {
     method: 'DELETE',
   });
-  dispatch(reviewRemoved(id));
+  dispatch(reviewRemoved(reviewID, userID));
   return response;
 };
 const initialState = {

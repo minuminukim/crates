@@ -4,9 +4,8 @@ import { useParams, useHistory } from 'react-router-dom';
 import { fetchSingleReview } from '../../store/reviewsReducer';
 import ReviewBody from './ReviewBody';
 import AlbumArt from '../../components/AlbumArt';
-import { ReviewActions, ActionsRow } from '../../components/ActionsPanel';
+import { ReviewActions } from '../../components/ActionsPanel';
 import { deleteReview } from '../../store/reviewsReducer';
-import LoginFormModal from '../../components/LoginFormModal';
 import { CommentSection } from '../../components/Comments';
 import LoginPanel from '../../components/ActionsPanel/LoginPanel';
 import './Review.css';
@@ -37,7 +36,7 @@ const Review = () => {
   }, [dispatch, reviewID]);
 
   const handleDelete = () => {
-    dispatch(deleteReview(+reviewID)).then(
+    dispatch(deleteReview(+reviewID, user?.id)).then(
       () => history.push('/'),
       (error) => console.error('Error deleting review', error)
     );
