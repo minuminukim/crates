@@ -1,14 +1,15 @@
 import { csrfFetch } from './csrf';
 import { mapObjectIDs } from '../utils';
 
-const LISTS_LOADED = 'lists/LISTS_LOADED';
-const LIST_ADDED = 'lists/LIST_ADDED';
+export const LISTS_LOADED = 'lists/LISTS_LOADED';
+export const LIST_ADDED = 'lists/LIST_ADDED';
 const LIST_UPDATED = 'lists/LIST_UPDATED';
-const LIST_REMOVED = 'lists/LIST_REMOVED';
+export const LIST_REMOVED = 'lists/LIST_REMOVED';
 
-const listsLoaded = (lists) => ({
+const listsLoaded = (lists, userID) => ({
   type: LISTS_LOADED,
   lists,
+  userID,
 });
 
 const listAdded = (list) => ({
@@ -21,9 +22,10 @@ const listUpdated = (list) => ({
   list,
 });
 
-const listRemoved = (listID) => ({
+const listRemoved = (listID, userID) => ({
   type: LIST_REMOVED,
   listID,
+  userID,
 });
 
 export const fetchLists = () => async (dispatch) => {
@@ -43,7 +45,7 @@ export const fetchSingleList = (listID) => async (dispatch) => {
 export const fetchUserLists = (userID) => async (dispatch) => {
   const response = await csrfFetch(`/api/users/${userID}/lists`);
   const { lists } = await response.json();
-  dispatch(listsLoaded(lists));
+  dispatch(listsLoaded(lists, userID));
   return lists;
 };
 
@@ -89,12 +91,11 @@ export const appendList = (data) => async (dispatch) => {
   return list;
 };
 
-export const deleteList = (listID) => async (dispatch) => {
+export const deleteList = (listID, userID) => async (dispatch) => {
   const response = await csrfFetch(`/api/lists/${listID}`, {
     method: 'DELETE',
   });
-
-  dispatch(listRemoved(listID));
+  dispatch(listRemoved(listID, userID));
   return response;
 };
 

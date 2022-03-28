@@ -30,19 +30,19 @@ router.get(
         },
         {
           model: User,
-          attributes: ['username'],
+          // attributes: ['username'],
         },
       ],
     });
 
     // iterate over lists and sort each if they're ranked
-    for (const list of lists) {
-      if (list.isRanked) {
-        list.albums.sort((a, b) => {
-          return a.AlbumList.listIndex - b.AlbumList.listIndex;
-        });
-      }
-    }
+    // for (const list of lists) {
+    //   if (list.isRanked) {
+    //     list.albums.sort((a, b) => {
+    //       return a.AlbumList.listIndex - b.AlbumList.listIndex;
+    //     });
+    //   }
+    // }
 
     return res.json({
       lists,
@@ -61,6 +61,9 @@ router.get(
           model: Album,
           as: 'albums',
         },
+        {
+          model: User,
+        },
       ],
     });
 
@@ -68,9 +71,9 @@ router.get(
       return next(listNotFoundError());
     }
 
-    if (list.isRanked) {
-      list.albums.sort((a, b) => a.AlbumList.listIndex - b.AlbumList.listIndex);
-    }
+    // if (list.isRanked) {
+    //   list.albums.sort((a, b) => a.AlbumList.listIndex - b.AlbumList.listIndex);
+    // }
 
     return res.json({
       list,
@@ -116,12 +119,24 @@ router.post(
     );
 
     // ...finally fetch the list with its associated albums
-    const list = await List.getSingleListByID(newList.id);
+    // const list = await List.getSingleListByID(newList.id);
+    const list = await List.findOne({
+      where: { id: id },
+      include: [
+        {
+          model: Album,
+          as: 'albums',
+        },
+        {
+          model: User,
+        },
+      ],
+    });
 
-    //... sort the list in place if ranked
-    if (list.isRanked) {
-      list.albums.sort((a, b) => a.AlbumList.listIndex - b.AlbumList.listIndex);
-    }
+    // //... sort the list in place if ranked
+    // if (list.isRanked) {
+    //   list.albums.sort((a, b) => a.AlbumList.listIndex - b.AlbumList.listIndex);
+    // }
 
     return res.json({
       list,
@@ -263,7 +278,7 @@ router.delete(
         listID: id,
       },
     });
-    
+
     await list.destroy();
 
     return res.status(204).json({});

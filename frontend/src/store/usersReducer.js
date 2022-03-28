@@ -2,6 +2,7 @@ import { csrfFetch } from './csrf';
 import { ALBUMS_LOADED, ALBUM_ADDED, ALBUM_REMOVED } from './albumsReducer';
 import { SESSION_STARTED } from './session';
 import { mapObjectIDs } from '../utils';
+import { LISTS_LOADED, LIST_ADDED, LIST_REMOVED } from './listsReducer';
 
 export const USER_LOADED = 'users/USER_LOADED';
 
@@ -82,6 +83,83 @@ const usersReducer = (state = {}, action) => {
           albums: filtered,
         },
       };
+
+    case LISTS_LOADED: {
+      // When a specific user's lists were fetched
+      if (action.userID) {
+        // Check if user data already exists in store
+        const isNewUserEntry = state.hasOwnProperty([action.userID]);
+        const user = isNewUserEntry
+          ? { ...state[action.userID] }
+          : action.lists[0].User;
+
+        return {
+          ...state,
+          [action.userID]: {
+            ...user,
+            lists: mapObjectIDs(action.lists),
+          },
+        };
+      }
+
+      // Map array of lists into pairs: [[listID, list.user]...]
+      // and reduce those into the next state object
+      return action.lists
+        .map(({ id, User }) => [id, User])
+        .reduce(
+          (acc, [listID, user]) => {
+            // If user is already in the accumulator...
+            if (acc[user.id]) {
+              // ...check if its lists array has already been initialized
+              const listIDs =
+                'lists' in acc[user.id]
+                  ? acc[user.id].lists.concat(listID)
+                  : [listID];
+
+              // We only want the unique ones
+              acc[user.id].lists = [...new Set(listIDs)];
+            } else {
+              // Else we set a new key on the accumulator
+              acc[user.id] = user;
+              acc[user.id].lists = [listID];
+            }
+
+            return acc;
+          },
+          { ...state } // Initialize accumulator with state object
+        );
+    }
+
+    case LIST_ADDED: {
+      const { id: listID, userID } = action.list;
+
+      const user = state.hasOwnProperty([userID])
+        ? { ...state[userID] }
+        : action.list.User;
+
+      const listIDs =
+        'lists' in user ? [...new Set([...user.lists, listID])] : [listID];
+
+      return {
+        ...state,
+        [userID]: {
+          ...user,
+          lists: listIDs,
+        },
+      };
+    }
+
+    case LIST_REMOVED: {
+      const { userID, listID } = action;
+
+      return {
+        ...state,
+        [userID]: {
+          ...state[userID],
+          lists: state[userID].lists.filter((id) => id !== listID),
+        },
+      };
+    }
 
     default:
       return state;
