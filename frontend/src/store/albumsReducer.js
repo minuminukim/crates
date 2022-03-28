@@ -52,6 +52,13 @@ export const fetchAlbumsByUserID = (userID) => async (dispatch) => {
   return albums;
 };
 
+export const fetchSingleAlbum = (id) => async (dispatch) => {
+  const response = await csrfFetch(`/api/albums/${id}`);
+  const { album } = await response.json();
+  dispatch(albumAdded(album));
+  return album;
+};
+
 export const addUserAlbum =
   (userID, newAlbum) => async (dispatch, getState) => {
     const response = await csrfFetch(`/api/users/${userID}/albums`, {
@@ -79,13 +86,6 @@ export const removeUserAlbum = (userID, albumID) => async (dispatch) => {
   });
   dispatch(albumRemoved(albumID, userID));
   return response;
-};
-
-export const fetchSingleAlbum = (id) => async (dispatch) => {
-  const response = await csrfFetch(`/api/albums/${id}`);
-  const { album } = await response.json();
-  dispatch(albumAdded(album));
-  return album;
 };
 
 export const searchAlbums = (query) => async (dispatch) => {

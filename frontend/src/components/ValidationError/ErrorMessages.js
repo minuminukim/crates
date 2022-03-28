@@ -4,9 +4,9 @@ const ErrorMessages = ({ success, errors }) => {
   return (
     <>
       {success.length > 0 && (
-        <div className="success-container">
+        <ul className="success-container">
           <SuccessMessage message={success} />
-        </div>
+        </ul>
       )}
       <ul className="validation-errors">
         {errors.length > 0 &&

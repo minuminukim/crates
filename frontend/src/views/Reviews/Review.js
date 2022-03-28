@@ -9,19 +9,28 @@ import { deleteReview } from '../../store/reviewsReducer';
 import { CommentSection } from '../../components/Comments';
 import LoginPanel from '../../components/ActionsPanel/LoginPanel';
 import './Review.css';
+import { fetchSingleAlbum } from '../../store/albumsReducer';
 
 const Review = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const { reviewID } = useParams();
   const review = useSelector((state) => state.reviews.items[reviewID]);
+  const album = useSelector((state) => state.albums.items[review?.albumID]);
   const user = useSelector((state) => state.session.user);
   const [isLoading, setLoading] = useState(true);
 
   useEffect(() => {
     if (review) {
-      setLoading(false);
-      return;
+      if (!album) {
+        setLoading(true);
+        dispatch(fetchSingleAlbum(review.albumID))
+          .then(() => setLoading(false))
+          .catch((error) => console.log('error fetching album', error));
+      } else {
+        setLoading(false);
+        return;
+      }
     }
 
     dispatch(fetchSingleReview(+reviewID)).then(
