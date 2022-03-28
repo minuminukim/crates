@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Route, Switch, useHistory } from 'react-router-dom';
+import ProtectedRoute from './components/ProtectedRoute';
 import Home from './views/Home';
 import Landing from './views/Landing';
 import Albums from './views/Albums';
 import { Lists, ListForm, ListPage } from './views/Lists';
 import LoginForm from './components/LoginFormModal/LoginForm';
 import { restoreUser } from './store/session';
-import { fetchAlbums } from './store/albumsReducer';
 import Navigation from './components/Navigation';
 import Review from './views/Reviews';
 import NotFound from './views/NotFound';
@@ -59,15 +59,15 @@ function App() {
             <Route exact path="/lists">
               <Lists />
             </Route>
-            <Route exact path="/lists/new">
-              <ListForm />
-            </Route>
+            <ProtectedRoute exact path="/lists/new">
+              <ListForm isPost />
+            </ProtectedRoute>
             <Route exact path="/lists/:listID">
               <ListPage />
             </Route>
-            <Route exact path="/lists/:listID/edit">
-              <ListForm />
-            </Route>
+            <ProtectedRoute exact path="/lists/:listID/edit">
+              <ListForm isPost={false} />
+            </ProtectedRoute>
             <Route>
               <NotFound />
             </Route>

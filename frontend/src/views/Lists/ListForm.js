@@ -1,15 +1,13 @@
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams, useHistory, useLocation } from 'react-router-dom';
-import useSearch from '../../hooks/useSearch';
 import { InputField, InputLabel } from '../../components/InputField';
-import { SaveButton } from '../../components/Button';
+import { SaveButton, CancelButton } from '../../components/Button';
 import { ErrorMessages } from '../../components/ValidationError';
-import Button from '../../components/Button';
 import Checkbox from '../../components/Checkbox';
 import DraggableList from '../../components/DraggableList/DraggableList';
-import { SearchField, SearchItem } from '../../components/Search';
 import areAllUnique from '../../utils/areAllUnique';
+import ListFormSearch from './ListFormSearch';
 import './ListForm.css';
 import {
   createList,
@@ -17,64 +15,59 @@ import {
   fetchSingleList,
 } from '../../store/listsReducer';
 
-const ListForm = () => {
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [isRanked, setIsRanked] = useState(false);
-  const [errors, setErrors] = useState([]);
-  const [albums, setAlbums] = useState([]);
-  const [action, setAction] = useState(null);
-  const [message, setMessage] = useState('');
-  const [showList, setShowList] = useState(false);
-  const { user } = useSelector((state) => state.session);
-  const { query, setQuery, results, isLoading, searchErrors } = useSearch();
+const initialForm = {
+  title: '',
+  description: '',
+  isRanked: false,
+};
+
+const ListForm = ({ isPost = true }) => {
   const dispatch = useDispatch();
   const history = useHistory();
   const { listID } = useParams();
+  const user = useSelector((state) => state.session?.user);
+  const list = useSelector((state) => state.lists.items[listID]);
+  const listAlbums = useSelector((state) => {
+    if (!list) return;
+    return list.albums.map(({ id }) => state.albums.items[id]);
+  });
 
   // an album was passed in as a prop when redirected
   // from the 'add to new list' action panel
   const location = useLocation();
-  const data = location.state?.data;
+  const albumData = location.state?.data;
+  const [form, setForm] = useState(initialForm);
+  const [albums, setAlbums] = useState([]);
+  const [errors, setErrors] = useState([]);
+  const [message, setMessage] = useState('');
 
   useEffect(() => {
-    if (!user) {
-      history.push('/login');
+    if (isPost && albumData) {
+      setAlbums([albumData]);
+      return;
     }
+  }, [isPost, albumData]);
 
-    if (!listID) {
-      if (data) {
-        setAlbums([data]);
+  useEffect(() => {
+    if (!listID) return;
+    if (list) {
+      const { title, description, isRanked, userID } = list;
+      if (userID !== user.id) {
+        return history.push('/unauthorized');
       }
-      setAction('post');
+      setForm({
+        title,
+        description,
+        isRanked,
+      });
+      setAlbums(listAlbums);
       return;
     }
 
-    setAction('edit');
-    (async () => {
-      try {
-        // if edit, we fetch the list and set form state
-        const list = await dispatch(fetchSingleList(listID));
-
-        // check if session user is the owner of this list
-        if (list && list.userID !== user?.id) {
-          return history.push('/unauthorized');
-        }
-
-        setTitle(list.title);
-        setDescription(list.description);
-        setIsRanked(list.isRanked);
-        setAlbums(list.albums);
-      } catch (error) {
-        const data = await error.json();
-        if (data && data.errors) {
-          return history.push('/not-found');
-        }
-      }
-    })();
-  }, [user, listID, dispatch, data]);
-
-  const handleChange = (e) => setQuery(e.target.value);
+    dispatch(fetchSingleList(+listID)).catch((error) =>
+      console.log('error fetching list', error)
+    );
+  }, [listID, list, history, dispatch]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -92,14 +85,15 @@ const ListForm = () => {
 
     const payload = {
       userID: user.id,
-      title,
-      description,
-      isRanked,
+      ...form,
       albums,
-      id: +listID,
     };
 
-    const thunk = action === 'post' ? createList : editList;
+    if (!isPost) {
+      payload.id = +listID;
+    }
+
+    const thunk = isPost ? createList : editList;
 
     return dispatch(thunk(payload))
       .then((list) => {
@@ -118,28 +112,33 @@ const ListForm = () => {
       });
   };
 
+  const handleFormChange = (e) => {
+    const updatedForm = { ...form };
+    updatedForm[e.target.name] = e.target.value;
+    setForm(updatedForm);
+  };
+
+  const handleCheckbox = () => setForm({ ...form, isRanked: !form.isRanked });
+  const updateAlbums = (next) => setAlbums(next);
+  const updateErrors = (error) => setErrors(error);
+
   return (
     <div className="page-container list-form-page">
       <ErrorMessages success={message} errors={errors} />
       <form className="list-form" onSubmit={handleSubmit}>
-        <h1 className="page-heading">
-          {action === 'post' ? 'New List' : 'Edit List'}
-        </h1>
+        <h1 className="page-heading">{!listID ? 'New List' : 'Edit List'}</h1>
         <div className="list-form-top">
           <div className="list-form-left">
             <div className="form-row">
               <InputLabel label="Name of list" required />
               <InputField
                 id="title"
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
+                value={form.title}
+                onChange={handleFormChange}
               />
             </div>
             <div className="form-row checkbox">
-              <Checkbox
-                value={isRanked}
-                onChange={() => setIsRanked(!isRanked)}
-              >
+              <Checkbox value={form.isRanked} onChange={handleCheckbox}>
                 <InputLabel label="Ranked list">
                   <p className="label-details">Show position for each album.</p>
                 </InputLabel>
@@ -152,65 +151,28 @@ const ListForm = () => {
               <textarea
                 id="description"
                 name="description"
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
+                value={form.description}
+                onChange={handleFormChange}
               ></textarea>
             </div>
           </div>
         </div>
         <div className="list-form-bottom">
-          <div className="search-field">
-            <SearchField
-              query={query}
-              error={searchErrors}
-              onChange={handleChange}
-              onFocus={() => setShowList(true)}
-              onBlur={() => setShowList(false)}
-            />
-            {!searchErrors.length && showList && (
-              <ul className={`search-list ${showList ? 'absolute' : 'block'}`}>
-                {!isLoading &&
-                  results?.length > 0 &&
-                  results.map((item) => (
-                    <SearchItem
-                      key={item.spotifyID}
-                      title={item.title}
-                      artist={item.artist}
-                      releaseYear={item.releaseYear}
-                      onMouseDown={() => {
-                        const found = albums.some(
-                          ({ spotifyID }) => spotifyID === item.spotifyID
-                        );
-
-                        if (found) {
-                          setErrors([
-                            ...errors,
-                            'Albums in a list must be unique.',
-                          ]);
-                        } else {
-                          setAlbums([...albums, item]);
-                          setShowList(false);
-                        }
-                      }}
-                    />
-                  ))}
-              </ul>
-            )}
-          </div>
+          <ListFormSearch
+            albums={albums}
+            updateAlbums={updateAlbums}
+            updateErrors={updateErrors}
+          />
           <div className="list-form-btns">
-            <Button
-              className="btn-cancel"
-              label="CANCEL"
-              onClick={() => history.goBack()}
-            />
+            <CancelButton />
             <SaveButton />
           </div>
         </div>
         <DraggableList
           items={albums}
-          isRanked={isRanked}
+          isRanked={form.isRanked}
           albums={albums}
-          updateAlbums={(next) => setAlbums(next)}
+          updateAlbums={updateAlbums}
         />
       </form>
     </div>

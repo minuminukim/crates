@@ -95,6 +95,7 @@ router.post(
   validateList,
   asyncHandler(async (req, res, next) => {
     const { userID, title, description, isRanked, albums: items } = req.body;
+    console.log('req.body', req.body);
 
     // iterate over the incoming albums and findOrCreate a record for each
     const albums = await reduceListAlbums(items);
@@ -121,7 +122,7 @@ router.post(
     // ...finally fetch the list with its associated albums
     // const list = await List.getSingleListByID(newList.id);
     const list = await List.findOne({
-      where: { id: id },
+      where: { id: newList.id },
       include: [
         {
           model: Album,
