@@ -91,8 +91,8 @@ const usersReducer = (state = {}, action) => {
         // Check if user data already exists in store
         const isNewUserEntry = state.hasOwnProperty([action.userID]);
         const user = isNewUserEntry
-          ? { ...state[action.userID] }
-          : action.lists[0].User;
+          ? action.lists[0].User
+          : { ...state[action.userID] };
 
         return {
           ...state,
