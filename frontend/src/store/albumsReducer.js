@@ -1,6 +1,10 @@
 import { csrfFetch } from './csrf';
 import { REVIEWS_LOADED, REVIEW_ADDED } from './reviewsReducer';
-import { BACKLOG_LOADED, removeFromBacklog } from './backlogsReducer';
+import {
+  BACKLOG_LOADED,
+  BACKLOG_UPDATED,
+  removeFromBacklog,
+} from './backlogsReducer';
 
 export const ALBUMS_LOADED = 'albums/albumsLoaded';
 export const ALBUM_ADDED = 'albums/albumAdded';
@@ -16,7 +20,7 @@ const albumsLoaded = (albums, userID) => ({
   userID,
 });
 
-const albumAdded = (album, userID) => ({
+export const albumAdded = (album, userID) => ({
   type: ALBUM_ADDED,
   album,
   userID,
@@ -111,7 +115,8 @@ const albumsReducer = (state = initialState, action) => {
 
     // When an album entry was created in db as a result of
     // new user generated content
-    case ALBUM_ADDED: {
+    case ALBUM_ADDED:
+    case BACKLOG_UPDATED: {
       const reviews = action.album?.reviews || [];
       action.album.reviews = reviews;
 

@@ -2,7 +2,7 @@ import { csrfFetch } from './csrf';
 import { mapObjectIDs } from '../utils';
 
 export const BACKLOG_LOADED = 'backlogs/backlogLoaded';
-const BACKLOG_UPDATED = 'backlogs/backlogUpdated';
+export const BACKLOG_UPDATED = 'backlogs/backlogUpdated';
 const BACKLOG_ITEM_REMOVED = 'backlogs/backlogItemRemoved';
 
 const backlogLoaded = (backlog, userID) => ({

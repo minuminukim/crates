@@ -6,12 +6,9 @@ import {
   fetchBacklogByUserID,
 } from '../store/backlogsReducer';
 
-const useBacklog = (albumID) => {
+const useBacklog = (userID) => {
   const dispatch = useDispatch();
-  const userID = useSelector((state) => state.session.user?.id);
   const backlog = useSelector((state) => state.backlogs.items[userID]);
-  const album = useSelector((state) => state.albums.items[albumID]);
-  const inBacklog = backlog && backlog.albums.some((id) => id === albumID);
   const [isLoading, setLoading] = useState(true);
   const [errors, setErrors] = useState([]);
   const [message, setMessage] = useState('');
@@ -31,7 +28,10 @@ const useBacklog = (albumID) => {
     );
   }, [dispatch, userID, backlog]);
 
-  const onAdd = () => {
+  const findAlbum = (albumID) =>
+    backlog && backlog?.albums.some((id) => id === albumID);
+
+  const onAdd = (album) => {
     setErrors([]);
     setMessage('');
     dispatch(appendBacklog(album, userID))
@@ -46,7 +46,7 @@ const useBacklog = (albumID) => {
       });
   };
 
-  const onRemove = () => {
+  const onRemove = (album) => {
     setErrors([]);
     setMessage('');
     dispatch(removeFromBacklog(album.id, userID))
@@ -62,12 +62,12 @@ const useBacklog = (albumID) => {
   };
 
   return {
-    inBacklog,
     isLoading,
     message,
     errors,
     onRemove,
     onAdd,
+    findAlbum,
   };
 };
 

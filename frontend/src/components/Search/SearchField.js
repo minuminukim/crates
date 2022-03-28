@@ -12,7 +12,7 @@ const SearchField = ({ query, error, onChange, onFocus, onBlur, children }) => {
         onFocus={onFocus}
         onBlur={onBlur}
       />
-      {error.length > 0 && <ValidationError error={error} />}
+      {error?.length > 0 && <ValidationError error={error} />}
       {children}
     </>
   );

@@ -1,18 +1,23 @@
 import { useState } from 'react';
+import { useSelector } from 'react-redux';
 import { useBacklog } from '../../hooks';
 import { MdMoreTime } from 'react-icons/md';
 import { ErrorMessages } from '../ValidationError';
 
 const BacklogIcon = ({ albumID }) => {
-  const { onAdd, onRemove, message, errors, inBacklog, isLoading } =
-    useBacklog(albumID);
+  const album = useSelector((state) => state.albums.items[albumID]);
+  const userID = useSelector((state) => state.session.user?.id);
+  const { onAdd, onRemove, message, errors, isLoading, findAlbum } =
+    useBacklog(userID);
+  const inBacklog = findAlbum(albumID);
   const [text, setText] = useState(inBacklog ? 'Remove' : 'Backlog');
 
   const onMouseOver = () => setText(inBacklog ? 'Remove' : 'Backlog');
   const onMouseLeave = () => setText('Backlog');
+
   const handleClick = () => {
     if (isLoading) return;
-    return inBacklog ? onRemove() : onAdd();
+    return inBacklog ? onRemove(album) : onAdd(album);
   };
 
   return (

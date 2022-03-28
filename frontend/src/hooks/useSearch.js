@@ -3,11 +3,11 @@ import { useDispatch } from 'react-redux';
 import { searchAlbums } from '../store/albumsReducer';
 
 const useSearch = () => {
+  const dispatch = useDispatch();
   const [query, setQuery] = useState('');
   const [results, setResults] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [searchErrors, setSearchErrors] = useState([]);
-  const dispatch = useDispatch();
 
   useEffect(() => {
     if (!query.length) {
@@ -16,15 +16,17 @@ const useSearch = () => {
     }
 
     const delayedFetchTimer = setTimeout(() => {
-      setSearchErrors([])
-      return dispatch(searchAlbums(query))
-        .then((albums) => setResults(albums))
-        .then(() => setIsLoading(false))
+      setSearchErrors([]);
+      dispatch(searchAlbums(query))
+        .then((albums) => {
+          setResults(albums);
+          setIsLoading(false);
+        })
         .catch(async (response) => {
           const data = await response.json();
           if (data && data.errors) {
             setSearchErrors(data.errors);
-            setResults([])
+            setResults([]);
           }
         });
     }, 100);
