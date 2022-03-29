@@ -4,6 +4,7 @@ import { SESSION_STARTED } from './session';
 import { mapObjectIDs } from '../utils';
 import { LISTS_LOADED, LIST_ADDED, LIST_REMOVED } from './listsReducer';
 import { REVIEWS_LOADED, REVIEW_ADDED, REVIEW_REMOVED } from './reviewsReducer';
+import { COMMENTS_LOADED } from './commentsReducer';
 
 export const USER_LOADED = 'users/USER_LOADED';
 
@@ -212,6 +213,20 @@ const usersReducer = (state = {}, action) => {
           reviews: state[userID].reviews.filter((id) => id !== reviewID),
         },
       };
+    }
+
+    case COMMENTS_LOADED: {
+      return action.comments
+        .map(({ user }) => user)
+        .reduce(
+          (acc, user) => {
+            if (!acc[user.id]) {
+              acc[user.id] = user;
+            }
+            return acc;
+          },
+          { ...state }
+        );
     }
 
     default:

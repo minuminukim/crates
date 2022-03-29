@@ -5,6 +5,10 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       Review.belongsTo(models.User, { foreignKey: 'userID', as: 'user' });
       Review.belongsTo(models.Album, { foreignKey: 'albumID', as: 'album' });
+      Review.hasMany(models.Comment, {
+        foreignKey: 'reviewID',
+        as: 'comments',
+      });
     }
 
     static async fetchSingleReviewByID(id) {

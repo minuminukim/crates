@@ -1,6 +1,6 @@
 const express = require('express');
 const asyncHandler = require('express-async-handler');
-const { Album } = require('../../db/models');
+const { Album, Comment } = require('../../db/models');
 const {
   fetchSingleAlbumWithRetry,
 } = require('../../spotify-api/spotify-search');
@@ -17,7 +17,7 @@ router.get(
   })
 );
 
-// fetch a single album from database
+// Fetch a single album from database
 router.get(
   '/:id(\\d+)',
   asyncHandler(async (req, res, next) => {
@@ -37,6 +37,23 @@ router.get(
 
     return res.json({
       album,
+    });
+  })
+);
+
+// Fetch an album's comments
+router.get(
+  '/:id(\\d+)/comments',
+  asyncHandler(async (req, res, next) => {
+    const albumID = +req.params.id;
+    const comments = await Comment.findAll({ where: albumID });
+
+    if (!comments) {
+      return next();
+    }
+
+    return res.json({
+      comments,
     });
   })
 );

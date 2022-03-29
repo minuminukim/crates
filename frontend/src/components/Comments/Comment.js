@@ -1,6 +1,9 @@
+import { useSelector } from 'react-redux';
 import { Signature } from '.';
 
-const Comment = ({ comment, onEdit, onDelete }) => {
+const Comment = ({ commentID, onEdit, onDelete }) => {
+  const comment = useSelector((state) => state.comments[commentID]);
+
   return (
     <li className="comment">
       <Signature
@@ -8,6 +11,7 @@ const Comment = ({ comment, onEdit, onDelete }) => {
         username={comment.username}
         body={comment.body}
         commentID={comment.id}
+        reviewID={comment.reviewID}
         onEdit={onEdit}
         onDelete={onDelete}
       />

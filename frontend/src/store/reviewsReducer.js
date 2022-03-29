@@ -1,6 +1,12 @@
 import { csrfFetch } from './csrf';
 import { USER_LOADED } from './usersReducer';
 import { SESSION_STARTED } from './session';
+import {
+  COMMENTS_LOADED,
+  COMMENT_ADDED,
+  COMMENT_REMOVED,
+} from './commentsReducer';
+import { mapObjectIDs } from '../utils';
 
 export const REVIEWS_LOADED = 'reviews/reviewsLoaded';
 export const REVIEW_ADDED = 'reviews/reviewAdded';
@@ -140,6 +146,56 @@ const reviewsReducer = (state = initialState, action) => {
         ...nextState,
         reviewIDs: [...state.reviewIDs].filter((id) => id !== action.reviewID),
       };
+
+    case COMMENTS_LOADED: {
+      if (!action.reviewID) return state;
+      const commentIDs = mapObjectIDs(action.comments);
+
+      return {
+        ...state,
+        items: {
+          ...state.items,
+          [action.reviewID]: {
+            ...state.items[action.reviewID],
+            comments: commentIDs,
+          },
+        },
+      };
+    }
+
+    case COMMENT_ADDED: {
+      const { reviewID, id: commentID } = action.comment;
+      const commentIDs = [...state.items[reviewID].comments, commentID];
+
+      return {
+        ...state,
+        items: {
+          ...state.items,
+          [reviewID]: {
+            ...state.items[reviewID],
+            comments: commentIDs,
+          },
+        },
+      };
+    }
+
+    case COMMENT_REMOVED: {
+      const { commentID, reviewID } = action;
+      const filtered = state.items[reviewID].comments.filter(
+        (id) => id !== commentID
+      );
+
+      return {
+        ...state,
+        items: {
+          ...state.items,
+          [reviewID]: {
+            ...state.items[reviewID],
+            comments: filtered,
+          },
+        },
+      };
+    }
 
     default:
       return state;

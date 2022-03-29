@@ -7,7 +7,15 @@ import { deleteComment } from '../../store/commentsReducer';
 import { EditCommentModal } from '.';
 import { CommentIcon } from '.';
 
-const Signature = ({ userID, username, body, onEdit, commentID, onDelete }) => {
+const Signature = ({
+  userID,
+  reviewID,
+  username,
+  body,
+  onEdit,
+  commentID,
+  onDelete,
+}) => {
   const sessionUser = useSelector((state) => state.session.user);
   const isSessionUser = userID === sessionUser?.id;
   const [showEdit, setShowEdit] = useState(false);
@@ -18,7 +26,7 @@ const Signature = ({ userID, username, body, onEdit, commentID, onDelete }) => {
     (async () => {
       try {
         // dispatch delete action
-        await dispatch(deleteComment(commentID));
+        await dispatch(deleteComment(commentID, reviewID));
         // update parent's state
         onDelete(commentID);
       } catch (res) {

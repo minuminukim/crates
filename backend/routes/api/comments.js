@@ -83,6 +83,7 @@ router.put(
     }
 
     await oldComment.update({ body: body });
+
     const comment = await Comment.findByPk(id);
 
     return res.json({

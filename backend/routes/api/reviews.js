@@ -1,7 +1,6 @@
 const express = require('express');
-const Sequelize = require('sequelize');
 const asyncHandler = require('express-async-handler');
-const { Review, Album, UserAlbum } = require('../../db/models');
+const { Review, Album, UserAlbum, Comment, User } = require('../../db/models');
 const validateReview = require('../../validations/validateReview');
 const generateNewAverageRating = require('../../utils/generateNewAverageRating');
 const { requireAuth } = require('../../utils/auth');
@@ -38,6 +37,25 @@ router.get(
 
     return res.json({
       review,
+    });
+  })
+);
+
+router.get(
+  '/:id(\\d+)/comments',
+  asyncHandler(async (req, res, next) => {
+    const reviewID = +req.params.id;
+    const comments = await Comment.findAll({
+      where: reviewID,
+      include: { model: User, as: 'user' },
+    });
+
+    if (!comments) {
+      return next();
+    }
+
+    return res.json({
+      comments,
     });
   })
 );

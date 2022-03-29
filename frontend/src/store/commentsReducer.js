@@ -1,37 +1,44 @@
 import { csrfFetch } from './csrf';
 
-const COMMENTS_LOADED = 'comments/COMMENTS_LOADED';
-const COMMENT_ADDED = 'comments/COMMENT_ADDED';
+export const COMMENTS_LOADED = 'comments/COMMENTS_LOADED';
+export const COMMENT_ADDED = 'comments/COMMENT_ADDED';
 const COMMENT_UPDATED = 'comments/COMMENT_UPDATED';
-const COMMENT_REMOVED = 'comments/COMMENT_REMOVED';
+export const COMMENT_REMOVED = 'comments/COMMENT_REMOVED';
 
-const loadComments = (comments) => ({
+const commentsLoaded = (comments, reviewID = null) => ({
   type: COMMENTS_LOADED,
   comments,
+  reviewID,
 });
 
-const addComment = (comment) => ({
+const commentAdded = (comment) => ({
   type: COMMENT_ADDED,
   comment,
 });
 
-const updateComment = (comment) => ({
+const commentUpdated = (comment) => ({
   type: COMMENT_UPDATED,
   comment,
 });
 
-const removeComment = (commentID, userID) => ({
+const commentRemoved = (commentID, reviewID) => ({
   type: COMMENT_REMOVED,
   commentID,
-  userID,
+  reviewID,
 });
 
-export const fetchComments = () => async (dispatch) => {
-  const response = await csrfFetch(`/api/comments`);
-  const { comments } = await response.json();
-  dispatch(loadComments(comments));
-  return comments;
-};
+export const fetchComments =
+  (reviewID = null) =>
+  async (dispatch) => {
+    const url = reviewID
+      ? `/api/reviews/${reviewID}/comments`
+      : `/api/comments`;
+    const response = await csrfFetch(url);
+    const { comments } = await response.json();
+    dispatch(commentsLoaded(comments, reviewID));
+
+    return comments;
+  };
 
 export const postComment = (payload) => async (dispatch) => {
   const response = await csrfFetch(`/api/comments`, {
@@ -39,7 +46,7 @@ export const postComment = (payload) => async (dispatch) => {
     body: JSON.stringify(payload),
   });
   const { comment } = await response.json();
-  dispatch(addComment(comment));
+  dispatch(commentAdded(comment));
   return comment;
 };
 
@@ -50,16 +57,16 @@ export const editComment = (payload) => async (dispatch) => {
   });
 
   const { comment } = await response.json();
-  dispatch(updateComment(comment));
+  dispatch(commentUpdated(comment));
   return comment;
 };
 
-export const deleteComment = (commentID) => async (dispatch) => {
+export const deleteComment = (commentID, reviewID) => async (dispatch) => {
   const response = await csrfFetch(`/api/comments/${commentID}`, {
     method: 'DELETE',
   });
 
-  dispatch(removeComment(commentID));
+  dispatch(commentRemoved(commentID, reviewID));
   return response;
 };
 
@@ -67,9 +74,12 @@ const commentsReducer = (state = {}, action) => {
   switch (action.type) {
     case COMMENTS_LOADED:
       const comments = action.comments.reduce((acc, comment) => {
-        acc[comment.id] = comment;
+        const current = { ...comment };
+        delete current.user;
+        acc[comment.id] = current;
         return acc;
       }, {});
+
       return {
         ...state,
         ...comments,
