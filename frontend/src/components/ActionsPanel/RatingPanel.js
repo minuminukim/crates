@@ -2,7 +2,6 @@ import { useParams } from 'react-router-dom';
 import ActionsRow from './ActionsRow';
 import StarRating from '../StarRating';
 import { useSelector } from 'react-redux';
-import { useEffect, useState } from 'react';
 
 const RatingPanel = ({ albumID }) => {
   const { reviewID } = useParams();
@@ -15,7 +14,9 @@ const RatingPanel = ({ albumID }) => {
     if (!userID) return 0;
 
     // Sort in descending order because we want the most recent rating
-    const reviewIDs = [...state.users[userID].reviews].sort((a, b) => b - a);
+    const reviewIDs = state.users[userID].reviews
+      ?.slice()
+      .sort((a, b) => b - a);
     const foundID = reviewIDs.find((id) => {
       const current = state.reviews.items[id];
       return current?.albumID === review.albumID;

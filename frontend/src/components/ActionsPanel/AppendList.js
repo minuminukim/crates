@@ -6,30 +6,37 @@ import { ErrorMessages } from '../ValidationError';
 import { AiOutlinePlus } from 'react-icons/ai';
 import './AppendList.css';
 import Button from '../Button';
-// need userID, user lists(length && title), album title
-const AppendList = ({ album, onClose }) => {
-  const user = useSelector((state) => state.session.user);
-  const [lists, setLists] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [chosen, setChosen] = useState(null);
-  const [errors, setErrors] = useState([]);
-  const [message, setMessage] = useState('');
+
+const AppendList = ({ album }) => {
   const dispatch = useDispatch();
   const history = useHistory();
+  const userID = useSelector((state) => state.session.user.id);
+  const lists = useSelector((state) => {
+    const listIDs = state.users[userID]?.lists;
+    if (!listIDs) return [];
+    return listIDs.map((id) => state.lists.items[id]);
+  });
+
+  const [isLoading, setIsLoading] = useState(true);
+  const [chosenListID, setChosenID] = useState(null);
+  const [errors, setErrors] = useState([]);
+  const [message, setMessage] = useState('');
 
   useEffect(() => {
-    return (
-      dispatch(fetchUserLists(user.id))
-        .then((items) => setLists(items))
-        .then(() => setIsLoading(false))
-        .catch((err) => err)
-    );
-  }, [dispatch, user.id]);
+    dispatch(fetchUserLists(userID))
+      .then(() => setIsLoading(false))
+      .catch((err) =>
+        console.log(
+          `Error fetching lists for user ${userID} in AppendList`,
+          err
+        )
+      );
+  }, [dispatch, userID]);
 
   const handleDispatch = () => {
     setErrors([]);
     const payload = {
-      listID: chosen,
+      listID: chosenListID,
       albumID: album.id,
       spotifyID: album.spotifyID,
       artworkURL: album.artworkURL,
@@ -38,13 +45,16 @@ const AppendList = ({ album, onClose }) => {
       releaseYear: album.releaseYear,
     };
 
-    return dispatch(appendList(payload))
-      .then((list) =>
+    setIsLoading(true);
+    dispatch(appendList(payload))
+      .then((list) => {
         setMessage(
           `You have successfully added '${album.title}' to your list '${list.title}'`
-        )
-      )
-      .then(() => setTimeout(() => history.go(0), 2500))
+        );
+        setIsLoading(false);
+        const redirectTimeout = setTimeout(() => history.go(0), 2500);
+        return () => clearTimeout(redirectTimeout);
+      })
       .catch(async (res) => {
         const data = await res.json();
         if (data && data.errors) {
@@ -52,6 +62,9 @@ const AppendList = ({ album, onClose }) => {
         }
       });
   };
+
+  const listItemClass = (id) =>
+    chosenListID === id ? `user-lists-item chosen` : `user-lists-item`;
 
   return (
     !isLoading && (
@@ -72,12 +85,8 @@ const AppendList = ({ album, onClose }) => {
           {lists.map((list, i) => (
             <li
               key={`list-${i}`}
-              className={
-                chosen === list.id
-                  ? `user-lists-item chosen`
-                  : `user-lists-item`
-              }
-              onClick={() => setChosen(list.id)}
+              className={listItemClass(list.id)}
+              onClick={() => setChosenID(list.id)}
             >
               <p>{list.title}</p>
             </li>
@@ -89,7 +98,7 @@ const AppendList = ({ album, onClose }) => {
             className="btn-save"
             size="medium"
             onClick={() => handleDispatch()}
-            disabled={!chosen}
+            disabled={!chosenListID || isLoading}
           />
         </div>
       </div>

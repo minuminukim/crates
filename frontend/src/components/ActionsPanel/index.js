@@ -4,6 +4,12 @@ import ReviewActions from './ReviewActions';
 import ListActions from './ListActions';
 import ListenActions from './ListenActions';
 import AppendListModal from './AppendListModal';
+import PostReviewPanel from './PostReviewPanel';
+import EditReviewPanel from './EditReviewPanel';
+import AppendListPanel from './AppendListPanel';
+import DeleteReviewPanel from './DeleteReviewPanel';
+import LoginPanel from './LoginPanel';
+import RatingPanel from './RatingPanel';
 
 export {
   ActionsRow,
@@ -12,4 +18,10 @@ export {
   ListActions,
   ListenActions,
   AppendListModal,
+  EditReviewPanel,
+  DeleteReviewPanel,
+  LoginPanel,
+  RatingPanel,
+  PostReviewPanel,
+  AppendListPanel,
 };

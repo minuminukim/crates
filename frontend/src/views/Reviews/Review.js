@@ -44,13 +44,6 @@ const Review = () => {
     );
   }, [dispatch, reviewID]);
 
-  const handleDelete = () => {
-    dispatch(deleteReview(+reviewID, user?.id)).then(
-      () => history.push('/'),
-      (error) => console.error('Error deleting review', error)
-    );
-  };
-
   // return null when review doesn't exist after dispatching a delete action
   return !review
     ? null
@@ -66,7 +59,7 @@ const Review = () => {
             <CommentSection />
           </section>
           <section className="review-page-right">
-            {user ? <ReviewActions onDelete={handleDelete} /> : <LoginPanel />}
+            {user ? <ReviewActions /> : <LoginPanel />}
           </section>
         </div>
       );
