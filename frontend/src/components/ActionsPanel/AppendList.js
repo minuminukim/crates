@@ -35,6 +35,13 @@ const AppendList = ({ album }) => {
 
   const handleDispatch = () => {
     setErrors([]);
+    const list = lists.find(({ id }) => id === chosenListID);
+    const isntUnique = list.albums.some((albumID) => albumID === album.id);
+    if (isntUnique) {
+      setErrors(['Albums in a list must be unique.']);
+      return;
+    }
+
     const payload = {
       listID: chosenListID,
       albumID: album.id,
@@ -65,6 +72,16 @@ const AppendList = ({ album }) => {
 
   const listItemClass = (id) =>
     chosenListID === id ? `user-lists-item chosen` : `user-lists-item`;
+
+  const chooseList = (listID, albumIDs) => {
+    console.log('listID', albumIDs);
+    const isntUnique = albumIDs.some((id) => id === listID);
+    if (isntUnique) {
+      setErrors(['Albums in a list must be unique.']);
+    } else {
+      setChosenID(listID);
+    }
+  };
 
   return (
     !isLoading && (
@@ -98,7 +115,7 @@ const AppendList = ({ album }) => {
             className="btn-save"
             size="medium"
             onClick={() => handleDispatch()}
-            disabled={!chosenListID || isLoading}
+            disabled={!chosenListID || isLoading || errors.length}
           />
         </div>
       </div>

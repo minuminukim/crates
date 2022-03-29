@@ -14,13 +14,13 @@ const RatingPanel = ({ albumID }) => {
     if (!userID) return 0;
 
     // Sort in descending order because we want the most recent rating
-    const reviewIDs = state.users[userID].reviews
+    const foundID = state.users[userID].reviews
       ?.slice()
-      .sort((a, b) => b - a);
-    const foundID = reviewIDs.find((id) => {
-      const current = state.reviews.items[id];
-      return current?.albumID === review.albumID;
-    });
+      .sort((a, b) => b - a)
+      .find((id) => {
+        const current = state.reviews.items[id];
+        return current?.albumID === review.albumID;
+      });
 
     return foundID ? state.reviews.items[foundID].rating : 0;
   });
