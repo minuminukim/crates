@@ -49,7 +49,7 @@ const usersReducer = (state = {}, action) => {
         return state;
       }
 
-      const previousAlbums = state[action.userID].albums;
+      const previousAlbums = state[action.userID]?.albums || [];
       const mapped = mapObjectIDs(action.albums);
       const unique = [...new Set([...previousAlbums, ...mapped])];
 

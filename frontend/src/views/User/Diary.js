@@ -15,19 +15,19 @@ const Diary = () => {
   const sessionUser = useSelector((state) => state.session.user);
 
   const mostRecentlyListened = useSelector((state) => {
-    return [...reviewIDs]
-      .sort((a, b) => {
-        const left = state.reviews.items[a];
-        const right = state.reviews.items[b];
-        return new Date(right.listenedDate) - new Date(left.listenedDate);
-      })
+    if (!reviewIDs) return [];
+    return [...reviewIDs].sort((a, b) => {
+      const left = state.reviews.items[a];
+      const right = state.reviews.items[b];
+      return new Date(right.listenedDate) - new Date(left.listenedDate);
+    });
   });
 
   useEffect(() => {
-    if (reviewIDs) {
-      setLoading(false);
-      return;
-    }
+    // if (reviewIDs) {
+    //   setLoading(false);
+    //   return;
+    // }
     dispatch(fetchReviewsByUserID(+userID))
       .then(() => setLoading(false))
       .catch(async (res) => {
@@ -35,7 +35,7 @@ const Diary = () => {
           history.push('/not-found');
         }
       });
-  }, [dispatch, userID, reviewIDs]);
+  }, [dispatch, userID, history]);
 
   return (
     !loading && (

@@ -35,12 +35,16 @@ const AppendList = ({ album }) => {
 
   const handleDispatch = () => {
     setErrors([]);
-    const list = lists.find(({ id }) => id === chosenListID);
-    const isntUnique = list.albums.some((albumID) => albumID === album.id);
-    if (isntUnique) {
-      setErrors(['Albums in a list must be unique.']);
-      return;
-    }
+    // TODO: figure out z-index on error messages; state is updating as normal
+    // but the messages aren't appearing over modal
+    
+    // const list = lists.find(({ id }) => id === chosenListID);
+    // const isntUnique = list.albums.some(({id}) => id === album.id);
+    // if (isntUnique) {
+    //   setErrors(['Albums in a list must be unique.']);
+    //   console.log('errors', errors);
+    //   return;
+    // }
 
     const payload = {
       listID: chosenListID,
@@ -65,7 +69,8 @@ const AppendList = ({ album }) => {
       .catch(async (res) => {
         const data = await res.json();
         if (data && data.errors) {
-          return setErrors(data.errors);
+          setErrors(data.errors);
+          setIsLoading(false);
         }
       });
   };
@@ -73,53 +78,45 @@ const AppendList = ({ album }) => {
   const listItemClass = (id) =>
     chosenListID === id ? `user-lists-item chosen` : `user-lists-item`;
 
-  const chooseList = (listID, albumIDs) => {
-    console.log('listID', albumIDs);
-    const isntUnique = albumIDs.some((id) => id === listID);
-    if (isntUnique) {
-      setErrors(['Albums in a list must be unique.']);
-    } else {
-      setChosenID(listID);
-    }
-  };
-
   return (
-    !isLoading && (
-      <div className="action-panel append-list">
-        <ErrorMessages success={message} errors={errors} />
-        <div className="panel-header">
-          <h1 className="panel-heading">Add '{album.title}' to lists</h1>
-        </div>
-        <ul className="user-lists">
-          <li className="new-list user-lists-item">
-            <Link to={{ pathname: '/lists/new', state: { data: album } }}>
-              <span className="append-list-icon">
-                <AiOutlinePlus />
-              </span>
-              New list...
-            </Link>
-          </li>
-          {lists.map((list, i) => (
-            <li
-              key={`list-${i}`}
-              className={listItemClass(list.id)}
-              onClick={() => setChosenID(list.id)}
-            >
-              <p>{list.title}</p>
+    <>
+      <ErrorMessages success={message} errors={errors} />
+      {!isLoading && (
+        <div className="action-panel append-list">
+          <div className="panel-header">
+            <h1 className="panel-heading">Add '{album.title}' to lists</h1>
+          </div>
+          <ul className="user-lists">
+            <li className="new-list user-lists-item">
+              <Link to={{ pathname: '/lists/new', state: { data: album } }}>
+                <span className="append-list-icon">
+                  <AiOutlinePlus />
+                </span>
+                New list...
+              </Link>
             </li>
-          ))}
-        </ul>
-        <div className="action-panel-footer">
-          <Button
-            label="ADD"
-            className="btn-save"
-            size="medium"
-            onClick={() => handleDispatch()}
-            disabled={!chosenListID || isLoading || errors.length}
-          />
+            {lists.map((list, i) => (
+              <li
+                key={`list-${i}`}
+                className={listItemClass(list.id)}
+                onClick={() => setChosenID(list.id)}
+              >
+                <p>{list.title}</p>
+              </li>
+            ))}
+          </ul>
+          <div className="action-panel-footer">
+            <Button
+              label="ADD"
+              className="btn-save"
+              size="medium"
+              onClick={() => handleDispatch()}
+              disabled={!chosenListID || isLoading}
+            />
+          </div>
         </div>
-      </div>
-    )
+      )}
+    </>
   );
 };
 

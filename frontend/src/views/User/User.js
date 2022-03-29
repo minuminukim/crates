@@ -12,29 +12,38 @@ import Backlog from '../Backlog';
 import ReviewsList from '../../components/ReviewsList';
 import { UserLists, UserNavigation, Diary, UserAlbums, Profile } from '.';
 import './User.css';
+import { fetchReviewsByUserID } from '../../store/reviewsReducer';
 
 const User = () => {
   const { userID } = useParams();
   const { path } = useRouteMatch();
   const dispatch = useDispatch();
   const user = useSelector((state) => state.users[userID]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const history = useHistory();
 
-  useEffect(() => {
-    if (user) {
-      setLoading(false);
-      return;
-    }
+  // useEffect(() => {
+  //   // if (user) {
+  //   //   if (!user.reviews) {
+  //   //     setLoading(true);
+  //   //     dispatch(fetchReviewsByUserID(+userID))
+  //   //       .then(() => setLoading(false))
+  //   //       .catch((error) =>
+  //   //         console.log(`Error fetching user ${userID} reviews`, error)
+  //   //       );
+  //   //   }
+  //   //   setLoading(false);
+  //   //   return;
+  //   // } else {
 
-    dispatch(fetchSingleUser(+userID))
-      .then(() => setLoading(false))
-      .catch((err) => {
-        if (err && err.status === 404) {
-          history.push('/not-found');
-        }
-      });
-  }, [dispatch, userID]);
+  //   dispatch(fetchSingleUser(+userID))
+  //     .then(() => setLoading(false))
+  //     .catch((err) => {
+  //       if (err && err.status === 404) {
+  //         history.push('/not-found');
+  //       }
+  //     });
+  // }, [dispatch, userID]);
 
   return (
     !loading && (

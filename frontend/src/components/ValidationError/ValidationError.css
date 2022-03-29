@@ -2,6 +2,7 @@ ul.validation-errors {
   position: fixed;
   top: 0;
   left: 0;
+  z-index: 1001;
 }
 
 .success-message-alert,
@@ -20,14 +21,14 @@ ul.validation-errors {
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 12;
+  /* z-index: 1001; */
 }
 
 .success-container {
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 12;
+  z-index: 1001;
 }
 
 .success-message-alert {

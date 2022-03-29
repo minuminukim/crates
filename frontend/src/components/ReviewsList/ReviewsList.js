@@ -14,8 +14,10 @@ const ReviewsList = ({ className = null }) => {
   // Select and sort depending on the current location:
   const mostRecentlyListened = useSelector((state) => {
     const reviewIDs = userID
-      ? state.users[userID].reviews
+      ? state.users[userID]?.reviews
       : state.reviews.reviewIDs;
+
+    if (!reviewIDs) return [];
 
     return [...reviewIDs].sort((a, b) => {
       const left = state.reviews.items[a];
