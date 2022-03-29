@@ -46,7 +46,7 @@ router.get(
   asyncHandler(async (req, res, next) => {
     const reviewID = +req.params.id;
     const comments = await Comment.findAll({
-      where: reviewID,
+      where: { reviewID: reviewID },
       include: { model: User, as: 'user' },
     });
 

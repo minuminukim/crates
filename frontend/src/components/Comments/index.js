@@ -5,6 +5,7 @@ import CommentField from './CommentField';
 import Signature from './Signature';
 import EditCommentModal from './EditCommentModal';
 import CommentIcon from './CommentIcon';
+import DeleteCommentIcon from './DeleteCommentIcon';
 
 export {
   CommentSection,
@@ -14,4 +15,5 @@ export {
   CommentField,
   EditCommentModal,
   CommentIcon,
+  DeleteCommentIcon,
 };

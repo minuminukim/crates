@@ -73,15 +73,19 @@ export const deleteComment = (commentID, reviewID) => async (dispatch) => {
 const commentsReducer = (state = {}, action) => {
   switch (action.type) {
     case COMMENTS_LOADED:
-      const comments = action.comments.reduce((acc, comment) => {
-        const current = { ...comment };
-        delete current.user;
-        acc[comment.id] = current;
-        return acc;
-      }, {});
+      const comments = action.comments.reduce(
+        (acc, comment) => {
+          if (!acc[comment.id]) {
+            const current = { ...comment };
+            delete current.user;
+            acc[comment.id] = current;
+          }
+          return acc;
+        },
+        { ...state }
+      );
 
       return {
-        ...state,
         ...comments,
       };
 

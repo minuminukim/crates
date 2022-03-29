@@ -1,21 +1,32 @@
+import { useState } from 'react';
+import { useSelector } from 'react-redux';
 import { useModal } from '../../hooks';
 import { Modal } from '../../context/Modal';
 import { CommentForm } from '.';
+import CommentIcon from './CommentIcon';
 import './EditCommentModal.css';
 
-const EditCommentModal = ({ onEdit, body, commentID, children }) => {
+const EditCommentModal = ({ commentID }) => {
+  const body = useSelector((state) => state.comments[commentID]?.body);
   const { showModal, toggleModal } = useModal();
+  const [isHovering, setHovering] = useState(false);
 
   return (
     <>
-      {children(toggleModal)}
+      <CommentIcon
+        text="Edit Comment"
+        type="edit"
+        onClick={toggleModal}
+        onMouseOver={() => setHovering(true)}
+        onMouseOut={() => setHovering(false)}
+        showInfo={isHovering}
+      />
       {showModal && (
         <Modal onClose={toggleModal}>
           <CommentForm
             className="edit-comment-modal"
-            method="PUT"
+            isPost={false}
             toggle={toggleModal}
-            onSuccess={onEdit}
             initialBody={body}
             commentID={commentID}
           />
