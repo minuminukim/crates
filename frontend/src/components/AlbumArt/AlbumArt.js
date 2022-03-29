@@ -1,4 +1,4 @@
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import handleImageError from '../../utils/handleImageError';
 import './AlbumArt.css';
 
@@ -10,7 +10,7 @@ const AlbumArt = ({
   children,
 }) => {
   const album = useSelector((state) => state.albums.items[albumID]);
-  
+
   return (
     <>
       <div className={`album-art album-art-${size}`} style={style}>

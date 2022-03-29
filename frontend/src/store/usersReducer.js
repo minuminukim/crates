@@ -64,6 +64,10 @@ const usersReducer = (state = {}, action) => {
 
     // Event occurs when a user marks an album as 'listened'
     case ALBUM_ADDED:
+      if (!action.userID) {
+        return state;
+      }
+
       return {
         ...state,
         [action.userID]: {

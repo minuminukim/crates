@@ -2,9 +2,7 @@ import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchComments } from '../../store/commentsReducer';
-import { fetchSingleUser } from '../../store/usersReducer';
 import { Comment, CommentForm } from '.';
-import { sortByRecent } from '../../utils/sorts';
 import './Comment.css';
 
 const CommentSection = () => {
@@ -24,6 +22,10 @@ const CommentSection = () => {
         console.log(`Error fetching comments for review ${reviewID}`, error)
       );
   }, [reviewID, dispatch]);
+
+  if (loading || !commentIDs) {
+    return null;
+  }
 
   return (
     !loading &&

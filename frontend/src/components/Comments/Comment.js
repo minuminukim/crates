@@ -11,12 +11,12 @@ const Comment = ({ commentID }) => {
   return (
     <li className="comment">
       <Signature
-        userID={comment.userID}
+        userID={comment?.userID}
         commentID={commentID}
         reviewID={comment?.reviewID}
       />
       <div className="comment-body">
-        <p>{comment.body}</p>
+        <p>{comment?.body}</p>
       </div>
     </li>
   );

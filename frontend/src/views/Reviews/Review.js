@@ -2,14 +2,13 @@ import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams, useHistory } from 'react-router-dom';
 import { fetchSingleReview } from '../../store/reviewsReducer';
+import { fetchSingleAlbum } from '../../store/albumsReducer';
 import ReviewBody from './ReviewBody';
 import AlbumArt from '../../components/AlbumArt';
 import { ReviewActions } from '../../components/ActionsPanel';
-import { deleteReview } from '../../store/reviewsReducer';
 import { CommentSection } from '../../components/Comments';
 import LoginPanel from '../../components/ActionsPanel/LoginPanel';
 import './Review.css';
-import { fetchSingleAlbum } from '../../store/albumsReducer';
 
 const Review = () => {
   const dispatch = useDispatch();
@@ -17,7 +16,7 @@ const Review = () => {
   const { reviewID } = useParams();
   const review = useSelector((state) => state.reviews.items[reviewID]);
   const album = useSelector((state) => state.albums.items[review?.albumID]);
-  const user = useSelector((state) => state.session.user);
+  const isLoggedIn = useSelector((state) => state.session.user);
   const [isLoading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -59,7 +58,7 @@ const Review = () => {
             <CommentSection />
           </section>
           <section className="review-page-right">
-            {user ? <ReviewActions /> : <LoginPanel />}
+            {isLoggedIn ? <ReviewActions /> : <LoginPanel />}
           </section>
         </div>
       );
