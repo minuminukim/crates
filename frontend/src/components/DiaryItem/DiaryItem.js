@@ -1,15 +1,13 @@
 import { useParams, Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import './DiaryItem.css';
 import { formatDateDayMonthYear } from '../../utils/date-helpers';
 import { StarRatingReadOnly } from '../StarRating';
 import { BiMenuAltLeft } from 'react-icons/bi';
 import { BsArrowRepeat, BsFillCalendarFill } from 'react-icons/bs';
 import { MdModeEditOutline } from 'react-icons/md';
-import { useModal } from '../../hooks';
-import { Modal } from '../../context/Modal';
-import { EditReviewForm } from '../../views/Reviews';
 import { ArtWithOverlay } from '../AlbumArt';
+import { EditReviewModal } from '../../views/Reviews';
+import './DiaryItem.css';
 
 const DiaryItem = ({ reviewID }) => {
   const { userID } = useParams();
@@ -19,7 +17,6 @@ const DiaryItem = ({ reviewID }) => {
   const [day, month, year] = formatDateDayMonthYear(review?.listenedDate).split(
     ' '
   );
-  const { showModal, toggleModal } = useModal();
 
   return (
     <tr className="diary-item">
@@ -74,16 +71,11 @@ const DiaryItem = ({ reviewID }) => {
       {+userID === sessionUser?.id && (
         <td className="edit">
           <div className="entry-edit">
-            <MdModeEditOutline className="icon" onClick={toggleModal} />
-            {showModal && (
-              <Modal onClose={toggleModal}>
-                <EditReviewForm
-                  reviewID={reviewID}
-                  albumID={review?.albumID}
-                  onSuccess={toggleModal}
-                />
-              </Modal>
-            )}
+            <EditReviewModal reviewID={reviewID} albumID={review?.albumID}>
+              {(toggleEditModal) => (
+                <MdModeEditOutline className="icon" onClick={toggleEditModal} />
+              )}
+            </EditReviewModal>
           </div>
         </td>
       )}

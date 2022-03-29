@@ -1,55 +1,15 @@
-import { useSearch } from '../../hooks';
-import { SearchField } from '../../components/Search';
 import { useState } from 'react';
+import { useBacklog, useSearch } from '../../hooks';
+import { SearchField } from '../../components/Search';
 import { SearchItem } from '../../components/Search';
-import { useDispatch, useSelector } from 'react-redux';
-import { appendBacklog } from '../../store/backlogsReducer';
 import { ErrorMessages } from '../../components/ValidationError';
 
 const BacklogPanel = ({ userID }) => {
-  const dispatch = useDispatch();
-  const albumIDs = useSelector((state) => state.backlogs.items[userID]?.albums);
-  const albums = useSelector((state) => {
-    if (!albumIDs) return [];
-    return albumIDs.map((id) => state.albums.items[id]);
-  });
-
   const [showList, setShowList] = useState(false);
-  const [status, setStatus] = useState('idle');
-  const [errors, setErrors] = useState([]);
-  const [message, setMessage] = useState('');
-
   const { query, setQuery, results, searchErrors, isLoading } = useSearch();
+  const { message, errors, onAdd } = useBacklog(userID);
 
   const handleSearchChange = (e) => setQuery(e.target.value);
-
-  const onAdd = (album) => {
-    setStatus('pending');
-    setMessage('');
-    setErrors([]);
-
-    setStatus('pending');
-    const inBacklog = albums.some(
-      ({ spotifyID }) => spotifyID === album.spotifyID
-    );
-    if (inBacklog) {
-      setErrors(['Albums in a backlog must be unique.']);
-      setStatus('rejected');
-    } else {
-      dispatch(appendBacklog(album, +userID))
-        .then(() => {
-          setMessage(`You have added '${album.title}' to your backlog.`);
-          setStatus('fulfilled');
-        })
-        .catch(async (error) => {
-          setStatus('rejected');
-          const data = await error.json();
-          if (data && data.errors) {
-            setErrors([...errors, ...data.errors]);
-          }
-        });
-    }
-  };
 
   return (
     <div className="side-panel">

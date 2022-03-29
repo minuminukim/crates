@@ -12,7 +12,9 @@ const Diary = () => {
   const { userID } = useParams();
   const reviewIDs = useSelector((state) => state.users[userID]?.reviews);
   const [loading, setLoading] = useState(true);
-  const sessionUser = useSelector((state) => state.session.user);
+  const isSessionUser = useSelector(
+    (state) => state.session.user?.id === +userID
+  );
 
   const mostRecentlyListened = useSelector((state) => {
     if (!reviewIDs) return [];
@@ -65,7 +67,7 @@ const Diary = () => {
                 <th scope="col" className="review">
                   REVIEW
                 </th>
-                {sessionUser?.id === +userID && (
+                {isSessionUser && (
                   <th scope="col" className="edit">
                     EDIT
                   </th>

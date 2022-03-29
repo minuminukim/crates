@@ -6,15 +6,17 @@ import ActionsRow from './ActionsRow';
 // that doesn't yet exist in the store
 const PostReviewPanel = ({ album }) => {
   return (
-    <PostReviewModal album={album}>
-      {(togglePostModal) => (
-        <ActionsRow
-          label="Review or log..."
-          onClick={togglePostModal}
-          className="hover"
-        />
-      )}
-    </PostReviewModal>
+    <>
+      <PostReviewModal album={album}>
+        {(togglePostModal) => (
+          <ActionsRow
+            label="Review or log..."
+            onClick={togglePostModal}
+            className="hover"
+          />
+        )}
+      </PostReviewModal>
+    </>
   );
 };
 

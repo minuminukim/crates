@@ -12,4 +12,5 @@ export {
   EditReviewModal,
   PostReviewModal,
 };
+
 export default Review;

@@ -35,7 +35,7 @@ const EditReviewForm = ({ albumID, reviewID, onSuccess }) => {
       [e.target.id]: e.target.value,
     });
 
-  const handleCheckbox = (e) => {
+  const handleCheckbox = () => {
     setForm({
       ...form,
       isRelisten: !form.isRelisten,

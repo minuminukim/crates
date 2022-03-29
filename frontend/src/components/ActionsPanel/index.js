@@ -3,7 +3,6 @@ import AppendList from './AppendList';
 import ReviewActions from './ReviewActions';
 import ListActions from './ListActions';
 import ListenActions from './ListenActions';
-import AppendListModal from './AppendListModal';
 import PostReviewPanel from './PostReviewPanel';
 import EditReviewPanel from './EditReviewPanel';
 import AppendListPanel from './AppendListPanel';
@@ -17,7 +16,6 @@ export {
   ReviewActions,
   ListActions,
   ListenActions,
-  AppendListModal,
   EditReviewPanel,
   DeleteReviewPanel,
   LoginPanel,

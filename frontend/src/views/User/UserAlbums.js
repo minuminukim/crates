@@ -22,10 +22,10 @@ const UserAlbums = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // if (albumIDs) {
-    //   setLoading(false);
-    //   return;
-    // }
+    if (albumIDs) {
+      setLoading(false);
+      return;
+    }
 
     dispatch(fetchAlbumsByUserID(+userID)).then(
       () => setLoading(false),
