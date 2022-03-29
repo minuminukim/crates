@@ -24,17 +24,20 @@ const initialForm = {
 const ListForm = ({ isPost = true }) => {
   const dispatch = useDispatch();
   const history = useHistory();
+  const location = useLocation();
   const { listID } = useParams();
   const user = useSelector((state) => state.session?.user);
   const list = useSelector((state) => state.lists.items[listID]);
   const listAlbums = useSelector((state) => {
     if (!list) return;
-    return list.albums.map(({ id }) => state.albums.items[id]);
+    const albumIDs = list.isRanked
+      ? [...list.albums].sort((a, b) => a.listIndex - b.listIndex)
+      : list.albums;
+    return albumIDs.map(({ id }) => state.albums.items[id]);
   });
 
-  // an album was passed in as a prop when redirected
+  // An album was passed in as a prop on the location object when redirected
   // from the 'add to new list' action panel
-  const location = useLocation();
   const albumData = location.state?.data;
   const [form, setForm] = useState(initialForm);
   const [albums, setAlbums] = useState([]);
