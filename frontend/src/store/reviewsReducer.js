@@ -1,4 +1,6 @@
 import { csrfFetch } from './csrf';
+import { mapObjectIDs } from '../utils';
+
 import { USER_LOADED } from './usersReducer';
 import { SESSION_STARTED } from './session';
 import {
@@ -6,13 +8,14 @@ import {
   COMMENT_ADDED,
   COMMENT_REMOVED,
 } from './commentsReducer';
-import { mapObjectIDs } from '../utils';
 
+// =============== ACTION TYPES =================== //
 export const REVIEWS_LOADED = 'reviews/reviewsLoaded';
 export const REVIEW_ADDED = 'reviews/reviewAdded';
 const REVIEW_UPDATED = 'reviews/reviewUpdated';
 export const REVIEW_REMOVED = 'reviews/reviewDeleted';
 
+// =============== ACTION CREATORS =================== //
 const reviewsLoaded = (reviews) => ({
   type: REVIEWS_LOADED,
   reviews,
@@ -33,6 +36,8 @@ const reviewRemoved = (reviewID, userID) => ({
   reviewID,
   userID,
 });
+
+// =============== THUNKS =================== //
 
 export const fetchReviews = () => async (dispatch) => {
   const response = await csrfFetch(`/api/reviews`);
@@ -83,6 +88,26 @@ export const deleteReview = (reviewID, userID) => async (dispatch) => {
   dispatch(reviewRemoved(reviewID, userID));
   return response;
 };
+
+// =============== SELECTORS =================== //
+// Iterate over the session user's reviews to select the most recent rating
+// associated with an album
+export const selectRatingByAlbumAndUserIDs = (state, albumID, userID) => {
+  if (!userID) return 0;
+
+  const reviews = state.reviews.items;
+  const foundID = state.users[userID]?.reviews
+    ?.slice()
+    .sort((a, b) => b - a)
+    .find((id) => {
+      const review = reviews[id];
+      return review?.albumID === albumID;
+    });
+
+  return foundID ? reviews[foundID].rating : 0;
+};
+
+// =============== REDUCER =================== //
 const initialState = {
   items: {},
   reviewIDs: [],
