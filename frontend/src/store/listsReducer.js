@@ -1,5 +1,6 @@
 import { csrfFetch } from './csrf';
 import { mapObjectIDs } from '../utils';
+import { createSelector } from 'reselect';
 
 /********* ACTION TYPES ***********/
 export const LISTS_LOADED = 'lists/LISTS_LOADED';
@@ -96,8 +97,24 @@ export const deleteList = (listID, userID) => async (dispatch) => {
 };
 
 /********* SELECTORS ***********/
+export const selectLists = (state) => state.lists.items;
 
+export const selectListByID = (state, listID) => {
+  return state.lists.items[listID];
+};
 
+export const selectListAlbumsByID = createSelector(
+  [(state) => state.lists, (state, listID) => listID, (state) => state.albums],
+  (lists, listID, albums) => {
+    const list = lists.items[listID];
+    if (!list) return;
+    const sortedAlbums = list.isRanked
+      ? [...list.albums].sort((a, b) => a.listIndex - b.listIndex)
+      : list.albums;
+
+    return sortedAlbums.map(({ id }) => albums.items[id]);
+  }
+);
 
 const initialState = { items: {}, listIDs: [] };
 

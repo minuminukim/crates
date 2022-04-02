@@ -8,6 +8,7 @@ import Checkbox from '../../components/Checkbox';
 import DraggableList from '../../components/DraggableList/DraggableList';
 import areAllUnique from '../../utils/areAllUnique';
 import ListFormSearch from './ListFormSearch';
+import { selectListAlbumsByID } from '../../store/listsReducer';
 import './ListForm.css';
 import {
   createList,
@@ -26,16 +27,12 @@ const ListForm = ({ isPost = true }) => {
   const history = useHistory();
   const location = useLocation();
   const { listID } = useParams();
-  
+
   const user = useSelector((state) => state.session?.user);
   const list = useSelector((state) => state.lists.items[listID]);
-  const listAlbums = useSelector((state) => {
-    if (!list) return;
-    const albumIDs = list.isRanked
-      ? [...list.albums].sort((a, b) => a.listIndex - b.listIndex)
-      : list.albums;
-    return albumIDs.map(({ id }) => state.albums.items[id]);
-  });
+  const listAlbums = useSelector((state) =>
+    selectListAlbumsByID(state, listID)
+  );
 
   // An album was passed in as a prop on the location object when redirected
   // from the 'add to new list' action panel
