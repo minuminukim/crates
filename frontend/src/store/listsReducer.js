@@ -103,6 +103,19 @@ export const selectListByID = (state, listID) => {
   return state.lists.items[listID];
 };
 
+export const selectListsByUserID = createSelector(
+  [
+    (state) => state.lists.items,
+    (state) => state.users,
+    (_state, userID) => userID,
+  ],
+  (lists, users, userID) => {
+    const listIDs = users[userID]?.lists;
+    if (!listIDs) return null;
+    return listIDs.map((id) => lists[id]);
+  }
+);
+
 export const selectListAlbumsByID = createSelector(
   [(state) => state.lists, (_state, listID) => listID, (state) => state.albums],
   (lists, listID, albums) => {

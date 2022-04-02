@@ -1,11 +1,11 @@
-import FeedPost from '../../components/FeedPost';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
 import { fetchUserLists } from '../../store/listsReducer';
+import FeedPost from '../../components/FeedPost';
 import { Empty } from '.';
 import { ActionsRow } from '../../components/ActionsPanel';
 import './UserLists.css';
-import { useParams } from 'react-router-dom';
 
 // TODO: paging -- render 12 lists per
 const UserLists = () => {

@@ -1,7 +1,12 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 import { useHistory, Link } from 'react-router-dom';
-import { fetchUserLists, appendList } from '../../store/listsReducer';
+import {
+  fetchUserLists,
+  appendList,
+  selectListsByUserID,
+} from '../../store/listsReducer';
+
 import { ErrorMessages } from '../ValidationError';
 import { AiOutlinePlus } from 'react-icons/ai';
 import './AppendList.css';
@@ -11,11 +16,7 @@ const AppendList = ({ album }) => {
   const dispatch = useDispatch();
   const history = useHistory();
   const userID = useSelector((state) => state.session.user.id);
-  const lists = useSelector((state) => {
-    const listIDs = state.users[userID]?.lists;
-    if (!listIDs) return [];
-    return listIDs.map((id) => state.lists.items[id]);
-  });
+  const lists = useSelector((state) => selectListsByUserID(state, userID));
 
   const [isLoading, setIsLoading] = useState(true);
   const [chosenListID, setChosenID] = useState(null);
@@ -37,7 +38,7 @@ const AppendList = ({ album }) => {
     setErrors([]);
     // TODO: figure out z-index on error messages; state is updating as normal
     // but the messages aren't appearing over modal
-    
+
     // const list = lists.find(({ id }) => id === chosenListID);
     // const isntUnique = list.albums.some(({id}) => id === album.id);
     // if (isntUnique) {
@@ -95,15 +96,16 @@ const AppendList = ({ album }) => {
                 New list...
               </Link>
             </li>
-            {lists.map((list, i) => (
-              <li
-                key={`list-${i}`}
-                className={listItemClass(list.id)}
-                onClick={() => setChosenID(list.id)}
-              >
-                <p>{list.title}</p>
-              </li>
-            ))}
+            {lists &&
+              lists.map((list, i) => (
+                <li
+                  key={`list-${i}`}
+                  className={listItemClass(list.id)}
+                  onClick={() => setChosenID(list.id)}
+                >
+                  <p>{list.title}</p>
+                </li>
+              ))}
           </ul>
           <div className="action-panel-footer">
             <Button
