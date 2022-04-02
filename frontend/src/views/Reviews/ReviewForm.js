@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { postReview } from '../../store/reviewsReducer';
@@ -6,22 +6,27 @@ import AlbumArt from '../../components/AlbumArt';
 import { InputField, InputLabel } from '../../components/InputField';
 import { ErrorMessages } from '../../components/ValidationError';
 import StarRating from '../../components/StarRating';
-import { AiOutlineClose, AiOutlineCheck } from 'react-icons/ai';
+import { AiOutlineClose } from 'react-icons/ai';
 import { toDateString } from '../../utils/date-helpers';
+import { SaveButton } from '../../components/Button';
+import Checkbox from '../../components/Checkbox';
 import './ReviewForm.css';
 
 const ReviewForm = ({ album = null, onSuccess = null, onClose = null }) => {
   const dispatch = useDispatch();
   const history = useHistory();
   const { user } = useSelector((state) => state.session);
+
   const [body, setBody] = useState('');
   const [rating, setRating] = useState(0);
   const [isRelisten, setIsRelisten] = useState(false);
   const [errors, setErrors] = useState({});
   const today = toDateString();
   const [listenedDate, setListenedDate] = useState(today);
-  const hiddenInput = useRef(null);
   const [message, setMessage] = useState('');
+  const [inProgress, setInProgress] = useState(false);
+
+  const onStarChange = (star) => setRating(star);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -40,11 +45,13 @@ const ReviewForm = ({ album = null, onSuccess = null, onClose = null }) => {
       releaseYear: album.releaseYear,
     };
 
-    return dispatch(postReview(params))
+    setInProgress(true);
+    dispatch(postReview(params))
       .then((data) => {
         setMessage(
           `You have successfully created a review for '${album.title}' `
         );
+        setInProgress(false);
         onSuccess(); // close modal
         history.push(`/reviews/${data.id}`);
       })
@@ -52,11 +59,14 @@ const ReviewForm = ({ album = null, onSuccess = null, onClose = null }) => {
         const data = await res.json();
         if (data && data.errors) {
           setErrors(Object.values(data.errors));
+          setInProgress(false);
         }
       });
   };
 
-  const onStarChange = (star) => setRating(star);
+  const ratingLabel = (
+    <p className="rating-label">{`${rating / 2} out of 5`}</p>
+  );
 
   return (
     <div>
@@ -87,19 +97,9 @@ const ReviewForm = ({ album = null, onSuccess = null, onClose = null }) => {
             </div>
           </div>
           <div className="form-row checkbox">
-            <div
-              className="replace-checkbox"
-              onClick={() => hiddenInput.current.click()}
-            >
-              {isRelisten && <AiOutlineCheck />}
-            </div>
-            <input
-              type="checkbox"
+            <Checkbox
               value={isRelisten}
-              checked={isRelisten}
-              ref={hiddenInput}
               onChange={() => setIsRelisten(!isRelisten)}
-              hidden
             />
             <label>I've listened to this album before</label>
           </div>
@@ -126,9 +126,7 @@ const ReviewForm = ({ album = null, onSuccess = null, onClose = null }) => {
             <div className="form-row rating-row">
               <div className="label-row">
                 <InputLabel label="Rating" required />
-                {rating > 0 && (
-                  <p className="rating-label">{`${rating / 2} out of 5`}</p>
-                )}
+                {rating > 0 && ratingLabel}
               </div>
               <InputField
                 type="number"
@@ -140,9 +138,7 @@ const ReviewForm = ({ album = null, onSuccess = null, onClose = null }) => {
               <StarRating handleForm={onStarChange} className="form-star" />
             </div>
             <div className="form-row">
-              <button className="submit-button" type="submit">
-                SAVE
-              </button>
+              <SaveButton label="SAVE" disabled={inProgress} />
             </div>
           </div>
         </section>

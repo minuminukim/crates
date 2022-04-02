@@ -34,14 +34,15 @@ const ListForm = ({ isPost = true }) => {
     selectListAlbumsByID(state, listID)
   );
 
-  // An album was passed in as a prop on the location object when redirected
-  // from the 'add to new list' action panel
-  const albumData = location.state?.data;
   const [form, setForm] = useState(initialForm);
   const [albums, setAlbums] = useState([]);
   const [errors, setErrors] = useState([]);
   const [message, setMessage] = useState('');
   const [isUnauthorized, setUnauthorized] = useState(false);
+
+  // An album was passed in as a prop on the location object when redirected
+  // from the 'add to new list' action panel
+  const albumData = location.state?.data;
 
   useEffect(() => {
     if (isPost && albumData) {
@@ -70,7 +71,7 @@ const ListForm = ({ isPost = true }) => {
     dispatch(fetchSingleList(+listID)).catch((error) =>
       console.log('error fetching list', error)
     );
-  }, [listID, list, history, dispatch, user.id]);
+  }, [listID, list, history, dispatch, user.id, listAlbums]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -101,11 +102,8 @@ const ListForm = ({ isPost = true }) => {
     dispatch(thunk(payload))
       .then((list) => {
         setMessage(`Your list '${list.title}' has been saved successfully.`);
-        // return list.id;
         setTimeout(() => history.push(`/lists/${list.id}`), 3000);
       })
-      // .then((listID) =>
-      // )
       .catch(async (res) => {
         const data = await res.json();
         if (data && data.errors) {

@@ -12,8 +12,8 @@ const Diary = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const { userID } = useParams();
+
   const reviewIDs = useSelector((state) => state.users[userID]?.reviews);
-  const [loading, setLoading] = useState(true);
   const isSessionUser = useSelector(
     (state) => state.session.user?.id === +userID
   );
@@ -21,11 +21,9 @@ const Diary = () => {
     selectMostRecentReviews(state, reviewIDs)
   );
 
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
-    // if (reviewIDs) {
-    //   setLoading(false);
-    //   return;
-    // }
     dispatch(fetchReviewsByUserID(+userID))
       .then(() => setLoading(false))
       .catch(async (res) => {
