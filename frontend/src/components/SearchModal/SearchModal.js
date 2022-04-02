@@ -5,7 +5,7 @@ import { AiOutlineClose } from 'react-icons/ai';
 import './SearchModal.css';
 
 const SearchModal = ({ closeSearch = null }) => {
-  const { query, setQuery, results, isLoading, searchErrors } = useSearch();
+  const { query, setQuery, results, searchErrors } = useSearch();
   const [showList, setShowList] = useState(false);
   const handleChange = (e) => setQuery(e.target.value);
 

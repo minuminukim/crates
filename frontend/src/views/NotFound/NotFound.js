@@ -1,5 +1,4 @@
 import error from '../../images/garage.jpeg';
-import { Link } from 'react-router-dom';
 import handleImageError from '../../utils/handleImageError';
 import './NotFound.css';
 

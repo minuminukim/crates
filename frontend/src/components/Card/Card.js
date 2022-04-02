@@ -29,7 +29,7 @@ const Card = ({ reviewID }) => {
     }
     setLoading(false);
     return;
-  }, [album, review?.albumID]);
+  }, [album, review?.albumID, dispatch]);
 
   useEffect(() => {});
 

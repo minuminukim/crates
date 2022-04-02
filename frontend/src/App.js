@@ -22,13 +22,12 @@ function App() {
 
   useEffect(() => {
     dispatch(restoreUser())
-      // .then(() => dispatch(fetchAlbums()))
       .then(() => setIsLoaded(true))
       .catch(() => {
         setIsLoaded(true);
         history.push('/error');
       });
-  }, [dispatch]);
+  }, [dispatch, history]);
 
   return (
     <>

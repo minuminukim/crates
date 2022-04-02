@@ -1,9 +1,8 @@
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { ArtWithOverlay } from '../../components/AlbumArt';
 import { useState } from 'react';
 import { DeleteIcon } from '../../components/ActionsPanel/ActionIcons';
-import { removeFromBacklog } from '../../store/backlogsReducer';
 import { ErrorMessages } from '../../components/ValidationError';
 import { useBacklog } from '../../hooks';
 

@@ -29,7 +29,7 @@ const useListen = (albumID) => {
         console.log('error fetching user', error);
       }
     );
-  }, [userAlbums, userID]);
+  }, [userAlbums, userID, dispatch]);
 
   const onListen = () => {
     setErrors([]);

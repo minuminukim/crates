@@ -27,7 +27,6 @@ export const fetchBacklogByUserID = (userID) => async (dispatch) => {
   const response = await csrfFetch(`/api/users/${userID}/backlog`);
   const { backlog } = await response.json();
   dispatch(backlogLoaded(backlog, userID));
-  return backlog;
 };
 
 export const appendBacklog = (album, userID) => async (dispatch) => {

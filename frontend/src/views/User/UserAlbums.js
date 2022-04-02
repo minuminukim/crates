@@ -31,7 +31,7 @@ const UserAlbums = () => {
       () => setLoading(false),
       (error) => console.log('error fetching user albums', error)
     );
-  }, [dispatch, userID]);
+  }, [dispatch, userID, albumIDs]);
 
   return (
     <div className="user-albums-content">

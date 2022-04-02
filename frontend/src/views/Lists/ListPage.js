@@ -9,7 +9,6 @@ import { useModal } from '../../hooks';
 import { Modal } from '../../context/Modal';
 import WarningMessage from '../../components/WarningMessage';
 import { FaUserCircle } from 'react-icons/fa';
-import { fetchSingleUser } from '../../store/usersReducer';
 import { Link } from 'react-router-dom';
 import { dateTimeToString } from '../../utils/date-helpers';
 import './ListPage.css';

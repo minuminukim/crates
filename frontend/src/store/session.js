@@ -1,5 +1,4 @@
 import { csrfFetch } from './csrf.js';
-import { addUser } from './usersReducer.js';
 
 export const SESSION_STARTED = 'session/sessionStarted';
 const SESSION_ENDED = 'session/sessionEnded';

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { useParams, useHistory, useLocation } from 'react-router-dom';
+import { useParams, useHistory, useLocation, Redirect } from 'react-router-dom';
 import { InputField, InputLabel } from '../../components/InputField';
 import { SaveButton, CancelButton } from '../../components/Button';
 import { ErrorMessages } from '../../components/ValidationError';
@@ -43,6 +43,7 @@ const ListForm = ({ isPost = true }) => {
   const [albums, setAlbums] = useState([]);
   const [errors, setErrors] = useState([]);
   const [message, setMessage] = useState('');
+  const [isUnauthorized, setUnauthorized] = useState(false);
 
   useEffect(() => {
     if (isPost && albumData) {
@@ -56,8 +57,9 @@ const ListForm = ({ isPost = true }) => {
     if (list) {
       const { title, description, isRanked, userID } = list;
       if (userID !== user.id) {
-        return history.push('/unauthorized');
+        setUnauthorized(true);
       }
+
       setForm({
         title,
         description,
@@ -70,7 +72,7 @@ const ListForm = ({ isPost = true }) => {
     dispatch(fetchSingleList(+listID)).catch((error) =>
       console.log('error fetching list', error)
     );
-  }, [listID, list, history, dispatch]);
+  }, [listID, list, history, dispatch, listAlbums, user.id]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -124,6 +126,10 @@ const ListForm = ({ isPost = true }) => {
   const handleCheckbox = () => setForm({ ...form, isRanked: !form.isRanked });
   const updateAlbums = (next) => setAlbums(next);
   const updateErrors = (error) => setErrors(error);
+
+  if (isUnauthorized) {
+    return <Redirect to="/unauthorized" />;
+  }
 
   return (
     <div className="page-container list-form-page">

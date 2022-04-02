@@ -13,7 +13,7 @@ const DraggableList = ({ albums, updateAlbums, isRanked = false }) => {
 
       updateAlbums(updated);
     },
-    [albums]
+    [albums, updateAlbums]
   );
 
   const onRemoveItem = useCallback(
@@ -25,7 +25,7 @@ const DraggableList = ({ albums, updateAlbums, isRanked = false }) => {
 
       updateAlbums(updated);
     },
-    [albums]
+    [albums, updateAlbums]
   );
 
   return (

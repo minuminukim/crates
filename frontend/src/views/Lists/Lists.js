@@ -5,7 +5,6 @@ import { fetchLists } from '../../store/listsReducer';
 import ListCard from '../../components/ListCard';
 import Button from '../../components/Button';
 import FeedPost from '../../components/FeedPost';
-import { sortByRecent } from '../../utils/sorts';
 import './Lists.css';
 
 const Lists = () => {

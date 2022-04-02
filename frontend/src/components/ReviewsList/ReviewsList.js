@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchReviews } from '../../store/reviewsReducer';
-import { sortByRecent, sortByDateListened } from '../../utils/sorts';
 import ReviewListItem from '../ReviewListItem';
 import { Empty } from '../../views/User';
 import './ReviewsList.css';
