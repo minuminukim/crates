@@ -1,11 +1,13 @@
 import { csrfFetch } from './csrf';
 import { mapObjectIDs } from '../utils';
 
+/********* ACTION TYPES ***********/
 export const LISTS_LOADED = 'lists/LISTS_LOADED';
 export const LIST_ADDED = 'lists/LIST_ADDED';
 export const LIST_UPDATED = 'lists/LIST_UPDATED';
 export const LIST_REMOVED = 'lists/LIST_REMOVED';
 
+/********* ACTION CREATORS ***********/
 const listsLoaded = (lists, userID) => ({
   type: LISTS_LOADED,
   lists,
@@ -28,6 +30,7 @@ const listRemoved = (listID, userID) => ({
   userID,
 });
 
+/********* THUNKS ***********/
 export const fetchLists = () => async (dispatch) => {
   const response = await csrfFetch(`/api/lists`);
   const { lists } = await response.json();
@@ -49,13 +52,6 @@ export const fetchUserLists = (userID) => async (dispatch) => {
   return lists;
 };
 
-// let params = {
-//   userID,
-//   title,
-//   description,
-//   isRanked,
-//   albums: {...}
-// }
 export const createList = (params) => async (dispatch) => {
   const response = await csrfFetch(`/api/lists/`, {
     method: 'POST',
@@ -98,6 +94,10 @@ export const deleteList = (listID, userID) => async (dispatch) => {
   dispatch(listRemoved(listID, userID));
   return response;
 };
+
+/********* SELECTORS ***********/
+
+
 
 const initialState = { items: {}, listIDs: [] };
 

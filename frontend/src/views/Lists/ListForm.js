@@ -26,6 +26,7 @@ const ListForm = ({ isPost = true }) => {
   const history = useHistory();
   const location = useLocation();
   const { listID } = useParams();
+  
   const user = useSelector((state) => state.session?.user);
   const list = useSelector((state) => state.lists.items[listID]);
   const listAlbums = useSelector((state) => {
@@ -72,7 +73,7 @@ const ListForm = ({ isPost = true }) => {
     dispatch(fetchSingleList(+listID)).catch((error) =>
       console.log('error fetching list', error)
     );
-  }, [listID, list, history, dispatch, listAlbums, user.id]);
+  }, [listID, list, history, dispatch, user.id]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -100,14 +101,14 @@ const ListForm = ({ isPost = true }) => {
 
     const thunk = isPost ? createList : editList;
 
-    return dispatch(thunk(payload))
+    dispatch(thunk(payload))
       .then((list) => {
         setMessage(`Your list '${list.title}' has been saved successfully.`);
-        return list.id;
+        // return list.id;
+        setTimeout(() => history.push(`/lists/${list.id}`), 3000);
       })
-      .then((listID) =>
-        setTimeout(() => history.push(`/lists/${listID}`), 3000)
-      )
+      // .then((listID) =>
+      // )
       .catch(async (res) => {
         const data = await res.json();
         if (data && data.errors) {
