@@ -104,7 +104,7 @@ export const selectListByID = (state, listID) => {
 };
 
 export const selectListAlbumsByID = createSelector(
-  [(state) => state.lists, (state, listID) => listID, (state) => state.albums],
+  [(state) => state.lists, (_state, listID) => listID, (state) => state.albums],
   (lists, listID, albums) => {
     const list = lists.items[listID];
     if (!list) return;
@@ -116,6 +116,7 @@ export const selectListAlbumsByID = createSelector(
   }
 );
 
+/********* REDUCER ***********/
 const initialState = { items: {}, listIDs: [] };
 
 const listsReducer = (state = initialState, action) => {

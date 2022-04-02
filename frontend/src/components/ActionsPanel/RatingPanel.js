@@ -3,11 +3,11 @@ import ActionsRow from './ActionsRow';
 import StarRating from '../StarRating';
 import { useSelector } from 'react-redux';
 
-const RatingPanel = () => {
+const RatingPanel = ({ albumID }) => {
   const { reviewID } = useParams();
   const userID = useSelector((state) => state.session.user?.id);
   const review = useSelector((state) => state.reviews.items[reviewID]);
-
+  
   // Iterate over the current user's reviews to find most recent
   // rating associated with the current album
   const rating = useSelector((state) => {

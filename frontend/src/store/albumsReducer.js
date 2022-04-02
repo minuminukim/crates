@@ -1,24 +1,22 @@
+import { createSelector } from 'reselect';
 import { csrfFetch } from './csrf';
+
 import { REVIEWS_LOADED, REVIEW_ADDED } from './reviewsReducer';
+import { SESSION_STARTED } from './session';
+import { LISTS_LOADED, LIST_ADDED, LIST_UPDATED } from './listsReducer';
+import { USER_LOADED } from './usersReducer';
 import {
   BACKLOG_LOADED,
   BACKLOG_UPDATED,
   removeFromBacklog,
 } from './backlogsReducer';
 
-import { SESSION_STARTED } from './session';
-
-import { LISTS_LOADED, LIST_ADDED, LIST_UPDATED } from './listsReducer';
-import { USER_LOADED } from './usersReducer';
-
+/********** ACTION TYPES *************/
 export const ALBUMS_LOADED = 'albums/albumsLoaded';
 export const ALBUM_ADDED = 'albums/albumAdded';
 export const ALBUM_REMOVED = 'albums/albumRemoved';
 
-const initialState = {
-  items: {},
-};
-
+/********** ACTION CREATORS *************/
 const albumsLoaded = (albums, userID) => ({
   type: ALBUMS_LOADED,
   albums,
@@ -37,6 +35,7 @@ export const albumRemoved = (albumID, userID) => ({
   userID,
 });
 
+/********** THUNKS *************/
 export const fetchAlbums = () => async (dispatch) => {
   const response = await csrfFetch(`/api/albums`);
   const { albums } = await response.json();
@@ -97,6 +96,29 @@ export const searchAlbums = (query) => async (dispatch) => {
   const { albums } = await response.json();
   dispatch(albumsLoaded(albums));
   return albums;
+};
+
+/*********** SELECTORS *************/
+export const selectUserAlbumsSortedByRelease = createSelector(
+  [
+    (state) => state.albums.items,
+    (state) => state.users,
+    (_state, userID) => userID,
+  ],
+  (albums, users, userID) => {
+    const albumIDs = users[userID]?.albums;
+    if (!albumIDs) return null;
+    else if (albumIDs.length === 0) return albumIDs;
+    return [...albumIDs].sort((leftID, rightID) => {
+      const left = albums[leftID];
+      const right = albums[rightID];
+      return right.releaseYear - left.releaseYear;
+    });
+  }
+);
+
+const initialState = {
+  items: {},
 };
 
 const albumsReducer = (state = initialState, action) => {
