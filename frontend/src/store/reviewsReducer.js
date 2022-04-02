@@ -1,6 +1,6 @@
+import { createSelector } from 'reselect';
 import { csrfFetch } from './csrf';
 import { mapObjectIDs } from '../utils';
-
 import { USER_LOADED } from './usersReducer';
 import { SESSION_STARTED } from './session';
 import {
@@ -90,8 +90,21 @@ export const deleteReview = (reviewID, userID) => async (dispatch) => {
 };
 
 // =============== SELECTORS =================== //
-// Iterate over the session user's reviews to select the most recent rating
-// associated with an album
+
+// Returns reviews in descending order of their logged dates
+export const selectMostRecentReviews = createSelector(
+  [(state) => state.reviews.items, (_state, reviewIDs) => reviewIDs],
+  (reviews, reviewIDs) => {
+    if (!reviewIDs) return [];
+    return [...reviewIDs].sort((leftID, rightID) => {
+      const left = reviews[leftID];
+      const right = reviews[rightID];
+      return new Date(right.listenedDate) - new Date(left.listenedDate);
+    });
+  }
+);
+
+// Return a user's most recent review rating for an album if it exists
 export const selectRatingByAlbumAndUserIDs = (state, albumID, userID) => {
   if (!userID) return 0;
 
@@ -125,7 +138,6 @@ const reviewsReducer = (state = initialState, action) => {
             acc.items[review.id] = review;
             acc.reviewIDs.push(review.id);
           }
-          // acc.items[review.id] = review;
           return acc;
         },
         { items: {}, reviewIDs: [] }

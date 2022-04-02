@@ -1,9 +1,11 @@
-import DiaryItem from '../../components/DiaryItem';
-import { useDispatch, useSelector } from 'react-redux';
 import { useState, useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
-import { fetchReviewsByUserID } from '../../store/reviewsReducer';
-import { useParams } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { useParams, useHistory } from 'react-router-dom';
+import DiaryItem from '../../components/DiaryItem';
+import {
+  fetchReviewsByUserID,
+  selectMostRecentReviews,
+} from '../../store/reviewsReducer';
 import { Empty } from '.';
 
 const Diary = () => {
@@ -15,15 +17,9 @@ const Diary = () => {
   const isSessionUser = useSelector(
     (state) => state.session.user?.id === +userID
   );
-
-  const mostRecentlyListened = useSelector((state) => {
-    if (!reviewIDs) return [];
-    return [...reviewIDs].sort((a, b) => {
-      const left = state.reviews.items[a];
-      const right = state.reviews.items[b];
-      return new Date(right.listenedDate) - new Date(left.listenedDate);
-    });
-  });
+  const mostRecentlyListened = useSelector((state) =>
+    selectMostRecentReviews(state, reviewIDs)
+  );
 
   useEffect(() => {
     // if (reviewIDs) {

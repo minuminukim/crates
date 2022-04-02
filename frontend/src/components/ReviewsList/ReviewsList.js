@@ -1,29 +1,25 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchReviews } from '../../store/reviewsReducer';
+import {
+  fetchReviews,
+  selectMostRecentReviews,
+} from '../../store/reviewsReducer';
 import ReviewListItem from '../ReviewListItem';
 import { Empty } from '../../views/User';
 import './ReviewsList.css';
 
 const ReviewsList = ({ className = null }) => {
-  const { userID } = useParams();
   const dispatch = useDispatch();
+  const { userID } = useParams();
+  const userReviewIDs = useSelector((state) => state.users[userID]?.reviews);
+  const allReviewIDs = useSelector((state) => state.reviews.reviewIDs);
 
-  // Select and sort depending on the current location:
-  const mostRecentlyListened = useSelector((state) => {
-    const reviewIDs = userID
-      ? state.users[userID]?.reviews
-      : state.reviews.reviewIDs;
-
-    if (!reviewIDs) return [];
-
-    return [...reviewIDs].sort((a, b) => {
-      const left = state.reviews.items[a];
-      const right = state.reviews.items[b];
-      return new Date(right.listenedDate) - new Date(left.listenedDate);
-    });
-  });
+  // Component renders in two separate routes
+  const reviewIDs = userID ? userReviewIDs : allReviewIDs;
+  const mostRecentlyListened = useSelector((state) =>
+    selectMostRecentReviews(state, reviewIDs)
+  );
 
   const [loading, setLoading] = useState(true);
 
