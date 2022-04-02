@@ -3,7 +3,7 @@ import ActionsRow from './ActionsRow';
 import StarRating from '../StarRating';
 import { useSelector } from 'react-redux';
 
-const RatingPanel = ({ albumID }) => {
+const RatingPanel = () => {
   const { reviewID } = useParams();
   const userID = useSelector((state) => state.session.user?.id);
   const review = useSelector((state) => state.reviews.items[reviewID]);

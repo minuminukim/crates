@@ -1,6 +1,5 @@
 import { useModal } from '../../hooks';
 import { EditReviewForm } from '.';
-import { ActionsRow } from '../../components/ActionsPanel';
 import { Modal } from '../../context/Modal';
 
 const EditReviewModal = ({ reviewID, albumID, children }) => {
@@ -15,7 +14,7 @@ const EditReviewModal = ({ reviewID, albumID, children }) => {
             reviewID={reviewID}
             albumID={albumID}
             onClose={toggleEditModal}
-            onSuccess={toggleEditModal}
+            toggleModal={toggleEditModal}
           />
         </Modal>
       )}

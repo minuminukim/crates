@@ -11,7 +11,7 @@ import { AiOutlineClose, AiOutlineCheck } from 'react-icons/ai';
 import { toDateString } from '../../utils/date-helpers';
 import './ReviewForm.css';
 
-const EditReviewForm = ({ albumID, reviewID, onSuccess }) => {
+const EditReviewForm = ({ albumID, reviewID, toggleModal }) => {
   const dispatch = useDispatch();
   const history = useHistory();
   const review = useSelector((state) => state.reviews.items[reviewID]);
@@ -68,10 +68,7 @@ const EditReviewForm = ({ albumID, reviewID, onSuccess }) => {
         setMessage(
           `You have successfully edited your entry for '${album?.title}'`
         );
-        onSuccess();
-        // force re-render on ReviewActions with updated rating
-        // until we find a way to decouple it
-        history.go(0);
+        toggleModal();
       })
       .catch(async (res) => {
         const data = await res.json();
@@ -97,7 +94,7 @@ const EditReviewForm = ({ albumID, reviewID, onSuccess }) => {
               <h1>EDIT DIARY ENTRY</h1>
               <AiOutlineClose
                 className="close-icon large"
-                onClick={onSuccess}
+                onClick={toggleModal}
               />
             </div>
             <div>

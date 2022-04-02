@@ -17,7 +17,7 @@ const StarRating = ({
     if (reviewRating) {
       setRating(reviewRating);
     }
-  }, []);
+  }, [reviewRating]);
 
   const isFilled = (i) => (i <= (hoverIndex || rating) ? 'star-filled' : '');
 

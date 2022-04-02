@@ -41,7 +41,7 @@ const Review = () => {
         }
       }
     );
-  }, [dispatch, reviewID]);
+  }, [dispatch, reviewID, album, history, review]);
 
   // return null when review doesn't exist after dispatching a delete action
   return !review
